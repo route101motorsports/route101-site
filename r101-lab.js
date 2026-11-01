@@ -1586,7 +1586,7 @@ body.r101-pr main section.products .product-card__title{font:600 15px/1.3 Inter,
 #r101-guest .or{display:flex;align-items:center;gap:10px;margin:16px 0 0;font:600 12px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a}
 #r101-guest .or:before,#r101-guest .or:after{content:"";flex:1;height:1px;background:var(--r101-line)}
 #r101-guest p.vip{margin:12px 0 0!important;font-size:14.5px!important;color:var(--r101-ink)}
-#r101-guest p.vip b{color:var(--r101-ink);font-weight:700}
+#r101-guest p.vip b{color:var(--r101-ink);font:700 14.5px/1.45 Inter,system-ui,sans-serif!important;letter-spacing:0!important;text-transform:none!important}
 body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!important}
 `;
   function guestCheckout() {
