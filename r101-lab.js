@@ -33,6 +33,14 @@
 .rx-content p,.bq-content p,.text__wrapper p,.form__label,.contact-form__wrapper p{font-family:Inter,system-ui,sans-serif!important;letter-spacing:0;line-height:1.32}
 .button{border-radius:999px!important;transition:transform .2s ease,box-shadow .2s ease,background .2s ease!important}
 .button:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.18)}
+.button--primary:hover{filter:brightness(1.08)}
+.button.r101-ol-light:hover{background:#fff!important;border-color:#fff!important;color:#111!important}
+.button.r101-ol-dark:hover{background:var(--r101-ink)!important;border-color:var(--r101-ink)!important;color:#fff!important}
+#r101-cta .b a:hover,#r101-hub .c .go:hover,#r101-map .go:hover{box-shadow:0 10px 22px rgba(0,0,0,.2)}
+#r101-cta .b a.s{transition:transform .2s,background .2s,color .2s,box-shadow .2s}
+#r101-cta .b a.s:hover{background:#111;color:#fff}
+@keyframes r101-drift{from{scale:1}to{scale:1.045}}
+@media (prefers-reduced-motion:no-preference){.r101-drift{animation:r101-drift 22s ease-in-out infinite alternate;animation-play-state:paused}.r101-drift.r101-run{animation-play-state:running}}
 h1,.h1{letter-spacing:.022em!important;line-height:1.04!important;word-spacing:.04em}
 h2,.h2{letter-spacing:.028em!important;line-height:1.08!important}
 h3,.h3{letter-spacing:.035em!important;line-height:1.12!important}
@@ -1208,8 +1216,6 @@ body.r101-ab main section.r101-about{overflow-x:clip}
 #r101-abwhy .b a{transition:transform .2s ease,box-shadow .2s ease,background .2s ease,color .2s ease}
 #r101-abwhy .b a:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.35)}
 #r101-abwhy .b a:not(:first-child):hover{background:#fff;color:#111}
-@keyframes r101-drift{from{scale:1}to{scale:1.045}}
-@media (prefers-reduced-motion:no-preference){body.r101-ab main section.hero:first-of-type .hero__vision-wrapper img{animation:r101-drift 22s ease-in-out infinite alternate}}
 @media (max-width:640px){#r101-abwhy{padding:44px 0}#r101-abwhy ul{columns:1}#r101-abwhy .b a{width:100%;justify-content:center}body.r101-ab main section.r101-about .text__wrapper{padding-top:36px!important;padding-bottom:36px!important}}
 `;
   function aboutPage() {
@@ -1663,7 +1669,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     addStyle('r101-plx-css', '.r101-plx{height:150%!important;top:-25%!important;will-change:transform}' +
       '.r101-plx2{position:absolute!important;left:0;right:0;height:150%!important;top:-25%!important;will-change:transform}' +
       '.r101-plx2 picture,.r101-plx2 img{display:block;width:100%!important;height:100%!important;object-fit:cover}');
-    var items = [];
+    var items = [], drift = [];
     [].slice.call(main.querySelectorAll('section.hero, section.cta')).forEach(function (sec) {
       if (sec.parentElement.closest('section') || !sec.querySelector('img')) return;
       var text = (sec.querySelector('h1,h2,h3') || {}).textContent || (sec.querySelector('.hero__description, .cta__text-area') || {}).textContent || '';
@@ -1673,7 +1679,13 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
       if (!w) return;
       w.classList.add(cls);
       items.push([sec, w]);
+      var im = w.querySelector('img');
+      if (im) { im.classList.add('r101-drift'); im.style.animationDelay = (-Math.random() * 20).toFixed(1) + 's'; drift.push(im); }
     });
+    if (drift.length && 'IntersectionObserver' in window) {
+      var dio = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('r101-run', e.isIntersecting); }); });
+      drift.forEach(function (im) { dio.observe(im); });
+    }
     if (!items.length) return;
     var busy = false;
     var upd = function () {
@@ -1737,6 +1749,10 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       photoBands();
       rhythm();
       parallax();
+      [].slice.call(document.querySelectorAll('main .button--outlined')).forEach(function (b) {
+        var m = (getComputedStyle(b).color.match(/\d+/g) || [0, 0, 0]).map(Number);
+        b.classList.add((m[0] + m[1] + m[2]) / 3 > 150 ? 'r101-ol-light' : 'r101-ol-dark');
+      });
       if (!document.getElementById('r101-lab-badge')) {
         var b = document.createElement('a');
         b.id = 'r101-lab-badge'; b.href = '?lab=0'; b.title = 'Turn lab mode off';
