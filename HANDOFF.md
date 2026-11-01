@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `11ea88f5ec669ecb3f512cd973ccf5a6adbc3d70` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
+  Currently pinned to `b7c324af709b36c0b7f736049beefb1934e4af7e` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -128,3 +128,4 @@ Ohlins and BMW M logos added to img/brands (commit 16b1f5f2; all 22 tight logos 
 Harley brands band: Glenn's order AMSOIL, K&N, EBC, Brembo, (Ohlins), Motul, NGK, Harley-Davidson, Screamin' Eagle, Vance & Hines (10 logos, one desktop row). HIDDEN ON PHONES (Glenn, Nov 1): parts-brand logos don't earn the space on a phone; tire logos and the iCarsoft/GS-911 logos still show on phones. LOGO_BASE now 16b1f5f2.
 Service-page tire band now shows all 8 brands (same order as Tires page): one row desktop, 4x2 tablet, 2-col phone; each links to its brand on the Tires page.
 Harley Service: old "ServiceBrandsHarley(II)" parts strip above the FAQs is hidden by partsBand() (Glenn: top band is enough). Brakes page and BMW page still show their old parts strips.
+Harley Brakes page now gets the same partsBand() as Harley Service (band under hero, hidden on phones, old ServiceBrandsHarley strip hidden). Only the BMW GS Service page still shows an old parts strip ("ServiceBrands(II)").
