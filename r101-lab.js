@@ -1208,8 +1208,8 @@ body.r101-ab main section.r101-about{overflow-x:clip}
 #r101-abwhy .b a{transition:transform .2s ease,box-shadow .2s ease,background .2s ease,color .2s ease}
 #r101-abwhy .b a:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.35)}
 #r101-abwhy .b a:not(:first-child):hover{background:#fff;color:#111}
-@keyframes r101-drift{from{transform:scale(1)}to{transform:scale(1.045)}}
-@media (prefers-reduced-motion:no-preference){body.r101-ab main section.hero:first-of-type .hero__vision-wrapper img{animation:r101-drift 22s ease-in-out infinite alternate;transform-origin:60% 45%}}
+@keyframes r101-drift{from{scale:1}to{scale:1.045}}
+@media (prefers-reduced-motion:no-preference){body.r101-ab main section.hero:first-of-type .hero__vision-wrapper img{animation:r101-drift 22s ease-in-out infinite alternate}}
 @media (max-width:640px){#r101-abwhy{padding:44px 0}#r101-abwhy ul{columns:1}#r101-abwhy .b a{width:100%;justify-content:center}body.r101-ab main section.r101-about .text__wrapper{padding-top:36px!important;padding-bottom:36px!important}}
 `;
   function aboutPage() {
