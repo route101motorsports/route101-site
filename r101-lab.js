@@ -1381,6 +1381,23 @@ body.r101-art2 #r101-author .b{font-size:16px!important;line-height:1.65!importa
 .r101-srow .txt{opacity:0;transform:translateY(22px);transition:opacity .8s ease .15s,transform .9s cubic-bezier(.2,.7,.2,1) .15s}
 .r101-srow.in .fig,.r101-srow.in .txt{opacity:1;transform:none}
 }
+.r101-srow{align-items:center}
+.r101-srow .txt .r101-ch-h{font-family:Anton,sans-serif!important;font-size:clamp(28px,2.6vw,40px)!important;line-height:1.08!important;color:var(--r101-ink,#111)!important;margin:0 0 14px!important;text-align:left!important;text-transform:none}
+.r101-srow .txt .r101-ch-d,.r101-srow .txt .r101-ch-d p{font:400 17px/1.7 Inter,sans-serif!important;color:#2e2e2e!important;text-align:left!important;max-width:none!important}
+.r101-srow .txt .r101-ch-d{margin:0 0 16px!important}
+.r101-srow .txt .r101-ch-d b,.r101-srow .txt .r101-ch-d strong{color:#111!important}
+.r101-srow .txt.r101-has-ch .text__heading{font-size:clamp(21px,1.6vw,26px)!important;margin-top:22px!important}
+.r101-srow .txt .r101-ch-b{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.r101-srow .txt .r101-ch-b .button--outlined{color:#111!important;border-color:#111!important}
+body.r101-art2 main section.r101-made .text__wrapper{padding-top:64px!important;padding-bottom:64px!important}
+body.r101-art2 main section.hero.r101-plain .hero__vision{display:none!important}
+body.r101-art2 main section.hero.r101-plain .hero__wrapper{min-height:0!important;padding:56px 0!important;background:transparent!important}
+body.r101-art2 main section.hero.r101-plain .hero__container,body.r101-art2 main section.hero.r101-plain .hero__text-area{min-height:0!important;height:auto!important;max-width:1440px!important;width:100%!important}
+body.r101-art2 main section.hero.r101-plain .hero__heading{font-family:Anton,sans-serif!important;font-size:clamp(28px,2.6vw,40px)!important;color:var(--r101-ink,#111)!important}
+body.r101-art2 main section.hero.r101-plain .hero__description,body.r101-art2 main section.hero.r101-plain .hero__description p{font:400 17px/1.7 Inter,sans-serif!important;color:#2e2e2e!important;max-width:none!important}
+body.r101-art2 main section.spacer{display:none!important}
+body.r101-art2 main section.r101-share{display:none!important}
+@media (max-width:620px){body.r101-art2 main section.r101-made .text__wrapper{padding-top:38px!important;padding-bottom:38px!important}}
 #r101-prog{position:fixed;left:0;top:0;height:3px;width:0;background:${O};z-index:60;pointer-events:none;transition:width .1s linear}
 body.r101-art2 .r101-rt{white-space:nowrap}
 #r101-endcta{padding:20px 0 10px}
@@ -1419,30 +1436,55 @@ body.r101-art2 main section.text .text__wrapper{padding-top:38px!important;paddi
 }
 `;
   var GLENN_BIO = 'Glenn Cogan is the founder and CEO of Route 101 Motorsports in Carlsbad. He started riding at age 4, spent a decade racing motocross and 750GP, and is a lifelong rider, racer and motorcycle mechanic. Self-employed since 16, he brings 35+ years of business and brand-building experience and six decades of riding across dirt, street and track to every Route 101 article, and every ride.';
-  var ART2_PAGES = /the-hidden-costs-of-motorcycle-rentals/;   // new article design, page by page until Glenn signs off
+  var ART2_PAGES = /^\/pages\/straight-talk-/;   // new article design: all Straight Talk articles (Glenn signed off Nov 1)
 
   function article2(main, secs) {
     document.body.classList.add('r101-art2');
     addStyle('r101-art2-css', ART2_CSS);
-    // photo-only hero + the text section after it -> one split row (alternating sides, slides in)
-    var n = 0;
+    // Every photo section becomes the image side of a row. Its own heading/text/buttons go to the text side,
+    // followed by the next text section (or the next photo-less hero) if there is one. Alternating sides, slide-in.
+    var n = 0, used = [];
+    var hasImg = function (s) { return s && s.classList.contains('hero') && !!s.querySelector('.hero__vision img'); };
     secs.forEach(function (s, i) {
-      if (!s.classList.contains('r101-photo')) return;
-      var t = secs[i + 1];
-      if (!t || !t.classList.contains('text')) return;
-      var cont = t.querySelector('.text__container'); if (!cont || cont.querySelector('.r101-srow')) return;
-      var im = s.querySelector('img'); if (!im) return;
+      if (i === 0 || used.indexOf(s) > -1 || !hasImg(s)) return;
+      var nx = secs[i + 1], partner = null;
+      if (nx && used.indexOf(nx) < 0 && (nx.classList.contains('text') || (nx.classList.contains('hero') && !hasImg(nx)))) partner = nx;
+      var im = s.querySelector('.hero__vision img');
       var row = document.createElement('div'); row.className = 'r101-srow' + (n % 2 ? ' rev' : ''); n++;
       var fig = document.createElement('div'); fig.className = 'fig';
       var ni = document.createElement('img');
       ni.src = im.currentSrc || im.src; if (im.getAttribute('srcset')) { ni.setAttribute('srcset', im.getAttribute('srcset')); ni.setAttribute('sizes', '(max-width:860px) 100vw, 50vw'); }
-      ni.alt = im.alt || ((t.querySelector('.text__heading') || {}).textContent || '').trim(); ni.loading = 'lazy'; ni.className = 'r101-drift';
+      ni.alt = im.alt || ''; ni.loading = 'lazy'; ni.className = 'r101-drift';
       fig.appendChild(ni);
       var txt = document.createElement('div'); txt.className = 'txt';
-      while (cont.firstChild) txt.appendChild(cont.firstChild);
-      row.appendChild(fig); row.appendChild(txt); cont.appendChild(row);
+      var moveHero = function (h) {
+        var hh = h.querySelector('.hero__heading'), hd = h.querySelector('.hero__description'), hb = h.querySelector('.hero__buttons');
+        if (hh && hh.textContent.trim()) { hh.classList.add('r101-ch-h'); txt.appendChild(hh); }
+        if (hd && hd.textContent.trim()) { hd.classList.add('r101-ch-d'); txt.appendChild(hd); }
+        if (hb && hb.querySelector('a')) { hb.classList.add('r101-ch-b'); txt.appendChild(hb); }
+      };
+      moveHero(s);
+      var host;
+      if (partner && partner.classList.contains('text')) {
+        var cont = partner.querySelector('.text__container') || partner;
+        if (txt.firstChild) txt.classList.add('r101-has-ch');
+        while (cont.firstChild) txt.appendChild(cont.firstChild);
+        row.appendChild(fig); row.appendChild(txt); cont.appendChild(row);
+        host = partner;
+      } else {
+        if (partner) { var before = txt.childNodes.length; moveHero(partner); if (before) txt.classList.add('r101-has-ch'); }
+        host = document.createElement('section'); host.className = 'text r101-made';
+        host.innerHTML = '<div class="text__wrapper"><div class="text__container container"></div></div>';
+        host.querySelector('.text__container').appendChild(row);
+        row.appendChild(fig); row.appendChild(txt);
+        s.parentNode.insertBefore(host, s);
+        if (partner) partner.style.display = 'none';
+      }
+      used.push(s); if (partner) used.push(partner);
       s.style.display = 'none';
     });
+    // photo-less heroes left over read like normal text sections
+    secs.forEach(function (s, i) { if (i > 0 && s.classList.contains('hero') && !hasImg(s) && used.indexOf(s) < 0) s.classList.add('r101-plain'); });
     var rows = [].slice.call(main.querySelectorAll('.r101-srow'));
     // desktop: photo and text grow together. Photo height = text height; tall images get narrower
     // (never cropped), wide photos fill the height with at most a slight side trim.
@@ -1455,9 +1497,10 @@ body.r101-art2 main section.text .text__wrapper{padding-top:38px!important;paddi
         var gap = parseFloat(getComputedStyle(row).columnGap) || 40;
         var rw = row.clientWidth, th = txt.offsetHeight, ratio = img.naturalWidth / img.naturalHeight;
         var w = Math.round(Math.min(th * ratio, (rw - gap) * 0.5));
+        var h = Math.round(Math.min(th, w / ratio * 1.25));   // never trim more than ~20% off the sides
         var cols = w + 'px minmax(0,1fr)';
         row.style.gridTemplateColumns = row.classList.contains('rev') ? 'minmax(0,1fr) ' + w + 'px' : cols;
-        fig.style.height = th + 'px'; img.style.height = '100%'; img.style.objectFit = 'cover';
+        fig.style.height = h + 'px'; img.style.height = '100%'; img.style.objectFit = 'cover';
       });
     };
     rows.forEach(function (row) { var im = row.querySelector('.fig img'); if (im && !im.complete) im.addEventListener('load', fit); });
