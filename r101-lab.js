@@ -1457,6 +1457,17 @@ body.r101-ab main section.r101-about{overflow-x:clip}
   var CH_CSS = `
 body.r101-ch main section.hero .hero__vision-wrapper:after{content:"";position:absolute;inset:0;background:linear-gradient(127deg,#000 25.94%,rgba(0,0,0,0) 100%);opacity:.72;pointer-events:none;z-index:1}
 #r101-grid{scroll-margin-top:110px}
+body.r101-ch #r101-grid .product-card{background:#fff;border:1px solid var(--r101-line,#e6e6e6)!important;border-radius:18px;overflow:hidden;box-shadow:0 10px 26px rgba(0,0,0,.06);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column;height:100%}
+body.r101-ch #r101-grid .product-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(0,0,0,.12)}
+body.r101-ch #r101-grid .product-card__vision{background:#fff;padding:10px 10px 0}
+body.r101-ch #r101-grid .product-card__image{transition:scale .5s ease}
+body.r101-ch #r101-grid .product-card:hover .product-card__image{scale:1.03}
+body.r101-ch #r101-grid .product-card__meta{padding:14px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1;border-top:1px solid var(--r101-line,#eee)}
+body.r101-ch #r101-grid .product-card__title{margin:0!important}
+body.r101-ch #r101-grid .product-card__title a{font-family:Anton,sans-serif!important;font-size:clamp(19px,1.5vw,22px)!important;line-height:1.1!important;color:var(--r101-ink,#111)!important;text-decoration:none;letter-spacing:0}
+body.r101-ch #r101-grid .product-card__price-wrapper{font:400 14px/1.3 Inter,sans-serif!important;color:#666}
+body.r101-ch #r101-grid .product-card__price{color:${O}!important;font-weight:700!important;font-size:17px!important}
+body.r101-ch #r101-grid .r101-go{margin-top:auto;padding-top:6px;font:700 12.5px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:${O}}
 `;
   function collectionHero() {
     var m = location.pathname.match(/^\/collections\/([^\/?#]+)\/?$/);
@@ -1467,6 +1478,15 @@ body.r101-ch main section.hero .hero__vision-wrapper:after{content:"";position:a
     addStyle('r101-ch-css', CH_CSS);
     var grid = document.querySelector('main section.collection-page');
     if (grid && !document.getElementById('r101-grid')) grid.id = 'r101-grid';
+    if (grid) [].slice.call(grid.querySelectorAll('.product-card')).forEach(function (pc) {
+      var t = pc.querySelector('.product-card__title a'), meta = pc.querySelector('.product-card__meta');
+      if (t && /^Rent (a|an) /i.test(t.textContent.trim())) { t.setAttribute('title', t.textContent.trim()); t.textContent = t.textContent.trim().replace(/^Rent (a|an) /i, ''); }
+      if (meta && !meta.querySelector('.r101-go')) {
+        var bike = /\/products\/rent-a-/.test((t && t.getAttribute('href')) || '');
+        var g = document.createElement('span'); g.className = 'r101-go'; g.textContent = (bike ? 'View & book' : 'View details') + ' →';
+        meta.appendChild(g);
+      }
+    });
     var h = hero.querySelector('.hero__heading'); if (h && cfg.h) h.textContent = cfg.h;
     var d = hero.querySelector('.hero__description'); if (d && cfg.p) { d.innerHTML = '<p></p>'; d.firstChild.textContent = cfg.p; }
     var btns = [].slice.call(hero.querySelectorAll('.hero__button'));
