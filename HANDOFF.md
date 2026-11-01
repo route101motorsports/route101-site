@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `628bd01d57e36f6ac090917d169b8fd5c872ddea` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
+  Currently pinned to `451fa3b6d7a1d8205d2db8f5c94bd5e3b7274ec1` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -96,3 +96,9 @@ Automated pass: 53 internal pages all load, lab styling runs on all, no sideways
 Not yet given page treatment: Straight Talk index, 11 Straight Talk articles, press release, Twysted Throttle, Privacy Policy, 3 footer landing pages (san-diego-harley-rentals, san-diego-bmw-adventure-bike-rentals, motorcycle-rentals-san-diego), /products/rental-delivery (no title).
 DONE: Rentals hub (/collections) via rentalsHub(): standard hero + groups Rent a motorcycle / Guided tours / Gear, protection & merch (cards use each collection's hero photo). Fixes BMW GS being on page 2 of Booqable's index.
 Testing tip: NEVER put ?lab=0 in a same-site iframe or test URL; localStorage is shared, so it switches lab off for the whole browser and the next frames load plain Booqable.
+DONE (sweep): Harley Service, BMW GS Service, Tires, Home, Brakes, collection heroes verified PC + phone.
+DONE: collection product cards restyled (all collection pages): white rounded cards, "Rent A" dropped from display titles (product names untouched), orange price, "View & book ->" / "View details ->".
+DONE: Straight Talk index (stIndex): one "Latest from Route 101" grid of the 10 live articles (category as tag, first card featured), then "More Straight Talk on the way" list of the 9 unwritten ones (their Read more links looped to /pages/straight-talk or /). Original category sections hidden.
+DONE: Straight Talk articles + press release (article()): eyebrow, chapter heroes cut to ~420px (photo-only 380px), 820px reading column at 17px, author card from the "logos" bio section (Meet the Author / Author / Interviewer), share buttons as pills, "More Straight Talk" link. Press release: smaller logo, tighter spacing.
+Unwritten articles (for Glenn): Mastering the Curves; Perfect Your Passing; Riding Mastery; Group Riding; Ride the Legend (Route 101); Desert Heat & Iron Beasts (Anza-Borrego); Route 66; Ride to the Rim (Grand Canyon); Tires & Tire Changes.
+STILL TO DO in sweep: Twysted Throttle, Privacy Policy, 3 footer landing pages, /products/rental-delivery (no title), then footer link-by-link.
