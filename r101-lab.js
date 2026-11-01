@@ -1392,13 +1392,13 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
     ['google', 'Google', 'https://www.google.com/maps/search/?api=1&query=Route+101+Motorsports+Carlsbad+CA', 1],
     ['yelp', 'Yelp', 'https://www.yelp.com/biz/route-101-motorsports-carlsbad#reviews', 1],
     ['tripadvisor', 'Tripadvisor', 'https://www.tripadvisor.com/Attraction_Review-g32171-d28014741-Reviews-Route_101_Motorsports-Carlsbad_California.html', .96],
-    ['facebook', 'Facebook', 'https://www.facebook.com/route101motorsports/reviews', .9]
+    ['facebook', 'Facebook', 'https://www.facebook.com/route101motorsports/reviews', .8]
   ];
   var REV_CSS = `
 .r101-revrow-sec .logos__images,.r101-revrow-sec .logos__images-wrapper,.r101-revrow-sec .logos__list{display:none!important}
 #r101-revs,.r101-revs{text-align:center;padding:6px 0 4px}
 .r101-revs .claim{font:700 clamp(15px,1.25vw,18px)/1.35 Inter,sans-serif!important;color:var(--r101-ink,#111)!important;margin:0 0 18px!important;letter-spacing:0}
-.r101-revs .claim b{color:${O}}
+.r101-revs .claim b{color:${O};font:inherit!important;font-weight:800!important;letter-spacing:0!important;text-transform:none!important}
 .r101-revs .row{display:flex;justify-content:center;align-items:center;gap:clamp(22px,3.6vw,56px);flex-wrap:wrap}
 .r101-revs .row a{display:block;line-height:0;transition:transform .2s ease,filter .2s ease}
 .r101-revs .row a:hover{transform:translateY(-3px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
