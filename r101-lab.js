@@ -513,7 +513,7 @@ body.r101-hdr #header .header__search-opener svg,body.r101-hdr #header .header__
 #r101-cta .b a.s{border:2px solid #111;color:#111}
 body.r101-ftr footer .footer__wrapper{background:#0e0e0e!important;color:#b5b5b5}
 body.r101-ftr footer .footer__top{display:grid!important;grid-template-columns:minmax(240px,1fr) 3fr;gap:48px;padding-top:56px!important;padding-bottom:36px!important;align-items:start}
-body.r101-ftr .r101-fbrand .footer__logo{margin:0 0 18px}
+body.r101-ftr .r101-fbrand .footer__logo{margin:0 0 16px!important;padding:0!important}
 body.r101-ftr .r101-fbrand .footer__logo img{max-height:64px;width:auto}
 body.r101-ftr .r101-fbrand .tag{font-family:Anton,sans-serif;color:#fff;font-size:20px;letter-spacing:.02em;margin:0 0 16px}
 body.r101-ftr .r101-fbrand ul{list-style:none;margin:0 0 18px;padding:0}
