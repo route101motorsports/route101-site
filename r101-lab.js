@@ -1651,7 +1651,7 @@ body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!i
     if (!see) {
       var tries = 0, t = setInterval(function () {
         var s = pickup(), el = document.querySelector('#r101-ty .see');
-        if (s && el) el.innerHTML = 'See you <b>' + s + '</b>!';
+        if (s && el) el.innerHTML = 'See you <b>' + s + '!</b>';
         if (s || ++tries > 30) clearInterval(t);
       }, 400);
     }
@@ -1663,7 +1663,7 @@ body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!i
       '<div class="ct"><p class="l">Contact Route 101 Motorsports</p>' +
       '<p>Tel: <a href="tel:+18885095032">(888) 509-5032</a></p>' +
       '<p>Address: <a href="https://maps.google.com/?q=6351+Corte+Del+Abeto+%23107,+Carlsbad,+CA+92011" target="_blank" rel="noopener">6351 Corte Del Abeto #107, Carlsbad, CA 92011</a></p></div>' +
-      '<p class="see">' + (see ? 'See you <b>' + see + '</b>!' : 'See you soon!') + '</p>' +
+      '<p class="see">' + (see ? 'See you <b>' + see + '!</b>' : 'See you soon!') + '</p>' +
       '<p class="sig">Route 101 Motorsports<span>Go. Just go.</span></p>';
     box.innerHTML = '';
     if (icon) box.appendChild(icon);
