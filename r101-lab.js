@@ -1,15 +1,8 @@
-/* ===== ROUTE 101 LAB MODE =====
-   Visit any page with ?lab=1 to turn the new design on for THIS device,
-   ?lab=0 to turn it off. Everyone else sees the normal site.            */
+/* ===== ROUTE 101 DESIGN LAYER =====
+   LIVE for every visitor since launch (Nov 1, 2026). Rollback: change the commit ID in the
+   Booqable loader (Settings > Checkout > Additional scripts) or remove the loader.        */
 (function () {
-  var on = false;
-  try {
-    var q = location.search;
-    if (/[?&]lab=1\b/.test(q)) localStorage.setItem('r101lab', '1');
-    if (/[?&]lab=0\b/.test(q)) localStorage.removeItem('r101lab');
-    on = localStorage.getItem('r101lab') === '1';
-  } catch (e) { on = false; }
-  if (!on) return;
+  try { localStorage.removeItem('r101lab'); } catch (e) {}   // old lab flag, no longer used
 
   var O = '#FF6600';
 
@@ -2896,12 +2889,6 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
         var m = (getComputedStyle(b).color.match(/\d+/g) || [0, 0, 0]).map(Number);
         b.classList.add((m[0] + m[1] + m[2]) / 3 > 150 ? 'r101-ol-light' : 'r101-ol-dark');
       });
-      if (!document.getElementById('r101-lab-badge')) {
-        var b = document.createElement('a');
-        b.id = 'r101-lab-badge'; b.href = '?lab=0'; b.title = 'Turn lab mode off';
-        b.innerHTML = '<b>&#9679;</b> LAB MODE';
-        document.body.appendChild(b);
-      }
       if (!document.getElementById('r101-call')) {
         var c = document.createElement('a');
         c.id = 'r101-call'; c.href = 'tel:+18885095032'; c.textContent = 'Call now';

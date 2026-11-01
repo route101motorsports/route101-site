@@ -3,10 +3,10 @@
 Small cleanup items parked while we keep building. Work through these when the big pieces are done.
 
 ## Content / Booqable fixes
-- [ ] Tire tile typos: "Excedra Max" -> **Exedra Max** (Bridgestone), "Cruisetac" -> **Cruisetec** (Metzeler). Tile names also feed the quote pre-fill.
+- DONE Nov 1: tire tile alt names fixed to Exedra Max / Cruisetec (published); SPEC_ALIAS in code keeps their spec cards (json keys still use the old spelling).
 - [ ] Footer BMW labels: three read "BMW R 1200GS ADV" but two of those bikes are GSAs. Decide labels.
 - [ ] Footer "Motorcycle Rentals" column shows only 6 items (theme limit), so only one BMW is visible. Options: show all 9 via code, or alternate Harley/BMW order.
-- [ ] Tire form success message typo: "recieved" -> "received" (fixed on Contact only).
+- DONE Nov 1: tire form success message "recieved" -> "received" (published; Contact was fixed earlier).
 - [ ] "BMW GS Service & Tires" menu label -> maybe "BMW Service & Tires".
 - [ ] "Advance Booking Required." line under every collection hero: turn into the small orange notice pill.
 
@@ -32,3 +32,5 @@ Small cleanup items parked while we keep building. Work through these when the b
 - DONE Nov 1: Twysted Throttle heading "Poudly" -> "Proudly" (Logos section title, published).
 - 9 Straight Talk articles (Glenn: bring in ChatGPT "G" to draft in his voice) listed on the index but not written yet (shown as "Coming soon"): Mastering the Curves, Perfect Your Passing, Riding Mastery, Group Riding, Ride the Legend, Desert Heat & Iron Beasts, Route 66, Ride to the Rim, Tires & Tire Changes.
 - Collection grids: protection/insurance tiles sit in the bike grid (could become a separate "Protect your ride" strip).
+
+- DONE Nov 1: em dashes removed from Straight Talk SEO titles/meta descriptions (Hidden Costs, Founder, Google vs, Riding Fundamentals, Human-AI, Prices Soar, hub). Booqable page form ignores script-set values: type into fields with real keystrokes and click Save as its own step.
