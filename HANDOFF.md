@@ -147,3 +147,12 @@ Hidden Costs article (Booqable template "page.articles-indiidual.json", unique t
 Article v2 ROLLED OUT (Nov 1): all 11 Straight Talk pages checked on PC (1280) and phone (390): split rows render, 0 em dashes, no sideways scroll, end CTA + "More Straight Talk" present. Divider Spacer + share Columns deleted and published in Booqable on every article (Protect Yourself, Peer-to-Peer, Google vs, Prices Soar, Founder, Riding Fundamentals, Revving, Human-AI [divider only]; Hidden Costs earlier; Oil Change and the "Offers Service" page never had them). Live check: 0 dividers, 0 share sections across all 11.
 The "Route 101 Motorsports Offers... Service" page (straight-talk-route-101-motorsports-offers-...) is a service overview, not an article: article2 leaves it alone (0 rows) and it already uses the split photo/text layout (garageStory()). Nov 1: its 3 split rows (Harley, BMW GS, Tires) now slide in and replay on scroll like the articles, with photo drift.
 Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT work. Use real clicks: JS scrollIntoView the item and read its rect (scale x 1568/innerWidth), click it, scroll the panel down, zoom to confirm the panel title, then click "Delete section" (about 62,707 in a 1568x726 frame). Always confirm the panel title first (one click once landed on a Hero).
+
+## LAUNCH (prepared Nov 1, waiting on Glenn's final "go")
+- Launch build: `ee2b2787078ea2e78a8fe433e73a4cb85a211f2c` (CDN warmed). Same as the pinned 4687ee0 but with no lab gate and no LAB MODE badge.
+- The switch, in the Booqable loader (Settings > Checkout > Additional scripts):
+  1. Set `var V` to the launch build.
+  2. Delete the `try { ... }` lab-gate block, so the script tag loads for every visitor.
+  Keep the Google Analytics line as is.
+- Rollback: put the gate block back, or point V at an older commit.
+- After the switch: run a first-visitor pass in a fresh profile (no lab flag) on PC and phone, covering home, rentals, a bike page, checkout start, service pages, tires, Straight Talk and contact.
