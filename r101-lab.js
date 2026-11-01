@@ -153,7 +153,7 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
 }
 `;
 
-  var LOGO_BASE = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@1f8fe9a6a682531eb6e43151831c976d1996c5e2/img/brands/';
+  var LOGO_BASE = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@16b1f5f277c9cb5c45e1d0308615ee64c5caa969/img/brands/';
   var TIRE_LOGOS = {   // slug: [file, width, height] of the balanced, trimmed logo
     'dunlop': ['dunlop', 540, 94], 'michelin': ['michelin', 526, 160], 'bridgestone': ['bridgestone', 540, 68],
     'metzeler': ['metzeler', 540, 102], 'pirelli': ['pirelli', 540, 115], 'shinko': ['shinko', 540, 106],
@@ -1531,18 +1531,19 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
   var PB_CSS = `
 #r101-pbrands{background:#fff;padding:30px 0 34px;border-bottom:1px solid var(--r101-line,#ececec)}
 #r101-pbrands .eb{text-align:center;font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 22px!important}
-#r101-pbrands .row{--s:.185;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:24px clamp(22px,2.6vw,40px);max-width:1180px;margin:0 auto}
+#r101-pbrands .row{--s:.17;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:24px clamp(22px,2.6vw,40px);max-width:1180px;margin:0 auto}
 #r101-pbrands .row span{display:flex;align-items:center;justify-content:center;line-height:0}
 #r101-pbrands .row img{width:calc(var(--w) * var(--s));height:auto;max-width:100%;display:block}
 @media (max-width:1100px){#r101-pbrands .row{--s:.24;gap:22px 34px;max-width:720px}}
 @media (max-width:620px){
+#r101-pbrands{display:none!important}
 #r101-pbrands{padding:24px 0 28px}
 #r101-pbrands .eb{padding:0 14px;line-height:1.5!important}
 #r101-pbrands .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 14px;max-width:360px;--s:.26}
 #r101-pbrands .row span:last-child:nth-child(odd){grid-column:1 / -1}
 }
 `;
-  var PB_LOGOS = [['amsoil', 'AMSOIL', 540], ['kn', 'K&N', 503], ['ebc', 'EBC Brakes', 322], ['brembo', 'Brembo', 540], ['motul', 'Motul', 540], ['ngk', 'NGK Spark Plugs', 323], ['harley', 'Harley-Davidson', 540], ['screamin', "Screamin' Eagle", 480], ['vance', 'Vance & Hines', 540]];
+  var PB_LOGOS = [['amsoil', 'AMSOIL', 540], ['kn', 'K&N', 503], ['ebc', 'EBC Brakes', 322], ['brembo', 'Brembo', 540], ['ohlins', 'Öhlins', 445], ['motul', 'Motul', 540], ['ngk', 'NGK Spark Plugs', 323], ['harley', 'Harley-Davidson', 540], ['screamin', "Screamin' Eagle", 480], ['vance', 'Vance & Hines', 540]];
   function partsBand() {
     var hero = document.querySelector('main section.hero');
     if (!hero || document.getElementById('r101-pbrands')) return;
