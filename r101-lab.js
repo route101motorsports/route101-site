@@ -1371,8 +1371,8 @@ body.r101-art2 #r101-author{padding:26px 30px;gap:26px}
 body.r101-art2 #r101-author img{width:110px;height:110px}
 body.r101-art2 #r101-author .b{font-size:16px!important;line-height:1.65!important;max-width:none}
 .r101-srow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,60px);align-items:center}
-.r101-srow .fig{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 18px 40px rgba(0,0,0,.16);background:#222}
-.r101-srow .fig img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.r101-srow .fig{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.16);background:#222;line-height:0}
+.r101-srow .fig img{display:block;width:100%;height:auto}
 .r101-srow.rev .fig{order:2}
 .r101-srow .txt > *:first-child{margin-top:0!important}
 @media (prefers-reduced-motion:no-preference){
@@ -1408,7 +1408,6 @@ body.r101-art2 #r101-back{display:none}
 @media (max-width:860px){
 .r101-srow{grid-template-columns:1fr;gap:20px}
 .r101-srow.rev .fig{order:0}
-.r101-srow .fig{aspect-ratio:16/10}
 #r101-endcta .card{grid-template-columns:1fr}
 #r101-endcta .bt{justify-content:flex-start}
 #r101-related .g{grid-template-columns:1fr}
