@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `1bec2630fe574d301b24f4dde286448b0a802393` (Nov 1: tire spec cards for Dunlop; tires page brand-logo headings; all 11 collection heroes; sitewide drift + button hover).
+  Currently pinned to `65ff2f2d933ddd072868a5386dfa4abfa06c3afd` (Nov 1: tire spec cards for all 69 tires; tires page brand-logo headings; all 11 collection heroes; sitewide drift + button hover).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -79,4 +79,4 @@ Matched set of 18 brand logos in `img/brands/` (600x240 canvas PNGs + `tight-*.p
 ## Tire spec cards (tires page)
 Each tire pop-up has a SEE TIRE SPECS button that slides in a spec card: brand logo, model, category tag, own-words synopsis, table (Best for · Construction · Compound · Tread · Mileage* · Speed rating* · Terrain (off-road only) · Sizes; *only when the brand publishes it), GET A QUOTE (pre-fills the quote form with the tire name) and CALL, plus a small manufacturer link. Background = that tire's photo, grayscale, 12%.
 Data: `data/tire-specs.json`, keyed by slug of the tile's alt name (e.g. `dunlop-elite-4`); sources in `data/tire-specs-sources.json`. SPECS_URL in r101-lab.js is pinned to a commit — bump it when the data changes.
-Done: Dunlop (14). To do: Michelin 7, Bridgestone 7, Metzeler 10, Pirelli 10, Shinko 12, Maxxis 4, Mitas 5. Glenn's rules: no "Made in" / "Wear check" rows; include Compound.
+Done: all 8 brands, 69 tires. Tile names misspelled in Booqable: "Excedra" (Exedra), "Cruisetac" (Cruisetec) — cards show the correct spelling. Glenn's rules: no "Made in" / "Wear check" rows; include Compound.
