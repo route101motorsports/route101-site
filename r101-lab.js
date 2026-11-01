@@ -2862,7 +2862,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
      which emails the code from garage@. MONTHLY: update PROMO (and the Brevo template) on the 1st.
      TEST MODE: only shows on devices that visited ?popup=test (?popup=off clears it, ?popup=show opens it now). */
   var PROMO = { code: '02ROUTE26', expires: 'November 30, 2026', pct: '10%' };
-  var POP_LIVE = false;   // flip to true once Glenn approves
+  var POP_LIVE = true;    // LIVE Nov 1, 2026 (Glenn's go)
   var BREVO_ACTION = 'https://093d3649.sibforms.com/serve/MUIFAEi0jY-iruuVqGajdT2z0Hrat6C628FH5WqHiaq1d1ihkE63HijL7rhH0mlMQh6gAAy5FdN9u_7_AXQJoJnHCJjmiI8gJzl1Upm27_m9kfqLi7-uO6sU5uz_UQLxCHg8t2lc-dtGuJWOhr9E3gHJKO-AjvidFNGEYLJzVHsOJKaIbIXDz6g0cmFGR4APK48TU9AoLxASX4LEZw==';
   var POP_CSS = `
 #r101-pop{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.62);opacity:0;transition:opacity .25s ease}

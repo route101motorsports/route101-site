@@ -162,7 +162,7 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Rollback: put the gate block back, or point V at an older commit.
 - After the switch: run a first-visitor pass in a fresh profile (no lab flag) on PC and phone, covering home, rentals, a bike page, checkout start, service pages, tires, Straight Talk and contact.
 
-## Mailing-list pop-up (Nov 1, TEST MODE, pin 0386d27)
+## Mailing-list pop-up (LIVE Nov 1 ~1:15pm PT; test build was 0386d27)
 - exitPopup() in r101-lab.js. PROMO {code, expires, pct} + POP_LIVE flag at the top of the block. POP_LIVE=false: shows only on devices that visited ?popup=test (?popup=off clears, ?popup=show forces it open).
 - PC: exit intent (mouse to the top edge after 4s). Phone (<=860 or touch): bottom sheet after a deep scroll then a quick upward scroll. Close = 7-day snooze (localStorage r101popSnooze). Sign-up = never again (r101popDone). Skips /cart, /checkout(s), /customers, /orders, /account.
 - Submits by posting a hidden form into a hidden iframe to the Brevo form "Website Pop-up Sign-up (Promo Code)" (sibforms serve URL in BREVO_ACTION). Fields: FIRSTNAME, LASTNAME (name box split on first space), EMAIL, SMS + SMS__COUNTRY_CODE=+1 (only if 10 digits), honeypot "website". The response can't be read, so the success screen shows on submit.
