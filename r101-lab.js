@@ -1384,6 +1384,57 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
     addStyle('r101-land-css', 'main section.hero:first-of-type .hero__heading{color:#fff!important}');
   }
 
+  /* ---------- REVIEW LOGO ROW ----------
+     Replaces Booqable's flat "all in one" review strip image (a logos section with a very wide image)
+     with separate, linked, responsive logos that all carry the same gold stars. */
+  var REV_BASE = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@fe3ad8dbb03f9f3e6dbce00df5eb53bdb2b14f14/img/reviews/';
+  var REVIEWS = [
+    ['google', 'Google', 'https://www.google.com/maps/search/?api=1&query=Route+101+Motorsports+Carlsbad+CA', 1],
+    ['yelp', 'Yelp', 'https://www.yelp.com/biz/route-101-motorsports-carlsbad#reviews', 1],
+    ['tripadvisor', 'Tripadvisor', 'https://www.tripadvisor.com/Attraction_Review-g32171-d28014741-Reviews-Route_101_Motorsports-Carlsbad_California.html', .96],
+    ['facebook', 'Facebook', 'https://www.facebook.com/route101motorsports/reviews', .9]
+  ];
+  var REV_CSS = `
+.r101-revrow-sec .logos__images,.r101-revrow-sec .logos__images-wrapper,.r101-revrow-sec .logos__list{display:none!important}
+#r101-revs,.r101-revs{text-align:center;padding:6px 0 4px}
+.r101-revs .claim{font:700 clamp(15px,1.25vw,18px)/1.35 Inter,sans-serif!important;color:var(--r101-ink,#111)!important;margin:0 0 18px!important;letter-spacing:0}
+.r101-revs .claim b{color:${O}}
+.r101-revs .row{display:flex;justify-content:center;align-items:center;gap:clamp(22px,3.6vw,56px);flex-wrap:wrap}
+.r101-revs .row a{display:block;line-height:0;transition:transform .2s ease,filter .2s ease}
+.r101-revs .row a:hover{transform:translateY(-3px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
+.r101-revs .row img{height:calc(var(--h,72px) * var(--k,1));width:auto;display:block}
+@media (max-width:900px){.r101-revs .row{--h:60px}}
+@media (max-width:620px){
+.r101-revs .row{display:grid;grid-template-columns:1fr 1fr;gap:18px 14px;max-width:360px;margin:0 auto}
+.r101-revs .row a{display:flex;justify-content:center}
+.r101-revs .row img{height:auto;width:calc(150px * var(--k,1));max-width:100%}
+.r101-revs .claim{margin-bottom:14px!important;padding:0 10px}
+}
+`;
+  function reviewRow() {
+    var secs = [].slice.call(document.querySelectorAll('main section.logos')).filter(function (s) {
+      if (s.classList.contains('r101-revrow-sec') || s.classList.contains('r101-auth')) return false;
+      if (((s.querySelector('.logos__heading') || {}).textContent || '').trim()) return false;
+      var im = s.querySelector('img');
+      var w = im && (+im.getAttribute('width') || im.naturalWidth), h = im && (+im.getAttribute('height') || im.naturalHeight);
+      return im && w && h && w / h > 5;
+    });
+    if (!secs.length) return;
+    addStyle('r101-rev-css', REV_CSS);
+    secs.forEach(function (s) {
+      s.classList.add('r101-revrow-sec');
+      var box = document.createElement('div'); box.className = 'r101-revs';
+      var html = '<p class="claim">5 Years in Business &middot; <b>100s of 100% 5-Star Reviews!</b></p><div class="row">';
+      REVIEWS.forEach(function (r) {
+        html += '<a href="' + r[2] + '" target="_blank" rel="noopener" aria-label="Read our 5-star reviews on ' + r[1] + '" style="--k:' + r[3] + '">' +
+          '<img src="' + REV_BASE + 'tight-review-' + r[0] + '.png" alt="Route 101 Motorsports 5-star reviews on ' + r[1] + '" loading="lazy" decoding="async"></a>';
+      });
+      box.innerHTML = html + '</div>';
+      var c = s.querySelector('.logos__container') || s.firstElementChild || s;
+      c.appendChild(box);
+    });
+  }
+
   /* ---------- CONTACT US PAGE ---------- */
   var CT_CSS = `
 body.r101-ct main section p.r101-eb{font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 12px!important;display:block}
@@ -2451,6 +2502,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
+      reviewRow();
       photoBands();
       rhythm();
       parallax();
