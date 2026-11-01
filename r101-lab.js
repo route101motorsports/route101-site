@@ -1296,6 +1296,12 @@ body.r101-art #r101-author img{width:92px;height:92px;flex:none;object-fit:conta
 body.r101-art #r101-author .l{font:600 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:${O};margin:2px 0 8px}
 body.r101-art #r101-author .b{font:400 15px/1.6 Inter,sans-serif;color:#444;margin:0}
 body.r101-art #r101-author ~ *{display:none!important}
+body.r101-art main section.columns.r101-share .columns__wrapper{padding:10px 0 20px!important;background:transparent!important}
+body.r101-art main section.columns.r101-share .columns__grid{display:flex!important;flex-wrap:wrap;justify-content:center;gap:10px!important;max-width:820px;margin:0 auto}
+body.r101-art main section.columns.r101-share .columns__item{background:none!important;border:0!important;padding:0!important;box-shadow:none!important;width:auto!important;flex:none!important}
+body.r101-art main section.columns.r101-share a.columns__button{display:inline-block;font:700 12.5px/1 Inter,sans-serif!important;letter-spacing:.06em;text-transform:uppercase;color:#111!important;background:#fff!important;border:1.5px solid #111!important;border-radius:999px!important;padding:12px 18px!important;transition:background .2s,color .2s}
+body.r101-art main section.columns.r101-share a.columns__button:hover{background:#111!important;color:#fff!important}
+body.r101-art main section.columns.r101-share:before{content:"Share this article";display:block;text-align:center;font:600 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#888;padding-top:36px;margin-bottom:12px}
 body.r101-art #r101-back{text-align:center;padding:10px 0 50px}
 body.r101-art #r101-back a{display:inline-block;font:700 13px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:${O};text-decoration:none;border:1.5px solid ${O};border-radius:999px;padding:14px 22px;transition:background .2s,color .2s}
 body.r101-art #r101-back a:hover{background:${O};color:#111}
@@ -1341,6 +1347,9 @@ body.r101-art #r101-author img{width:72px;height:72px}
       card.querySelector('.l').textContent = m[1].replace(/^meet the author$/i, 'Meet the author');
       card.querySelector('.b').textContent = t.slice(m[0].length);
       hd.parentNode.insertBefore(card, hd);
+    });
+    secs.forEach(function (s) {
+      if (s.classList.contains('columns') && /share on/i.test(s.textContent)) s.classList.add('r101-share');
     });
     if (!document.getElementById('r101-back')) {
       var bk = document.createElement('div'); bk.id = 'r101-back';
