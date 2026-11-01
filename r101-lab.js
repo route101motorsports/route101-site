@@ -1378,6 +1378,12 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
     addStyle('r101-prv-css', PRV_CSS);
   }
 
+  /* ---------- FOOTER LANDING PAGES (SEO) ----------
+     BMW landing hero is set to Booqable color-set-1 (dark headline) over a dark photo. */
+  function landingPage() {
+    addStyle('r101-land-css', 'main section.hero:first-of-type .hero__heading{color:#fff!important}main section.hero:first-of-type .hero__vision-wrapper:after{content:"";position:absolute;inset:0;background:linear-gradient(127deg,#000 25.94%,rgba(0,0,0,0) 100%);opacity:.72;pointer-events:none;z-index:1}');
+  }
+
   /* ---------- CONTACT US PAGE ---------- */
   var CT_CSS = `
 body.r101-ct main section p.r101-eb{font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 12px!important;display:block}
@@ -2440,6 +2446,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/collections\/?$/.test(location.pathname)) rentalsHub();
       if (/^\/pages\/straight-talk\/?$/.test(location.pathname)) stIndex();
       if (/^\/privacy-policy\/?$/.test(location.pathname)) privacyPage();
+      if (/^\/pages\/(san-diego-harley-rentals|san-diego-bmw-adventure-bike-rentals|motorcycle-rentals-san-diego)\/?$/.test(location.pathname)) landingPage();
       if (/^\/pages\/(straight-talk-(?!route-101-motorsports-offers-)|press-release-)/.test(location.pathname)) article();
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
