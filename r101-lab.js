@@ -1600,7 +1600,7 @@ body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!i
     var b = document.createElement('div'); b.id = 'r101-guest';
     b.innerHTML = '<h2>Almost done!</h2><p>No account needed. Check out as a guest in a minute or two.</p>' +
       '<a class="g" href="#">Continue as guest &rarr;</a><div class="or">or</div>' +
-      '<p class="vip"><b>Create an account</b> to save your details and receive <b>VIP rental credits</b> and <b>seasonal rental discounts!</b></p>';
+      '<p class="vip"><b>Create an account</b> to save your details, earn <b>VIP rental credits</b> and receive <b>seasonal rental discounts</b> and <b>special offers!</b></p>';
     b.querySelector('a.g').href = to + (to.indexOf('?') > -1 ? '&' : '?') + 'force_guest_checkout=true';
     inner.parentNode.insertBefore(b, inner);
     b.style.maxWidth = inner.getBoundingClientRect().width + 'px';
