@@ -1271,8 +1271,12 @@ body.r101-ab main section.r101-about{overflow-x:clip}
       items.push(why);
     }
     var io = new IntersectionObserver(function (es) {
+      var n = 0;
       es.forEach(function (e) {
-        if (e.isIntersecting || e.boundingClientRect.top < 0) { e.target.classList.add('in'); io.unobserve(e.target); }
+        if (e.isIntersecting || e.boundingClientRect.top < 0) {
+          if (e.target.id !== 'r101-abwhy') e.target.style.transitionDelay = (n++ * 0.12) + 's';   // tiles arriving together roll in one after another
+          e.target.classList.add('in'); io.unobserve(e.target);
+        }
       });
     }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
     items.forEach(function (el) { io.observe(el); });
