@@ -1220,6 +1220,7 @@ body.r101-stx main section.articles .r101-soon-b{display:inline-block;align-self
 body.r101-stx main section.articles .articles__item.r101-soon:hover{transform:none;box-shadow:0 10px 26px rgba(0,0,0,.06)}
 body.r101-stx p.r101-eb{font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 10px!important}
 body.r101-stx main section.r101-stx-all .articles__wrapper{padding:60px 0 40px!important}
+body.r101-stx main section.r101-stx-all .articles__top{display:block!important}
 body.r101-stx main section.r101-stx-all .articles__list .articles__item:first-child{grid-column:span 2}
 body.r101-stx main section.r101-stx-all .articles__list .articles__item:first-child .articles__image-wrapper{aspect-ratio:16/8}
 body.r101-stx section.r101-stx-soon{padding:0 0 70px}
