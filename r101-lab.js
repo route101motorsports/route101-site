@@ -2854,6 +2854,189 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
 @media (max-width:760px){main section.accordion .accordion__item-heading{padding:14px 16px!important}main section.accordion .accordion__content{padding:0 16px!important}}
 `;
 
+  /* ---------- MAILING-LIST POP-UP (exit intent) ----------
+     PC: fires when the mouse heads for the tabs/address bar. Phone: compact bottom sheet after the visitor
+     has scrolled a good way and then scrolls back up (no mouse on phones). Closed = quiet for 7 days.
+     Signed up = never again. Never on cart / checkout / account pages.
+     Sign-ups post to the Brevo form "Website Pop-up Sign-up (Promo Code)" (list: Website Sign-ups (Pop-up)),
+     which emails the code from garage@. MONTHLY: update PROMO (and the Brevo template) on the 1st.
+     TEST MODE: only shows on devices that visited ?popup=test (?popup=off clears it, ?popup=show opens it now). */
+  var PROMO = { code: '02ROUTE26', expires: 'November 30, 2026', pct: '10%' };
+  var POP_LIVE = false;   // flip to true once Glenn approves
+  var BREVO_ACTION = 'https://093d3649.sibforms.com/serve/MUIFAEi0jY-iruuVqGajdT2z0Hrat6C628FH5WqHiaq1d1ihkE63HijL7rhH0mlMQh6gAAy5FdN9u_7_AXQJoJnHCJjmiI8gJzl1Upm27_m9kfqLi7-uO6sU5uz_UQLxCHg8t2lc-dtGuJWOhr9E3gHJKO-AjvidFNGEYLJzVHsOJKaIbIXDz6g0cmFGR4APK48TU9AoLxASX4LEZw==';
+  var POP_CSS = `
+#r101-pop{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.62);opacity:0;transition:opacity .25s ease}
+#r101-pop.on{opacity:1}
+#r101-pop .card{position:relative;width:100%;max-width:440px;max-height:calc(100vh - 32px);overflow:auto;background:#fff;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.45);transform:translateY(18px) scale(.97);transition:transform .3s cubic-bezier(.2,.8,.2,1);font-family:Inter,Arial,sans-serif;color:#111}
+#r101-pop.on .card{transform:none}
+#r101-pop .top{background:#111;padding:18px 20px 16px;text-align:center;border-bottom:5px solid ${O}}
+#r101-pop .top img{height:46px;width:auto;display:inline-block}
+#r101-pop .x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font:400 22px/34px Arial,sans-serif;cursor:pointer;padding:0}
+#r101-pop .x:hover{background:${O}}
+#r101-pop .bd{padding:22px 26px 22px;text-align:center}
+#r101-pop .eb{font:700 12px/1 Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:${O};margin:0 0 10px}
+#r101-pop h2{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:40px;line-height:1.02;text-transform:uppercase;margin:0 0 4px;color:#111;letter-spacing:.01em}
+#r101-pop h2 b{color:${O};font-weight:400}
+#r101-pop .sub{font:600 16px/1.35 Inter,sans-serif;color:#333;margin:0 0 16px}
+#r101-pop form{display:grid;gap:10px;text-align:left}
+#r101-pop label{display:block;font:600 12.5px/1 Inter,sans-serif;color:#444;margin:0 0 5px}
+#r101-pop label i{font-style:normal;color:#999;font-weight:500}
+#r101-pop input{width:100%;box-sizing:border-box;height:46px;border:1.5px solid #d9d9d6;border-radius:12px;padding:0 14px;font:400 16px Inter,sans-serif;color:#111;background:#fff;outline:0;transition:border-color .2s}
+#r101-pop input:focus{border-color:${O}}
+#r101-pop input.bad{border-color:#d93025}
+#r101-pop .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
+#r101-pop .err{min-height:0;font:500 13px/1.35 Inter,sans-serif;color:#d93025;margin:0}
+#r101-pop .go{margin-top:4px;height:52px;border:0;border-radius:999px;background:${O};color:#fff;font:800 15px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:filter .2s,transform .2s}
+#r101-pop .go:hover{filter:brightness(1.08);transform:translateY(-1px)}
+#r101-pop .go[disabled]{opacity:.6;cursor:default;transform:none}
+#r101-pop .fine{font:400 11.5px/1.45 Inter,sans-serif;color:#888;margin:12px 0 0;text-align:center}
+#r101-pop .no{display:block;margin:10px auto 0;background:none;border:0;font:500 13px Inter,sans-serif;color:#888;text-decoration:underline;cursor:pointer}
+#r101-pop .code{display:inline-block;margin:6px 0 10px;padding:14px 26px;border:3px dashed ${O};border-radius:14px;background:#fff7f0;font:700 34px/1 'Courier New',Courier,monospace;letter-spacing:.12em;color:#111}
+#r101-pop .exp{font:700 14px/1.3 Inter,sans-serif;color:#c0392b;margin:0 0 6px}
+#r101-pop .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+#r101-pop .btns a,#r101-pop .btns button{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 20px;border-radius:999px;font:800 13px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:0}
+#r101-pop .btns .p{background:${O};color:#fff}
+#r101-pop .btns .s{background:#111;color:#fff}
+@media (max-width:620px){
+#r101-pop{align-items:flex-end;padding:0}
+#r101-pop .card{max-width:none;border-radius:20px 20px 0 0;max-height:88vh;transform:translateY(100%)}
+#r101-pop .top{padding:14px 20px 12px}
+#r101-pop .top img{height:38px}
+#r101-pop .bd{padding:18px 18px calc(18px + env(safe-area-inset-bottom))}
+#r101-pop h2{font-size:34px}
+#r101-pop .sub{font-size:15px;margin-bottom:12px}
+#r101-pop input{height:44px}
+#r101-pop .code{font-size:28px;padding:12px 18px}
+}
+@media (prefers-reduced-motion:reduce){#r101-pop,#r101-pop .card{transition:none}}
+`;
+  var POP_LOGO = CDN + 'w420/assets/a64592c4-9950-4366-ad2b-a0044b2ce483/cma3wgsoo09y32a791yl010oq(2).2025R101GoJustGoWebsite-1b4b6a8ea90e6434e26ea9c5b570b0745bfc5f174f7eeb02acf9b4a039f1c732.png';
+
+  function exitPopup() {
+    if (/^\/(cart|checkouts?|customers|orders|account)(\/|$)/.test(location.pathname)) return;
+    var ls = function (k, v) { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} return null; };
+    var q = location.search;
+    if (/[?&]popup=test\b/.test(q)) ls('r101popTest', '1');
+    if (/[?&]popup=off\b/.test(q)) { ls('r101popTest', null); ls('r101popSnooze', null); }
+    var test = ls('r101popTest') === '1', force = /[?&]popup=show\b/.test(q);
+    if (!POP_LIVE && !test) return;
+    if (!force) {
+      if (ls('r101popDone') === '1') return;
+      var sn = +ls('r101popSnooze') || 0;
+      if (Date.now() < sn) return;
+    }
+    var armedAt = Date.now() + 4000, shown = false;
+
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+    function open() {
+      if (shown || document.getElementById('r101-pop')) return;
+      if (document.body.classList.contains('r101-menu-open')) return;
+      shown = true;
+      addStyle('r101-pop-css', POP_CSS);
+      var w = document.createElement('div'); w.id = 'r101-pop';
+      w.setAttribute('role', 'dialog'); w.setAttribute('aria-modal', 'true'); w.setAttribute('aria-label', 'Join our mailing list for ' + PROMO.pct + ' off');
+      w.innerHTML =
+        '<div class="card">' +
+          '<div class="top"><img src="' + POP_LOGO + '" alt="Route 101 Motorsports"><button type="button" class="x" aria-label="Close">&times;</button></div>' +
+          '<div class="bd" id="r101-pop-bd">' +
+            '<p class="eb">Join our mailing list</p>' +
+            '<h2>Get <b>' + PROMO.pct + ' off</b></h2>' +
+            '<p class="sub">For your first rental or service!</p>' +
+            '<form novalidate>' +
+              '<div><label for="r101p-n">First &amp; last name</label><input id="r101p-n" name="n" autocomplete="name" required></div>' +
+              '<div><label for="r101p-e">Email</label><input id="r101p-e" name="e" type="email" autocomplete="email" inputmode="email" required></div>' +
+              '<div><label for="r101p-p">Phone <i>(optional)</i></label><input id="r101p-p" name="p" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="(760) 555-0123"></div>' +
+              '<div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>' +
+              '<p class="err" role="alert"></p>' +
+              '<button class="go" type="submit">Get my promo code</button>' +
+            '</form>' +
+            '<p class="fine">One code per registered email. By joining you agree to receive emails from Route 101 Motorsports. Unsubscribe anytime.</p>' +
+            '<button type="button" class="no">No thanks</button>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(w);
+      var last = document.activeElement;
+      requestAnimationFrame(function () { requestAnimationFrame(function () { w.classList.add('on'); }); });
+      var f = w.querySelector('form'), errEl = w.querySelector('.err');
+      setTimeout(function () { if (innerWidth > 620) { var n = w.querySelector('#r101p-n'); if (n) n.focus(); } }, 320);
+
+      function close(snooze) {
+        if (snooze) ls('r101popSnooze', String(Date.now() + 7 * 864e5));
+        w.classList.remove('on');
+        document.removeEventListener('keydown', onKey);
+        setTimeout(function () { w.remove(); if (last && last.focus) try { last.focus(); } catch (e) {} }, 280);
+      }
+      function onKey(e) { if (e.key === 'Escape') close(!ls('r101popDone')); }
+      document.addEventListener('keydown', onKey);
+      w.addEventListener('click', function (e) { if (e.target === w) close(!ls('r101popDone')); });
+      w.querySelector('.x').addEventListener('click', function () { close(!ls('r101popDone')); });
+      w.querySelector('.no').addEventListener('click', function () { close(true); });
+
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        [].forEach.call(f.querySelectorAll('input'), function (i) { i.classList.remove('bad'); });
+        errEl.textContent = '';
+        if (f.website.value) { close(true); return; }   // bot trap
+        var name = f.n.value.trim().replace(/\s+/g, ' '), email = f.e.value.trim(), ph = f.p.value.replace(/\D/g, '');
+        var parts = name.split(' ');
+        if (parts.length < 2 || parts[0].length < 1 || parts[parts.length - 1].length < 2) { f.n.classList.add('bad'); errEl.textContent = 'Please enter your first and last name.'; f.n.focus(); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { f.e.classList.add('bad'); errEl.textContent = 'Please enter a valid email address.'; f.e.focus(); return; }
+        if (ph.length === 11 && ph.charAt(0) === '1') ph = ph.slice(1);
+        if (ph && ph.length !== 10) { f.p.classList.add('bad'); errEl.textContent = 'Please enter a 10-digit phone number, or leave it blank.'; f.p.focus(); return; }
+        var first = parts[0], lastN = parts.slice(1).join(' ');
+        var fields = { FIRSTNAME: first, LASTNAME: lastN, EMAIL: email, email_address_check: '', locale: 'en', html_type: 'simple' };
+        if (ph) { fields.SMS = ph; fields.SMS__COUNTRY_CODE = '+1'; }
+        // post like a normal form, into a hidden frame (no cross-site blocking)
+        var fr = document.createElement('iframe'); fr.name = 'r101-pop-sink'; fr.title = 'sign-up'; fr.style.display = 'none';
+        document.body.appendChild(fr);
+        var pf = document.createElement('form'); pf.method = 'POST'; pf.action = BREVO_ACTION; pf.target = 'r101-pop-sink'; pf.style.display = 'none';
+        Object.keys(fields).forEach(function (k) { var i = document.createElement('input'); i.type = 'hidden'; i.name = k; i.value = fields[k]; pf.appendChild(i); });
+        document.body.appendChild(pf);
+        f.querySelector('.go').disabled = true;
+        pf.submit();
+        setTimeout(function () { pf.remove(); fr.remove(); }, 15000);
+        ls('r101popDone', '1');
+        try { if (window.gtag) gtag('event', 'generate_lead', { method: 'exit_popup' }); } catch (e2) {}
+        var bd = w.querySelector('#r101-pop-bd');
+        bd.innerHTML =
+          '<p class="eb">You’re in, ' + esc(first) + '!</p>' +
+          '<h2>Your <b>' + PROMO.pct + ' off</b> code</h2>' +
+          '<div class="code" id="r101p-code">' + PROMO.code + '</div>' +
+          '<p class="exp">This promo code expires ' + PROMO.expires + '.</p>' +
+          '<p class="sub" style="margin:0">We also emailed it to you. Use it at checkout, or mention it when you book service.</p>' +
+          '<div class="btns"><button type="button" class="s" id="r101p-copy">Copy code</button><a class="p" href="/collections">See bikes &amp; prices</a></div>' +
+          '<p class="fine">One code per registered email. Valid on your first rental or Route 101 Garage service.</p>';
+        var cp = bd.querySelector('#r101p-copy');
+        cp.addEventListener('click', function () {
+          var done = function () { cp.textContent = 'Copied!'; setTimeout(function () { cp.textContent = 'Copy code'; }, 1800); };
+          try { navigator.clipboard.writeText(PROMO.code).then(done, done); } catch (e3) { done(); }
+        });
+      });
+    }
+
+    if (force) { setTimeout(open, 600); return; }
+    var fine = window.matchMedia && matchMedia('(pointer:fine)').matches && innerWidth > 860;
+    if (fine) {
+      document.addEventListener('mouseout', function (e) {
+        if (shown || Date.now() < armedAt) return;
+        if (!e.relatedTarget && e.clientY <= 8) open();
+      });
+    } else {
+      // phone/tablet: after scrolling at least ~45% of a screen-plus page, a quick upward scroll
+      var maxY = 0, lastY = scrollY, lastT = Date.now();
+      addEventListener('scroll', function () {
+        if (shown) return;
+        var y = scrollY, t = Date.now();
+        if (y > maxY) maxY = y;
+        var deep = maxY > Math.max(innerHeight * 1.2, (document.documentElement.scrollHeight - innerHeight) * 0.45);
+        var v = (lastY - y) / Math.max(1, t - lastT);   // px per ms, upward positive
+        if (deep && t > armedAt + 6000 && lastY - y > 60 && v > 0.9) open();
+        lastY = y; lastT = t;
+      }, { passive: true });
+    }
+  }
+
   function run() {
     try {
       addFont();
@@ -2881,6 +3064,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
       reviewRow();
+      try { exitPopup(); } catch (e) {}
       serviceLogos();
       photoBands();
       rhythm();
