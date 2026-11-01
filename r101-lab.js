@@ -1579,7 +1579,7 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
       html += '<div class="grp"><p class="eb">' + esc(g[1]) + '</p><h2>' + esc(g[0]) + '</h2><div class="g ' + g[2] + '">';
       g[3].forEach(function (c) {
         var t = tile[c[4] || c[0]] || tile[c[0]] || {};
-        var src = t.img || (c[3] ? CDN + 'w960/' + c[3] : '');
+        var src = c[3] ? CDN + 'w960/' + c[3] : t.img;
         if (!src && c[0] === 'route-101-merch') src = CHERO['route-101-merch'].url + '-960.jpg';
         html += '<a class="c" href="/collections/' + c[0] + '">' + (src ? '<img loading="lazy" alt="' + esc(c[1]) + '" src="' + esc(src) + '">' : '') +
           '<div class="t"><h3>' + esc(c[1]) + '</h3><p>' + esc(c[2]) + '</p><span class="go">View &rarr;</span></div></a>';
