@@ -2617,7 +2617,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (location.pathname === '/' || location.pathname === '') homePage();
       if (/^\/pages\/harley-brake-service\/?$/.test(location.pathname)) brakesPage();
       if (/^\/pages\/san-diego-(harley-service|bmw-gs-service)\/?$/.test(location.pathname)) harleyPage();
-      if (/^\/pages\/san-diego-harley-service\/?$/.test(location.pathname)) partsBand();
+      if (/^\/pages\/(san-diego-harley-service|harley-brake-service)\/?$/.test(location.pathname)) partsBand();
       if (/^\/pages\/straight-talk-route-101-motorsports-offers-/.test(location.pathname)) garageStory();
       if (/^\/pages\/contact-us\/?$/.test(location.pathname)) contactPage();
       if (/^\/pages\/about-us\/?$/.test(location.pathname)) aboutPage();
