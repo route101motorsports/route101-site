@@ -81,7 +81,7 @@ w2 = wm.copy(); w2[..., 3] = np.where(ndimage.binary_dilation(keep, iterations=2
 word = trim(w2)
 H = word.shape[0]
 sq_i = img(sq).resize((H, H), Image.LANCZOS)
-gap = int(H * 0.16)
+gap = max(2, int(H * 0.025))
 canvas = Image.new('RGBA', (H + gap + word.shape[1], H), (0, 0, 0, 0))
 canvas.alpha_composite(sq_i, (0, 0))
 canvas.alpha_composite(img(word), (H + gap, 0))
@@ -89,7 +89,8 @@ facebook = np.asarray(canvas).astype(np.float32)
 
 
 # ---------- stars ----------
-GOLD = (251, 188, 4, 255)
+GOLD = (246, 168, 0, 255)
+EDGE = (196, 128, 0, 255)
 
 
 def star_row(w, h):
@@ -97,7 +98,7 @@ def star_row(w, h):
     W, Hh = w * S, h * S
     im = Image.new('RGBA', (W, Hh), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
-    gap = Hh * 0.18
+    gap = Hh * 0.12
     size = min(Hh, (W - gap * 4) / 5)
     tot = size * 5 + gap * 4
     x0 = (W - tot) / 2
@@ -110,18 +111,18 @@ def star_row(w, h):
             ang = -np.pi / 2 + j * np.pi / 5
             rad = R if j % 2 == 0 else r
             pts.append((cx + rad * np.cos(ang), cy + rad * np.sin(ang) + size * 0.04))
-        d.polygon(pts, fill=GOLD)
+        d.polygon(pts, fill=GOLD, outline=EDGE, width=max(1, int(size * 0.035)))
     return im.resize((w, h), Image.LANCZOS)
 
 
 def with_stars(arr):
     logo = img(arr)
     w, h = logo.size
-    sh = int(max(h * 0.30, w * 0.075))
-    sh = min(sh, int(w / 5.9))
+    sh = int(max(h * 0.44, w * 0.11))
+    sh = min(sh, int(w / 5.6))
     sw = int(sh * 5.9)
     stars = star_row(sw, sh)
-    gap = int(sh * 0.45)
+    gap = int(sh * 0.32)
     W = max(w, sw)
     c = Image.new('RGBA', (W, h + gap + sh), (0, 0, 0, 0))
     c.alpha_composite(logo, ((W - w) // 2, 0))
