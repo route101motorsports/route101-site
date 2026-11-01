@@ -2888,6 +2888,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
 #r101-pop label.sms[hidden]{display:none}
 #r101-pop label.sms input{flex:none;width:18px;height:18px;margin:1px 0 0;padding:0;accent-color:${O};cursor:pointer}
 #r101-pop label.sms b{color:#111;font-weight:700}
+#r101-pop label.sms span,#r101-pop label.sms b{font-family:Inter,Arial,sans-serif!important;font-size:11.5px!important;line-height:1.45!important;letter-spacing:0!important}
 #r101-pop .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
 #r101-pop .err{min-height:0;font:500 13px/1.35 Inter,sans-serif;color:#d93025;margin:0}
 #r101-pop .go{margin-top:4px;height:52px;border:0;border-radius:999px;background:${O};color:#fff;font:800 15px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:filter .2s,transform .2s}
