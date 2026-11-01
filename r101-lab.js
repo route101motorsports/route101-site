@@ -1365,6 +1365,19 @@ body.r101-art #r101-author img{width:72px;height:72px}
     }
   }
 
+  /* ---------- PRIVACY POLICY ---------- */
+  var PRV_CSS = `
+body.r101-prv main section.hero .hero__buttons{display:none!important}
+body.r101-prv main section:not(.hero) [class*=__container]{max-width:860px!important;margin-left:auto!important;margin-right:auto!important}
+body.r101-prv main section:not(.hero) p,body.r101-prv main section:not(.hero) li{font:400 16px/1.7 Inter,sans-serif!important;color:#333!important}
+body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h3{text-align:left!important}
+`;
+  function privacyPage() {
+    if (document.body.classList.contains('r101-prv')) return;
+    document.body.classList.add('r101-prv');
+    addStyle('r101-prv-css', PRV_CSS);
+  }
+
   /* ---------- CONTACT US PAGE ---------- */
   var CT_CSS = `
 body.r101-ct main section p.r101-eb{font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 12px!important;display:block}
@@ -2426,6 +2439,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/collections\/[^\/]+\/?$/.test(location.pathname)) collectionHero();
       if (/^\/collections\/?$/.test(location.pathname)) rentalsHub();
       if (/^\/pages\/straight-talk\/?$/.test(location.pathname)) stIndex();
+      if (/^\/privacy-policy\/?$/.test(location.pathname)) privacyPage();
       if (/^\/pages\/(straight-talk-(?!route-101-motorsports-offers-)|press-release-)/.test(location.pathname)) article();
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
