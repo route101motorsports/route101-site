@@ -1519,8 +1519,8 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
 #r101-rh a.c:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(0,0,0,.18)}
 #r101-rh a.c:hover img{scale:1.04}
 #r101-rh .t{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:20px 22px}
-#r101-rh .t h3{font-family:Anton,sans-serif!important;font-size:clamp(22px,1.9vw,28px)!important;line-height:1.05!important;margin:0 0 6px!important;color:#fff!important}
-#r101-rh .t p{font:400 14.5px/1.45 Inter,sans-serif!important;color:rgba(255,255,255,.88)!important;margin:0 0 10px!important}
+#r101-rh .t h3{font-family:Anton,sans-serif!important;font-size:clamp(22px,1.9vw,28px)!important;line-height:1.05!important;margin:0 0 6px!important;color:#fff!important;text-shadow:0 2px 14px rgba(0,0,0,.65)}
+#r101-rh .t p{font:400 14.5px/1.45 Inter,sans-serif!important;color:rgba(255,255,255,.9)!important;margin:0 0 10px!important;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 #r101-rh .t .go{font:700 13px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:${O}}
 #r101-rh .t .n{font:500 12px/1 Inter,sans-serif;color:rgba(255,255,255,.7);margin-left:10px;letter-spacing:.04em;text-transform:none}
 @media (max-width:900px){#r101-rh .g,#r101-rh .g.two{grid-template-columns:1fr 1fr}}
