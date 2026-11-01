@@ -1659,7 +1659,7 @@ body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!i
     var w = document.createElement('div'); w.id = 'r101-ty';
     w.innerHTML = '<h2>Thank you for booking!</h2>' +
       (num ? '<p class="num">Booking number ' + num + '</p>' : '') +
-      '<p>You should have received a booking confirmation email from <b>rental@route101motorsports.com</b>. Check your spam folder if you did not receive it.</p>' +
+      '<p>Check your inbox now for your booking confirmation email (from <b>rental@route101motorsports.com</b>). If you did not receive it, check your spam folder. Contact us if you did not receive it.</p>' +
       '<div class="ct"><p class="l">Contact Route 101 Motorsports</p>' +
       '<p>Tel: <a href="tel:+18885095032">(888) 509-5032</a></p>' +
       '<p>Address: <a href="https://maps.google.com/?q=6351+Corte+Del+Abeto+%23107,+Carlsbad,+CA+92011" target="_blank" rel="noopener">6351 Corte Del Abeto #107, Carlsbad, CA 92011</a></p></div>' +
