@@ -1459,7 +1459,9 @@ body.r101-ch main section.hero .hero__vision-wrapper:after{content:"";position:a
 #r101-grid{scroll-margin-top:110px}
 body.r101-ch #r101-grid .product-card{background:#fff;border:1px solid var(--r101-line,#e6e6e6)!important;border-radius:18px;overflow:hidden;box-shadow:0 10px 26px rgba(0,0,0,.06);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column;height:100%}
 body.r101-ch #r101-grid .product-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(0,0,0,.12)}
-body.r101-ch #r101-grid .product-card__vision{background:#fff;padding:10px 10px 0}
+body.r101-ch #r101-grid .product-card__vision{background:#fff;padding:10px 10px 0;box-sizing:border-box;width:100%;overflow:hidden}
+body.r101-ch #r101-grid .product-card__image-wrapper{display:block;width:100%;max-width:100%}
+body.r101-ch #r101-grid .product-card__image{width:100%;height:100%;object-fit:contain}
 body.r101-ch #r101-grid .product-card__image{transition:scale .5s ease}
 body.r101-ch #r101-grid .product-card:hover .product-card__image{scale:1.03}
 body.r101-ch #r101-grid .product-card__meta{padding:14px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1;border-top:1px solid var(--r101-line,#eee)}
