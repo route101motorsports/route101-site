@@ -1270,6 +1270,85 @@ body.r101-stx section.r101-stx-soon li b{font:600 14.5px/1.35 Inter,sans-serif;c
     secs.forEach(function (sec) { sec.style.display = 'none'; });
   }
 
+  /* ---------- STRAIGHT TALK ARTICLES (+ press release) ----------
+     Pattern: hero, author box (logos section with the whole bio as a heading), text sections,
+     full-screen "chapter" heroes (photo or photo + heading), share buttons. Make it read like an article. */
+  var ART_CSS = `
+body.r101-art p.r101-eb{font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 14px!important;display:block}
+body.r101-art main section.hero.r101-chap .hero__wrapper,body.r101-art main section.hero.r101-chap .hero__container,body.r101-art main section.hero.r101-chap .hero__text-area{min-height:0!important;height:auto!important}
+body.r101-art main section.hero.r101-chap{min-height:0!important;height:auto!important}
+body.r101-art main section.hero.r101-chap .hero__wrapper{padding:110px 0 70px!important;min-height:420px!important;display:flex;align-items:flex-end}
+body.r101-art main section.hero.r101-chap.r101-photo .hero__wrapper{min-height:380px!important;padding:0!important}
+body.r101-art main section.hero.r101-chap h1,body.r101-art main section.hero.r101-chap h2{font-size:clamp(28px,3vw,44px)!important;line-height:1.08!important}
+body.r101-art main section.hero.r101-chap .hero__vision-wrapper:after,body.r101-art main section.hero.r101-first .hero__vision-wrapper:after{content:"";position:absolute;inset:0;background:linear-gradient(127deg,#000 25.94%,rgba(0,0,0,0) 100%);opacity:.72;pointer-events:none;z-index:1}
+body.r101-art main section.hero.r101-chap.r101-photo .hero__vision-wrapper:after{opacity:0}
+body.r101-art main section.text .text__container{max-width:820px!important;margin-left:auto!important;margin-right:auto!important}
+body.r101-art main section.text .text__wrapper{padding-top:56px!important;padding-bottom:56px!important}
+body.r101-art main section.text .text__heading{font-family:Anton,sans-serif!important;font-size:clamp(26px,2.4vw,36px)!important;line-height:1.1!important;color:var(--r101-ink,#111)!important;text-align:left!important;margin:0 0 18px!important}
+body.r101-art main section.text .text__content,body.r101-art main section.text .text__content p,body.r101-art main section.text .text__content li{font:400 17px/1.72 Inter,sans-serif!important;color:#2e2e2e!important;text-align:left!important}
+body.r101-art main section.text .text__content p{margin:0 0 16px!important}
+body.r101-art main section.text .text__content b,body.r101-art main section.text .text__content strong{color:#111!important;font-weight:700!important}
+body.r101-art main section.text .text__content a{color:${O}!important;text-decoration:underline}
+body.r101-art main section.logos.r101-auth .logos__wrapper{padding:40px 0!important}
+body.r101-art main section.logos.r101-auth .logos__container{max-width:820px!important;margin:0 auto!important}
+body.r101-art #r101-author{display:flex;gap:22px;align-items:flex-start;background:#fff;border:1px solid var(--r101-line,#e6e6e6);border-left:4px solid ${O};border-radius:18px;padding:22px 24px;box-shadow:0 10px 26px rgba(0,0,0,.05);text-align:left}
+body.r101-art #r101-author img{width:92px;height:92px;flex:none;object-fit:contain;border-radius:14px;background:#f4f4f1}
+body.r101-art #r101-author .l{font:600 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:${O};margin:2px 0 8px}
+body.r101-art #r101-author .b{font:400 15px/1.6 Inter,sans-serif;color:#444;margin:0}
+body.r101-art main section.logos.r101-auth .logos__heading,body.r101-art main section.logos.r101-auth .logos__list,body.r101-art main section.logos.r101-auth .logos__items{display:none!important}
+body.r101-art #r101-back{text-align:center;padding:10px 0 50px}
+body.r101-art #r101-back a{display:inline-block;font:700 13px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:${O};text-decoration:none;border:1.5px solid ${O};border-radius:999px;padding:14px 22px;transition:background .2s,color .2s}
+body.r101-art #r101-back a:hover{background:${O};color:#111}
+@media (max-width:620px){
+body.r101-art main section.hero.r101-chap .hero__wrapper{min-height:300px!important;padding:80px 0 40px!important}
+body.r101-art main section.hero.r101-chap.r101-photo .hero__wrapper{min-height:240px!important;padding:0!important}
+body.r101-art main section.text .text__wrapper{padding-top:36px!important;padding-bottom:36px!important}
+body.r101-art main section.text .text__content,body.r101-art main section.text .text__content p,body.r101-art main section.text .text__content li{font-size:16px!important;line-height:1.68!important}
+body.r101-art #r101-author{flex-direction:column;gap:12px;padding:18px}
+body.r101-art #r101-author img{width:72px;height:72px}
+}
+`;
+  function article() {
+    var main = document.querySelector('main');
+    if (!main || document.body.classList.contains('r101-art')) return;
+    document.body.classList.add('r101-art');
+    addStyle('r101-art-css', ART_CSS);
+    var secs = [].slice.call(main.children).filter(function (s) { return s.tagName === 'SECTION'; });
+    var firstHero = null;
+    secs.forEach(function (s) {
+      if (!s.classList.contains('hero')) return;
+      if (!firstHero) { firstHero = s; s.classList.add('r101-first'); return; }
+      s.classList.add('r101-chap');
+      var txt = ((s.querySelector('.hero__heading') || {}).textContent || '').trim() + ((s.querySelector('.hero__description') || {}).textContent || '').trim();
+      if (!txt) s.classList.add('r101-photo');
+    });
+    if (firstHero) {
+      var h = firstHero.querySelector('.hero__heading');
+      if (h && !firstHero.querySelector('.r101-eb')) { var e = document.createElement('p'); e.className = 'r101-eb'; e.textContent = /press-release/.test(location.pathname) ? 'Press release' : 'Straight Talk'; h.parentNode.insertBefore(e, h); }
+    }
+    // author box
+    secs.forEach(function (s) {
+      if (!s.classList.contains('logos')) return;
+      var hd = s.querySelector('.logos__heading'); if (!hd) return;
+      var t = hd.textContent.replace(/\s+/g, ' ').trim();
+      var m = t.match(/^(Meet the Author|Author|Interviewer|Interviewee)\s*:\s*/i);
+      if (!m) return;
+      s.classList.add('r101-auth');
+      var img = s.querySelector('img');
+      var card = document.createElement('div'); card.id = 'r101-author';
+      card.innerHTML = (img ? '<img alt="" loading="lazy">' : '') + '<div><p class="l"></p><p class="b"></p></div>';
+      if (img) { var ci = card.querySelector('img'); ci.src = img.currentSrc || img.src; ci.alt = m[1]; }
+      card.querySelector('.l').textContent = m[1].replace(/^meet the author$/i, 'Meet the author');
+      card.querySelector('.b').textContent = t.slice(m[0].length);
+      hd.parentNode.insertBefore(card, hd);
+    });
+    if (!document.getElementById('r101-back')) {
+      var bk = document.createElement('div'); bk.id = 'r101-back';
+      bk.innerHTML = '<a href="/pages/straight-talk">&larr; More Straight Talk</a>';
+      main.appendChild(bk);
+    }
+  }
+
   /* ---------- CONTACT US PAGE ---------- */
   var CT_CSS = `
 body.r101-ct main section p.r101-eb{font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 12px!important;display:block}
@@ -2331,6 +2410,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/collections\/[^\/]+\/?$/.test(location.pathname)) collectionHero();
       if (/^\/collections\/?$/.test(location.pathname)) rentalsHub();
       if (/^\/pages\/straight-talk\/?$/.test(location.pathname)) stIndex();
+      if (/^\/pages\/(straight-talk-(?!route-101-motorsports-offers-)|press-release-)/.test(location.pathname)) article();
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
