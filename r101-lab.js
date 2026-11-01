@@ -471,7 +471,8 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       el('.ct').textContent = (cur.i + 1) + ' / ' + n;
       el('.nv.p').style.display = el('.nv.n').style.display = n > 1 ? '' : 'none';
       var sp = el('a.spec');
-      var spec = SPECS && SPECS[brandSlug(t.name)];
+      var SPEC_ALIAS = { 'bridgestone-exedra-max': 'bridgestone-excedra-max', 'metzeler-cruisetec': 'metzeler-cruisetac' };   // tile names fixed Nov 1, spec keys kept
+      var sk = brandSlug(t.name), spec = SPECS && (SPECS[sk] || SPECS[SPEC_ALIAS[sk]]);
       lb.querySelector('.box').classList.remove('sp-on');
       el('a.sp2').style.display = spec ? '' : 'none';
       cur.spec = spec ? { d: spec, t: t } : null;
