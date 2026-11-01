@@ -124,3 +124,4 @@ Harley Service brands band (Nov 1, lab): partsBand() adds #r101-pbrands right un
 Screamin' Eagle logo added to img/brands (outer black removed, thin dark outline so the white eagle reads on cream). LOGO_BASE now pinned to 881684a7 (has all brand files).
 Harley brands band now 9 logos (added NGK after K&N; NGK added to img/brands), label "Proud to use these top brands" (Glenn). LOGO_BASE pinned to 1f8fe9a6.
 Pin tip 2: when LOGO_BASE (or any asset base) moves to a new commit, warm EVERY file under it in the browser (fetch each tight-*.png until 200) before pinning. On Nov 1 the GS-911 logo failed once because the page asked the CDN for the new folder before it was ready; a reload fixed it.
+Ohlins and BMW M logos added to img/brands (commit 16b1f5f2; all 22 tight logos verified loading from that commit). Not placed on any page yet. LOGO_BASE in r101-lab.js still points at 1f8fe9a6 — move it to 16b1f5f2 (or later) when these get used.
