@@ -1195,6 +1195,10 @@ body.r101-st section.r101-split .hero__buttons,body.r101-st section.r101-intro .
 body.r101-st section.r101-split .button--outlined,body.r101-st section.r101-intro .button--outlined{color:var(--r101-ink)!important;border-color:var(--r101-ink)!important}
 body.r101-st section.r101-split .button--outlined:hover,body.r101-st section.r101-intro .button--outlined:hover{background:var(--r101-ink)!important;color:#fff!important}
 body.r101-st main section.spacer{display:none!important}
+body.r101-st section.r101-split .r101-pic{opacity:0;transform:translateX(-56px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+body.r101-st section.r101-split.rev .r101-pic{transform:translateX(56px)}
+body.r101-st section.r101-split .hero__text-area{opacity:0;transform:translateY(22px);transition:opacity .8s ease .15s,transform .9s cubic-bezier(.2,.7,.2,1) .15s}
+body.r101-st section.r101-split.in .r101-pic,body.r101-st section.r101-split.in .hero__text-area{opacity:1;transform:none}
 @media (max-width:860px){body.r101-st section.r101-split .hero__container{grid-template-columns:1fr;gap:18px}body.r101-st section.r101-split.rev .r101-pic{order:0}body.r101-st section.r101-split .hero__wrapper{padding:28px 0!important}body.r101-st section.r101-split + section.r101-split .hero__wrapper{padding-top:4px!important}body.r101-st section.r101-intro .hero__wrapper{padding:36px 0!important}body.r101-st section.r101-split .hero__buttons .button,body.r101-st section.r101-intro .hero__buttons .button{width:100%;text-align:center}}
 `;
   function garageStory() {
@@ -1221,6 +1225,7 @@ body.r101-st main section.spacer{display:none!important}
         var pic = document.createElement('div'); pic.className = 'r101-pic';
         var im = document.createElement('img');
         im.src = img.currentSrc || img.src; im.alt = img.alt || ((s.querySelector('h1,h2') || {}).textContent || '').trim(); im.loading = 'lazy';
+        im.className = 'r101-drift';
         pic.appendChild(im);
         var c = s.querySelector('.hero__container');
         if (c && !c.querySelector('.r101-pic')) c.insertBefore(pic, c.firstChild);
@@ -1233,6 +1238,18 @@ body.r101-st main section.spacer{display:none!important}
         addEb(s, 'Now open to the public');
       }
     });
+    // slide-in like the articles, replays every time (Glenn, Nov 1)
+    var rows = [].slice.call(main.querySelectorAll('section.r101-split'));
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          var im = e.target.querySelector('.r101-pic img');
+          e.target.classList.toggle('in', e.isIntersecting);
+          if (im) im.classList.toggle('r101-run', e.isIntersecting);
+        });
+      }, { threshold: [0, .18] });
+      rows.forEach(function (r) { io.observe(r); });
+    } else rows.forEach(function (r) { r.classList.add('in'); });
   }
 
   /* ---------- STRAIGHT TALK INDEX (/pages/straight-talk) ----------
