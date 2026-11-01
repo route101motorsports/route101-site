@@ -1293,6 +1293,75 @@ body.r101-ab main section.r101-about{overflow-x:clip}
     items.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---------- COLLECTION HEROES ----------
+     Booqable has ONE "Collection" template, so every collection page shares one hero.
+     This swaps in each collection's own photo, headline, text and buttons by URL.
+     Collections not listed here keep the shared hero.                                  */
+  var CDN = 'https://images.booqablecdn.com/';
+  var IMG_HARLEY = 'assets/a64592c4-9950-4366-ad2b-a0044b2ce483/clzvhd39m00jh2a71hqi09q1nsandiegoharleyrentalsreferstwystedthrottle-81b5d46b76f3892c7fea91399eac620f4b88ccdc531e4fe72b904689c855cf12(2).jpg';
+  var IMG_GS = 'assets/a64592c4-9950-4366-ad2b-a0044b2ce483/cmht58ngx00jw2a7line2q4zm(2).BMWR1200GSAdventureBikeHero1highresIV-e2d79e9d0fbd87598b14565aa93f9bc66a3c4f908927e0e017d4e5f6295d8980.jpg';
+  var CALL = ['Call (888) 509-5032', 'tel:+18885095032'];
+  var SEE = ['See Bikes & Prices', '#r101-grid'];
+  var FLEET = {
+    h: 'The Route 101 Rental Fleet',
+    p: 'Harley-Davidson touring and cruisers plus BMW GS adventure bikes, all maintained in-house. Free riding gear with every rental, and a $500 deposit, never more.',
+    b: [SEE, CALL]
+  };
+  var CHERO = {
+    'route-rental-fleet': FLEET,
+    'all': FLEET,
+    'motorcycle-rentals': {
+      img: IMG_HARLEY,
+      h: 'Harley-Davidson Rentals in San Diego',
+      p: 'Street Glide and Heritage Softail, maintained in-house and ready for the coast, the mountains or the desert. Free Venom helmet, Harley-Davidson leather jacket and gloves with every rental.',
+      b: [SEE, CALL]
+    },
+    'explore-our-bmw-gs-rental-fleet': {
+      img: IMG_GS,
+      h: 'BMW GS Adventure Rentals',
+      p: 'R 1250 GS, R 1200 GS and GS Adventure models, built for pavement, dirt and everything in between. Side cases and top box available, and free riding gear with every rental.',
+      b: [SEE, CALL]
+    }
+  };
+  var CH_CSS = `
+body.r101-ch main section.hero .hero__vision-wrapper:after{content:"";position:absolute;inset:0;background:linear-gradient(127deg,#000 25.94%,rgba(0,0,0,0) 100%);opacity:.72;pointer-events:none;z-index:1}
+body.r101-ch main section.hero .hero__heading{max-width:16ch}
+#r101-grid{scroll-margin-top:110px}
+`;
+  function collectionHero() {
+    var m = location.pathname.match(/^\/collections\/([^\/?#]+)\/?$/);
+    var cfg = m && CHERO[m[1]];
+    var hero = document.querySelector('main section.hero');
+    if (!cfg || !hero || document.body.classList.contains('r101-ch')) return;
+    document.body.classList.add('r101-ch');
+    addStyle('r101-ch-css', CH_CSS);
+    var grid = document.querySelector('main section.collection-page');
+    if (grid && !document.getElementById('r101-grid')) grid.id = 'r101-grid';
+    var h = hero.querySelector('.hero__heading'); if (h && cfg.h) h.textContent = cfg.h;
+    var d = hero.querySelector('.hero__description'); if (d && cfg.p) { d.innerHTML = '<p></p>'; d.firstChild.textContent = cfg.p; }
+    var btns = [].slice.call(hero.querySelectorAll('.hero__button'));
+    (cfg.b || []).forEach(function (b, i) {
+      if (!btns[i]) return;
+      btns[i].textContent = b[0]; btns[i].setAttribute('href', b[1]);
+      if (b[1].charAt(0) === '#') btns[i].addEventListener('click', function (e) {
+        var t = document.querySelector(b[1]); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+    if (cfg.img) {
+      var pic = hero.querySelector('.hero__vision picture'), im = pic && pic.querySelector('img');
+      if (im) {
+        var widths = [480, 768, 1200, 1680, 2560];
+        var set = widths.map(function (w) { return CDN + 'w' + w + '/' + cfg.img + ' ' + w + 'w'; }).join(', ');
+        [].slice.call(pic.querySelectorAll('source')).forEach(function (src) { src.remove(); });
+        im.removeAttribute('srcset');
+        im.setAttribute('srcset', set);
+        im.setAttribute('sizes', '100vw');
+        im.src = CDN + 'w1680/' + cfg.img;
+        im.alt = cfg.h;
+      }
+    }
+  }
+
   /* ---------- HARLEY SERVICE HUB ---------- */
   var HRL_CSS = `
 body.r101-harley .r101-hide-sec,body.r101-harley .r101-hide{display:none!important}
@@ -1746,6 +1815,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/pages\/straight-talk-route-101-motorsports-offers-/.test(location.pathname)) garageStory();
       if (/^\/pages\/contact-us\/?$/.test(location.pathname)) contactPage();
       if (/^\/pages\/about-us\/?$/.test(location.pathname)) aboutPage();
+      if (/^\/collections\/[^\/]+\/?$/.test(location.pathname)) collectionHero();
       photoBands();
       rhythm();
       parallax();
