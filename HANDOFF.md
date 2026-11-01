@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `451fa3b6d7a1d8205d2db8f5c94bd5e3b7274ec1` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
+  Currently pinned to `c613a5fe17a34181724038e1d3efc69c4b5e14c4` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -101,4 +101,6 @@ DONE: collection product cards restyled (all collection pages): white rounded ca
 DONE: Straight Talk index (stIndex): one "Latest from Route 101" grid of the 10 live articles (category as tag, first card featured), then "More Straight Talk on the way" list of the 9 unwritten ones (their Read more links looped to /pages/straight-talk or /). Original category sections hidden.
 DONE: Straight Talk articles + press release (article()): eyebrow, chapter heroes cut to ~420px (photo-only 380px), 820px reading column at 17px, author card from the "logos" bio section (Meet the Author / Author / Interviewer), share buttons as pills, "More Straight Talk" link. Press release: smaller logo, tighter spacing.
 Unwritten articles (for Glenn): Mastering the Curves; Perfect Your Passing; Riding Mastery; Group Riding; Ride the Legend (Route 101); Desert Heat & Iron Beasts (Anza-Borrego); Route 66; Ride to the Rim (Grand Canyon); Tires & Tire Changes.
-STILL TO DO in sweep: Twysted Throttle, Privacy Policy, 3 footer landing pages, /products/rental-delivery (no title), then footer link-by-link.
+DONE: Twysted Throttle checked (typo "Poudly" in a heading, content). Privacy (privacyPage): no "Shop our products" button, 860px column. Footer landing pages checked; BMW landing hero headline was dark-on-dark (Booqable color-set-1) -> landingPage() forces white.
+Link check by real server status (54 internal links from header/menu/footer): all 200 except footer "Motorcycle Rental Delivery" -> /products/rental-delivery = 404 (Booqable's 404 page title has no "404"; check body text "took a wrong turn").
+Sweep status: header, menu drawer, footer all covered.
