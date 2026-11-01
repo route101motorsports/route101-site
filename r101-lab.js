@@ -1515,7 +1515,7 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
 #r101-rh a.c{position:relative;display:block;border-radius:18px;overflow:hidden;aspect-ratio:4/3;background:#222;color:#fff!important;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,.10);transition:transform .25s,box-shadow .25s}
 #r101-rh .g.two a.c{aspect-ratio:16/9}
 #r101-rh a.c img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:scale .6s ease}
-#r101-rh a.c:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.86) 0%,rgba(0,0,0,.45) 45%,rgba(0,0,0,.05) 75%)}
+#r101-rh a.c:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.62) 48%,rgba(0,0,0,.08) 80%)}
 #r101-rh a.c:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(0,0,0,.18)}
 #r101-rh a.c:hover img{scale:1.04}
 #r101-rh .t{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:20px 22px}
@@ -1526,7 +1526,7 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
 @media (max-width:900px){#r101-rh .g,#r101-rh .g.two{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){
 #r101-rhero{min-height:0}
-#r101-rhero .in{padding:136px 18px 56px}
+#r101-rhero .in{padding:160px 18px 56px}
 #r101-rh{padding:44px 0 52px}
 #r101-rh .wrap{padding:0 16px}
 #r101-rh .grp+.grp{margin-top:40px}
