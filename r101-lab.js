@@ -100,6 +100,9 @@ body.r101-tires .r101-chips b{color:${O};margin-right:6px}
 body.r101-tires section.image-gallery .image-gallery__wrapper{padding-top:56px!important;padding-bottom:8px!important}
 body.r101-tires section.r101-alt .image-gallery__wrapper,body.r101-tires section.r101-alt .text__wrapper{background:var(--r101-soft)!important}
 body.r101-tires .image-gallery__heading{text-align:left!important;font-size:clamp(30px,3.6vw,44px)!important;margin-bottom:22px!important;display:flex;align-items:center;gap:14px}
+body.r101-tires .image-gallery__heading img.r101-blogo{display:block;flex:0 0 auto;max-width:60vw;height:auto}
+.r101-vh{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important}
+@media (max-width:760px){body.r101-tires .image-gallery__heading img.r101-blogo{width:auto!important;max-height:52px;max-width:56vw}}
 body.r101-tires .image-gallery__heading:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,${O},transparent)}
 body.r101-tires .image-gallery__images{gap:18px!important}
 body.r101-tires .r101-count{order:3;font:500 14px/1 Inter,sans-serif;color:#8a8a8a;text-transform:none;letter-spacing:0;white-space:nowrap}
@@ -150,6 +153,12 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
 }
 `;
 
+  var LOGO_BASE = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@7137b0f4580a1a8788d1be1b578f891dcc781288/img/brands/';
+  var TIRE_LOGOS = {   // slug: [file, width, height] of the balanced, trimmed logo
+    'dunlop': ['dunlop', 540, 94], 'michelin': ['michelin', 526, 160], 'bridgestone': ['bridgestone', 540, 68],
+    'metzeler': ['metzeler', 540, 102], 'pirelli': ['pirelli', 540, 115], 'shinko': ['shinko', 540, 106],
+    'maxxis': ['maxxis', 540, 97], 'mitas': ['mitas', 540, 104]
+  };
   function brandSlug(t) { return (t || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
 
   function tiresPage() {
@@ -193,6 +202,15 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
       var brand = (h.textContent.split('...').pop() || h.textContent).trim();
       if (/more/i.test(brand) && h.innerHTML.indexOf('<br') > -1) brand = h.innerHTML.split(/<br\s*\/?>/i).pop().replace(/<[^>]+>/g, '').trim();
       h.textContent = brand;                     // drop the "Offering these top brands..." lead-in
+      var lg = TIRE_LOGOS[brandSlug(brand)];
+      if (lg) {                                  // show the brand's real logo; keep the name in the heading for Google
+        h.textContent = '';
+        var li = document.createElement('img');
+        li.className = 'r101-blogo'; li.alt = brand + ' motorcycle tires'; li.loading = 'lazy';
+        li.src = LOGO_BASE + 'tight-' + lg[0] + '.png'; li.width = Math.round(lg[1] * 0.46); li.height = Math.round(lg[2] * 0.46);
+        var vh = document.createElement('span'); vh.className = 'r101-vh'; vh.textContent = brand;
+        h.appendChild(li); h.appendChild(vh);
+      }
       var n = g.querySelectorAll('.image-gallery__images > div').length;
       if (n) {
         var cnt = document.createElement('span');
