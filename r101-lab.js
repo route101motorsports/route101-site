@@ -1218,29 +1218,55 @@ body.r101-stx main section.articles .articles__item.r101-soon{opacity:.9}
 body.r101-stx main section.articles .articles__item.r101-soon .articles__image-wrapper img{filter:grayscale(.55)}
 body.r101-stx main section.articles .r101-soon-b{display:inline-block;align-self:flex-start;margin-top:auto;font:700 11.5px/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#777;background:#f1f1ef;border:1px solid #e3e3e0;border-radius:999px;padding:7px 11px}
 body.r101-stx main section.articles .articles__item.r101-soon:hover{transform:none;box-shadow:0 10px 26px rgba(0,0,0,.06)}
+body.r101-stx p.r101-eb{font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 10px!important}
+body.r101-stx main section.r101-stx-all .articles__wrapper{padding:60px 0 40px!important}
+body.r101-stx main section.r101-stx-all .articles__list .articles__item:first-child{grid-column:span 2}
+body.r101-stx main section.r101-stx-all .articles__list .articles__item:first-child .articles__image-wrapper{aspect-ratio:16/8}
+body.r101-stx section.r101-stx-soon{padding:0 0 70px}
+body.r101-stx section.r101-stx-soon .in{background:#fff;border:1px dashed #d9d9d4;border-radius:18px;padding:26px 26px 18px}
+body.r101-stx section.r101-stx-soon h2{font-family:Anton,sans-serif!important;text-transform:uppercase;font-size:clamp(22px,2vw,28px)!important;margin:0 0 14px!important;color:var(--r101-ink,#111)!important}
+body.r101-stx section.r101-stx-soon ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 24px}
+body.r101-stx section.r101-stx-soon li{padding:10px 0;border-top:1px solid #eee}
+body.r101-stx section.r101-stx-soon li span{display:block;font:600 11px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#999;margin:0 0 6px}
+body.r101-stx section.r101-stx-soon li b{font:600 14.5px/1.35 Inter,sans-serif;color:#333}
+@media (max-width:980px){body.r101-stx section.r101-stx-soon ul{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){body.r101-stx section.r101-stx-soon ul{grid-template-columns:1fr}body.r101-stx main section.r101-stx-all .articles__list .articles__item:first-child{grid-column:auto}body.r101-stx main section.r101-stx-all .articles__list .articles__item:first-child .articles__image-wrapper{aspect-ratio:16/10}body.r101-stx main section.r101-stx-all .articles__wrapper{padding:40px 0 24px!important}body.r101-stx section.r101-stx-soon .in{padding:20px 18px 12px}}
 @media (max-width:980px){body.r101-stx main section.articles .articles__list{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media (max-width:620px){body.r101-stx main section.articles .articles__list{grid-template-columns:1fr!important;gap:14px!important}body.r101-stx main section.articles .articles__wrapper{padding:36px 0 4px!important}}
 `;
   function stIndex() {
-    var secs = document.querySelectorAll('main section.articles');
+    var secs = [].slice.call(document.querySelectorAll('main section.articles'));
     if (!secs.length || document.body.classList.contains('r101-stx')) return;
     document.body.classList.add('r101-stx');
     addStyle('r101-stx-css', STX_CSS);
-    [].slice.call(document.querySelectorAll('main section.articles .articles__item')).forEach(function (it) {
-      var a = it.querySelector('a.articles__button');
-      var href = a ? (a.getAttribute('href') || '').replace(/^https?:\/\/[^\/]+/, '').replace(/[?#].*$/, '').replace(/\/$/, '') : '';
-      var dead = !a || href === '' || href === '/pages/straight-talk';
-      if (dead) {
-        it.classList.add('r101-soon');
-        var b = it.querySelector('.articles__buttons'); if (b) b.style.display = 'none';
-        var s = document.createElement('span'); s.className = 'r101-soon-b'; s.textContent = 'Coming soon';
-        (it.querySelector('.articles__text-area') || it).appendChild(s);
-      } else {
-        // whole card clickable
-        it.style.cursor = 'pointer';
-        it.addEventListener('click', function (e) { if (!e.target.closest('a')) location.href = a.href; });
-      }
+    var live = [], soon = [];
+    secs.forEach(function (sec) {
+      var cat = ((sec.querySelector('.articles__heading') || {}).textContent || '').trim();
+      [].slice.call(sec.querySelectorAll('.articles__item')).forEach(function (it) {
+        var a = it.querySelector('a.articles__button');
+        var href = a ? (a.getAttribute('href') || '').replace(/^https?:\/\/[^\/]+/, '').replace(/[?#].*$/, '').replace(/\/$/, '') : '';
+        var tag = it.querySelector('.articles__tag'); if (tag && cat) tag.textContent = cat;
+        if (!a || href === '' || href === '/pages/straight-talk') soon.push([cat, ((it.querySelector('.articles__item-heading') || {}).textContent || '').trim()]);
+        else {
+          it.style.cursor = 'pointer';
+          it.addEventListener('click', function (e) { if (!e.target.closest('a')) location.href = a.href; });
+          live.push(it);
+        }
+      });
     });
+    var wrap = document.createElement('section'); wrap.className = 'articles r101-stx-all';
+    wrap.innerHTML = '<div class="articles__wrapper"><div class="articles__container container"><div class="articles__top"><p class="r101-eb">Straight Talk</p><h2 class="articles__heading">Latest from Route 101</h2></div><div class="articles__list"></div></div></div>';
+    var list = wrap.querySelector('.articles__list');
+    live.forEach(function (it) { list.appendChild(it); });
+    secs[0].parentNode.insertBefore(wrap, secs[0]);
+    if (soon.length) {
+      var box = document.createElement('section'); box.className = 'r101-stx-soon';
+      box.innerHTML = '<div class="container"><div class="in"><p class="r101-eb">Coming soon</p><h2>More Straight Talk on the way</h2><ul></ul></div></div>';
+      var ul = box.querySelector('ul');
+      soon.forEach(function (x) { var li = document.createElement('li'); li.innerHTML = '<span></span><b></b>'; li.firstChild.textContent = x[0]; li.lastChild.textContent = x[1]; ul.appendChild(li); });
+      wrap.parentNode.insertBefore(box, wrap.nextSibling);
+    }
+    secs.forEach(function (sec) { sec.style.display = 'none'; });
   }
 
   /* ---------- CONTACT US PAGE ---------- */
