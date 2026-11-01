@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `7754e1b0d906a3fa659235cd7c5387f53bbcae22` (Nov 1: sitewide photo drift + button hover polish; About tiles scroll-in; footer logo gap).
+  Currently pinned to `3bb4bc61e4394220135c81368c54c08c697a2223` (Nov 1: collection heroes for full fleet/all, Harley, BMW GS; sitewide drift + button hover).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -29,7 +29,11 @@ Sitewide: white/cream rhythm engine, uniform photo bands, footer email/hours.
 - Footer "Motorcycle Rentals" menu: Heritage labels shortened to "Harley FLHCS Softail" (x2) and
   "Harley FLSTC Softail"; Harleys grouped first, then BMWs.
 
-## NEXT UP: per-collection heroes
+## IN PROGRESS: per-collection heroes
+**Done (lab):** route-rental-fleet + all (keeps sunset photo), motorcycle-rentals (Harley group-ride photo), explore-our-bmw-gs-rental-fleet (three GS riders photo). Config lives in `CHERO` in r101-lab.js. Button 1 = SEE BIKES & PRICES (scrolls to the grid, #r101-grid); button 2 = CALL. Overlay re-added via CSS (theme gradient, .72).
+**Harley collection SEO fixed (live):** title "Harley-Davidson Rentals San Diego | Street Glide & Softail", 152-char description (no Indian/Aprilia).
+**Note:** each collection's Settings tab also has a "Description on collection page" field (currently empty) — possible native, SEO-friendly text later.
+
 **Finding:** Booqable has ONE "Collection" template. All 11 collection pages share the same hero
 (sunset photo, "San Diego Motorcycle Rentals, Free Riding Gear and Guided Motorcycle Tours", buttons
 "DON'T FORGET TO ADD FREE RIDING GEAR!" / "CALL FOR RENTAL | SERVICE | TIRE INFO") plus the
