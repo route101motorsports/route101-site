@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `8d212e3cffef0f454c8027ea07e6cf81ab8e983f` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
+  Currently pinned to `fecf8d2c9d71aeb67801e6f79e43169bacfbddc0` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -117,3 +117,6 @@ reviewRow(): any logos section whose image is wider than 8:1 (the old flat revie
 Kayak badge deleted from the Home template Logos section (published). Delivery link removed from Rental Add Ons menu. Twysted "Proudly" fixed.
 Pin tip: jsDelivr can lag on a brand-new commit; fetch the new r101-lab.js URL in the browser until it returns 200 before saving the new ID in the loader box (curl from the workspace is blocked).
 Tires page brand row (Nov 1, lab): #r101-tbrands right under the hero, claim "Top-brand motorcycle tires, mounted & balanced in-house.", the 8 tight brand logos (balanced by TIRE_LOGOS widths x --s: .34 desktop, .28 tablet, .27 phone), 4x2 grid desktop, 2x4 phone; each logo smooth-scrolls to its brand section (#brand-<slug>), landing just under the sticky "Jump to" bar. The sticky "Jump to" bar was kept (it follows you down the page and highlights the current brand).
+Service page logo bands (Nov 1, lab): serviceLogos() swaps Booqable logo-band images by file name: "TireBrands" -> 5 tire logos (Dunlop, Bridgestone, Metzeler, Michelin, Pirelli; each links to /pages/motorcycle-tires#brand-<slug>, which tiresPage() now honors on arrival); "iCarSoftMTProLogoBand" -> tight-icarsoft; "HEXGS911LogoBand" -> tight-gs911. 5-across desktop, 3 tablet, 2-col phone (odd last centered).
+reviewRow() now matches ONLY the review strip file ("5starreviewsicon..."). An earlier aspect-ratio rule wrongly replaced service-page strips for ~30 min; fixed.
+Still old Booqable images: parts strips "ServiceBrandsHarley(II)" (Harley service + brakes) and "ServiceBrands(II)" (BMW service). Have logos for harley, amsoil, kn, ebc, brembo, vance, denali; missing NGK, Ohlins, Screamin' Eagle, Touratech, BMW (need files from Glenn).
