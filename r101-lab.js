@@ -153,7 +153,7 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
 }
 `;
 
-  var LOGO_BASE = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@881684a751ed6d537788d17dbfa1646cebe116f2/img/brands/';
+  var LOGO_BASE = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@1f8fe9a6a682531eb6e43151831c976d1996c5e2/img/brands/';
   var TIRE_LOGOS = {   // slug: [file, width, height] of the balanced, trimmed logo
     'dunlop': ['dunlop', 540, 94], 'michelin': ['michelin', 526, 160], 'bridgestone': ['bridgestone', 540, 68],
     'metzeler': ['metzeler', 540, 102], 'pirelli': ['pirelli', 540, 115], 'shinko': ['shinko', 540, 106],
@@ -1531,7 +1531,7 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
   var PB_CSS = `
 #r101-pbrands{background:#fff;padding:30px 0 34px;border-bottom:1px solid var(--r101-line,#ececec)}
 #r101-pbrands .eb{text-align:center;font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 22px!important}
-#r101-pbrands .row{--s:.2;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:24px clamp(26px,3vw,46px);max-width:1180px;margin:0 auto}
+#r101-pbrands .row{--s:.185;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:24px clamp(22px,2.6vw,40px);max-width:1180px;margin:0 auto}
 #r101-pbrands .row span{display:flex;align-items:center;justify-content:center;line-height:0}
 #r101-pbrands .row img{width:calc(var(--w) * var(--s));height:auto;max-width:100%;display:block}
 @media (max-width:1100px){#r101-pbrands .row{--s:.24;gap:22px 34px;max-width:720px}}
@@ -1542,13 +1542,13 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
 #r101-pbrands .row span:last-child:nth-child(odd){grid-column:1 / -1}
 }
 `;
-  var PB_LOGOS = [['harley', 'Harley-Davidson', 540], ['screamin', "Screamin' Eagle", 480], ['amsoil', 'AMSOIL', 540], ['motul', 'Motul', 540], ['kn', 'K&N', 503], ['ebc', 'EBC Brakes', 322], ['brembo', 'Brembo', 540], ['vance', 'Vance & Hines', 540]];
+  var PB_LOGOS = [['harley', 'Harley-Davidson', 540], ['screamin', "Screamin' Eagle", 480], ['amsoil', 'AMSOIL', 540], ['motul', 'Motul', 540], ['kn', 'K&N', 503], ['ngk', 'NGK Spark Plugs', 323], ['ebc', 'EBC Brakes', 322], ['brembo', 'Brembo', 540], ['vance', 'Vance & Hines', 540]];
   function partsBand() {
     var hero = document.querySelector('main section.hero');
     if (!hero || document.getElementById('r101-pbrands')) return;
     addStyle('r101-pb-css', PB_CSS);
     var sec = document.createElement('section'); sec.id = 'r101-pbrands';
-    var h = '<div class="container"><p class="eb">Proudly using these top brands &amp; more&hellip;</p><div class="row">';
+    var h = '<div class="container"><p class="eb">Proud to use these top brands</p><div class="row">';
     PB_LOGOS.forEach(function (l) {
       h += '<span style="--w:' + l[2] + 'px"><img src="' + LOGO_BASE + 'tight-' + l[0] + '.png" alt="' + l[1].replace(/&/g, '&amp;') + ' parts used at Route 101 Motorsports Harley service" loading="lazy" decoding="async"></span>';
     });
