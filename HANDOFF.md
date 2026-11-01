@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `5a55ecad48a2e55bce059e0ca6bfb242bec68861` (Nov 1: product pages redesign; tire spec cards for all 69 tires; brand-logo headings; 11 collection heroes).
+  Currently pinned to `cc5dbf3946331cf67882c8ecfe0e69f2276ca70f` (Nov 1: guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -83,3 +83,6 @@ Done: all 8 brands, 69 tires. Tile names misspelled in Booqable: "Excedra" (Exed
 
 ## Product pages (done, lab)
 One shared Booqable Product template. productPage(): eyebrow, smaller title, booking card drawn AROUND Booqable's bq-* widgets (moving them breaks their styling, so never move them), trust chips, description moved below, add-on rows labeled; Harley pages hide GS gear row, BMW pages hide Harley gear row.
+
+## Cart & checkout
+Cart is Booqable's own pop-out widget (left as-is). Checkout runs on our domain (/checkouts/<id>) and is Booqable's clean standard form. Before it, /customers/login?redirect_uri=/checkouts/<id> shows sign-in; guestCheckout() adds a big 'Continue as guest' card on top (link = redirect_uri + force_guest_checkout=true). Account creation is optional (Glenn's setting). Possible later: small reassurance box on the checkout summary (deposit is a refundable hold; call number).
