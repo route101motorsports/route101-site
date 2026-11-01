@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `fadcda022cf0fc7c1cd288f6b8cae38791cc4884` (Nov 1: About tiles scroll-in, hero drift, button lift; footer logo gap).
+  Currently pinned to `7754e1b0d906a3fa659235cd7c5387f53bbcae22` (Nov 1: sitewide photo drift + button hover polish; About tiles scroll-in; footer logo gap).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
