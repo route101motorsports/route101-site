@@ -1493,6 +1493,109 @@ body.r101-ch main section.hero .hero__vision-wrapper:after{content:"";position:a
     }
   }
 
+  /* ---------- RENTALS HUB (/collections) ----------
+     Booqable's collections index = 9 tall unlabeled-looking tiles, alphabetical, BMW GS on page 2.
+     We add a standard hero and rebuild the index as three labeled groups (links unchanged). */
+  var RH_CSS = `
+body.r101-rh main section.title,body.r101-rh main section.collections{display:none!important}
+#r101-rhero{position:relative;min-height:min(78vh,760px);display:flex;align-items:center;overflow:hidden;background:#111;color:#fff}
+#r101-rhero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#r101-rhero:after{content:"";position:absolute;inset:0;background:linear-gradient(127deg,#000 25.94%,rgba(0,0,0,0) 100%);opacity:.72;pointer-events:none}
+#r101-rhero .in{position:relative;z-index:1;width:100%;max-width:1240px;margin:0 auto;padding:120px 24px 90px}
+#r101-rhero h1{font-family:Anton,sans-serif!important;font-size:clamp(40px,4.6vw,66px)!important;line-height:1.04!important;color:#fff!important;margin:0 0 18px!important;max-width:15ch;text-transform:none}
+#r101-rhero p{font:400 16px/1.5 Inter,sans-serif!important;color:#fff!important;max-width:620px;margin:0 0 28px!important}
+#r101-rhero .bt{display:flex;flex-wrap:wrap;gap:12px}
+#r101-rh{padding:64px 0 72px}
+#r101-rh .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+#r101-rh .grp+.grp{margin-top:56px}
+#r101-rh .eb{font:600 13px/1 Inter,sans-serif;letter-spacing:.18em;color:${O};text-transform:uppercase;margin:0 0 10px}
+#r101-rh h2{font-family:Anton,sans-serif!important;text-transform:uppercase;font-size:clamp(28px,2.6vw,38px)!important;line-height:1.05!important;margin:0 0 22px!important;color:var(--r101-ink,#111)}
+#r101-rh .g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+#r101-rh .g.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+#r101-rh a.c{position:relative;display:block;border-radius:18px;overflow:hidden;aspect-ratio:4/3;background:#222;color:#fff!important;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,.10);transition:transform .25s,box-shadow .25s}
+#r101-rh .g.two a.c{aspect-ratio:16/9}
+#r101-rh a.c img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:scale .6s ease}
+#r101-rh a.c:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.86) 0%,rgba(0,0,0,.45) 45%,rgba(0,0,0,.05) 75%)}
+#r101-rh a.c:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(0,0,0,.18)}
+#r101-rh a.c:hover img{scale:1.04}
+#r101-rh .t{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:20px 22px}
+#r101-rh .t h3{font-family:Anton,sans-serif!important;font-size:clamp(22px,1.9vw,28px)!important;line-height:1.05!important;margin:0 0 6px!important;color:#fff!important}
+#r101-rh .t p{font:400 14.5px/1.45 Inter,sans-serif!important;color:rgba(255,255,255,.88)!important;margin:0 0 10px!important}
+#r101-rh .t .go{font:700 13px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:${O}}
+#r101-rh .t .n{font:500 12px/1 Inter,sans-serif;color:rgba(255,255,255,.7);margin-left:10px;letter-spacing:.04em;text-transform:none}
+@media (max-width:900px){#r101-rh .g,#r101-rh .g.two{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){
+#r101-rhero{min-height:0}
+#r101-rhero .in{padding:96px 18px 56px}
+#r101-rh{padding:44px 0 52px}
+#r101-rh .wrap{padding:0 16px}
+#r101-rh .grp+.grp{margin-top:40px}
+#r101-rh .g,#r101-rh .g.two{grid-template-columns:1fr;gap:14px}
+#r101-rh a.c,#r101-rh .g.two a.c{aspect-ratio:16/10}
+}
+`;
+  var RH_GROUPS = [
+    ['Rent a motorcycle', 'Pick your bike', '', [
+      ['motorcycle-rentals', 'Harley-Davidson Rentals', 'Street Glide and Heritage Softail. Free helmet, H-D leather jacket and gloves.', IMG_HARLEY],
+      ['explore-our-bmw-gs-rental-fleet', 'BMW GS Adventure Rentals', 'R 1250 GS, R 1200 GS and GS Adventure. Pavement, dirt and everything between.', IMG_GS],
+      ['route-rental-fleet', 'The Full Fleet', 'Every Harley and BMW GS we rent, side by side.', null, 'all']
+    ]],
+    ['Guided tours', 'Ride with a local', 'two', [
+      ['motorcycle-tours', 'Harley Day Tours', 'Coast, backcountry or desert with a San Diego native. One-day bike rental included.', IMG_HWY],
+      ['book-a-bmw-gs-adventure-tour', 'BMW GS Adventure Tours', 'Guided GS day rides, 100 to 200 miles round trip. One-day bike rental included.', IMG_GS2]
+    ]],
+    ['Gear, protection & merch', 'Add to your ride', '', [
+      ['gear-and-rental-add-ons', 'Free Riding Gear & Add-Ons', 'Helmet, jacket and gloves free with every rental, plus extras for your trip.', IMG_CITY],
+      ['harley-add-ons', 'Harley Riding Gear', 'Venom helmet, Harley-Davidson leather jackets and Milwaukee gloves.', IMG_ROAD],
+      ['dual-sport-add-ons', 'Adventure & Dual Sport Gear', 'Raptor helmet, jacket, pants and gloves, plus side cases and top box.', IMG_GS],
+      ['roadside-add-ons', 'Insurance & Roadside Protection', 'RiderSHIELD™ from $19/day, plus ProtectionONE and ProtectionPLUS roadside plans.', IMG_BROKE],
+      ['route-101-merch', 'Route 101 Merch', 'Route 101 tees in black and white. Wear the shield.', null]
+    ]]
+  ];
+  function rentalsHub() {
+    var sec = document.querySelector('main section.collections');
+    if (!sec || document.getElementById('r101-rh')) return;
+    document.body.classList.add('r101-rh');
+    addStyle('r101-rh-css', RH_CSS);
+    var tile = {};
+    [].slice.call(sec.querySelectorAll('li.collections__item')).forEach(function (li) {
+      var a = li.querySelector('a'), im = li.querySelector('img');
+      var slug = a && (a.getAttribute('href') || '').replace(/[?#].*$/, '').split('/collections/')[1];
+      if (!slug) return;
+      var n = (li.textContent.match(/(\d+)\s+Items?/i) || [])[1];
+      tile[slug.replace(/\/$/, '')] = { img: im && (im.currentSrc || im.src), n: n };
+    });
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+    var hero = document.createElement('section'); hero.id = 'r101-rhero';
+    hero.innerHTML = '<img class="bg r101-drift" alt="Motorcycle rentals in San Diego" fetchpriority="high" sizes="100vw" src="' + CDN + 'w1680/' + esc(IMG_ROAD) + '" srcset="' +
+      [768, 1200, 1680, 2560].map(function (w) { return CDN + 'w' + w + '/' + esc(IMG_ROAD) + ' ' + w + 'w'; }).join(', ') + '">' +
+      '<div class="in"><h1>Motorcycle Rentals &amp; Tours in San Diego</h1>' +
+      '<p>Harley-Davidson touring and cruisers, BMW GS adventure bikes and guided day tours, all from our Carlsbad shop. Free riding gear with every rental, and a $500 deposit, never more.</p>' +
+      '<div class="bt"><a class="button button--primary button--large" href="#r101-rh">SEE BIKES &amp; PRICES</a>' +
+      '<a class="button button--outlined button--large r101-ol-light" href="tel:+18885095032">CALL (888) 509-5032</a></div></div>';
+    var list = document.createElement('section'); list.id = 'r101-rh';
+    var html = '<div class="wrap">';
+    RH_GROUPS.forEach(function (g) {
+      html += '<div class="grp"><p class="eb">' + esc(g[1]) + '</p><h2>' + esc(g[0]) + '</h2><div class="g ' + g[2] + '">';
+      g[3].forEach(function (c) {
+        var t = tile[c[4] || c[0]] || tile[c[0]] || {};
+        var src = t.img || (c[3] ? CDN + 'w960/' + c[3] : '');
+        if (!src && c[0] === 'route-101-merch') src = CHERO['route-101-merch'].url + '-960.jpg';
+        html += '<a class="c" href="/collections/' + c[0] + '">' + (src ? '<img loading="lazy" alt="' + esc(c[1]) + '" src="' + esc(src) + '">' : '') +
+          '<div class="t"><h3>' + esc(c[1]) + '</h3><p>' + esc(c[2]) + '</p><span class="go">View &rarr;</span></div></a>';
+      });
+      html += '</div></div>';
+    });
+    list.innerHTML = html + '</div>';
+    var main = sec.parentNode;
+    main.insertBefore(hero, main.firstChild);
+    sec.parentNode.insertBefore(list, sec);
+    hero.querySelector('a[href="#r101-rh"]').addEventListener('click', function (e) { e.preventDefault(); list.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    var bg = hero.querySelector('.bg');
+    bg.style.animationDelay = (-Math.random() * 22).toFixed(1) + 's';
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { es.forEach(function (e) { bg.classList.toggle('r101-run', e.isIntersecting); }); }).observe(hero);
+  }
+
   /* ---------- PRODUCT PAGES (bikes, gear, plans) ----------
      One shared Booqable "Product" template. Booking widgets (bq-*) are Booqable's own;
      we only restyle around them and reorder the info column so booking sits up top. */
@@ -2125,6 +2228,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/pages\/contact-us\/?$/.test(location.pathname)) contactPage();
       if (/^\/pages\/about-us\/?$/.test(location.pathname)) aboutPage();
       if (/^\/collections\/[^\/]+\/?$/.test(location.pathname)) collectionHero();
+      if (/^\/collections\/?$/.test(location.pathname)) rentalsHub();
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
