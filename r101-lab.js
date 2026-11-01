@@ -1542,7 +1542,7 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
 #r101-pbrands .row span:last-child:nth-child(odd){grid-column:1 / -1}
 }
 `;
-  var PB_LOGOS = [['harley', 'Harley-Davidson', 540], ['screamin', "Screamin' Eagle", 480], ['amsoil', 'AMSOIL', 540], ['motul', 'Motul', 540], ['kn', 'K&N', 503], ['ngk', 'NGK Spark Plugs', 323], ['ebc', 'EBC Brakes', 322], ['brembo', 'Brembo', 540], ['vance', 'Vance & Hines', 540]];
+  var PB_LOGOS = [['amsoil', 'AMSOIL', 540], ['kn', 'K&N', 503], ['ebc', 'EBC Brakes', 322], ['brembo', 'Brembo', 540], ['motul', 'Motul', 540], ['ngk', 'NGK Spark Plugs', 323], ['harley', 'Harley-Davidson', 540], ['screamin', "Screamin' Eagle", 480], ['vance', 'Vance & Hines', 540]];
   function partsBand() {
     var hero = document.querySelector('main section.hero');
     if (!hero || document.getElementById('r101-pbrands')) return;
