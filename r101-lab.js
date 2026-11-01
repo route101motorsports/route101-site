@@ -1485,13 +1485,13 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
   var BL_CSS = `
 .r101-blsec .logos__images,.r101-blsec .logos__images-wrapper,.r101-blsec .logos__list{display:none!important}
 .r101-bl{text-align:center;padding:4px 0}
-.r101-bl .row{--s:.28;display:grid;grid-template-columns:repeat(5,auto);justify-content:center;align-items:center;gap:22px clamp(24px,3.2vw,52px)}
+.r101-bl .row{--s:.2;display:grid;grid-template-columns:repeat(8,auto);justify-content:center;align-items:center;gap:22px clamp(24px,3.2vw,52px)}
 .r101-bl.one .row{display:flex}
 .r101-bl .row a,.r101-bl .row span{display:flex;align-items:center;justify-content:center;line-height:0;transition:transform .2s ease,filter .2s ease}
 .r101-bl .row a:hover{transform:translateY(-3px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
 body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row img{width:calc(var(--w) * var(--s))!important;height:auto!important;max-width:100%!important;max-height:none!important;display:block!important;margin:0!important}
 .r101-bl.one .row{--s:.56}
-@media (max-width:900px){.r101-bl .row{--s:.25;grid-template-columns:repeat(3,auto)}.r101-bl.one .row{--s:.5}}
+@media (max-width:1100px){.r101-bl .row{--s:.25;grid-template-columns:repeat(4,auto)}.r101-bl.one .row{--s:.5}}
 @media (max-width:620px){
 .r101-bl:not(.one) .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px;max-width:360px;margin:0 auto;--s:.27}
 .r101-bl:not(.one) .row a:last-child:nth-child(odd){grid-column:1 / -1}
@@ -1499,7 +1499,7 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
 }
 `;
   var BL_SETS = [
-    [/TireBrands/i, [['dunlop', 'Dunlop', 540], ['bridgestone', 'Bridgestone', 540], ['metzeler', 'Metzeler', 540], ['michelin', 'Michelin', 526], ['pirelli', 'Pirelli', 540]], 'tires'],
+    [/TireBrands/i, [['dunlop', 'Dunlop', 540], ['michelin', 'Michelin', 526], ['bridgestone', 'Bridgestone', 540], ['metzeler', 'Metzeler', 540], ['pirelli', 'Pirelli', 540], ['shinko', 'Shinko', 540], ['maxxis', 'Maxxis', 540], ['mitas', 'Mitas', 540]], 'tires'],
     [/iCarSoft/i, [['icarsoft', 'iCarsoft MT Pro diagnostics', 540]], 'one'],
     [/GS911/i, [['gs911', 'HEX GS-911 BMW diagnostics', 490]], 'one']
   ];
