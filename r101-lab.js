@@ -1489,7 +1489,7 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
 .r101-bl.one .row{display:flex}
 .r101-bl .row a,.r101-bl .row span{display:flex;align-items:center;justify-content:center;line-height:0;transition:transform .2s ease,filter .2s ease}
 .r101-bl .row a:hover{transform:translateY(-3px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
-.r101-bl .row img{width:calc(var(--w) * var(--s))!important;height:auto!important;max-width:100%!important;max-height:none!important;display:block!important;margin:0!important}
+body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row img{width:calc(var(--w) * var(--s))!important;height:auto!important;max-width:100%!important;max-height:none!important;display:block!important;margin:0!important}
 .r101-bl.one .row{--s:.56}
 @media (max-width:900px){.r101-bl .row{--s:.25;grid-template-columns:repeat(3,auto)}.r101-bl.one .row{--s:.5}}
 @media (max-width:620px){
