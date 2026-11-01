@@ -1607,6 +1607,56 @@ body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!i
     b.style.marginLeft = b.style.marginRight = 'auto';
   }
 
+  /* ---------- CHECKOUT SUCCESS: thank-you card ---------- */
+  var TY_CSS = `
+#r101-ty{max-width:440px;margin:0 auto;text-align:center}
+#r101-ty h2{font-family:Anton,sans-serif!important;text-transform:uppercase;font-size:clamp(28px,2.8vw,36px)!important;line-height:1.05!important;margin:14px 0 6px!important;color:var(--r101-ink,#111)}
+#r101-ty p{font:400 15px/1.5 Inter,sans-serif!important;color:#555;margin:0 0 12px!important}
+#r101-ty p.num{font-size:13.5px!important;color:#888;margin-bottom:18px!important}
+#r101-ty .see{font:700 17px/1.35 Inter,sans-serif!important;color:#111;background:#fff6ef;border:1px solid #ffd9bf;border-radius:14px;padding:14px 16px;margin:0 0 18px!important}
+#r101-ty .see b{color:${O}}
+#r101-ty .ct{border-top:1px solid #e6e6e6;border-bottom:1px solid #e6e6e6;padding:16px 0 6px;margin:0 0 18px}
+#r101-ty .ct .l{font:600 12px/1 Inter,sans-serif!important;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin:0 0 12px!important}
+#r101-ty .ct a{color:#111;text-decoration:none;font-weight:600}
+#r101-ty .ct a:hover{color:${O}}
+#r101-ty .sig{font:700 14px/1.3 Inter,sans-serif!important;color:#111;margin:0 0 18px!important}
+#r101-ty .sig span{display:block;font-weight:400;color:${O};font-size:13px;margin-top:2px}
+`;
+  function thankYou() {
+    var st = document.querySelector('.payment__status');
+    if (!st || document.getElementById('r101-ty')) return;
+    var h = st.querySelector('h2');
+    if (!h || !/thank you/i.test(h.textContent)) return;
+    var box = h.parentElement;
+    var numP = box.querySelector('p');
+    var num = numP ? (numP.textContent.match(/#\s*\d+/) || [''])[0] : '';
+    var back = box.querySelector('a.button');
+    var icon = box.querySelector('.payment__success-icon');
+    var see = '';
+    var d = document.querySelector('.summary-period__date');
+    var m = d && d.textContent.trim().match(/^(\d\d)-(\d\d)-(\d{4})\s+(\d\d?):(\d\d)\s*(AM|PM)/i);
+    if (m) {
+      var dt = new Date(+m[3], +m[1] - 1, +m[2]);
+      var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      var mos = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      see = days[dt.getDay()] + ', ' + mos[dt.getMonth()] + ' ' + dt.getDate() + ' at ' + (+m[4]) + ':' + m[5] + ' ' + m[6].toUpperCase();
+    }
+    addStyle('r101-ty-css', TY_CSS);
+    var w = document.createElement('div'); w.id = 'r101-ty';
+    w.innerHTML = '<h2>Thank you for booking!</h2>' +
+      (num ? '<p class="num">Booking number ' + num + '</p>' : '') +
+      '<p>You should have received a booking confirmation email from <b>rental@route101motorsports.com</b>. Check your spam folder if you did not receive it.</p>' +
+      '<div class="ct"><p class="l">Contact Route 101 Motorsports</p>' +
+      '<p>Tel: <a href="tel:+18885095032">(888) 509-5032</a></p>' +
+      '<p>Address: <a href="https://maps.google.com/?q=6351+Corte+Del+Abeto+%23107,+Carlsbad,+CA+92011" target="_blank" rel="noopener">6351 Corte Del Abeto #107, Carlsbad, CA 92011</a></p></div>' +
+      '<p class="see">' + (see ? 'See you <b>' + see + '</b>!' : 'See you soon!') + '</p>' +
+      '<p class="sig">Route 101 Motorsports<span>Go. Just go.</span></p>';
+    box.innerHTML = '';
+    if (icon) box.appendChild(icon);
+    box.appendChild(w);
+    if (back) w.appendChild(back);
+  }
+
   /* ---------- HARLEY SERVICE HUB ---------- */
   var HRL_CSS = `
 body.r101-harley .r101-hide-sec,body.r101-harley .r101-hide{display:none!important}
@@ -2063,6 +2113,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/collections\/[^\/]+\/?$/.test(location.pathname)) collectionHero();
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
+      if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
       photoBands();
       rhythm();
       parallax();
