@@ -1295,7 +1295,7 @@ body.r101-art #r101-author{display:flex;gap:22px;align-items:flex-start;backgrou
 body.r101-art #r101-author img{width:92px;height:92px;flex:none;object-fit:contain;border-radius:14px;background:#f4f4f1}
 body.r101-art #r101-author .l{font:600 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:${O};margin:2px 0 8px}
 body.r101-art #r101-author .b{font:400 15px/1.6 Inter,sans-serif;color:#444;margin:0}
-body.r101-art main section.logos.r101-auth .logos__heading,body.r101-art main section.logos.r101-auth .logos__list,body.r101-art main section.logos.r101-auth .logos__items{display:none!important}
+body.r101-art #r101-author ~ *{display:none!important}
 body.r101-art #r101-back{text-align:center;padding:10px 0 50px}
 body.r101-art #r101-back a{display:inline-block;font:700 13px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:${O};text-decoration:none;border:1.5px solid ${O};border-radius:999px;padding:14px 22px;transition:background .2s,color .2s}
 body.r101-art #r101-back a:hover{background:${O};color:#111}
