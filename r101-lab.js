@@ -1381,7 +1381,7 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
   /* ---------- FOOTER LANDING PAGES (SEO) ----------
      BMW landing hero is set to Booqable color-set-1 (dark headline) over a dark photo. */
   function landingPage() {
-    addStyle('r101-land-css', 'main section.hero:first-of-type .hero__heading{color:#fff!important}main section.hero:first-of-type .hero__vision-wrapper:after{content:"";position:absolute;inset:0;background:linear-gradient(127deg,#000 25.94%,rgba(0,0,0,0) 100%);opacity:.72;pointer-events:none;z-index:1}');
+    addStyle('r101-land-css', 'main section.hero:first-of-type .hero__heading{color:#fff!important}');
   }
 
   /* ---------- CONTACT US PAGE ---------- */
