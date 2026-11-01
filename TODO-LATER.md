@@ -28,7 +28,7 @@ Small cleanup items parked while we keep building. Work through these when the b
 - [ ] White versions of the black logos (Vance & Hines, Bridgestone, Metzeler, Motul, Dunlop word, K&N letters) if any logo row ends up on a dark section.
 - [ ] Parts-brand logos (K&N, Vance & Hines, EBC, AMSOIL, Motul, Brembo, Denali, GS-911, iCarsoft, Harley-Davidson) onto the Harley / BMW service page logo rows.
 
-- Footer "Motorcycle Rental Delivery" links to /products/rental-delivery, which is a 404. Remove from footer menu or point it somewhere (Glenn to decide).
-- Twysted Throttle page heading typo: "Poudly" -> "Proudly".
-- 9 Straight Talk articles listed on the index but not written yet (shown as "Coming soon"): Mastering the Curves, Perfect Your Passing, Riding Mastery, Group Riding, Ride the Legend, Desert Heat & Iron Beasts, Route 66, Ride to the Rim, Tires & Tire Changes.
+- DONE Nov 1: footer "Motorcycle Rental Delivery" removed from the Rental Add Ons menu (no longer deliver).
+- DONE Nov 1: Twysted Throttle heading "Poudly" -> "Proudly" (Logos section title, published).
+- 9 Straight Talk articles (Glenn: bring in ChatGPT "G" to draft in his voice) listed on the index but not written yet (shown as "Coming soon"): Mastering the Curves, Perfect Your Passing, Riding Mastery, Group Riding, Ride the Legend, Desert Heat & Iron Beasts, Route 66, Ride to the Rim, Tires & Tire Changes.
 - Collection grids: protection/insurance tiles sit in the bike grid (could become a separate "Protect your ride" strip).
