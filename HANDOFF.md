@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `705c0116e7d7c463dc5d666de22824a06b5e1f27` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
+  Currently pinned to `628bd01d57e36f6ac090917d169b8fd5c872ddea` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -89,3 +89,10 @@ Cart is Booqable's own pop-out widget (left as-is). Checkout runs on our domain 
 Checkout success (/checkouts/<id>/success): thankYou() rebuilds the card in Glenn's words: "Thank you for booking!", booking number, confirmation email from rental@ (check spam), contact (tel + address, tappable), "See you <weekday, month day at time>!" pulled from the booking's start date, signed Route 101 Motorsports / Go. Just go., Back to website.
 End-to-end test Nov 1: free helmet (size M) booked as guest → booking #451, $0, no payment step. "Must Choose One" protection isn't enforced (Glenn: fine). Glenn to cancel #451.
 Phone check Nov 1 (390px frames): thank-you card top gap removed, pick-up line waits for the booking dates and keeps the time together, product-page eyebrow given room under the thumbnails. Tip: Chrome window resize may not take; test phone width by loading pages in 390px iframes on the same site.
+
+## Final sweep (started Nov 1)
+Glenn's method: every clickable link (header, menu drawer, footer), left to right, PC + phone; finish any unfinished page before moving on.
+Automated pass: 53 internal pages all load, lab styling runs on all, no sideways scroll on phone, no broken images.
+Not yet given page treatment: Straight Talk index, 11 Straight Talk articles, press release, Twysted Throttle, Privacy Policy, 3 footer landing pages (san-diego-harley-rentals, san-diego-bmw-adventure-bike-rentals, motorcycle-rentals-san-diego), /products/rental-delivery (no title).
+DONE: Rentals hub (/collections) via rentalsHub(): standard hero + groups Rent a motorcycle / Guided tours / Gear, protection & merch (cards use each collection's hero photo). Fixes BMW GS being on page 2 of Booqable's index.
+Testing tip: NEVER put ?lab=0 in a same-site iframe or test URL; localStorage is shared, so it switches lab off for the whole browser and the next frames load plain Booqable.
