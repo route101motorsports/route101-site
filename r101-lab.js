@@ -1419,7 +1419,7 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
       if (((s.querySelector('.logos__heading') || {}).textContent || '').trim()) return false;
       var im = s.querySelector('img');
       var w = im && (+im.getAttribute('width') || im.naturalWidth), h = im && (+im.getAttribute('height') || im.naturalHeight);
-      return im && w && h && w / h > 5;
+      return im && w && h && w / h > 8;
     });
     if (!secs.length) return;
     addStyle('r101-rev-css', REV_CSS);
