@@ -1300,7 +1300,15 @@ body.r101-ab main section.r101-about{overflow-x:clip}
   var CDN = 'https://images.booqablecdn.com/';
   var IMG_HARLEY = 'assets/a64592c4-9950-4366-ad2b-a0044b2ce483/clzvhd39m00jh2a71hqi09q1nsandiegoharleyrentalsreferstwystedthrottle-81b5d46b76f3892c7fea91399eac620f4b88ccdc531e4fe72b904689c855cf12(2).jpg';
   var IMG_GS = 'assets/a64592c4-9950-4366-ad2b-a0044b2ce483/cmht58ngx00jw2a7line2q4zm(2).BMWR1200GSAdventureBikeHero1highresIV-e2d79e9d0fbd87598b14565aa93f9bc66a3c4f908927e0e017d4e5f6295d8980.jpg';
+  var A = 'assets/a64592c4-9950-4366-ad2b-a0044b2ce483/';
+  var IMG_GS2 = A + 'cmhs1rln20bcr2a7hn25kco7t(2).BMWR1200GSAdventureBikeCTA3highres-83131262172441953b4248b1ee9acae9762bd4bdf91a205281d078a626a2e865.jpg';
+  var IMG_HWY = A + 'cm0q2vvxr01d92a71dv29yf4tsandiegoharleyrentalscta1-8dc054395bde28d517c7e23a69491d1cc7613d267942f289e305326a6811e2c2(2).jpg';
+  var IMG_CITY = A + 'clzvg0k3s00h62a710pcfprtmsandiegoharleyrentalscta2-1b65c47d3c54409155db3c8acd2b0a5b8eed81ea90881e233e6c4786bfeaa242(2).jpg';
+  var IMG_ROAD = A + 'ue4ec8mhyq38ab8o4h4rnp54(2).Route101CTACenteredHero-be6475418a8ea4a26382c73815ddb9e37a904d9a4b9f5760ca6326bf61dd54d8.png';
+  var IMG_BROKE = A + 'cmayde55s00qs2a78ve38u1j0(2).BrokenDownHarley-44bb140bcbff2aba67bbf6901dff41a85a4cdc587ac3990ec57bf3536eab3e9c.jpg';
+  var IMG_PIER = A + 'cm0qx02m500ib2a720sxxwlsmpacificbeachpier-041c1e488dca73789f6b1d6ae8471bcf7661a42282816604c549ae4d39cb08b7(2).jpg';
   var CALL = ['CALL (888) 509-5032', 'tel:+18885095032'];
+  var FLEETBTN = ['SEE THE FLEET', '/collections/route-rental-fleet'];
   var SEE = ['SEE BIKES & PRICES', '#r101-grid'];
   var FLEET = {
     h: 'The Route 101 Rental Fleet',
@@ -1321,6 +1329,48 @@ body.r101-ab main section.r101-about{overflow-x:clip}
       h: 'BMW GS Adventure Rentals',
       p: 'R 1250 GS, R 1200 GS and GS Adventure models, built for pavement, dirt and everything in between. Side cases and top box available, and free riding gear with every rental.',
       b: [SEE, CALL]
+    },
+    'motorcycle-tours': {
+      img: IMG_HWY,
+      h: 'Guided Motorcycle Day Tours',
+      p: 'Ride Southern California with a San Diego native: the Route 101 coast, Josie\u2019s Hideout in the backcountry, or the Anza-Borrego desert. 100 to 200 miles round trip, with a one-day bike rental included.',
+      b: [['SEE THE TOURS', '#r101-grid'], CALL]
+    },
+    'book-a-bmw-gs-adventure-tour': {
+      img: IMG_GS2,
+      h: 'BMW GS Adventure Tours',
+      p: 'Guided day rides on a BMW GS, led by a San Diego native: the Route 101 coast, Josie\u2019s Hideout in the backcountry, or the Anza-Borrego desert. One-day bike rental included.',
+      b: [['SEE THE TOURS', '#r101-grid'], CALL]
+    },
+    'gear-and-rental-add-ons': {
+      img: IMG_CITY,
+      h: 'Free Riding Gear & Rental Add-Ons',
+      p: 'A Venom helmet, Harley-Davidson leather jacket and Milwaukee gloves come free with every rental. Add dual sport gear, REIS\u00cbN side cases or a protection plan to fit your ride.',
+      b: [['SEE GEAR & ADD-ONS', '#r101-grid'], FLEETBTN]
+    },
+    'harley-add-ons': {
+      img: IMG_ROAD,
+      h: 'Harley Riding Gear',
+      p: 'Venom full-face helmet, Harley-Davidson leather jackets and Milwaukee leather gloves, ready for your Harley rental.',
+      b: [['SEE HARLEY GEAR', '#r101-grid'], ['SEE HARLEY RENTALS', '/collections/motorcycle-rentals']]
+    },
+    'dual-sport-add-ons': {
+      img: IMG_GS,
+      h: 'Adventure & Dual Sport Gear',
+      p: 'Raptor modular helmet, dual sport jacket, pants and gloves, plus REIS\u00cbN side cases and top box for your GS adventure.',
+      b: [['SEE ADVENTURE GEAR', '#r101-grid'], ['SEE BMW GS RENTALS', '/collections/explore-our-bmw-gs-rental-fleet']]
+    },
+    'roadside-add-ons': {
+      img: IMG_BROKE,
+      h: 'Rental Insurance & Roadside Protection',
+      p: 'RiderSHIELD\u2122 rental insurance from $19/day, plus ProtectionONE and ProtectionPLUS roadside plans covering flat tires, towing and mechanical failures.',
+      b: [['SEE COVERAGE OPTIONS', '#r101-grid'], CALL]
+    },
+    'route-101-merch': {
+      img: IMG_PIER,
+      h: 'Route 101 Merch',
+      p: 'Route 101 short-sleeve tees in black and white. Wear the shield.',
+      b: [['SHOP MERCH', '#r101-grid'], FLEETBTN]
     }
   };
   var CH_CSS = `
