@@ -1638,14 +1638,22 @@ body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!i
     var num = numP ? (numP.textContent.match(/#\s*\d+/) || [''])[0] : '';
     var back = box.querySelector('a.button');
     var icon = box.querySelector('.payment__success-icon');
-    var see = '';
-    var d = document.querySelector('.summary-period__date');
-    var m = d && d.textContent.trim().match(/^(\d\d)-(\d\d)-(\d{4})\s+(\d\d?):(\d\d)\s*(AM|PM)/i);
-    if (m) {
+    function pickup() {
+      var d = document.querySelector('.summary-period__date');
+      var m = d && d.textContent.trim().match(/^(\d\d)-(\d\d)-(\d{4})\s+(\d\d?):(\d\d)\s*(AM|PM)/i);
+      if (!m) return '';
       var dt = new Date(+m[3], +m[1] - 1, +m[2]);
       var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       var mos = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-      see = days[dt.getDay()] + ', ' + mos[dt.getMonth()] + ' ' + dt.getDate() + ' at ' + (+m[4]) + ':' + m[5] + ' ' + m[6].toUpperCase();
+      return days[dt.getDay()] + ', ' + mos[dt.getMonth()] + ' ' + dt.getDate() + ' at ' + (+m[4]) + ':' + m[5] + ' ' + m[6].toUpperCase();
+    }
+    var see = pickup();
+    if (!see) {
+      var tries = 0, t = setInterval(function () {
+        var s = pickup(), el = document.querySelector('#r101-ty .see');
+        if (s && el) el.innerHTML = 'See you <b>' + s + '</b>!';
+        if (s || ++tries > 30) clearInterval(t);
+      }, 400);
     }
     addStyle('r101-ty-css', TY_CSS);
     var w = document.createElement('div'); w.id = 'r101-ty';
