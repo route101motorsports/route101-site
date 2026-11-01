@@ -2884,6 +2884,10 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
 #r101-pop input{width:100%;box-sizing:border-box;height:46px;border:1.5px solid #d9d9d6;border-radius:12px;padding:0 14px;font:400 16px Inter,sans-serif;color:#111;background:#fff;outline:0;transition:border-color .2s}
 #r101-pop input:focus{border-color:${O}}
 #r101-pop input.bad{border-color:#d93025}
+#r101-pop label.sms{display:flex;gap:10px;align-items:flex-start;margin:-2px 0 0;font:400 11.5px/1.45 Inter,sans-serif;color:#666;cursor:pointer;text-align:left}
+#r101-pop label.sms[hidden]{display:none}
+#r101-pop label.sms input{flex:none;width:18px;height:18px;margin:1px 0 0;padding:0;accent-color:${O};cursor:pointer}
+#r101-pop label.sms b{color:#111;font-weight:700}
 #r101-pop .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
 #r101-pop .err{min-height:0;font:500 13px/1.35 Inter,sans-serif;color:#d93025;margin:0}
 #r101-pop .go{margin-top:4px;height:52px;border:0;border-radius:999px;background:${O};color:#fff;font:800 15px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:filter .2s,transform .2s}
@@ -2947,6 +2951,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
               '<div><label for="r101p-n">First &amp; last name</label><input id="r101p-n" name="n" autocomplete="name" required></div>' +
               '<div><label for="r101p-e">Email</label><input id="r101p-e" name="e" type="email" autocomplete="email" inputmode="email" required></div>' +
               '<div><label for="r101p-p">Phone <i>(optional)</i></label><input id="r101p-p" name="p" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="(760) 555-0123"></div>' +
+              '<label class="sms" id="r101p-sms" hidden><input type="checkbox" name="t"><span><b>Text me deals and updates.</b> By checking, I agree to receive occasional marketing texts from Route 101 Motorsports at this number (no more than 4 per month). Consent isn\u2019t required to purchase. We will never sell your contact info. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.</span></label>' +
               '<div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>' +
               '<p class="err" role="alert"></p>' +
               '<button class="go" type="submit">Get my promo code</button>' +
@@ -2959,6 +2964,8 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       var last = document.activeElement;
       requestAnimationFrame(function () { requestAnimationFrame(function () { w.classList.add('on'); }); });
       var f = w.querySelector('form'), errEl = w.querySelector('.err');
+      var smsBox = w.querySelector('#r101p-sms');
+      f.p.addEventListener('input', function () { smsBox.hidden = !f.p.value.replace(/\D/g, '').length; if (smsBox.hidden) f.t.checked = false; });
       setTimeout(function () { if (innerWidth > 620) { var n = w.querySelector('#r101p-n'); if (n) n.focus(); } }, 320);
 
       function close(snooze) {
@@ -2987,6 +2994,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
         var first = parts[0], lastN = parts.slice(1).join(' ');
         var fields = { FIRSTNAME: first, LASTNAME: lastN, EMAIL: email, email_address_check: '', locale: 'en', html_type: 'simple' };
         if (ph) { fields.SMS = ph; fields.SMS__COUNTRY_CODE = '+1'; }
+        if (ph && f.t.checked) fields.TEXT_OPTIN = '1';   // marketing-text consent (Brevo boolean); text ONLY this segment
         // post like a normal form, into a hidden frame (no cross-site blocking)
         var fr = document.createElement('iframe'); fr.name = 'r101-pop-sink'; fr.title = 'sign-up'; fr.style.display = 'none';
         document.body.appendChild(fr);
