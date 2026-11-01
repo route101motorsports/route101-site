@@ -1302,6 +1302,12 @@ body.r101-art main section.columns.r101-share .columns__item{background:none!imp
 body.r101-art main section.columns.r101-share a.columns__button{display:inline-block;font:700 12.5px/1 Inter,sans-serif!important;letter-spacing:.06em;text-transform:uppercase;color:#111!important;background:#fff!important;border:1.5px solid #111!important;border-radius:999px!important;padding:12px 18px!important;transition:background .2s,color .2s}
 body.r101-art main section.columns.r101-share a.columns__button:hover{background:#111!important;color:#fff!important}
 body.r101-art main section.columns.r101-share:before{content:"Share this article";display:block;text-align:center;font:600 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#888;padding-top:36px;margin-bottom:12px}
+body.r101-pr-rel main section.image-gallery [class*=wrapper]{padding:44px 0 0!important}
+body.r101-pr-rel main section.image-gallery img{max-width:150px!important;height:auto!important;margin:0 auto!important;display:block}
+body.r101-pr-rel main section.image-gallery [class*=item],body.r101-pr-rel main section.image-gallery [class*=grid],body.r101-pr-rel main section.image-gallery [class*=container]{display:block!important;width:auto!important;max-width:820px!important;margin:0 auto!important;grid-template-columns:none!important}
+body.r101-pr-rel main section.text .text__wrapper{padding-top:22px!important;padding-bottom:22px!important}
+body.r101-pr-rel main section.text .text__heading{font-size:clamp(22px,2vw,30px)!important}
+body.r101-pr-rel main section.spacer{display:none!important}
 body.r101-art #r101-back{text-align:center;padding:10px 0 50px}
 body.r101-art #r101-back a{display:inline-block;font:700 13px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:${O};text-decoration:none;border:1.5px solid ${O};border-radius:999px;padding:14px 22px;transition:background .2s,color .2s}
 body.r101-art #r101-back a:hover{background:${O};color:#111}
@@ -1328,6 +1334,7 @@ body.r101-art #r101-author img{width:72px;height:72px}
       var txt = ((s.querySelector('.hero__heading') || {}).textContent || '').trim() + ((s.querySelector('.hero__description') || {}).textContent || '').trim();
       if (!txt) s.classList.add('r101-photo');
     });
+    if (/press-release/.test(location.pathname)) document.body.classList.add('r101-pr-rel');
     if (firstHero) {
       var h = firstHero.querySelector('.hero__heading');
       if (h && !firstHero.querySelector('.r101-eb')) { var e = document.createElement('p'); e.className = 'r101-eb'; e.textContent = /press-release/.test(location.pathname) ? 'Press release' : 'Straight Talk'; h.parentNode.insertBefore(e, h); }
