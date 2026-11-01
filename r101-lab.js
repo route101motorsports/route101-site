@@ -1555,6 +1555,11 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
     });
     sec.innerHTML = h + '</div></div>';
     hero.parentNode.insertBefore(sec, hero.nextSibling);
+    // the old flat parts-brand strip(s) lower on the page are redundant now
+    [].slice.call(document.querySelectorAll('main section.logos')).forEach(function (s2) {
+      var im = s2.querySelector('img');
+      if (im && /ServiceBrandsHarley/i.test(im.getAttribute('src') || im.currentSrc || '')) s2.style.display = 'none';
+    });
   }
 
   /* ---------- CONTACT US PAGE ---------- */
