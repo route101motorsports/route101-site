@@ -1498,18 +1498,16 @@ body.r101-ch main section.hero .hero__vision-wrapper:after{content:"";position:a
      we only restyle around them and reorder the info column so booking sits up top. */
   var PR_CSS = `
 body.r101-pr main section.product-main .product-main__wrapper{padding-top:28px!important;padding-bottom:56px!important}
-body.r101-pr .product-main__info{display:flex;flex-direction:column;gap:14px}
-body.r101-pr .r101-peb{font:600 12px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:${O};margin:0 0 -4px}
-body.r101-pr h1.product-main__title{font-size:clamp(30px,3.1vw,46px)!important;line-height:1.04!important;margin:0!important}
-body.r101-pr .product-main__price{margin:0!important}
-#r101-book{background:#fff;border:1px solid var(--r101-line);border-radius:18px;padding:18px 18px 16px;box-shadow:0 14px 34px rgba(0,0,0,.06);position:relative;overflow:hidden}
-#r101-book:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:${O}}
-#r101-book .lb{font:700 15px/1.3 Inter,sans-serif;color:var(--r101-ink);margin:2px 0 10px}
-#r101-book .lb span{display:block;font-weight:400;font-size:13.5px;color:var(--r101-mute);margin-top:2px}
-#r101-book .product-main__variant:empty{display:none}
-#r101-book .product-main__availability,#r101-book .product-main__quantity,#r101-book .product-main__variant{margin:0 0 10px!important}
-#r101-book .product-main__quantity{margin-bottom:0!important}
-#r101-pchips{display:flex;flex-wrap:wrap;gap:8px}
+body.r101-pr .product-main__info{display:flex;flex-direction:column;gap:0}
+body.r101-pr .r101-peb{font:600 12px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:${O};margin:0 0 10px}
+body.r101-pr h1.product-main__title{font-size:clamp(30px,3.1vw,46px)!important;line-height:1.04!important;margin:0 0 12px!important}
+body.r101-pr .product-main__price{margin:0 0 16px!important}
+body.r101-pr .r101-blab{background:#fff;border:1px solid var(--r101-line);border-top:4px solid ${O};border-bottom:0;border-radius:18px 18px 0 0;padding:16px 18px 8px;margin:0;font:700 15px/1.3 Inter,sans-serif;color:var(--r101-ink)}
+body.r101-pr .r101-blab span{display:block;font-weight:400;font-size:13.5px;color:var(--r101-mute);margin-top:2px}
+body.r101-pr .product-main__info>.r101-bk{background:#fff;border-left:1px solid var(--r101-line);border-right:1px solid var(--r101-line);margin:0!important;padding:4px 18px}
+body.r101-pr .product-main__info>.r101-bk.r101-bk-last{border-bottom:1px solid var(--r101-line);border-radius:0 0 18px 18px;padding-bottom:16px;box-shadow:0 14px 26px rgba(0,0,0,.05)}
+body.r101-pr .product-main__info>.product-main__variant.r101-bk:empty{display:none}
+#r101-pchips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 22px}
 #r101-pchips span{font:600 13px/1 Inter,sans-serif;color:var(--r101-ink);background:#fff;border:1px solid var(--r101-line);border-radius:999px;padding:9px 12px}
 #r101-pchips b{color:${O};margin-right:6px}
 body.r101-pr .product-main__description{font:400 15.5px/1.55 Inter,sans-serif!important;color:var(--r101-mute)}
@@ -1528,8 +1526,7 @@ body.r101-pr main section.products .product-card{background:#fff;border:1px soli
 body.r101-pr main section.products .product-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.10)}
 body.r101-pr main section.products .product-card img{border-radius:12px}
 body.r101-pr main section.products .product-card__title{font:600 15px/1.3 Inter,sans-serif!important;text-transform:none!important;letter-spacing:0!important;color:var(--r101-ink)!important;margin-top:10px!important}
-@media (max-width:760px){#r101-book{padding:16px 14px 14px}body.r101-pr h1.product-main__title{font-size:30px!important}}
-`;
+@media (max-width:760px){`;
   function productPage() {
     var main = document.querySelector('main');
     var pm = main && main.querySelector('section.product-main');
@@ -1545,19 +1542,22 @@ body.r101-pr main section.products .product-card__title{font:600 15px/1.3 Inter,
     var eb = document.createElement('p'); eb.className = 'r101-peb';
     eb.textContent = bike === 'harley' ? 'Harley-Davidson rental' : bike === 'bmw' ? 'BMW GS adventure rental' : 'Route 101 Motorsports';
     info.insertBefore(eb, h1);
-    // booking card: variant + availability + quantity/button
-    var parts = ['.product-main__variant', '.product-main__availability', '.product-main__quantity'].map(function (q) { return info.querySelector(q); }).filter(Boolean);
+    // booking card drawn around Booqable's own widgets (they stay in place so their styling and logic keep working)
+    var parts = ['.product-main__variant', '.product-main__availability', '.product-main__quantity'].map(function (q) { return info.querySelector(':scope > ' + q); }).filter(Boolean);
     if (parts.length) {
-      var card = document.createElement('div'); card.id = 'r101-book';
-      card.innerHTML = bike ? '<p class="lb">Pick your dates<span>See live availability and your exact price, with no hidden fees.</span></p>' : '<p class="lb">Add to your booking</p>';
-      var price = info.querySelector('.product-main__price');
-      info.insertBefore(card, (price && price.nextSibling) || null);
-      parts.forEach(function (p) { card.appendChild(p); });
+      var lab = document.createElement('p'); lab.className = 'r101-blab';
+      lab.innerHTML = bike ? 'Pick your dates<span>See live availability and your exact price, with no hidden fees.</span>' : 'Add to your booking';
+      info.insertBefore(lab, parts[0]);
+      parts.forEach(function (p) { p.classList.add('r101-bk'); });
+      parts[parts.length - 1].classList.add('r101-bk-last');
       if (bike) {
         var chips = document.createElement('div'); chips.id = 'r101-pchips';
         chips.innerHTML = '<span><b>&#10003;</b>$500 deposit, never more</span><span><b>&#10003;</b>Free riding gear</span><span><b>&#10003;</b>100% 5-star reviews</span><span><b>&#10003;</b>Maintained in-house</span>';
-        info.insertBefore(chips, card.nextSibling);
+        info.insertBefore(chips, parts[parts.length - 1].nextSibling);
       }
+      // keep the long description below the booking card
+      var desc = info.querySelector(':scope > .product-main__description');
+      if (desc) info.appendChild(desc);
     }
     // add-on rows: label them, and only show gear that fits this bike
     [].slice.call(main.querySelectorAll('section.products')).forEach(function (sec) {
