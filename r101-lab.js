@@ -264,6 +264,12 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
       }
     });
 
+    // arriving from another page with #brand-<slug>: scroll there now that the anchors exist
+    if (/^#brand-/.test(location.hash)) {
+      var tgt = document.getElementById(location.hash.slice(1));
+      if (tgt) setTimeout(function () { tgt.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 600);
+    }
+
     // brand logo row right under the hero: "we carry the best", each logo jumps to its brand
     if (nav.length && hero && !document.getElementById('r101-tbrands')) {
       addStyle('r101-tb-css', TB_CSS);
