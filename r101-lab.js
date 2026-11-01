@@ -1585,6 +1585,8 @@ body.r101-pr main section.products .product-card__title{font:600 15px/1.3 Inter,
 #r101-guest a.g:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.18);filter:brightness(1.06)}
 #r101-guest .or{display:flex;align-items:center;gap:10px;margin:16px 0 0;font:600 12px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a}
 #r101-guest .or:before,#r101-guest .or:after{content:"";flex:1;height:1px;background:var(--r101-line)}
+#r101-guest p.vip{margin:12px 0 0!important;font-size:14.5px!important;color:var(--r101-ink)}
+#r101-guest p.vip b{color:var(--r101-ink);font-weight:700}
 body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!important}
 `;
   function guestCheckout() {
@@ -1597,7 +1599,8 @@ body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!i
     addStyle('r101-guest-css', GUEST_CSS);
     var b = document.createElement('div'); b.id = 'r101-guest';
     b.innerHTML = '<h2>Almost done!</h2><p>No account needed. Check out as a guest in a minute or two.</p>' +
-      '<a class="g" href="#">Continue as guest &rarr;</a><div class="or">or sign in to save your details</div>';
+      '<a class="g" href="#">Continue as guest &rarr;</a><div class="or">or</div>' +
+      '<p class="vip"><b>Create an account</b> to save your details and receive <b>VIP rental credits</b> and <b>seasonal rental discounts!</b></p>';
     b.querySelector('a.g').href = to + (to.indexOf('?') > -1 ? '&' : '?') + 'force_guest_checkout=true';
     inner.parentNode.insertBefore(b, inner);
     b.style.maxWidth = inner.getBoundingClientRect().width + 'px';
