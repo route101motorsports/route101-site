@@ -160,7 +160,7 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
     'maxxis': ['maxxis', 540, 97], 'mitas': ['mitas', 540, 122]
   };
   var SPECS = null;   // tire spec cards, keyed by slug of the tire's name (e.g. "dunlop-elite-4")
-  var SPECS_URL = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@2f8d3cb1f9cc1d4929e0c21f0df15e1021d9999f/data/tire-specs.json';
+  var SPECS_URL = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@f531f9eecf91e1827ed149a4304434f04b03e043/data/tire-specs.json';
   function loadSpecs() {
     if (SPECS || !window.fetch) return;
     fetch(SPECS_URL).then(function (r) { return r.json(); }).then(function (j) { SPECS = j; }).catch(function () {});
