@@ -143,3 +143,4 @@ article2() runs when ART2_PAGES matches (currently only the-hidden-costs-of-moto
 - Closing dark CTA card (See bikes & prices / Call) + "More Straight Talk" (3 live articles fetched from the index, current one excluded).
 - deDash(): Straight Talk articles only; headings " — " -> "... ", body -> ", ". Reviews never touched. (Page <title> tags still contain em dashes: Booqable SEO fields, fix there.)
 Not yet handled in v2: articles whose inner heroes carry text (chapter banners) — decide pairing with Glenn when widening.
+Hidden Costs article (Booqable template "page.articles-indiidual.json", unique to this article): Spacer (divider under author) and Columns (share links) sections DELETED and published, Nov 1 (Glenn). Do the same on every other article when we roll v2 out: delete the divider Spacer under the author box and any section holding share links.
