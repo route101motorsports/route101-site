@@ -104,3 +104,9 @@ Unwritten articles (for Glenn): Mastering the Curves; Perfect Your Passing; Ridi
 DONE: Twysted Throttle checked (typo "Poudly" in a heading, content). Privacy (privacyPage): no "Shop our products" button, 860px column. Footer landing pages checked; BMW landing hero headline was dark-on-dark (Booqable color-set-1) -> landingPage() forces white.
 Link check by real server status (54 internal links from header/menu/footer): all 200 except footer "Motorcycle Rental Delivery" -> /products/rental-delivery = 404 (Booqable's 404 page title has no "404"; check body text "took a wrong turn").
 Sweep status: header, menu drawer, footer all covered.
+
+## NEXT (agreed Nov 1, waiting on Glenn's go): Straight Talk article rebuild
+Glenn's direction: author bubble full width; text sections full width like the rest of the site; image sections back to the site's standard large photo-band spec; single overlay at the standard 72-75% (my extra .72 gradient on chapter heroes doubled it, so remove it); convert photo + text pairs into split rows (photo one side, text the other, alternating, slide-in, stacked on phone), like the garage Straight Talk page. First hero stays full size.
+Standard Glenn author bio (use on every article he wrote; "six decades", not "55 years", so it never needs updating):
+"Glenn Cogan is the founder and CEO of Route 101 Motorsports in Carlsbad. He started riding at age 4, spent a decade racing motocross and 750GP, and is a lifelong rider, racer and motorcycle mechanic. Self-employed since 16, he brings 35+ years of business and brand-building experience and six decades of riding across dirt, street and track to every Route 101 article — and every ride."
+The 9 unwritten articles: Glenn will have ChatGPT "G" draft them in his voice; Claude to write G a one-page brief when asked.
