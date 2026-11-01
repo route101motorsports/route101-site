@@ -1552,7 +1552,7 @@ body.r101-pr main section.products .product-card__title{font:600 15px/1.3 Inter,
       parts[parts.length - 1].classList.add('r101-bk-last');
       if (bike) {
         var chips = document.createElement('div'); chips.id = 'r101-pchips';
-        chips.innerHTML = '<span><b>&#10003;</b>$500 deposit, never more</span><span><b>&#10003;</b>No mileage limits</span><span><b>&#10003;</b>Free riding gear</span><span><b>&#10003;</b>100% 5-star reviews</span><span><b>&#10003;</b>Maintained in-house</span>';
+        chips.innerHTML = '<span><b>&#10003;</b>100% 5-star reviews</span><span><b>&#10003;</b>$500 deposit, never more</span><span><b>&#10003;</b>No mileage limits</span><span><b>&#10003;</b>Free riding gear</span><span><b>&#10003;</b>Maintained in-house</span>';
         info.insertBefore(chips, parts[parts.length - 1].nextSibling);
       }
       // keep the long description below the booking card
