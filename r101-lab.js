@@ -1367,7 +1367,7 @@ body.r101-art #r101-author img{width:72px;height:72px}
 
   /* ---------- PRIVACY POLICY ---------- */
   var PRV_CSS = `
-body.r101-prv main section.hero .hero__buttons{display:none!important}
+body.r101-prv main section.hero .hero__buttons,body.r101-prv main section.cta .cta__buttons{display:none!important}
 body.r101-prv main section:not(.hero) [class*=__container]{max-width:860px!important;margin-left:auto!important;margin-right:auto!important}
 body.r101-prv main section:not(.hero) p,body.r101-prv main section:not(.hero) li{font:400 16px/1.7 Inter,sans-serif!important;color:#333!important}
 body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h3{text-align:left!important}
