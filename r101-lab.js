@@ -1197,6 +1197,14 @@ body.r101-ab main section.r101-about .rx-content{text-align:left!important}
 #r101-abwhy .b a:first-child{background:${O};border-color:${O};color:#111}
 @media (max-width:1100px){.r101-ab5 .c{width:88%}}
 @media (max-width:760px){.r101-ab5 .c{width:100%;grid-template-columns:1fr;gap:10px;padding:22px 20px}.r101-ab5 .c+.c{margin-top:12px}.r101-ab5 .c:after{top:0;bottom:auto;left:0!important;right:0!important;width:auto;height:4px}}
+body.r101-ab main section.r101-about{overflow-x:clip}
+.r101-ab5.r101-anim .c{opacity:0;transition:opacity .7s ease-out,transform .85s cubic-bezier(.2,.75,.25,1)}
+.r101-ab5.r101-anim .c:nth-child(odd){transform:translateX(-60px)}
+.r101-ab5.r101-anim .c:nth-child(even){transform:translateX(60px)}
+.r101-ab5.r101-anim .c.in{opacity:1;transform:none}
+#r101-abwhy.r101-anim li{opacity:0;transform:translateY(8px);transition:opacity .5s ease-out,transform .5s ease-out}
+#r101-abwhy.r101-anim.in li{opacity:1;transform:none}
+@media (max-width:760px){.r101-ab5.r101-anim .c,.r101-ab5.r101-anim .c:nth-child(odd),.r101-ab5.r101-anim .c:nth-child(even){transform:translateY(14px);transition:opacity .5s ease-out,transform .5s ease-out}.r101-ab5.r101-anim .c.in{transform:none}}
 @media (max-width:640px){#r101-abwhy{padding:44px 0}#r101-abwhy ul{columns:1}#r101-abwhy .b a{width:100%;justify-content:center}body.r101-ab main section.r101-about .text__wrapper{padding-top:36px!important;padding-bottom:36px!important}}
 `;
   function aboutPage() {
@@ -1248,6 +1256,26 @@ body.r101-ab main section.r101-about .rx-content{text-align:left!important}
       if (btns.children.length) c.appendChild(btns);
       sec.parentNode.insertBefore(band, sec.nextSibling);
     }
+    aboutReveal();
+  }
+  // Tiles glide in from their own side the first time they scroll into view (once only).
+  function aboutReveal() {
+    try { if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch (e) { return; }
+    if (!('IntersectionObserver' in window)) return;
+    var grid = document.querySelector('.r101-ab5'), why = document.getElementById('r101-abwhy');
+    var items = grid ? [].slice.call(grid.children) : [];
+    if (grid) grid.classList.add('r101-anim');
+    if (why) {
+      why.classList.add('r101-anim');
+      [].slice.call(why.querySelectorAll('li')).forEach(function (li, i) { li.style.transitionDelay = (i * 0.06) + 's'; });
+      items.push(why);
+    }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting || e.boundingClientRect.top < 0) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
+    items.forEach(function (el) { io.observe(el); });
   }
 
   /* ---------- HARLEY SERVICE HUB ---------- */
