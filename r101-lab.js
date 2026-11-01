@@ -159,6 +159,12 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
     'metzeler': ['metzeler', 540, 102], 'pirelli': ['pirelli', 540, 115], 'shinko': ['shinko', 540, 106],
     'maxxis': ['maxxis', 540, 97], 'mitas': ['mitas', 540, 122]
   };
+  var SPECS = null;   // tire spec cards, keyed by slug of the tire's name (e.g. "dunlop-elite-4")
+  var SPECS_URL = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@2f8d3cb1f9cc1d4929e0c21f0df15e1021d9999f/data/tire-specs.json';
+  function loadSpecs() {
+    if (SPECS || !window.fetch) return;
+    fetch(SPECS_URL).then(function (r) { return r.json(); }).then(function (j) { SPECS = j; }).catch(function () {});
+  }
   function brandSlug(t) { return (t || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
 
   function tiresPage() {
@@ -310,6 +316,27 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
 #r101-lb .nv{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.95);font:700 18px/42px Inter,sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:0;color:#111}
 #r101-lb .nv.p{left:12px}
 #r101-lb .nv.n{right:12px}
+#r101-lb .box{position:relative;overflow-x:hidden}
+#r101-lb a.sp2{display:block;text-align:center;text-decoration:none;font:700 15px/1 Inter,sans-serif;padding:14px 18px;border-radius:999px;background:#f1efea;color:var(--r101-ink);border:1px solid var(--r101-line)}
+#r101-lb a.sp2:hover{background:var(--r101-ink);color:#fff}
+#r101-lb .spc{position:absolute;inset:0;z-index:4;background:#fff;overflow:auto;transform:translateX(100%);transition:transform .45s cubic-bezier(.2,.75,.25,1);border-radius:inherit}
+#r101-lb .spc.on{transform:none}
+#r101-lb .spc .sbg{position:absolute;inset:0;background-repeat:no-repeat;background-position:center 50%;background-size:240%;opacity:.12;filter:grayscale(1) contrast(1.25);pointer-events:none}
+#r101-lb .spc .si{position:relative;max-width:560px;margin:0 auto;padding:30px 30px 24px}
+#r101-lb .spc .bk{position:absolute;top:14px;left:14px;z-index:2;border:1px solid var(--r101-line);background:#fff;border-radius:999px;padding:9px 14px;font:600 13px/1 Inter,sans-serif;color:var(--r101-ink);cursor:pointer}
+#r101-lb .spc .lg{height:40px;width:auto;max-width:70%;display:block;margin:6px auto 10px;object-fit:contain}
+#r101-lb .spc h4{font-family:Anton,sans-serif;text-transform:uppercase;text-align:center;font-size:clamp(28px,3.2vw,38px);line-height:1;margin:0 0 6px;color:var(--r101-ink);letter-spacing:.02em}
+#r101-lb .spc .tg{text-align:center;font:600 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:${O};margin:0 0 14px}
+#r101-lb .spc .sy{font:400 15px/1.5 Inter,sans-serif;color:#444;text-align:center;margin:0 0 16px}
+#r101-lb .spc table{width:100%;border-collapse:collapse;margin:0 0 18px}
+#r101-lb .spc td{padding:8px 0;border-top:1px solid #ebe8e2;vertical-align:top;font:400 14px/1.4 Inter,sans-serif!important;letter-spacing:0!important;text-transform:none!important;color:#444}
+#r101-lb .spc td:first-child{width:34%;font-weight:700!important;color:var(--r101-ink);padding-right:12px}
+#r101-lb .spc .sb{display:flex;gap:10px}
+#r101-lb .spc .sb a{flex:1;text-align:center;text-decoration:none;font:700 14px/1 Inter,sans-serif;padding:15px 10px;border-radius:999px}
+#r101-lb .spc .sb a.q2{background:${O};color:#111}
+#r101-lb .spc .sb a.c2{border:1.5px solid var(--r101-ink);color:var(--r101-ink)}
+#r101-lb .spc .mf{display:block;text-align:center;margin-top:12px;font:500 12px Inter,sans-serif;color:#9a9a9a;text-decoration:none}
+@media (max-width:760px){#r101-lb .spc .si{padding:56px 18px 22px}}
 #r101-lb .ct{position:absolute;top:14px;left:14px;font:600 12px/1 Inter,sans-serif;color:#666;background:rgba(255,255,255,.9);padding:6px 10px;border-radius:999px}
 @media (max-width:760px){
   #r101-lb{padding:0;align-items:flex-end}
@@ -372,8 +399,12 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
     lb.innerHTML = '<div class="bg"></div><div class="box"><button class="x" type="button" aria-label="Close">&times;</button>' +
       '<div class="pic"><button class="nv p" type="button" aria-label="Previous tire">&larr;</button><img alt=""><button class="nv n" type="button" aria-label="Next tire">&rarr;</button><span class="ct"></span></div>' +
       '<div class="meta"><div class="br"></div><h3></h3><p class="txt">Mounted and balanced in-house at Route 101 in Carlsbad. Tell us your bike and we\'ll confirm fitment and price.</p>' +
-      '<div class="btns"><a class="q" href="#">Get a quote on this tire</a><a class="c" href="tel:+18885095032">Call (888) 509-5032</a></div>' +
-      '<a class="spec" href="#" target="_blank" rel="noopener"></a></div></div>';
+      '<div class="btns"><a class="sp2" href="#" style="display:none">See tire specs</a><a class="q" href="#">Get a quote on this tire</a><a class="c" href="tel:+18885095032">Call (888) 509-5032</a></div>' +
+      '<a class="spec" href="#" target="_blank" rel="noopener"></a></div>' +
+      '<div class="spc" aria-hidden="true"><div class="sbg"></div><button class="bk" type="button">&larr; Back to photo</button><div class="si">' +
+      '<img class="lg" alt=""><h4></h4><p class="tg"></p><p class="sy"></p><table></table>' +
+      '<div class="sb"><a class="q2" href="#">GET A QUOTE</a><a class="c2" href="tel:+18885095032">CALL US</a></div>' +
+      '<a class="mf" href="#" target="_blank" rel="noopener">Manufacturer page &#8599;</a></div></div></div>';
     document.body.appendChild(lb);
     var el = function (s) { return lb.querySelector(s); };
     var cur = { tiles: [], i: 0, brand: '' };
@@ -394,14 +425,19 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       el('.ct').textContent = (cur.i + 1) + ' / ' + n;
       el('.nv.p').style.display = el('.nv.n').style.display = n > 1 ? '' : 'none';
       var sp = el('a.spec');
-      if (t.href && t.href.indexOf(location.host) === -1) { sp.href = t.href; sp.textContent = cur.brand + ' tire specs ↗'; sp.style.display = ''; }
+      var spec = SPECS && SPECS[brandSlug(t.name)];
+      el('.spc').classList.remove('on');
+      el('a.sp2').style.display = spec ? '' : 'none';
+      cur.spec = spec ? { d: spec, t: t } : null;
+      if (!spec && t.href && t.href.indexOf(location.host) === -1) { sp.href = t.href; sp.textContent = cur.brand + ' tire specs ↗'; sp.style.display = ''; }
       else sp.style.display = 'none';
       track('tire_closeup', { tire_name: t.name, brand: cur.brand });
     }
     function open(tile) {
       var g = tile.closest('section.image-gallery');
       var h = g && g.querySelector('.image-gallery__heading');
-      var b = h ? (h.firstChild && h.firstChild.nodeType === 3 ? h.firstChild.nodeValue : h.textContent).trim() : '';
+      var vh = h && h.querySelector('.r101-vh');
+      var b = vh ? vh.textContent.trim() : h ? (h.firstChild && h.firstChild.nodeType === 3 ? h.firstChild.nodeValue : h.textContent).trim() : '';
       cur.brand = b ? b.charAt(0) + b.slice(1).toLowerCase() : '';
       cur.tiles = [].slice.call(tile.parentNode.children);
       lb.classList.add('open');
@@ -409,7 +445,7 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       show(cur.tiles.indexOf(tile));
       el('.x').focus();
     }
-    function close() { lb.classList.remove('open'); document.documentElement.style.overflow = ''; }
+    function close() { lb.classList.remove('open'); el('.spc').classList.remove('on'); document.documentElement.style.overflow = ''; }
 
     main.addEventListener('click', function (e) {
       var tile = e.target.closest && e.target.closest('section.image-gallery .image-gallery__images > div');
@@ -434,6 +470,31 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       var dx = e.changedTouches[0].clientX - sx; sx = null;
       if (Math.abs(dx) > 45) show(cur.i + (dx < 0 ? 1 : -1));
     });
+    function openSpec() {
+      if (!cur.spec) return;
+      var d = cur.spec.d, t = cur.spec.t, c = el('.spc');
+      var lg = TIRE_LOGOS[brandSlug(cur.brand)];
+      var li = el('.spc .lg');
+      if (lg) { li.src = LOGO_BASE + 'tight-' + lg[0] + '.png'; li.alt = cur.brand; li.style.display = ''; } else li.style.display = 'none';
+      el('.spc .sbg').style.backgroundImage = 'url("' + t.src + '")';
+      el('.spc h4').textContent = d.model;
+      el('.spc .tg').textContent = d.tag || '';
+      el('.spc .sy').textContent = d.syn || '';
+      var tb = el('.spc table'); tb.innerHTML = '';
+      Object.keys(d.rows || {}).forEach(function (k) {
+        var tr = document.createElement('tr'), a = document.createElement('td'), b = document.createElement('td');
+        a.textContent = k; b.textContent = d.rows[k]; tr.appendChild(a); tr.appendChild(b); tb.appendChild(tr);
+      });
+      var mf = el('.spc .mf');
+      if (t.href && t.href.indexOf(location.host) === -1) { mf.href = t.href; mf.style.display = ''; } else mf.style.display = 'none';
+      c.scrollTop = 0; c.classList.add('on'); c.setAttribute('aria-hidden', 'false');
+      track('tire_specs_view', { tire_name: t.name, brand: cur.brand });
+    }
+    el('a.sp2').addEventListener('click', function (e) { e.preventDefault(); openSpec(); });
+    el('.spc .bk').addEventListener('click', function () { el('.spc').classList.remove('on'); el('.spc').setAttribute('aria-hidden', 'true'); });
+    el('.spc .q2').addEventListener('click', function (e) { e.preventDefault(); el('a.q').click(); });
+    el('.spc .c2').addEventListener('click', function () { track('tire_call_click', { tire_name: el('h3').textContent, brand: cur.brand, from: 'specs' }); });
+    el('.spc .mf').addEventListener('click', function () { track('tire_specs_click', { tire_name: el('h3').textContent, brand: cur.brand }); });
     el('a.spec').addEventListener('click', function () { track('tire_specs_click', { tire_name: el('h3').textContent, brand: cur.brand }); });
     el('a.c').addEventListener('click', function () { track('tire_call_click', { tire_name: el('h3').textContent, brand: cur.brand }); });
     el('a.q').addEventListener('click', function (e) {
@@ -1902,7 +1963,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
         c.id = 'r101-call'; c.href = 'tel:+18885095032'; c.textContent = 'Call now';
         document.body.appendChild(c);
       }
-      if (/^\/pages\/motorcycle-tires\/?$/.test(location.pathname)) { tiresPage(); carousels(); }
+      if (/^\/pages\/motorcycle-tires\/?$/.test(location.pathname)) { loadSpecs(); tiresPage(); carousels(); }
     } catch (e) { if (window.console) console.warn('r101 lab', e); }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
