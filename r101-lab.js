@@ -1468,9 +1468,9 @@ body.r101-art2 main section.text .text__wrapper{padding-top:38px!important;paddi
         es.forEach(function (e) {
           var img = e.target.querySelector('.fig img');
           if (e.isIntersecting) { e.target.classList.add('in'); if (img) img.classList.add('r101-run'); }
-          else if (img) img.classList.remove('r101-run');
+          else { e.target.classList.remove('in'); if (img) img.classList.remove('r101-run'); }   // replay every time (Glenn)
         });
-      }, { threshold: .18 });
+      }, { threshold: [0, .18] });
       rows.forEach(function (r) { io.observe(r); });
     } else rows.forEach(function (r) { r.classList.add('in'); });
     // Glenn's standard bio
