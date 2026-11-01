@@ -1527,6 +1527,35 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
     });
   }
 
+  /* ---------- HARLEY SERVICE: "Proudly using these top brands" band under the hero ---------- */
+  var PB_CSS = `
+#r101-pbrands{background:#fff;padding:30px 0 34px;border-bottom:1px solid var(--r101-line,#ececec)}
+#r101-pbrands .eb{text-align:center;font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 22px!important}
+#r101-pbrands .row{--s:.27;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:24px clamp(30px,4vw,60px);max-width:980px;margin:0 auto}
+#r101-pbrands .row span{display:flex;align-items:center;justify-content:center;line-height:0}
+#r101-pbrands .row img{width:calc(var(--w) * var(--s));height:auto;max-width:100%;display:block}
+@media (max-width:900px){#r101-pbrands .row{--s:.24;gap:22px 34px}}
+@media (max-width:620px){
+#r101-pbrands{padding:24px 0 28px}
+#r101-pbrands .eb{padding:0 14px;line-height:1.5!important}
+#r101-pbrands .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 14px;max-width:360px;--s:.26}
+#r101-pbrands .row span:last-child:nth-child(odd){grid-column:1 / -1}
+}
+`;
+  var PB_LOGOS = [['harley', 'Harley-Davidson', 540], ['amsoil', 'AMSOIL', 540], ['motul', 'Motul', 540], ['kn', 'K&N', 503], ['ebc', 'EBC Brakes', 322], ['brembo', 'Brembo', 540], ['vance', 'Vance & Hines', 540]];
+  function partsBand() {
+    var hero = document.querySelector('main section.hero');
+    if (!hero || document.getElementById('r101-pbrands')) return;
+    addStyle('r101-pb-css', PB_CSS);
+    var sec = document.createElement('section'); sec.id = 'r101-pbrands';
+    var h = '<div class="container"><p class="eb">Proudly using these top brands &amp; more&hellip;</p><div class="row">';
+    PB_LOGOS.forEach(function (l) {
+      h += '<span style="--w:' + l[2] + 'px"><img src="' + LOGO_BASE + 'tight-' + l[0] + '.png" alt="' + l[1].replace(/&/g, '&amp;') + ' parts used at Route 101 Motorsports Harley service" loading="lazy" decoding="async"></span>';
+    });
+    sec.innerHTML = h + '</div></div>';
+    hero.parentNode.insertBefore(sec, hero.nextSibling);
+  }
+
   /* ---------- CONTACT US PAGE ---------- */
   var CT_CSS = `
 body.r101-ct main section p.r101-eb{font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 12px!important;display:block}
@@ -2582,6 +2611,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (location.pathname === '/' || location.pathname === '') homePage();
       if (/^\/pages\/harley-brake-service\/?$/.test(location.pathname)) brakesPage();
       if (/^\/pages\/san-diego-(harley-service|bmw-gs-service)\/?$/.test(location.pathname)) harleyPage();
+      if (/^\/pages\/san-diego-harley-service\/?$/.test(location.pathname)) partsBand();
       if (/^\/pages\/straight-talk-route-101-motorsports-offers-/.test(location.pathname)) garageStory();
       if (/^\/pages\/contact-us\/?$/.test(location.pathname)) contactPage();
       if (/^\/pages\/about-us\/?$/.test(location.pathname)) aboutPage();
