@@ -3090,6 +3090,9 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/pages\/motorcycle-tires\/?$/.test(location.pathname)) { loadSpecs(); tiresPage(); carousels(); }
     } catch (e) { if (window.console) console.warn('r101 lab', e); }
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
-  else run();
+  // r101-ready tells the anti-flash rule (in the header top bar) that the new design is applied
+  function ready() { try { document.documentElement.classList.add('r101-ready'); } catch (e) {} }
+  function boot() { try { run(); } catch (e) {} requestAnimationFrame(ready); setTimeout(ready, 300); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();
