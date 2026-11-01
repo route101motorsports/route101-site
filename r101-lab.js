@@ -1191,6 +1191,58 @@ body.r101-st main section.spacer{display:none!important}
     });
   }
 
+  /* ---------- STRAIGHT TALK INDEX (/pages/straight-talk) ----------
+     Theme "articles" sections = giant orange half-width blocks. Restyle into a magazine card grid.
+     Cards whose Read more points back to this page or home are unwritten: label "Coming soon", no dead link. */
+  var STX_CSS = `
+body.r101-stx main section.articles .articles__wrapper{background:transparent!important;padding:52px 0 8px!important}
+body.r101-stx main section.articles:last-of-type .articles__wrapper{padding-bottom:64px!important}
+body.r101-stx main section.articles .articles__top{margin:0 0 20px!important}
+body.r101-stx main section.articles .articles__heading{font-family:Anton,sans-serif!important;text-transform:uppercase;font-size:clamp(26px,2.4vw,36px)!important;line-height:1.05!important;color:var(--r101-ink,#111)!important;margin:0!important}
+body.r101-stx main section.articles .articles__list{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important}
+body.r101-stx main section.articles .articles__item{display:flex!important;flex-direction:column!important;background:#fff!important;border:1px solid var(--r101-line,#e6e6e6);border-radius:18px;overflow:hidden;box-shadow:0 10px 26px rgba(0,0,0,.06);transition:transform .25s,box-shadow .25s;width:auto!important;max-width:none!important;margin:0!important;min-height:0!important}
+body.r101-stx main section.articles .articles__item:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(0,0,0,.12)}
+body.r101-stx main section.articles .articles__image-wrapper{position:relative!important;width:100%!important;max-width:none!important;aspect-ratio:16/10;height:auto!important;flex:none!important;overflow:hidden}
+body.r101-stx main section.articles .articles__image-wrapper img{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:cover;transition:scale .5s ease}
+body.r101-stx main section.articles .articles__item:hover .articles__image-wrapper img{scale:1.04}
+body.r101-stx main section.articles .articles__text-area{background:#fff!important;color:var(--r101-ink,#111)!important;padding:18px 20px 20px!important;display:flex!important;flex-direction:column;flex:1;width:auto!important;max-width:none!important;gap:0}
+body.r101-stx main section.articles .articles__tag{font:600 11.5px/1 Inter,sans-serif!important;letter-spacing:.16em!important;text-transform:uppercase!important;color:${O}!important;margin:0 0 10px!important}
+body.r101-stx main section.articles .articles__item-heading{font-family:Anton,sans-serif!important;font-size:clamp(20px,1.55vw,24px)!important;line-height:1.12!important;color:var(--r101-ink,#111)!important;margin:0 0 10px!important;text-transform:none}
+body.r101-stx main section.articles .articles__text,body.r101-stx main section.articles .articles__text p{font:400 14.5px/1.5 Inter,sans-serif!important;color:var(--r101-mute,#555)!important;margin:0!important}
+body.r101-stx main section.articles .articles__text{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin:0 0 14px!important}
+body.r101-stx main section.articles .articles__buttons{margin-top:auto!important;padding:0!important}
+body.r101-stx main section.articles a.articles__button{all:unset;cursor:pointer;font:700 12.5px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:${O}}
+body.r101-stx main section.articles a.articles__button:after{content:" \\2192"}
+body.r101-stx main section.articles a.articles__button:hover{text-decoration:underline}
+body.r101-stx main section.articles .articles__item.r101-soon{opacity:.9}
+body.r101-stx main section.articles .articles__item.r101-soon .articles__image-wrapper img{filter:grayscale(.55)}
+body.r101-stx main section.articles .r101-soon-b{display:inline-block;align-self:flex-start;margin-top:auto;font:700 11.5px/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#777;background:#f1f1ef;border:1px solid #e3e3e0;border-radius:999px;padding:7px 11px}
+body.r101-stx main section.articles .articles__item.r101-soon:hover{transform:none;box-shadow:0 10px 26px rgba(0,0,0,.06)}
+@media (max-width:980px){body.r101-stx main section.articles .articles__list{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media (max-width:620px){body.r101-stx main section.articles .articles__list{grid-template-columns:1fr!important;gap:14px!important}body.r101-stx main section.articles .articles__wrapper{padding:36px 0 4px!important}}
+`;
+  function stIndex() {
+    var secs = document.querySelectorAll('main section.articles');
+    if (!secs.length || document.body.classList.contains('r101-stx')) return;
+    document.body.classList.add('r101-stx');
+    addStyle('r101-stx-css', STX_CSS);
+    [].slice.call(document.querySelectorAll('main section.articles .articles__item')).forEach(function (it) {
+      var a = it.querySelector('a.articles__button');
+      var href = a ? (a.getAttribute('href') || '').replace(/^https?:\/\/[^\/]+/, '').replace(/[?#].*$/, '').replace(/\/$/, '') : '';
+      var dead = !a || href === '' || href === '/pages/straight-talk';
+      if (dead) {
+        it.classList.add('r101-soon');
+        var b = it.querySelector('.articles__buttons'); if (b) b.style.display = 'none';
+        var s = document.createElement('span'); s.className = 'r101-soon-b'; s.textContent = 'Coming soon';
+        (it.querySelector('.articles__text-area') || it).appendChild(s);
+      } else {
+        // whole card clickable
+        it.style.cursor = 'pointer';
+        it.addEventListener('click', function (e) { if (!e.target.closest('a')) location.href = a.href; });
+      }
+    });
+  }
+
   /* ---------- CONTACT US PAGE ---------- */
   var CT_CSS = `
 body.r101-ct main section p.r101-eb{font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 12px!important;display:block}
@@ -2251,6 +2303,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/pages\/about-us\/?$/.test(location.pathname)) aboutPage();
       if (/^\/collections\/[^\/]+\/?$/.test(location.pathname)) collectionHero();
       if (/^\/collections\/?$/.test(location.pathname)) rentalsHub();
+      if (/^\/pages\/straight-talk\/?$/.test(location.pathname)) stIndex();
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
