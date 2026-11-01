@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `ae382123a33f9585181b4c7ce066469ecc7afdf0` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
+  Currently pinned to `74a0bbdcb2bde5795573eb3415bb7d115ab335ca` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -122,3 +122,4 @@ reviewRow() now matches ONLY the review strip file ("5starreviewsicon..."). An e
 Still old Booqable images: parts strips "ServiceBrandsHarley(II)" (Harley service + brakes) and "ServiceBrands(II)" (BMW service). Have logos for harley, amsoil, kn, ebc, brembo, vance, denali; missing NGK, Ohlins, Screamin' Eagle, Touratech, BMW (need files from Glenn).
 Harley Service brands band (Nov 1, lab): partsBand() adds #r101-pbrands right under the hero: eyebrow "Proudly using these top brands & more..." + our logos Harley-Davidson, Screamin' Eagle, AMSOIL, Motul, K&N, EBC, Brembo, Vance & Hines (PB_LOGOS). One row desktop, 4+3 tablet, 2-col phone (last centered). The old parts strip lower on the page is still Booqable's image.
 Screamin' Eagle logo added to img/brands (outer black removed, thin dark outline so the white eagle reads on cream). LOGO_BASE now pinned to 881684a7 (has all brand files).
+Harley brands band now 9 logos (added NGK after K&N; NGK added to img/brands), label "Proud to use these top brands" (Glenn). LOGO_BASE pinned to 1f8fe9a6.
