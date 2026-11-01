@@ -1456,8 +1456,7 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
       if (s.classList.contains('r101-revrow-sec') || s.classList.contains('r101-auth')) return false;
       if (((s.querySelector('.logos__heading') || {}).textContent || '').trim()) return false;
       var im = s.querySelector('img');
-      var w = im && (+im.getAttribute('width') || im.naturalWidth), h = im && (+im.getAttribute('height') || im.naturalHeight);
-      return im && w && h && w / h > 8;
+      return im && /5starreviewsicon/i.test(im.getAttribute('src') || im.currentSrc || '');
     });
     if (!secs.length) return;
     addStyle('r101-rev-css', REV_CSS);
@@ -1468,6 +1467,52 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
       REVIEWS.forEach(function (r) {
         html += '<a href="' + r[2] + '" target="_blank" rel="noopener" aria-label="Read our 5-star reviews on ' + r[1] + '" style="--k:' + r[3] + '">' +
           '<img src="' + REV_BASE + 'tight-review-' + r[0] + '.png" alt="Route 101 Motorsports 5-star reviews on ' + r[1] + '" loading="lazy" decoding="async"></a>';
+      });
+      box.innerHTML = html + '</div>';
+      var c = s.querySelector('.logos__container') || s.firstElementChild || s;
+      c.appendChild(box);
+    });
+  }
+
+  /* ---------- SERVICE PAGE LOGO BANDS ----------
+     Booqable's flat "TireBrands" strip and the iCarsoft / HEX GS-911 logo bands become our own logos. */
+  var BL_CSS = `
+.r101-blsec .logos__images,.r101-blsec .logos__images-wrapper,.r101-blsec .logos__list{display:none!important}
+.r101-bl{text-align:center;padding:4px 0}
+.r101-bl .row{--s:.32;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:22px clamp(26px,3.6vw,56px)}
+.r101-bl .row a,.r101-bl .row span{display:flex;align-items:center;justify-content:center;line-height:0;transition:transform .2s ease,filter .2s ease}
+.r101-bl .row a:hover{transform:translateY(-3px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
+.r101-bl .row img{width:calc(var(--w) * var(--s));height:auto;max-width:100%;display:block}
+.r101-bl.one .row{--s:.56}
+@media (max-width:900px){.r101-bl .row{--s:.27}.r101-bl.one .row{--s:.5}}
+@media (max-width:620px){
+.r101-bl:not(.one) .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px;max-width:360px;margin:0 auto;--s:.27}
+.r101-bl:not(.one) .row a:last-child:nth-child(odd){grid-column:1 / -1}
+.r101-bl.one .row{--s:.5}
+}
+`;
+  var BL_SETS = [
+    [/TireBrands/i, [['dunlop', 'Dunlop', 540], ['bridgestone', 'Bridgestone', 540], ['metzeler', 'Metzeler', 540], ['michelin', 'Michelin', 526], ['pirelli', 'Pirelli', 540]], 'tires'],
+    [/iCarSoft/i, [['icarsoft', 'iCarsoft MT Pro diagnostics', 540]], 'one'],
+    [/GS911/i, [['gs911', 'HEX GS-911 BMW diagnostics', 490]], 'one']
+  ];
+  function serviceLogos() {
+    var secs = [].slice.call(document.querySelectorAll('main section.logos')).filter(function (s) { return !s.classList.contains('r101-blsec') && !s.classList.contains('r101-revrow-sec'); });
+    secs.forEach(function (s) {
+      var im = s.querySelector('img'); if (!im) return;
+      var src = im.getAttribute('src') || im.currentSrc || '';
+      var set = null;
+      BL_SETS.forEach(function (b) { if (!set && b[0].test(src)) set = b; });
+      if (!set) return;
+      addStyle('r101-bl-css', BL_CSS);
+      s.classList.add('r101-blsec');
+      var box = document.createElement('div'); box.className = 'r101-bl' + (set[2] === 'one' ? ' one' : '');
+      var html = '<div class="row">';
+      set[1].forEach(function (l) {
+        var img = '<img src="' + LOGO_BASE + 'tight-' + l[0] + '.png" alt="' + l[1] + (set[2] === 'tires' ? ' motorcycle tires at Route 101 Motorsports' : ' at Route 101 Motorsports') + '" loading="lazy" decoding="async">';
+        html += set[2] === 'tires'
+          ? '<a href="/pages/motorcycle-tires#brand-' + l[0] + '" aria-label="See ' + l[1] + ' tires" style="--w:' + l[2] + 'px">' + img + '</a>'
+          : '<span style="--w:' + l[2] + 'px">' + img + '</span>';
       });
       box.innerHTML = html + '</div>';
       var c = s.querySelector('.logos__container') || s.firstElementChild || s;
@@ -2543,6 +2588,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
       reviewRow();
+      serviceLogos();
       photoBands();
       rhythm();
       parallax();
