@@ -159,6 +159,23 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
     'metzeler': ['metzeler', 540, 102], 'pirelli': ['pirelli', 540, 115], 'shinko': ['shinko', 540, 106],
     'maxxis': ['maxxis', 540, 97], 'mitas': ['mitas', 540, 122]
   };
+  var TB_CSS = `
+#r101-tbrands{background:#fff;padding:34px 0 36px;border-bottom:1px solid var(--r101-line,#ececec)}
+#r101-tbrands .claim{text-align:center;font:700 clamp(15px,1.25vw,18px)/1.35 Inter,sans-serif!important;color:var(--r101-ink,#111)!important;margin:0 0 22px!important}
+#r101-tbrands .claim b{color:${O};font:inherit!important;font-weight:800!important;letter-spacing:0!important;text-transform:none!important}
+#r101-tbrands .row{--s:.34;display:grid;grid-template-columns:repeat(4,auto);justify-content:center;align-items:center;gap:26px clamp(28px,4vw,64px)}
+#r101-tbrands .row a{display:flex;justify-content:center;align-items:center;line-height:0;transition:transform .2s ease,filter .2s ease}
+#r101-tbrands .row a:hover{transform:translateY(-3px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
+#r101-tbrands .row img{width:calc(var(--w) * var(--s));height:auto;display:block}
+@media (max-width:900px){#r101-tbrands .row{--s:.28;gap:22px 30px}}
+@media (max-width:620px){
+#r101-tbrands{padding:26px 0 28px}
+#r101-tbrands .claim{padding:0 12px}
+#r101-tbrands .claim b{display:block}
+#r101-tbrands .row{--s:.27;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 14px;max-width:360px;margin:0 auto}
+#r101-tbrands .row img{max-width:100%}
+}
+`;
   var SPECS = null;   // tire spec cards, keyed by slug of the tire's name (e.g. "dunlop-elite-4")
   var SPECS_URL = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@f531f9eecf91e1827ed149a4304434f04b03e043/data/tire-specs.json';
   function loadSpecs() {
@@ -246,6 +263,27 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
         if (c && c.matches('section.cta')) c.classList.add('r101-hide');
       }
     });
+
+    // brand logo row right under the hero: "we carry the best", each logo jumps to its brand
+    if (nav.length && hero && !document.getElementById('r101-tbrands')) {
+      addStyle('r101-tb-css', TB_CSS);
+      var tb = document.createElement('section');
+      tb.id = 'r101-tbrands';
+      var th = '<div class="w container"><p class="claim">Top-brand motorcycle tires, <b>mounted &amp; balanced in-house.</b></p><div class="row">';
+      nav.forEach(function (n) {
+        var lg = TIRE_LOGOS[brandSlug(n[0])]; if (!lg) return;
+        var nm = n[0].charAt(0) + n[0].slice(1).toLowerCase();
+        th += '<a href="#' + n[1] + '" aria-label="See ' + nm + ' tires" style="--w:' + lg[1] + 'px"><img src="' + LOGO_BASE + 'tight-' + lg[0] + '.png" alt="' + nm + ' motorcycle tires at Route 101 Motorsports" width="' + lg[1] + '" height="' + lg[2] + '" decoding="async"></a>';
+      });
+      tb.innerHTML = th + '</div></div>';
+      hero.parentNode.insertBefore(tb, hero.nextSibling);
+      [].slice.call(tb.querySelectorAll('a')).forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var t = document.querySelector(a.getAttribute('href')); if (!t) return;
+          e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
 
     // sticky brand nav after "how it works"
     if (nav.length) {
