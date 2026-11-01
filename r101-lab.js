@@ -1365,7 +1365,7 @@ body.r101-art #r101-author img{width:72px;height:72px}
 }
 `;
   var ART2_CSS = `
-body.r101-art2 main section.text .text__container,body.r101-art2 main section.logos.r101-auth .logos__container{max-width:var(--r101-wrap,1180px)!important}
+body.r101-art2 main section.text .text__container,body.r101-art2 main section.logos.r101-auth .logos__container{max-width:1440px!important}
 body.r101-art2 main section.text .text__wrapper{padding-top:64px!important;padding-bottom:64px!important}
 body.r101-art2 #r101-author{padding:26px 30px;gap:26px}
 body.r101-art2 #r101-author img{width:110px;height:110px}
