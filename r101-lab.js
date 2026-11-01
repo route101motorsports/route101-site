@@ -1531,10 +1531,10 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
   var PB_CSS = `
 #r101-pbrands{background:#fff;padding:30px 0 34px;border-bottom:1px solid var(--r101-line,#ececec)}
 #r101-pbrands .eb{text-align:center;font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;color:${O}!important;text-transform:uppercase!important;margin:0 0 22px!important}
-#r101-pbrands .row{--s:.27;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:24px clamp(30px,4vw,60px);max-width:980px;margin:0 auto}
+#r101-pbrands .row{--s:.225;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:24px clamp(26px,3vw,46px);max-width:1180px;margin:0 auto}
 #r101-pbrands .row span{display:flex;align-items:center;justify-content:center;line-height:0}
 #r101-pbrands .row img{width:calc(var(--w) * var(--s));height:auto;max-width:100%;display:block}
-@media (max-width:900px){#r101-pbrands .row{--s:.24;gap:22px 34px}}
+@media (max-width:1100px){#r101-pbrands .row{--s:.24;gap:22px 34px;max-width:720px}}
 @media (max-width:620px){
 #r101-pbrands{padding:24px 0 28px}
 #r101-pbrands .eb{padding:0 14px;line-height:1.5!important}
