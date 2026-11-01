@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `74a0bbdcb2bde5795573eb3415bb7d115ab335ca` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
+  Currently pinned to `5a7566635ee510a65f581e10591a80b04d9301dc` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -125,3 +125,4 @@ Screamin' Eagle logo added to img/brands (outer black removed, thin dark outline
 Harley brands band now 9 logos (added NGK after K&N; NGK added to img/brands), label "Proud to use these top brands" (Glenn). LOGO_BASE pinned to 1f8fe9a6.
 Pin tip 2: when LOGO_BASE (or any asset base) moves to a new commit, warm EVERY file under it in the browser (fetch each tight-*.png until 200) before pinning. On Nov 1 the GS-911 logo failed once because the page asked the CDN for the new folder before it was ready; a reload fixed it.
 Ohlins and BMW M logos added to img/brands (commit 16b1f5f2; all 22 tight logos verified loading from that commit). Not placed on any page yet. LOGO_BASE in r101-lab.js still points at 1f8fe9a6 — move it to 16b1f5f2 (or later) when these get used.
+Harley brands band: Glenn's order AMSOIL, K&N, EBC, Brembo, (Ohlins), Motul, NGK, Harley-Davidson, Screamin' Eagle, Vance & Hines (10 logos, one desktop row). HIDDEN ON PHONES (Glenn, Nov 1): parts-brand logos don't earn the space on a phone; tire logos and the iCarsoft/GS-911 logos still show on phones. LOGO_BASE now 16b1f5f2.
