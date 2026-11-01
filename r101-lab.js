@@ -1576,6 +1576,34 @@ body.r101-pr main section.products .product-card__title{font:600 15px/1.3 Inter,
     });
   }
 
+  /* ---------- CHECKOUT SIGN-IN: guest checkout up front ---------- */
+  var GUEST_CSS = `
+#r101-guest{background:#fff;border:1px solid var(--r101-line);border-top:4px solid ${O};border-radius:18px;padding:22px 22px 18px;margin:0 0 18px;text-align:center;box-shadow:0 14px 34px rgba(0,0,0,.06)}
+#r101-guest h2{font-family:Anton,sans-serif;text-transform:uppercase;font-size:clamp(24px,2.4vw,30px)!important;line-height:1.05!important;margin:0 0 6px!important;color:var(--r101-ink)}
+#r101-guest p{font:400 15px/1.45 Inter,sans-serif!important;color:var(--r101-mute);margin:0 0 14px!important;letter-spacing:0!important;text-transform:none!important}
+#r101-guest a.g{display:block;background:${O};color:#111!important;text-decoration:none;font:700 16px/1 Inter,sans-serif;padding:17px 18px;border-radius:999px;transition:transform .2s,box-shadow .2s,filter .2s}
+#r101-guest a.g:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.18);filter:brightness(1.06)}
+#r101-guest .or{display:flex;align-items:center;gap:10px;margin:16px 0 0;font:600 12px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a}
+#r101-guest .or:before,#r101-guest .or:after{content:"";flex:1;height:1px;background:var(--r101-line)}
+body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!important}
+`;
+  function guestCheckout() {
+    var q = location.search, m = q.match(/[?&]redirect_uri=([^&]+)/);
+    var to = m ? decodeURIComponent(m[1]) : '';
+    if (to.indexOf('/checkouts/') !== 0 || document.getElementById('r101-guest')) return;
+    var inner = document.querySelector('.acc__inner');
+    if (!inner) return;
+    document.body.classList.add('r101-gco');
+    addStyle('r101-guest-css', GUEST_CSS);
+    var b = document.createElement('div'); b.id = 'r101-guest';
+    b.innerHTML = '<h2>Almost done!</h2><p>No account needed. Check out as a guest in a minute or two.</p>' +
+      '<a class="g" href="#">Continue as guest &rarr;</a><div class="or">or sign in to save your details</div>';
+    b.querySelector('a.g').href = to + (to.indexOf('?') > -1 ? '&' : '?') + 'force_guest_checkout=true';
+    inner.parentNode.insertBefore(b, inner);
+    b.style.maxWidth = inner.getBoundingClientRect().width + 'px';
+    b.style.marginLeft = b.style.marginRight = 'auto';
+  }
+
   /* ---------- HARLEY SERVICE HUB ---------- */
   var HRL_CSS = `
 body.r101-harley .r101-hide-sec,body.r101-harley .r101-hide{display:none!important}
@@ -2031,6 +2059,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/pages\/about-us\/?$/.test(location.pathname)) aboutPage();
       if (/^\/collections\/[^\/]+\/?$/.test(location.pathname)) collectionHero();
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
+      if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
       photoBands();
       rhythm();
       parallax();
