@@ -3092,7 +3092,23 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
   }
   // r101-ready tells the anti-flash rule (in the header top bar) that the new design is applied
   function ready() { try { document.documentElement.classList.add('r101-ready'); } catch (e) {} }
-  function boot() { try { run(); } catch (e) {} requestAnimationFrame(ready); setTimeout(ready, 300); }
+  // Header is solid (not transparent) since Nov 1 so the first paint matches. Booqable reserves a fixed
+  // gap under it that leaves a white strip; size main's top padding to the real header height instead.
+  function headGap() {
+    try {
+      var hd = document.getElementById('header'), m = document.querySelector('main');
+      if (!hd || !m || hd.classList.contains('header-transparent')) return;
+      var h = Math.round(hd.getBoundingClientRect().height);
+      if (h > 20) m.style.setProperty('padding-top', h + 'px', 'important');
+    } catch (e) {}
+  }
+  function boot() {
+    try { run(); } catch (e) {}
+    headGap(); requestAnimationFrame(headGap); setTimeout(headGap, 400); setTimeout(headGap, 1500);
+    var hg; addEventListener('resize', function () { clearTimeout(hg); hg = setTimeout(headGap, 120); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(headGap);
+    requestAnimationFrame(ready); setTimeout(ready, 300);
+  }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
