@@ -10,6 +10,8 @@ Small cleanup items parked while we keep building. Work through these when the b
 - [ ] "BMW GS Service & Tires" menu label -> maybe "BMW Service & Tires".
 - [ ] "Advance Booking Required." line under every collection hero: turn into the small orange notice pill.
 
+- [ ] Street Glide S product description says "Street Glide Standard" (wrong model name); check the other bike descriptions too.
+
 ## Photos
 - [ ] Harley Tours and Harley Add-Ons heroes use the same highway scene; swap one for a real Harley tour / gear photo.
 - [ ] Glenn has better merch photos to send (current merch hero uses the rider-at-dusk tee mockup).
