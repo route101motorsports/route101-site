@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `c613a5fe17a34181724038e1d3efc69c4b5e14c4` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
+  Currently pinned to `c08e7694814f4458719d1236a1a657854cfb1a66` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -110,3 +110,9 @@ Glenn's direction: author bubble full width; text sections full width like the r
 Standard Glenn author bio (use on every article he wrote; "six decades", not "55 years", so it never needs updating):
 "Glenn Cogan is the founder and CEO of Route 101 Motorsports in Carlsbad. He started riding at age 4, spent a decade racing motocross and 750GP, and is a lifelong rider, racer and motorcycle mechanic. Self-employed since 16, he brings 35+ years of business and brand-building experience and six decades of riding across dirt, street and track to every Route 101 article — and every ride."
 The 9 unwritten articles: Glenn will have ChatGPT "G" draft them in his voice; Claude to write G a one-page brief when asked.
+
+## Review logo row (Nov 1, lab)
+img/reviews/: Google, Yelp, Tripadvisor, Facebook (square f + "acebook"), each with 5 deep-gold stars; full 600x240 canvas, tight-, and -nostars versions; built by img/reviews/make.py from Glenn's files.
+reviewRow(): any logos section whose image is wider than 8:1 (the old flat review strip on home + 3 footer landing pages) gets the code-built row: claim "5 Years in Business · 100s of 100% 5-Star Reviews!", 4 separate linked logos (new tab), alt text, 72px desktop / 60px tablet / 2x2 grid at 62px on phone; per-logo --k balance (Facebook .8, Tripadvisor .96). Links in REVIEWS array (Google maps search, Yelp, Tripadvisor, Facebook /reviews).
+Kayak badge deleted from the Home template Logos section (published). Delivery link removed from Rental Add Ons menu. Twysted "Proudly" fixed.
+Pin tip: jsDelivr can lag on a brand-new commit; fetch the new r101-lab.js URL in the browser until it returns 200 before saving the new ID in the loader box (curl from the workspace is blocked).
