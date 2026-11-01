@@ -1367,7 +1367,7 @@ body.r101-ab main section.r101-about{overflow-x:clip}
       b: [['SEE COVERAGE OPTIONS', '#r101-grid'], CALL]
     },
     'route-101-merch': {
-      img: IMG_PIER,
+      url: 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@5bd9236ab2c26f7443caa40e5769344131408de2/img/merch-rider-dusk',
       h: 'Route 101 Merch',
       p: 'Route 101 short-sleeve tees in black and white. Wear the shield.',
       b: [['SHOP MERCH', '#r101-grid'], FLEETBTN]
@@ -1396,16 +1396,17 @@ body.r101-ch main section.hero .hero__vision-wrapper:after{content:"";position:a
         var t = document.querySelector(b[1]); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
       });
     });
-    if (cfg.img) {
+    if (cfg.img || cfg.url) {
       var pic = hero.querySelector('.hero__vision picture'), im = pic && pic.querySelector('img');
       if (im) {
         var widths = [480, 768, 1200, 1680, 2560];
-        var set = widths.map(function (w) { return CDN + 'w' + w + '/' + cfg.img + ' ' + w + 'w'; }).join(', ');
+        var set = cfg.url ? cfg.url + '-960.jpg 960w, ' + cfg.url + '.jpg 1920w'
+          : widths.map(function (w) { return CDN + 'w' + w + '/' + cfg.img + ' ' + w + 'w'; }).join(', ');
         [].slice.call(pic.querySelectorAll('source')).forEach(function (src) { src.remove(); });
         im.removeAttribute('srcset');
         im.setAttribute('srcset', set);
         im.setAttribute('sizes', '100vw');
-        im.src = CDN + 'w1680/' + cfg.img;
+        im.src = cfg.url ? cfg.url + '.jpg' : CDN + 'w1680/' + cfg.img;
         im.alt = cfg.h;
       }
     }
