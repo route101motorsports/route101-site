@@ -153,11 +153,11 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
 }
 `;
 
-  var LOGO_BASE = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@7137b0f4580a1a8788d1be1b578f891dcc781288/img/brands/';
+  var LOGO_BASE = 'https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@456f6d88d7d815c32539b2b5362ea27ab5774a06/img/brands/';
   var TIRE_LOGOS = {   // slug: [file, width, height] of the balanced, trimmed logo
     'dunlop': ['dunlop', 540, 94], 'michelin': ['michelin', 526, 160], 'bridgestone': ['bridgestone', 540, 68],
     'metzeler': ['metzeler', 540, 102], 'pirelli': ['pirelli', 540, 115], 'shinko': ['shinko', 540, 106],
-    'maxxis': ['maxxis', 540, 97], 'mitas': ['mitas', 540, 104]
+    'maxxis': ['maxxis', 540, 97], 'mitas': ['mitas', 540, 122]
   };
   function brandSlug(t) { return (t || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
 
