@@ -1444,6 +1444,24 @@ body.r101-art2 main section.text .text__wrapper{padding-top:38px!important;paddi
       s.style.display = 'none';
     });
     var rows = [].slice.call(main.querySelectorAll('.r101-srow'));
+    // desktop: photo and text grow together. Photo height = text height; tall images get narrower
+    // (never cropped), wide photos fill the height with at most a slight side trim.
+    var fit = function () {
+      rows.forEach(function (row) {
+        var fig = row.querySelector('.fig'), img = fig && fig.querySelector('img'), txt = row.querySelector('.txt');
+        if (!img || !txt) return;
+        if (innerWidth <= 860 || !img.naturalWidth) { row.style.gridTemplateColumns = ''; fig.style.height = ''; img.style.height = ''; img.style.objectFit = ''; return; }
+        var gap = parseFloat(getComputedStyle(row).columnGap) || 40;
+        var rw = row.clientWidth, th = txt.offsetHeight, ratio = img.naturalWidth / img.naturalHeight;
+        var w = Math.round(Math.min(th * ratio, (rw - gap) * 0.5));
+        var cols = w + 'px minmax(0,1fr)';
+        row.style.gridTemplateColumns = row.classList.contains('rev') ? 'minmax(0,1fr) ' + w + 'px' : cols;
+        fig.style.height = th + 'px'; img.style.height = '100%'; img.style.objectFit = 'cover';
+      });
+    };
+    rows.forEach(function (row) { var im = row.querySelector('.fig img'); if (im && !im.complete) im.addEventListener('load', fit); });
+    fit(); var ft; addEventListener('resize', function () { clearTimeout(ft); ft = setTimeout(fit, 120); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (es) {
         es.forEach(function (e) {
