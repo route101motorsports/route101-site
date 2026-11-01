@@ -173,7 +173,7 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 
 ## Load flash (Nov 1)
 - Booqable only lets our loader run at the END of the body (Checkout > Additional scripts), so the native theme paints first (~1.7s) before our design (~2.0s on a first visit; near-instant once cached). No head-code slot, no custom CSS, no theme code editing on this plan. The announcement bar strips <style> tags but KEEPS the CSS text (it showed as visible text for ~3 min, reverted). Don't try that again.
-- Mitigation instead: make the native first paint match. Top bar color scheme set to Set 4 (dark), header was already Set 4, and the header's "Use transparent background" is now OFF, so the native header is solid dark like ours.
-- Header solid means Booqable gives main a fixed padding-top (127px desktop) that left a 21px white strip. headGap() in boot() sizes main padding-top to the real header height (106 desktop / 156 phone), re-running on resize and fonts.ready. Measured gap 0 on 7 pages at 1280 and 390 (pin 136c9ef).
+- Mitigation instead: make the native first paint match. Top bar color scheme set to Set 4 (dark); header was already Set 4. Tried header "Use transparent background" OFF: Glenn saw a big charcoal block on load, so it's back ON (transparent). Final: top bar Set 4, header Set 4 + transparent.
+- (A headGap() fix for the solid-header white strip existed briefly in 136c9ef; removed when the header went back to transparent.)
 - boot() also adds html.r101-ready once the design has applied (unused for now; it would let a head-level anti-flash rule work if Booqable ever allows head code).
 - Best remaining fix: ask Booqable support whether head code is available on any plan.
