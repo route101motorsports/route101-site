@@ -1446,7 +1446,8 @@ body.r101-art2 main section.text .text__wrapper{padding-top:38px!important;paddi
     var rows = [].slice.call(main.querySelectorAll('.r101-srow'));
     // desktop: photo and text grow together. Photo height = text height; tall images get narrower
     // (never cropped), wide photos fill the height with at most a slight side trim.
-    var fit = function () {
+    var fit = function () { for (var pass = 0; pass < 3; pass++) fitOnce(); };
+    var fitOnce = function () {
       rows.forEach(function (row) {
         var fig = row.querySelector('.fig'), img = fig && fig.querySelector('img'), txt = row.querySelector('.txt');
         if (!img || !txt) return;
