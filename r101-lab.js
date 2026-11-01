@@ -1526,7 +1526,7 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
 @media (max-width:900px){#r101-rh .g,#r101-rh .g.two{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){
 #r101-rhero{min-height:0}
-#r101-rhero .in{padding:96px 18px 56px}
+#r101-rhero .in{padding:136px 18px 56px}
 #r101-rh{padding:44px 0 52px}
 #r101-rh .wrap{padding:0 16px}
 #r101-rh .grp+.grp{margin-top:40px}
