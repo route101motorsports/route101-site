@@ -319,9 +319,11 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
 #r101-lb .box{position:relative;overflow-x:hidden}
 #r101-lb a.sp2{display:block;text-align:center;text-decoration:none;font:700 15px/1 Inter,sans-serif;padding:14px 18px;border-radius:999px;background:#f1efea;color:var(--r101-ink);border:1px solid var(--r101-line)}
 #r101-lb a.sp2:hover{background:var(--r101-ink);color:#fff}
-#r101-lb .spc{position:absolute;inset:0;z-index:4;background:#fff;overflow:auto;transform:translateX(100%);transition:transform .45s cubic-bezier(.2,.75,.25,1);border-radius:inherit}
-#r101-lb .spc.on{transform:none}
-#r101-lb .spc .sbg{position:absolute;inset:0;background-repeat:no-repeat;background-position:center 50%;background-size:240%;opacity:.12;filter:grayscale(1) contrast(1.25);pointer-events:none}
+#r101-lb .spc{display:none;position:relative;grid-column:1/-1;background:#fff;overflow:hidden}
+#r101-lb .box.sp-on .pic,#r101-lb .box.sp-on .meta{display:none}
+#r101-lb .box.sp-on .spc{display:block;animation:r101-spin .45s cubic-bezier(.2,.75,.25,1)}
+@keyframes r101-spin{from{transform:translateX(70px);opacity:0}to{transform:none;opacity:1}}
+#r101-lb .spc .sbg{position:absolute;inset:0;background-repeat:no-repeat;background-position:center 46%;background-size:auto 150%;opacity:.12;filter:grayscale(1) contrast(1.25);pointer-events:none}
 #r101-lb .spc .si{position:relative;max-width:560px;margin:0 auto;padding:30px 30px 24px}
 #r101-lb .spc .bk{position:absolute;top:14px;left:14px;z-index:2;border:1px solid var(--r101-line);background:#fff;border-radius:999px;padding:9px 14px;font:600 13px/1 Inter,sans-serif;color:var(--r101-ink);cursor:pointer}
 #r101-lb .spc .lg{height:40px;width:auto;max-width:70%;display:block;margin:6px auto 10px;object-fit:contain}
@@ -426,7 +428,7 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       el('.nv.p').style.display = el('.nv.n').style.display = n > 1 ? '' : 'none';
       var sp = el('a.spec');
       var spec = SPECS && SPECS[brandSlug(t.name)];
-      el('.spc').classList.remove('on');
+      lb.querySelector('.box').classList.remove('sp-on');
       el('a.sp2').style.display = spec ? '' : 'none';
       cur.spec = spec ? { d: spec, t: t } : null;
       if (!spec && t.href && t.href.indexOf(location.host) === -1) { sp.href = t.href; sp.textContent = cur.brand + ' tire specs ↗'; sp.style.display = ''; }
@@ -445,7 +447,7 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       show(cur.tiles.indexOf(tile));
       el('.x').focus();
     }
-    function close() { lb.classList.remove('open'); el('.spc').classList.remove('on'); document.documentElement.style.overflow = ''; }
+    function close() { lb.classList.remove('open'); lb.querySelector('.box').classList.remove('sp-on'); document.documentElement.style.overflow = ''; }
 
     main.addEventListener('click', function (e) {
       var tile = e.target.closest && e.target.closest('section.image-gallery .image-gallery__images > div');
@@ -487,11 +489,11 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       });
       var mf = el('.spc .mf');
       if (t.href && t.href.indexOf(location.host) === -1) { mf.href = t.href; mf.style.display = ''; } else mf.style.display = 'none';
-      c.scrollTop = 0; c.classList.add('on'); c.setAttribute('aria-hidden', 'false');
+      lb.querySelector('.box').classList.add('sp-on'); lb.querySelector('.box').scrollTop = 0; c.setAttribute('aria-hidden', 'false');
       track('tire_specs_view', { tire_name: t.name, brand: cur.brand });
     }
     el('a.sp2').addEventListener('click', function (e) { e.preventDefault(); openSpec(); });
-    el('.spc .bk').addEventListener('click', function () { el('.spc').classList.remove('on'); el('.spc').setAttribute('aria-hidden', 'true'); });
+    el('.spc .bk').addEventListener('click', function () { lb.querySelector('.box').classList.remove('sp-on'); el('.spc').setAttribute('aria-hidden', 'true'); });
     el('.spc .q2').addEventListener('click', function (e) { e.preventDefault(); el('a.q').click(); });
     el('.spc .c2').addEventListener('click', function () { track('tire_call_click', { tire_name: el('h3').textContent, brand: cur.brand, from: 'specs' }); });
     el('.spc .mf').addEventListener('click', function () { track('tire_specs_click', { tire_name: el('h3').textContent, brand: cur.brand }); });
