@@ -148,7 +148,12 @@ Article v2 ROLLED OUT (Nov 1): all 11 Straight Talk pages checked on PC (1280) a
 The "Route 101 Motorsports Offers... Service" page (straight-talk-route-101-motorsports-offers-...) is a service overview, not an article: article2 leaves it alone (0 rows) and it already uses the split photo/text layout (garageStory()). Nov 1: its 3 split rows (Harley, BMW GS, Tires) now slide in and replay on scroll like the articles, with photo drift.
 Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT work. Use real clicks: JS scrollIntoView the item and read its rect (scale x 1568/innerWidth), click it, scroll the panel down, zoom to confirm the panel title, then click "Delete section" (about 62,707 in a 1568x726 frame). Always confirm the panel title first (one click once landed on a Hero).
 
-## LAUNCH (prepared Nov 1, waiting on Glenn's final "go")
+## LAUNCH: LIVE Nov 1, 2026 ~12:25pm PT (Glenn's go)
+- Loader now 485 chars, no lab gate, pinned to ee2b278. Every visitor gets the design. Verified with a fresh visitor (no lab flag) on PC and phone: home, collections, Street Glide S product, Harley/BMW/brake service, tires, Straight Talk hub + article, about, contact-us: design on, no badge, no sideways scroll.
+- From here on, pin updates go straight to the public site; test in a branch commit first if risky.
+- NEXT: exit-intent mailing-list pop-up (Brevo form + Booqable coupon); Glenn deciding discount.
+
+(Original prep notes below.)
 - Launch build: `ee2b2787078ea2e78a8fe433e73a4cb85a211f2c` (CDN warmed). Same as the pinned 4687ee0 but with no lab gate and no LAB MODE badge.
 - The switch, in the Booqable loader (Settings > Checkout > Additional scripts):
   1. Set `var V` to the launch build.
