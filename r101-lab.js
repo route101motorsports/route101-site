@@ -1300,8 +1300,8 @@ body.r101-ab main section.r101-about{overflow-x:clip}
   var CDN = 'https://images.booqablecdn.com/';
   var IMG_HARLEY = 'assets/a64592c4-9950-4366-ad2b-a0044b2ce483/clzvhd39m00jh2a71hqi09q1nsandiegoharleyrentalsreferstwystedthrottle-81b5d46b76f3892c7fea91399eac620f4b88ccdc531e4fe72b904689c855cf12(2).jpg';
   var IMG_GS = 'assets/a64592c4-9950-4366-ad2b-a0044b2ce483/cmht58ngx00jw2a7line2q4zm(2).BMWR1200GSAdventureBikeHero1highresIV-e2d79e9d0fbd87598b14565aa93f9bc66a3c4f908927e0e017d4e5f6295d8980.jpg';
-  var CALL = ['Call (888) 509-5032', 'tel:+18885095032'];
-  var SEE = ['See Bikes & Prices', '#r101-grid'];
+  var CALL = ['CALL (888) 509-5032', 'tel:+18885095032'];
+  var SEE = ['SEE BIKES & PRICES', '#r101-grid'];
   var FLEET = {
     h: 'The Route 101 Rental Fleet',
     p: 'Harley-Davidson touring and cruisers plus BMW GS adventure bikes, all maintained in-house. Free riding gear with every rental, and a $500 deposit, never more.',
@@ -1325,7 +1325,6 @@ body.r101-ab main section.r101-about{overflow-x:clip}
   };
   var CH_CSS = `
 body.r101-ch main section.hero .hero__vision-wrapper:after{content:"";position:absolute;inset:0;background:linear-gradient(127deg,#000 25.94%,rgba(0,0,0,0) 100%);opacity:.72;pointer-events:none;z-index:1}
-body.r101-ch main section.hero .hero__heading{max-width:16ch}
 #r101-grid{scroll-margin-top:110px}
 `;
   function collectionHero() {
