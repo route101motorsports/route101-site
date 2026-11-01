@@ -1407,8 +1407,10 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
 @media (max-width:620px){
 .r101-revs .row{display:grid;grid-template-columns:1fr 1fr;gap:18px 14px;max-width:360px;margin:0 auto}
 .r101-revs .row a{display:flex;justify-content:center}
-.r101-revs .row img{height:auto;width:calc(150px * var(--k,1));max-width:100%}
+.r101-revs .row img{height:calc(62px * var(--k,1));width:auto;max-width:100%}
 .r101-revs .claim{margin-bottom:14px!important;padding:0 10px}
+.r101-revs .claim b{display:block}
+.r101-revs .claim .dot{display:none}
 }
 `;
   function reviewRow() {
@@ -1424,7 +1426,7 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
     secs.forEach(function (s) {
       s.classList.add('r101-revrow-sec');
       var box = document.createElement('div'); box.className = 'r101-revs';
-      var html = '<p class="claim">5 Years in Business &middot; <b>100s of 100% 5-Star Reviews!</b></p><div class="row">';
+      var html = '<p class="claim">5 Years in Business<span class="dot"> &middot;</span> <b>100s of 100% 5-Star Reviews!</b></p><div class="row">';
       REVIEWS.forEach(function (r) {
         html += '<a href="' + r[2] + '" target="_blank" rel="noopener" aria-label="Read our 5-star reviews on ' + r[1] + '" style="--k:' + r[3] + '">' +
           '<img src="' + REV_BASE + 'tight-review-' + r[0] + '.png" alt="Route 101 Motorsports 5-star reviews on ' + r[1] + '" loading="lazy" decoding="async"></a>';
