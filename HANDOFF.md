@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `a9a073c95e6319b99e38f392f86b7eb7823775ae` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
+  Currently pinned to `dd92c1dab380d0536a0eba888b169c9f1913cf4d` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -133,3 +133,13 @@ BMW GS Service brand band (Nov 1): partsBand() now runs on Harley Service, Harle
 Pin tip 3: warm the new r101-lab.js with a NORMAL fetch (not cache:'no-store') from a route101motorsports.com tab; that way the page's own script request is served from cache. With no-store warming, the first real page load twice failed to start the script.
 FAQ added (live, Booqable content, Nov 1) on Harley Service + BMW GS Service: "Can I get a tire change while I wait or same day?" / "In most cases, yes! Fill out the form below or give us a call with your bike's year and model, and we'll get your tire install scheduled." Sits LAST in each FAQ list; Glenn to drag it to 2nd (builder drag can't be automated).
 Booqable template names are swapped: Harley Service page uses template "page.bmw-gs-5k-50k-service-tires.json"; BMW GS Service page uses "page.san-diego-harley-service.json". Edit via Pages > (page) > "Edit template in website builder" to land on the right one.
+
+## Straight Talk article v2 (Nov 1, IN REVIEW on Hidden Costs only)
+article2() runs when ART2_PAGES matches (currently only the-hidden-costs-of-motorcycle-rentals). When Glenn signs off, widen ART2_PAGES to all articles.
+- Full-size first hero (theme height ~857, single .72 overlay, sitewide zoom drift).
+- Photo-only hero + following text section -> one split row (.r101-srow): photo one side (keeps its own shape, no crop), text other side, alternating, slides in on scroll (IntersectionObserver), drift zoom while on screen. Stacks on phone (photo first).
+- Text + author card at the site's standard 1440 container. Glenn's standard bio (GLENN_BIO) replaces his author text.
+- "N min read" after the date; thin orange reading-progress bar under the header.
+- Closing dark CTA card (See bikes & prices / Call) + "More Straight Talk" (3 live articles fetched from the index, current one excluded).
+- deDash(): Straight Talk articles only; headings " — " -> "... ", body -> ", ". Reviews never touched. (Page <title> tags still contain em dashes: Booqable SEO fields, fix there.)
+Not yet handled in v2: articles whose inner heroes carry text (chapter banners) — decide pairing with Glenn when widening.
