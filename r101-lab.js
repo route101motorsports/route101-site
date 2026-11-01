@@ -1544,21 +1544,24 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
 }
 `;
   var PB_LOGOS = [['amsoil', 'AMSOIL', 540], ['kn', 'K&N', 503], ['ebc', 'EBC Brakes', 322], ['brembo', 'Brembo', 540], ['ohlins', 'Öhlins', 445], ['motul', 'Motul', 540], ['ngk', 'NGK Spark Plugs', 323], ['harley', 'Harley-Davidson', 540], ['screamin', "Screamin' Eagle", 480], ['vance', 'Vance & Hines', 540]];
+  var PB_LOGOS_BMW = [['amsoil', 'AMSOIL', 540], ['kn', 'K&N', 503], ['ebc', 'EBC Brakes', 322], ['brembo', 'Brembo', 540], ['ohlins', '\u00d6hlins', 445], ['motul', 'Motul', 540], ['ngk', 'NGK Spark Plugs', 323], ['bmw', 'BMW', 540], ['denali', 'Denali', 540], ['vance', 'Vance & Hines', 540]];
   function partsBand() {
+    var isBmw = /bmw/i.test(location.pathname);
+    var LIST = isBmw ? PB_LOGOS_BMW : PB_LOGOS;
     var hero = document.querySelector('main section.hero');
     if (!hero || document.getElementById('r101-pbrands')) return;
     addStyle('r101-pb-css', PB_CSS);
     var sec = document.createElement('section'); sec.id = 'r101-pbrands';
     var h = '<div class="container"><p class="eb">Proud to use these top brands</p><div class="row">';
-    PB_LOGOS.forEach(function (l) {
-      h += '<span style="--w:' + l[2] + 'px"><img src="' + LOGO_BASE + 'tight-' + l[0] + '.png" alt="' + l[1].replace(/&/g, '&amp;') + ' parts used at Route 101 Motorsports Harley service" loading="lazy" decoding="async"></span>';
+    LIST.forEach(function (l) {
+      h += '<span style="--w:' + l[2] + 'px"><img src="' + LOGO_BASE + 'tight-' + l[0] + '.png" alt="' + l[1].replace(/&/g, '&amp;') + ' parts used at Route 101 Motorsports ' + (isBmw ? 'BMW GS' : 'Harley') + ' service" loading="lazy" decoding="async"></span>';
     });
     sec.innerHTML = h + '</div></div>';
     hero.parentNode.insertBefore(sec, hero.nextSibling);
     // the old flat parts-brand strip(s) lower on the page are redundant now
     [].slice.call(document.querySelectorAll('main section.logos')).forEach(function (s2) {
       var im = s2.querySelector('img');
-      if (im && /ServiceBrandsHarley/i.test(im.getAttribute('src') || im.currentSrc || '')) s2.style.display = 'none';
+      if (im && /ServiceBrands/i.test(im.getAttribute('src') || im.currentSrc || '')) s2.style.display = 'none';
     });
   }
 
@@ -2617,7 +2620,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (location.pathname === '/' || location.pathname === '') homePage();
       if (/^\/pages\/harley-brake-service\/?$/.test(location.pathname)) brakesPage();
       if (/^\/pages\/san-diego-(harley-service|bmw-gs-service)\/?$/.test(location.pathname)) harleyPage();
-      if (/^\/pages\/(san-diego-harley-service|harley-brake-service)\/?$/.test(location.pathname)) partsBand();
+      if (/^\/pages\/(san-diego-harley-service|harley-brake-service|san-diego-bmw-gs-service)\/?$/.test(location.pathname)) partsBand();
       if (/^\/pages\/straight-talk-route-101-motorsports-offers-/.test(location.pathname)) garageStory();
       if (/^\/pages\/contact-us\/?$/.test(location.pathname)) contactPage();
       if (/^\/pages\/about-us\/?$/.test(location.pathname)) aboutPage();
