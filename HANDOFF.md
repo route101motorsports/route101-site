@@ -161,3 +161,11 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
   Keep the Google Analytics line as is.
 - Rollback: put the gate block back, or point V at an older commit.
 - After the switch: run a first-visitor pass in a fresh profile (no lab flag) on PC and phone, covering home, rentals, a bike page, checkout start, service pages, tires, Straight Talk and contact.
+
+## Mailing-list pop-up (Nov 1, TEST MODE, pin 0386d27)
+- exitPopup() in r101-lab.js. PROMO {code, expires, pct} + POP_LIVE flag at the top of the block. POP_LIVE=false: shows only on devices that visited ?popup=test (?popup=off clears, ?popup=show forces it open).
+- PC: exit intent (mouse to the top edge after 4s). Phone (<=860 or touch): bottom sheet after a deep scroll then a quick upward scroll. Close = 7-day snooze (localStorage r101popSnooze). Sign-up = never again (r101popDone). Skips /cart, /checkout(s), /customers, /orders, /account.
+- Submits by posting a hidden form into a hidden iframe to the Brevo form "Website Pop-up Sign-up (Promo Code)" (sibforms serve URL in BREVO_ACTION). Fields: FIRSTNAME, LASTNAME (name box split on first space), EMAIL, SMS + SMS__COUNTRY_CODE=+1 (only if 10 digits), honeypot "website". The response can't be read, so the success screen shows on submit.
+- Brevo: list "Website Sign-ups (Pop-up)" (#5); form uses Simple confirmation with template #7 "Website Pop-up Promo Code (02ROUTE26)" from garage@; disposable emails blocked; no reCAPTCHA (custom pop-up); no owner alert (Glenn checks the list himself).
+- Booqable coupon 02ROUTE26 = 10%, no dates (plan limit). MONTHLY on the 1st: Glenn makes the new code (secret pattern, never write it down publicly); Claude updates PROMO here AND the Brevo template #7 (code + expiry + name), then re-pins. On the 15th Glenn turns off last month's code. Two scheduled reminders exist (1st 9:47am, 15th 10:23am PT).
+- To launch: set POP_LIVE = true, commit, warm, pin.
