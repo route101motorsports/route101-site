@@ -1364,6 +1364,152 @@ body.r101-art #r101-author{flex-direction:column;gap:12px;padding:18px}
 body.r101-art #r101-author img{width:72px;height:72px}
 }
 `;
+  var ART2_CSS = `
+body.r101-art2 main section.text .text__container,body.r101-art2 main section.logos.r101-auth .logos__container{max-width:var(--r101-wrap,1180px)!important}
+body.r101-art2 main section.text .text__wrapper{padding-top:64px!important;padding-bottom:64px!important}
+body.r101-art2 #r101-author{padding:26px 30px;gap:26px}
+body.r101-art2 #r101-author img{width:110px;height:110px}
+body.r101-art2 #r101-author .b{font-size:16px!important;line-height:1.65!important;max-width:none}
+.r101-srow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,60px);align-items:center}
+.r101-srow .fig{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 18px 40px rgba(0,0,0,.16);background:#222}
+.r101-srow .fig img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.r101-srow.rev .fig{order:2}
+.r101-srow .txt > *:first-child{margin-top:0!important}
+@media (prefers-reduced-motion:no-preference){
+.r101-srow .fig{opacity:0;transform:translateX(-56px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.r101-srow.rev .fig{transform:translateX(56px)}
+.r101-srow .txt{opacity:0;transform:translateY(22px);transition:opacity .8s ease .15s,transform .9s cubic-bezier(.2,.7,.2,1) .15s}
+.r101-srow.in .fig,.r101-srow.in .txt{opacity:1;transform:none}
+}
+#r101-prog{position:fixed;left:0;top:0;height:3px;width:0;background:${O};z-index:60;pointer-events:none;transition:width .1s linear}
+body.r101-art2 .r101-rt{white-space:nowrap}
+#r101-endcta{padding:20px 0 10px}
+#r101-endcta .card{position:relative;background:#141414;color:#fff;border-radius:22px;padding:clamp(28px,4vw,48px);overflow:hidden;display:grid;grid-template-columns:1fr auto;gap:26px;align-items:center;box-shadow:0 18px 40px rgba(0,0,0,.18)}
+#r101-endcta .card:before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:${O}}
+#r101-endcta .eb{font:600 13px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:${O};margin:0 0 10px}
+#r101-endcta h2{font-family:Anton,sans-serif!important;text-transform:uppercase;font-size:clamp(28px,2.8vw,40px)!important;line-height:1.05!important;color:#fff!important;margin:0 0 10px!important}
+#r101-endcta p.s{font:400 16px/1.55 Inter,sans-serif!important;color:rgba(255,255,255,.85)!important;margin:0!important;max-width:620px}
+#r101-endcta .bt{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}
+#r101-related{padding:44px 0 64px}
+#r101-related .top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin:0 0 18px}
+#r101-related .eb{font:600 13px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:${O};margin:0 0 10px}
+#r101-related h2{font-family:Anton,sans-serif!important;text-transform:uppercase;font-size:clamp(26px,2.4vw,34px)!important;margin:0!important;color:var(--r101-ink,#111)!important}
+#r101-related .all{font:700 13px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:${O};text-decoration:none;white-space:nowrap}
+#r101-related .g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+#r101-related a.c{display:flex;flex-direction:column;background:#fff;border:1px solid var(--r101-line,#e6e6e6);border-radius:18px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 10px 26px rgba(0,0,0,.06);transition:transform .25s,box-shadow .25s}
+#r101-related a.c:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(0,0,0,.12)}
+#r101-related a.c .im{aspect-ratio:16/10;overflow:hidden;background:#222}
+#r101-related a.c img{width:100%;height:100%;object-fit:cover;display:block;transition:scale .5s ease}
+#r101-related a.c:hover img{scale:1.04}
+#r101-related a.c .t{padding:16px 18px 18px}
+#r101-related a.c .tag{font:600 11.5px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:${O};margin:0 0 8px}
+#r101-related a.c h3{font-family:Anton,sans-serif!important;font-size:20px!important;line-height:1.15!important;margin:0!important;color:var(--r101-ink,#111)!important}
+body.r101-art2 #r101-back{display:none}
+@media (max-width:860px){
+.r101-srow{grid-template-columns:1fr;gap:20px}
+.r101-srow.rev .fig{order:0}
+.r101-srow .fig{aspect-ratio:16/10}
+#r101-endcta .card{grid-template-columns:1fr}
+#r101-endcta .bt{justify-content:flex-start}
+#r101-related .g{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+body.r101-art2 main section.text .text__wrapper{padding-top:38px!important;padding-bottom:38px!important}
+#r101-endcta .bt .button{width:100%;text-align:center}
+#r101-related .top{flex-direction:column;align-items:flex-start}
+}
+`;
+  var GLENN_BIO = 'Glenn Cogan is the founder and CEO of Route 101 Motorsports in Carlsbad. He started riding at age 4, spent a decade racing motocross and 750GP, and is a lifelong rider, racer and motorcycle mechanic. Self-employed since 16, he brings 35+ years of business and brand-building experience and six decades of riding across dirt, street and track to every Route 101 article, and every ride.';
+  var ART2_PAGES = /the-hidden-costs-of-motorcycle-rentals/;   // new article design, page by page until Glenn signs off
+
+  function article2(main, secs) {
+    document.body.classList.add('r101-art2');
+    addStyle('r101-art2-css', ART2_CSS);
+    // photo-only hero + the text section after it -> one split row (alternating sides, slides in)
+    var n = 0;
+    secs.forEach(function (s, i) {
+      if (!s.classList.contains('r101-photo')) return;
+      var t = secs[i + 1];
+      if (!t || !t.classList.contains('text')) return;
+      var cont = t.querySelector('.text__container'); if (!cont || cont.querySelector('.r101-srow')) return;
+      var im = s.querySelector('img'); if (!im) return;
+      var row = document.createElement('div'); row.className = 'r101-srow' + (n % 2 ? ' rev' : ''); n++;
+      var fig = document.createElement('div'); fig.className = 'fig';
+      var ni = document.createElement('img');
+      ni.src = im.currentSrc || im.src; if (im.getAttribute('srcset')) { ni.setAttribute('srcset', im.getAttribute('srcset')); ni.setAttribute('sizes', '(max-width:860px) 100vw, 50vw'); }
+      ni.alt = im.alt || ((t.querySelector('.text__heading') || {}).textContent || '').trim(); ni.loading = 'lazy'; ni.className = 'r101-drift';
+      fig.appendChild(ni);
+      var txt = document.createElement('div'); txt.className = 'txt';
+      while (cont.firstChild) txt.appendChild(cont.firstChild);
+      row.appendChild(fig); row.appendChild(txt); cont.appendChild(row);
+      s.style.display = 'none';
+    });
+    var rows = [].slice.call(main.querySelectorAll('.r101-srow'));
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          var img = e.target.querySelector('.fig img');
+          if (e.isIntersecting) { e.target.classList.add('in'); if (img) img.classList.add('r101-run'); }
+          else if (img) img.classList.remove('r101-run');
+        });
+      }, { threshold: .18 });
+      rows.forEach(function (r) { io.observe(r); });
+    } else rows.forEach(function (r) { r.classList.add('in'); });
+    // Glenn's standard bio
+    var au = document.querySelector('#r101-author');
+    if (au && /glenn cogan/i.test(au.textContent)) { var b = au.querySelector('.b'); if (b) b.textContent = GLENN_BIO; }
+    // read time next to the date
+    var words = 0; [].slice.call(main.querySelectorAll('section.text')).forEach(function (t) { words += (t.innerText || '').split(/\s+/).length; });
+    var mins = Math.max(1, Math.round(words / 230));
+    var dp = [].slice.call((secs[0] || main).querySelectorAll('.hero__description p, .hero__description div')).filter(function (p) { return /date\s*:/i.test(p.textContent); })[0];
+    if (dp && !dp.querySelector('.r101-rt')) { var rt = document.createElement('span'); rt.className = 'r101-rt'; rt.textContent = ' \u00b7 ' + mins + ' min read'; dp.appendChild(rt); }
+    // reading progress bar under the header
+    if (!document.getElementById('r101-prog')) {
+      var pb = document.createElement('div'); pb.id = 'r101-prog'; document.body.appendChild(pb);
+      var upd = function () {
+        var bar = document.querySelector('.header__content') || document.getElementById('header');
+        pb.style.top = Math.max(0, Math.round(bar ? bar.getBoundingClientRect().bottom : 0)) + 'px';
+        var r = main.getBoundingClientRect(), total = r.height - innerHeight;
+        pb.style.width = (total > 0 ? Math.min(100, Math.max(0, -r.top / total * 100)) : 0) + '%';
+      };
+      upd(); addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd);
+    }
+    // closing call to action + related articles
+    var share = secs.filter(function (x) { return x.classList.contains('r101-share'); })[0];
+    var after = share || secs[secs.length - 1];
+    if (!document.getElementById('r101-endcta')) {
+      var ec = document.createElement('section'); ec.id = 'r101-endcta';
+      ec.innerHTML = '<div class="container"><div class="card"><div><p class="eb">Go. Just go.</p><h2>Ready to ride with Route 101?</h2>' +
+        '<p class="s">Harley-Davidson and BMW GS rentals with free riding gear, and a $500 deposit, never more. The price you see is the price you pay.</p></div>' +
+        '<div class="bt"><a class="button button--primary button--large" href="/collections">SEE BIKES &amp; PRICES</a><a class="button button--outlined button--large r101-ol-light" href="tel:+18885095032">CALL (888) 509-5032</a></div></div></div>';
+      after.parentNode.insertBefore(ec, after.nextSibling);
+      var rel = document.createElement('section'); rel.id = 'r101-related';
+      rel.innerHTML = '<div class="container"><div class="top"><div><p class="eb">Keep reading</p><h2>More Straight Talk</h2></div><a class="all" href="/pages/straight-talk">All articles &rarr;</a></div><div class="g"></div></div>';
+      ec.parentNode.insertBefore(rel, ec.nextSibling);
+      if (window.fetch) fetch('/pages/straight-talk').then(function (r) { return r.text(); }).then(function (html) {
+        var d = new DOMParser().parseFromString(html, 'text/html'), here = location.pathname.replace(/\/$/, ''), out = [];
+        [].slice.call(d.querySelectorAll('section.articles')).forEach(function (sec) {
+          var cat = ((sec.querySelector('.articles__heading') || {}).textContent || '').trim();
+          [].slice.call(sec.querySelectorAll('.articles__item')).forEach(function (it) {
+            var a = it.querySelector('a.articles__button'); if (!a) return;
+            var h = (a.getAttribute('href') || '').replace(/^https?:\/\/[^\/]+/, '').replace(/[?#].*$/, '').replace(/\/$/, '');
+            if (!/^\/pages\/straight-talk-/.test(h) || h === here) return;
+            var im = it.querySelector('img');
+            out.push({ h: h, cat: cat, t: ((it.querySelector('.articles__item-heading') || {}).textContent || '').trim().replace(/\s*\u2014\s*/g, '... '), img: im ? (im.getAttribute('src') || '') : '' });
+          });
+        });
+        var g = rel.querySelector('.g');
+        out.slice(0, 3).forEach(function (o) {
+          var a = document.createElement('a'); a.className = 'c'; a.href = o.h;
+          a.innerHTML = '<div class="im"><img loading="lazy" alt=""></div><div class="t"><p class="tag"></p><h3></h3></div>';
+          a.querySelector('img').src = o.img; a.querySelector('img').alt = o.t; a.querySelector('.tag').textContent = o.cat; a.querySelector('h3').textContent = o.t;
+          g.appendChild(a);
+        });
+        if (!out.length) rel.style.display = 'none';
+      }).catch(function () { rel.style.display = 'none'; });
+    }
+  }
+
   function article() {
     var main = document.querySelector('main');
     if (!main || document.body.classList.contains('r101-art')) return;
@@ -1402,6 +1548,7 @@ body.r101-art #r101-author img{width:72px;height:72px}
     secs.forEach(function (s) {
       if (s.classList.contains('columns') && /share on/i.test(s.textContent)) s.classList.add('r101-share');
     });
+    if (ART2_PAGES.test(location.pathname)) article2(main, secs);
     if (!document.getElementById('r101-back')) {
       var bk = document.createElement('div'); bk.id = 'r101-back';
       bk.innerHTML = '<a href="/pages/straight-talk">&larr; More Straight Talk</a>';
@@ -1563,6 +1710,32 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
     [].slice.call(document.querySelectorAll('main section.logos')).forEach(function (s2) {
       var im = s2.querySelector('img');
       if (im && /ServiceBrands/i.test(im.getAttribute('src') || im.currentSrc || '')) s2.style.display = 'none';
+    });
+  }
+
+  /* ---------- EM DASH CLEANUP (Glenn, Nov 1) ----------
+     Long em dashes read as AI-written. Headings: "Title — Subtitle" -> "Title... Subtitle".
+     Body text: "word — word" -> "word, word". Customer reviews are never touched. */
+  function deDash(root) {
+    root = root || document.querySelector('main');
+    if (!root) return;
+    var skip = 'section.testimonials, .testimonials, [class*=testimonial], [class*=review], script, style, textarea, input, #r101-revs';
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var nodes = [], n;
+    while ((n = w.nextNode())) if (n.nodeValue.indexOf('\u2014') > -1) nodes.push(n);
+    nodes.forEach(function (t) {
+      var el = t.parentElement;
+      if (!el || el.closest(skip)) return;
+      var heading = !!el.closest('h1,h2,h3,h4,h5,h6,.hero__heading,.articles__item-heading,.text__heading');
+      var v = t.nodeValue;
+      if (heading) v = v.replace(/\s*\u2014\s*/g, '... ');
+      else {
+        v = v.replace(/^\s*\u2014\s*/, ', ')            // node starts with a dash (after a bold/link)
+             .replace(/\s*\u2014\s*$/, ', ')            // node ends with a dash
+             .replace(/\s*\u2014\s*/g, ', ');
+        v = v.replace(/,\s*,/g, ',').replace(/\s+,/g, ',');
+      }
+      t.nodeValue = v;
     });
   }
 
@@ -2617,6 +2790,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       menuDrawer();
       footer();
       forms();
+      if (/^\/pages\/straight-talk-/.test(location.pathname)) deDash();   // Straight Talk articles only (Glenn)
       if (document.querySelector('main section.accordion')) addStyle('r101-acc-css', ACC_CSS);
       if (location.pathname === '/' || location.pathname === '') homePage();
       if (/^\/pages\/harley-brake-service\/?$/.test(location.pathname)) brakesPage();
