@@ -8,7 +8,7 @@ _Last updated: 2026-10-31, end of session._
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
 - **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
-  Currently pinned to `dd92c1dab380d0536a0eba888b169c9f1913cf4d` (Nov 1: thank-you card + phone fixes on checkout success; guest-checkout card on sign-in; product pages; tire spec cards; brand logos; collection heroes).
+  Currently pinned to `1d2bfdb69b6a24ec1f6587a8948f7831b87f48bf` (Nov 1: Straight Talk article v2 on every /pages/straight-talk-* page, plus everything before it).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
   The loader only fetches the script for lab devices. Launch day = remove the gate lines from the loader.
 
@@ -144,3 +144,6 @@ article2() runs when ART2_PAGES matches (currently only the-hidden-costs-of-moto
 - deDash(): Straight Talk articles only; headings " — " -> "... ", body -> ", ". Reviews never touched. (Page <title> tags still contain em dashes: Booqable SEO fields, fix there.)
 Not yet handled in v2: articles whose inner heroes carry text (chapter banners) — decide pairing with Glenn when widening.
 Hidden Costs article (Booqable template "page.articles-indiidual.json", unique to this article): Spacer (divider under author) and Columns (share links) sections DELETED and published, Nov 1 (Glenn). Do the same on every other article when we roll v2 out: delete the divider Spacer under the author box and any section holding share links.
+Article v2 ROLLED OUT (Nov 1): all 11 Straight Talk pages checked on PC (1280) and phone (390): split rows render, 0 em dashes, no sideways scroll, end CTA + "More Straight Talk" present. Divider Spacer + share Columns deleted and published in Booqable on every article (Protect Yourself, Peer-to-Peer, Google vs, Prices Soar, Founder, Riding Fundamentals, Revving, Human-AI [divider only]; Hidden Costs earlier; Oil Change and the "Offers Service" page never had them). Live check: 0 dividers, 0 share sections across all 11.
+The "Route 101 Motorsports Offers... Service" page (straight-talk-route-101-motorsports-offers-...) is a service overview, not an article: article2 leaves it alone (0 rows) and it already uses the split photo/text layout.
+Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT work. Use real clicks: JS scrollIntoView the item and read its rect (scale x 1568/innerWidth), click it, scroll the panel down, zoom to confirm the panel title, then click "Delete section" (about 62,707 in a 1568x726 frame). Always confirm the panel title first (one click once landed on a Hero).
