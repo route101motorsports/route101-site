@@ -3288,7 +3288,11 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
     if (notice) notice.style.display = 'none';
     // the old one-line "Advance Booking Required." text elsewhere on the page is now redundant
     [].slice.call(main.querySelectorAll('h1,h2,h3,h4,p')).forEach(function (el) {
-      if (!t.contains(el) && /^advance booking required\.?$/i.test((el.textContent || '').trim())) el.style.display = 'none';
+      if (!t.contains(el) && /^advance booking required\.?$/i.test((el.textContent || '').trim())) {
+        el.style.display = 'none';
+        var sc = el.closest('section');
+        if (sc && /^advance booking required\.?$/i.test((sc.textContent || '').trim())) sc.style.display = 'none';
+      }
     });
   }
 
