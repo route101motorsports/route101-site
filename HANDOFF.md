@@ -216,3 +216,9 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Footer: empty payment-icon box hidden; PC top 64 / bottom 48; phone bottom 80 (Call now button).
 - Service pages: #r101-svc padding 40/24, #r101-steps top 40; diagnostics blocks 48px + tagline "Dealership-level diagnostics at local shop prices" (iCarsoft + GS-911).
 - Lesson: a python replace of a repeated code pattern hit the wrong function (reviewRow) and broke pages ~5 min. Always check uniqueness (count==1) before replacing.
+
+## Rental landing pages + price chart (Nov 2, ~7:15-8:00am)
+- landingPage() now: body.r101-land; reuses HOME_CSS product/testimonial rules (body.r101-home -> body.r101-land); products__tag (star lines) -> one eyebrow line; add-on section (.r101-addons, h2 contains "Add-Ons") photos object-fit:contain; $0.00 prices hidden (price lives in bq-product-price shadowRoot); step 3 "Book Your Rental" gets "Select your dates & book" (LAND_FLEET per page) + Call buttons. Pacific Beach added to landing pages.
+- priceChart(): PRICE_DATA (read off May 2025 audit image) drawn as SVG, hover/tap tooltip, draw-in, 3 savings stats; Competitor A/B/C (names withheld). Live on Harley rentals + San Diego motorcycle rentals pages (pin ec3e5b2).
+- PENDING: pin 8b549b3 (chart anchors on the "lowest prices" heading, not the image) BEFORE deleting the graph image hero section in the builder (templates for san-diego-harley-rentals and motorcycle-rentals-san-diego). Chrome disconnected at that point.
+- Ticker still TEST MODE (TICK_LIVE=false) awaiting Glenn's go.
