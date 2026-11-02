@@ -2674,6 +2674,18 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
       var big = s.querySelector('source') && s.querySelector('source').srcset ? s.querySelector('source').srcset.split(',').pop().trim().split(' ')[0] : src;
       cards.push({ t: parts[0], p: parts[1], d: parts.slice(2).join(' | '), href: here ? formHash : href, here: here, img: big || src });
     });
+    // card text lives here once the builder poster sections are deleted ("Title | Price | One line", link)
+    var SVC_CARDS = {
+      'san-diego-harley-service': [
+        ['Harley-Spec Interval Service', '$459', 'Full Harley-spec service from 1,000 to 30,000 miles, plus a Route 101 safety inspection.', ''],
+        ['Harley Brake Service', 'from $235', 'EBC H-H sintered pads and Motul DOT 4 fluid. Front $235, front & rear $299.', '/pages/harley-brake-service'],
+        ['V-Twin 3-Hole Oil Service', '$195', 'AMSOIL synthetic engine, primary and transmission oil, plus a K&N filter and new derby gasket.', '']
+      ]
+    };
+    var slug = location.pathname.replace(/\/+$/, '').split('/').pop();
+    if (!cards.length && SVC_CARDS[slug]) SVC_CARDS[slug].forEach(function (c) {
+      cards.push({ t: c[0], p: c[1], d: c[2], href: c[3] || formHash, here: !c[3], img: '' });
+    });
     cards.sort(function (x, y) { return (x.here ? 0 : 1) - (y.here ? 0 : 1); });
     var after = hero;
     if (cards.length && !document.getElementById('r101-svc')) {
