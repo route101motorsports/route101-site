@@ -1653,7 +1653,7 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
   var LAND_CSS = `
 body.r101-land section.products .products__tag{display:block!important;font:600 13px/1.6 Inter,system-ui,sans-serif!important;letter-spacing:.14em!important;text-transform:uppercase!important;color:${O}!important;margin:0 0 10px!important;text-align:left!important}
 body.r101-land section.products .products__heading{text-align:left!important}
-body.r101-land section.products .product-card img{object-fit:contain!important;background:#fff}
+body.r101-land section.products.r101-addons .product-card img{object-fit:contain!important;background:#fff}
 body.r101-land section.products .r101-free{display:none!important}
 body.r101-land .r101-s3{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:22px}
 body.r101-land .r101-s3 a{min-width:240px;text-align:center}
@@ -1679,12 +1679,18 @@ body.r101-land .r101-s3 a{min-width:240px;text-align:center}
       if (parts.length) tg.textContent = parts.join(' · ');
     });
     // add-ons with no daily price show "$0.00 / 1 day": hide that line
+    [].slice.call(main.querySelectorAll('section.products')).forEach(function (sec) {
+      var hh = sec.querySelector('h2');
+      if (hh && /add-?ons?/i.test(hh.textContent)) sec.classList.add('r101-addons');
+    });
     var zero = function () {
       [].slice.call(main.querySelectorAll('section.products .product-card__price-info')).forEach(function (pi) {
-        if (/^\$0\.00\b/.test((pi.textContent || '').trim())) pi.classList.add('r101-free');
+        var bq = pi.querySelector('bq-product-price');
+        var tx = ((bq && bq.shadowRoot ? bq.shadowRoot.textContent : '') || pi.textContent || '').trim();
+        if (/^\$0\.00\b/.test(tx)) pi.classList.add('r101-free');
       });
     };
-    zero(); setTimeout(zero, 800); setTimeout(zero, 2000); setTimeout(zero, 4500);
+    zero(); setTimeout(zero, 800); setTimeout(zero, 2000); setTimeout(zero, 4500); setTimeout(zero, 9000);
     // step 3 "Book Your Rental!" had nothing to click
     var slug = location.pathname.replace(/\/+$/, '').split('/').pop();
     var fleet = LAND_FLEET[slug] || '/collections/route-rental-fleet';
