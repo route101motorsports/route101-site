@@ -207,3 +207,12 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - GA events: site_search, search_no_results (search_term, page_matches, product_matches), search_page_click.
 - Gate: `SRCH_LIVE = false`. A browser opens `?srch=test` once (localStorage r101srch=1) to see it; `?srch=off` clears. Go live = set SRCH_LIVE true, push, pin.
 - New page added to the site -> add it to SPAGES (+ topic words if needed).
+
+## Nov 2 2026 morning session (live)
+- Builder template names are swapped/odd: Harley Service page = template "Bmw gs 5k 50k service tires" (page.bmw-gs-5k-50k-service-tires.json); BMW GS page = template "San diego harley service" (page.san-diego-harley-service.json); Brakes = "Harley brake service". Open directly with ?template=<file> on the theme URL.
+- Builder text editing: RedactorX instance -> app.editor.setContent({html}) WITHOUT the last character, then a real keystroke typing that character, so the builder registers the change. Two preview iframes swap; read iframe.preview.active.
+- Hours everywhere: Open 7 days, 8am–6pm, by appointment (service FAQs fixed).
+- Homepage FAQs rewritten 11 -> 9 (FAQ-HOME-2026-11-02.md). FAQ cards black sitewide. FAQ intro gap 24px.
+- Footer: empty payment-icon box hidden; PC top 64 / bottom 48; phone bottom 80 (Call now button).
+- Service pages: #r101-svc padding 40/24, #r101-steps top 40; diagnostics blocks 48px + tagline "Dealership-level diagnostics at local shop prices" (iCarsoft + GS-911).
+- Lesson: a python replace of a repeated code pattern hit the wrong function (reviewRow) and broke pages ~5 min. Always check uniqueness (count==1) before replacing.
