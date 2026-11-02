@@ -1696,7 +1696,7 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
         html += '<a href="' + r[2] + '" target="_blank" rel="noopener" aria-label="Read our 5-star reviews on ' + r[1] + '" style="--k:' + r[3] + '">' +
           '<img src="' + REV_BASE + 'tight-review-' + r[0] + '.png" alt="Route 101 Motorsports 5-star reviews on ' + r[1] + '" loading="lazy" decoding="async"></a>';
       });
-      box.innerHTML = html + '</div>';
+      box.innerHTML = html + '</div>' + (set[3] ? '<p class="tag">' + set[3] + '</p>' : '');
       var c = s.querySelector('.logos__container') || s.firstElementChild || s;
       c.appendChild(box);
     });
@@ -1713,6 +1713,8 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
 .r101-bl .row a:hover{transform:translateY(-3px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
 body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row img{width:calc(var(--w) * var(--s))!important;height:auto!important;max-width:100%!important;max-height:none!important;display:block!important;margin:0!important}
 .r101-bl.one .row{--s:.56}
+.r101-bl .tag{margin:12px 0 0!important;font:700 13px/1.4 Inter,system-ui,sans-serif!important;letter-spacing:.16em!important;text-transform:uppercase!important;color:#111!important}
+@media (max-width:620px){.r101-bl .tag{font-size:11px!important;letter-spacing:.12em!important;padding:0 12px}}
 @media (max-width:1100px){.r101-bl .row{--s:.25;grid-template-columns:repeat(4,auto)}.r101-bl.one .row{--s:.5}}
 @media (max-width:620px){
 .r101-bl:not(.one) .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px;max-width:360px;margin:0 auto;--s:.27}
@@ -1722,7 +1724,7 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
 `;
   var BL_SETS = [
     [/TireBrands/i, [['dunlop', 'Dunlop', 540], ['michelin', 'Michelin', 526], ['bridgestone', 'Bridgestone', 540], ['metzeler', 'Metzeler', 540], ['pirelli', 'Pirelli', 540], ['shinko', 'Shinko', 540], ['maxxis', 'Maxxis', 540], ['mitas', 'Mitas', 540]], 'tires'],
-    [/iCarSoft/i, [['icarsoft', 'iCarsoft MT Pro diagnostics', 540]], 'one'],
+    [/iCarSoft/i, [['icarsoft', 'iCarsoft MT Pro diagnostics', 540]], 'one', 'Dealership-level diagnostics at local shop prices'],
     [/GS911/i, [['gs911', 'HEX GS-911 BMW diagnostics', 490]], 'one']
   ];
   function serviceLogos() {
