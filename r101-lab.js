@@ -709,7 +709,8 @@ body.r101-ftr footer .r101-pop{font:600 11px/1 Inter,system-ui,sans-serif;letter
     addStyle('r101-ftr-css', FTR_CSS);
 
     // 'Get a quote' goes to this page's own quote form if it has one, otherwise to Contact Us
-    var pf = document.querySelector('main section.contact-form');
+    // the page's main form is the LAST one in the builder (extra request forms sit above it)
+    var pfs = document.querySelectorAll('main section.contact-form'), pf = pfs[pfs.length - 1];
     if (pf && !pf.id) pf.id = 'r101-quote';
     var quote = pf ? '#' + pf.id : '/pages/contact-us';
     var cta = document.createElement('section');
@@ -2553,7 +2554,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     addStyle('r101-hrl-css', HRL_CSS);
     var secs = [].slice.call(main.querySelectorAll('section')).filter(function (s) { return !s.parentElement.closest('section'); });
     var hero = secs[0];
-    var form = main.querySelector('section.contact-form');
+    var forms0 = main.querySelectorAll('section.contact-form'), form = forms0[forms0.length - 1];   // main form = last one
     var formHash = form && form.id ? '#' + form.id : '#section-contact-form';
     var dec = function (s) { var t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
     var BR = /bmw/i.test(location.pathname) ? 'BMW' : 'Harley';            // brand words for the BMW GS hub
