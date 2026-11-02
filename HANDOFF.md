@@ -177,3 +177,17 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - (A headGap() fix for the solid-header white strip existed briefly in 136c9ef; removed when the header went back to transparent.)
 - boot() also adds html.r101-ready once the design has applied (unused for now; it would let a head-level anti-flash rule work if Booqable ever allows head code).
 - Best remaining fix: ask Booqable support whether head code is available on any plan.
+
+## Form buttons / in-page jumps (Nov 1, pin 7c3a91d)
+- Bug (Glenn): "Submit Harley service request" landed at the footer. The Booqable buttons use full URLs with a trailing slash (/pages/x/#contact-form), so the browser RELOADED the page and jumped before our layout and lazy images settled.
+- anchors() in boot(): rewrites same-page links (any path +/- trailing slash) to pure #hash; one document click handler smooth-scrolls to the target, offset below the header at its tallest (hbNow() measures the visible header bar = descendants of #header with top<45 and bottom<200, which skips the off-canvas menu; hbMax is learned at load and resize while scrollY<5, because the header re-grows with the top bar on any upward scroll), then re-aims after scrollend or 1.1s, and again 0.5s later, since lazy images push the target down. Arriving with a hash re-aims at 0, 350, 1200ms and on load, unless the visitor has already scrolled.
+- Test results before the last two tweaks: Harley brakes 5/5 and tires 11/11 OK; Harley service OK visually; BMW landed ~16px under the full-height header (the hbMax fix, 7c3a91d, addresses that; not yet re-verified because Chrome disconnected).
+- STILL TO VERIFY: BMW, Harley service, brakes, tires, contact-us, garage story page, phone width, and arriving from another page with #contact-form.
+
+## Google Ads, approved Nov 1 (NOT yet done)
+1) Remove the duplicate "Calls from ads" conversion (two exist: Count=One and Count=Every; keep one, 60s).
+2) Website call-tap tracking: GA event on tel: link taps -> GA key event -> import to Ads.
+3) Check the GA quote_form_submit rule still matches the redesigned forms + one test submit marked "TEST – ignore".
+4) Add negatives to Harley Tires: atv, utv, golf cart, lawn mower, trailer, wheelbarrow, pit bike, minibike.
+5) Add Brakes phrase keywords: "harley brake job", "harley brakes".
+- Review status: $171 all-time, 50 clicks, 0 tracked conversions; since the restructure (Oct 29 on): $84, 25 clicks, $3.37 CPC. Call reporting ON (forwarding number on the 858 call asset), call recording ON. 85 negatives already in place. Next review at ~$250-300 total spend.
