@@ -3494,6 +3494,26 @@ body.r101-form main section.contact-form.r101-inform .form__textarea{height:110p
 section.contact-form.r101-inform .r101-orcall{grid-column:1/-1;margin:10px 0 0!important;text-align:center;font:500 14px/1.4 Inter,system-ui,sans-serif!important;color:#555!important}
 section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight:700;text-decoration:none}
 @media (max-width:620px){`;
+  /* ---------- ONE SPACING STANDARD (Glenn's test, Harley Service page only, test mode) ----------
+     Builder padding settings are ignored; code sets every non-photo section. Photo sections keep their size. */
+  var PAD_CSS = `
+html body.r101-pad #r101-pbrands{padding:28px 0!important}
+html body.r101-pad #r101-svc{padding:40px 0!important}
+html body.r101-pad #r101-steps{padding:40px 0!important}
+html body.r101-pad main > section.r101-inf-host:not(.r101-tight) > div{padding-top:40px!important;padding-bottom:0!important}
+html body.r101-pad main > section.r101-tight-logos > div{padding-top:40px!important;padding-bottom:0!important}
+html body.r101-pad main > section.r101-tight > div{padding-top:16px!important;padding-bottom:0!important}
+html body.r101-pad main > section.contact-form.r101-inform > div{padding-top:0!important;padding-bottom:56px!important}
+html body.r101-pad main > section.accordion > div{padding-top:56px!important;padding-bottom:56px!important}
+html body.r101-pad main > section.spacer{display:none!important}
+@media (max-width:760px){
+html body.r101-pad #r101-pbrands{padding:22px 0!important}
+html body.r101-pad #r101-svc,html body.r101-pad #r101-steps{padding:32px 0!important}
+html body.r101-pad main > section.r101-inf-host:not(.r101-tight) > div,html body.r101-pad main > section.r101-tight-logos > div{padding-top:32px!important}
+html body.r101-pad main > section.contact-form.r101-inform > div{padding-bottom:40px!important}
+html body.r101-pad main > section.accordion > div{padding-top:40px!important;padding-bottom:40px!important}
+}
+`;
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
@@ -3511,6 +3531,7 @@ section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight
     var forms = [].slice.call(main.querySelectorAll('section.contact-form')).filter(function (f) { return f.querySelector('form') && !f.classList.contains('r101-inform'); });
     if (!host || !forms.length) return;
     addStyle('r101-inform-css', INFORM_CSS);
+    if (/^\/pages\/san-diego-harley-service\/?$/.test(location.pathname)) { document.body.classList.add('r101-pad'); addStyle('r101-pad-css', PAD_CSS); }
     var bgOf = function (el) { var c = el && getComputedStyle(el).backgroundColor; return c && !/rgba\(0, 0, 0, 0\)|transparent/.test(c) ? c : ''; };
     var KINDS = [
       [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics request: ', 'Year, make & model, mileage, and any warning lights, codes or symptoms.'],
