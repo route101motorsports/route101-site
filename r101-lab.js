@@ -2765,7 +2765,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     });
 
     // the two brand-logo strips -> one row, moved down near the form
-    var logos = secs.slice(1, 4).filter(function (s) { return s.classList.contains('logos'); });
+    var logos = secs.slice(1, 4).filter(function (s) { var im = s.querySelector('img'); return s.classList.contains('logos') && im && /ServiceBrands/i.test(im.getAttribute('src') || ''); });
     if (logos.length) {
       var row = logos[0], wrap = row.querySelector('.logos__images-wrapper');
       logos.slice(1).forEach(function (l) {
