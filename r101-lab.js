@@ -806,6 +806,7 @@ body.r101-form section.contact-form .form__submit .button{width:100%;background:
       '/pages/san-diego-bmw-gs-service': 'Year & model (e.g. 2021 R 1250 GSA), mileage, and what you need.'
     }[p] || 'Year, make & model of your bike, and how we can help.';
     document.querySelectorAll('main section.contact-form textarea').forEach(function (t) { t.setAttribute('placeholder', ph); });
+    document.querySelectorAll('main section.contact-form input#author').forEach(function (t) { t.setAttribute('placeholder', 'Name & Phone Required'); });
   }
 
   /* ---------- HARLEY BRAKE SERVICE PAGE ---------- */
