@@ -3494,8 +3494,15 @@ section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
     var on = INFORM_LIVE; try { on = on || localStorage.getItem('r101inform') === '1'; } catch (e) {}
-    if (!on) return;
     var main = document.querySelector('main'); if (!main) return;
+    if (!on) {
+      // not switched on yet: the extra builder forms under each service block stay hidden; the original form stays where it was
+      [].slice.call(main.querySelectorAll('section.contact-form')).forEach(function (f) {
+        var pv = f.previousElementSibling; while (pv && pv.tagName !== 'SECTION') pv = pv.previousElementSibling;
+        if (pv && pv.classList.contains('r101-tight')) f.style.display = 'none';
+      });
+      return;
+    }
     var host = [].slice.call(main.querySelectorAll('section.hero.r101-hl')).filter(function (s) { return !s.classList.contains('r101-tight') && s.querySelector('ul'); })[0];
     var forms = [].slice.call(main.querySelectorAll('section.contact-form')).filter(function (f) { return f.querySelector('form') && !f.classList.contains('r101-inform'); });
     if (!host || !forms.length) return;
