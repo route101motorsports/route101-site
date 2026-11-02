@@ -3366,7 +3366,7 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
 #r101-pc .sub{font:400 16px/1.5 Inter,system-ui,sans-serif;color:#555;margin:0 0 22px;max-width:760px}
 #r101-pc .card{background:#111;border-radius:18px;padding:22px 22px 14px;position:relative}
 #r101-pc .lg{display:flex;flex-wrap:wrap;gap:8px 20px;margin:0 0 10px}
-#r101-pc .lg span{display:inline-flex;align-items:center;gap:8px;font:600 13px/1 Inter,system-ui,sans-serif;color:#cfcfcf}
+#r101-pc .lg span{display:inline-flex;align-items:center;gap:8px;font:600 13px/1 Inter,system-ui,sans-serif!important;letter-spacing:0!important;text-transform:none!important;color:#cfcfcf}
 #r101-pc .lg i{display:inline-block;width:22px;height:4px;border-radius:2px}
 #r101-pc .lg span.r{color:#fff}
 #r101-pc .plot{position:relative;width:100%}
@@ -3377,6 +3377,7 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
 #r101-pc.anim.in .ln{transition:stroke-dashoffset 1.6s ease;stroke-dashoffset:0}
 #r101-pc.anim.in .ln.r{transition-delay:.35s;transition-duration:1.9s}
 #r101-pc .tip{position:absolute;top:0;pointer-events:none;background:#fff;color:#111;border-radius:12px;padding:10px 12px;font:600 13px/1.45 Inter,system-ui,sans-serif;box-shadow:0 10px 26px rgba(0,0,0,.35);opacity:0;transition:opacity .12s;white-space:nowrap;z-index:2}
+#r101-pc .tip,#r101-pc .tip *{font-family:Inter,system-ui,sans-serif!important;letter-spacing:0!important;text-transform:none!important;font-size:13px!important}
 #r101-pc .tip b{display:block;font-weight:800;margin-bottom:2px}
 #r101-pc .tip .r{color:${O};font-weight:800}
 #r101-pc .tip .m{color:#555}
