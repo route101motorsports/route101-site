@@ -3504,7 +3504,7 @@ html body.r101-pad main > section.r101-inf-host:not(.r101-tight) > div{padding-t
 html body.r101-pad main > section.r101-tight-logos > div{padding-top:40px!important;padding-bottom:0!important}
 html body.r101-pad main > section.r101-tight > div{padding-top:16px!important;padding-bottom:0!important}
 html body.r101-pad main > section.contact-form.r101-inform > div{padding-top:0!important;padding-bottom:56px!important}
-html body.r101-pad main > section.accordion > div{padding-top:56px!important;padding-bottom:56px!important}html body.r101-pad main > section.contact-form.r101-inform + section.accordion > div,html body.r101-pad main > section.contact-form.r101-inform + section.spacer + section.accordion > div{padding-top:0!important}
+html body.r101-pad main > section.accordion > div{padding-top:56px!important;padding-bottom:56px!important}html body.r101-pad main > section.accordion.r101-afterform > div{padding-top:0!important}
 html body.r101-pad main > section.spacer{display:none!important}
 html body.r101-pad main > section.r101-hero1 > div{min-height:100vh!important;min-height:100svh!important;height:100vh;height:100svh;padding-top:0!important;padding-bottom:0!important;display:flex!important;align-items:center!important;box-sizing:border-box}
 html body.r101-pad main > section.r101-photoblk > div{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important;display:flex!important;align-items:center!important;box-sizing:border-box;overflow:hidden}
@@ -3537,6 +3537,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     addStyle('r101-inform-css', INFORM_CSS);
     if (/^\/pages\/san-diego-harley-service\/?$/.test(location.pathname)) {
       document.body.classList.add('r101-pad'); addStyle('r101-pad-css', PAD_CSS);
+      document.querySelectorAll('main > section.accordion').forEach(function (acc) { var e = acc.previousElementSibling; while (e && e.offsetHeight === 0) e = e.previousElementSibling; if (e && e.classList.contains('r101-inform')) acc.classList.add('r101-afterform'); });
       // golden rules: hero #1 = full screen; every other photo block = one size
       var ps = [].slice.call(main.children).filter(function (x) { return x.tagName === 'SECTION' && (x.classList.contains('hero') || x.classList.contains('cta')) && [].slice.call(x.querySelectorAll('img')).some(function (im) { return im.offsetHeight > 200 && !im.closest('.r101-pic'); }); });
       ps.forEach(function (x, i) { x.classList.add(i === 0 && x === main.querySelector('section') ? 'r101-hero1' : 'r101-photoblk'); });
