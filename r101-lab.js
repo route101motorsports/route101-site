@@ -1115,7 +1115,6 @@ body.r101-home section.testimonials .carousel__btn,body.r101-home section.produc
     var hero = secs[0];
     // "Advance Booking Required." line -> small notice pill
     secs.forEach(function (s) { if (s.classList.contains('text') && /advance booking/i.test(s.textContent) && s.textContent.trim().length < 80) s.classList.add('r101-notice'); });
-    try { bookTicker(main); } catch (e) {}
     // Rentals + Garage hub right under the hero (both sides of the business, one tap each)
     if (hero && !document.getElementById('r101-hub')) {
       var hub = document.createElement('section');
@@ -3266,21 +3265,27 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
 @media (max-width:760px){#r101-tick{padding:10px 0}#r101-tick span{font-size:12px!important;letter-spacing:.12em!important}#r101-tick .tr{animation-duration:55s}}
 @media (prefers-reduced-motion:reduce){#r101-tick .tr{animation:none}}
 `;
-  function bookTicker(main) {
+  function bookTicker() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('tick') === 'test') localStorage.setItem('r101tick', '1'); if (u.get('tick') === 'off') localStorage.removeItem('r101tick'); } catch (e) {}
     var on = TICK_LIVE; try { on = on || localStorage.getItem('r101tick') === '1'; } catch (e) {}
     if (!on || document.getElementById('r101-tick')) return;
-    var sec = main.querySelector('section.r101-notice');
-    if (!sec) return;
+    if (/^\/(cart|checkouts?|customers|orders|account)/.test(location.pathname) || /\/collections\/route-101-merch/.test(location.pathname)) return;
+    var main = document.querySelector('main'); if (!main) return;
+    // the first block of rental bikes / items on the page
+    var target = main.querySelector('section.products, section.collection-page');
+    if (!target) return;
+    var notice = main.querySelector('section.r101-notice');
     addStyle('r101-tick-css', TICK_CSS);
     var t = document.createElement('div'); t.id = 'r101-tick'; t.setAttribute('role', 'note');
     t.setAttribute('aria-label', 'Advance booking and service appointments required. No walk-ins. Book online or call (888) 509-5032.');
     var one = '<span>' + TICK_MSG + '</span>';
     t.innerHTML = '<div class="tr">' + one + one + one + one + '</div>';
-    sec.parentNode.insertBefore(t, sec);
-    sec.style.display = 'none';
+    var before = (notice && notice.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING) ? notice : target;
+    before.parentNode.insertBefore(t, before);
+    if (notice) notice.style.display = 'none';
   }
+
 
   function run() {
     try {
@@ -3308,6 +3313,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
+      try { bookTicker(); } catch (e) {}
       reviewRow();
       try { exitPopup(); } catch (e) {}
       if (/^\/search\/?$/.test(location.pathname)) { try { siteSearch(); } catch (e) {} }
