@@ -3489,14 +3489,7 @@ body.r101-form main section.contact-form.r101-inform textarea::placeholder{color
 body.r101-form main section.contact-form.r101-inform .form__textarea{height:110px!important;min-height:90px!important}
 section.contact-form.r101-inform .r101-orcall{grid-column:1/-1;margin:10px 0 0!important;text-align:center;font:500 14px/1.4 Inter,system-ui,sans-serif!important;color:#555!important}
 section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight:700;text-decoration:none}
-main .r101-reqbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:22px 0 0}
-main .r101-reqbar .button{min-width:250px;text-align:center}
-main .r101-reqbar span{font:500 14px/1.4 Inter,system-ui,sans-serif!important;color:#555}
-main .r101-reqbar span a{color:#111!important;font-weight:700;text-decoration:none}
-main section.hero:not(.r101-hl) .r101-reqbar span,main section.hero:not(.r101-hl) .r101-reqbar span a{color:#e5e5e5!important}
-main .r101-reqbar.r101-here{display:none!important}
-@media (max-width:620px){main .r101-reqbar .button{flex:1 1 100%;min-width:0}}
-`;
+@media (max-width:620px){`;
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
@@ -3504,70 +3497,56 @@ main .r101-reqbar.r101-here{display:none!important}
     if (!on) return;
     var main = document.querySelector('main'); if (!main) return;
     var host = [].slice.call(main.querySelectorAll('section.hero.r101-hl')).filter(function (s) { return !s.classList.contains('r101-tight') && s.querySelector('ul'); })[0];
-    var fs = main.querySelector('section.contact-form');
-    var form = fs && fs.querySelector('form#contact, form');
-    if (!host || !fs || !form || fs.classList.contains('r101-inform')) return;
+    var forms = [].slice.call(main.querySelectorAll('section.contact-form')).filter(function (f) { return f.querySelector('form') && !f.classList.contains('r101-inform'); });
+    if (!host || !forms.length) return;
     addStyle('r101-inform-css', INFORM_CSS);
-    // move it up if it hasn't been dragged there in the builder
-    if (host.nextElementSibling !== fs) host.parentNode.insertBefore(fs, host.nextElementSibling);
-    host.classList.add('r101-inf-host'); fs.classList.add('r101-inform');
     var bgOf = function (el) { var c = el && getComputedStyle(el).backgroundColor; return c && !/rgba\(0, 0, 0, 0\)|transparent/.test(c) ? c : ''; };
-    fs.style.setProperty('--r101-inf-bg', bgOf(host.querySelector('[class*=wrapper]')) || bgOf(host) || '#f5f4f1');
-    // hide everything in the form section except the form itself (headings, intro text, lists)
-    var n = form;
-    while (n && n !== fs) {
-      [].slice.call(n.parentElement ? n.parentElement.children : []).forEach(function (sib) { if (sib !== n && sib.tagName !== 'SCRIPT') sib.classList.add('r101-inf-x'); });
-      n = n.parentElement;
-    }
-    if (!form.querySelector('.r101-orcall')) {
-      var oc = document.createElement('p'); oc.className = 'r101-orcall';
-      oc.innerHTML = 'Prefer to talk? Call <a href="tel:+18885095032">(888) 509-5032</a>';
-      var sub = form.querySelector('.form__submit'); (sub && sub.parentNode === form ? form : form).insertBefore(oc, sub ? sub.nextSibling : null);
-    }
-    // one real form that comes to them: a "Submit ___ Request" bar at the end of each service block
-    var ta = form.querySelector('textarea'), basePh = ta ? ta.getAttribute('placeholder') : '';
-    var bike = /bmw/.test(location.pathname) ? 'BMW' : 'Harley';
     var KINDS = [
-      [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics', 'Diagnostics request: ', 'Year, make & model, mileage, and any warning lights, codes or symptoms.'],
-      [/tire/i, 'Tire', 'Tire request: ', 'Year, make & model, and front, rear or both?'],
-      [/brake/i, 'Brake', 'Brake request: ', 'Year, make & model, and front only or front & rear?']
+      [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics request: ', 'Year, make & model, mileage, and any warning lights, codes or symptoms.'],
+      [/tire/i, 'Tire request: ', 'Year, make & model, and front, rear or both?'],
+      [/brake/i, 'Brake request: ', 'Year, make & model, and front only or front & rear?']
     ];
-    var bars = [];
-    var mk = function (label, prefix, ph, after) {
-      var b = document.createElement('div'); b.className = 'r101-reqbar';
-      b.innerHTML = '<a href="#contact" class="button button--primary button--large">Submit ' + label + ' Request</a><span>or call <a href="tel:+18885095032">(888) 509-5032</a></span>';
-      b.querySelector('a.button').addEventListener('click', function (e) {
-        e.preventDefault(); e.stopPropagation();
-        after.parentNode.insertBefore(fs, after.nextSibling);
-        fs.style.setProperty('--r101-inf-bg', bgOf(after.querySelector('[class*=wrapper]')) || bgOf(after) || '#f5f4f1');
-        bars.forEach(function (x) { x.classList.toggle('r101-here', x === b); });
-        if (ta) {
-          var v = ta.value, known = KINDS.map(function (k) { return k[2]; }).concat(['Service request: ']);
-          known.forEach(function (k) { if (v.indexOf(k) === 0) v = v.slice(k.length); });
-          ta.value = prefix + v; ta.setAttribute('placeholder', ph || basePh);
-        }
-        var nm = form.querySelector('input#author') || form.querySelector('input');
-        var y = fs.getBoundingClientRect().top + scrollY - 140;
-        scrollTo({ top: y, behavior: 'smooth' });
-        setTimeout(function () { try { nm && nm.focus({ preventScroll: true }); } catch (x) {} }, 600);
-        try { if (window.gtag) gtag('event', 'service_request_open', { kind: label }); } catch (x) {}
-      });
-      return b;
-    };
-    // back-to-checklist bar (hidden while the form sits under the checklist)
-    var hb = mk('Service', 'Service request: ', basePh, host); hb.classList.add('r101-here');
-    (host.querySelector('.hero__container') || host.querySelector('.container') || host).appendChild(hb); bars.push(hb);
-    [].slice.call(main.querySelectorAll('section.hero.r101-hl.r101-tight')).forEach(function (blk) {
+    var blockText = function (blk) {
       var p1 = blk.previousElementSibling; while (p1 && !(p1.tagName === 'SECTION' && p1.classList.contains('hero'))) p1 = p1.previousElementSibling;
-      var tx = ((p1 && p1.querySelector('h1,h2,h3')) || {}).textContent || '';
-      tx += ' ' + (((blk.querySelector('h2,h3')) || {}).textContent || '');
-      var k = KINDS.filter(function (kk) { return kk[0].test(tx); })[0];
-      if (!k) return;
-      var b = mk(k[1], k[2], k[3], blk);
-      (blk.querySelector('.hero__container') || blk.querySelector('.container') || blk).appendChild(b); bars.push(b);
-      if (p1) { var pb = p1.querySelector('.hero__buttons'); if (pb) pb.style.display = 'none'; }
+      return { intro: p1, text: (((p1 && p1.querySelector('h1,h2,h3')) || {}).textContent || '') + ' ' + (((blk.querySelector('h2,h3')) || {}).textContent || '') };
+    };
+    var style = function (fs, after) {
+      var form = fs.querySelector('form');
+      fs.classList.add('r101-inform');
+      fs.style.setProperty('--r101-inf-bg', bgOf(after.querySelector('[class*=wrapper]')) || bgOf(after) || '#f5f4f1');
+      var n = form;
+      while (n && n !== fs) {
+        [].slice.call(n.parentElement ? n.parentElement.children : []).forEach(function (sib) { if (sib !== n && sib.tagName !== 'SCRIPT') sib.classList.add('r101-inf-x'); });
+        n = n.parentElement;
+      }
+      if (!form.querySelector('.r101-orcall')) {
+        var oc = document.createElement('p'); oc.className = 'r101-orcall';
+        oc.innerHTML = 'Prefer to talk? Call <a href="tel:+18885095032">(888) 509-5032</a>';
+        var sub = form.querySelector('.form__submit'); form.insertBefore(oc, sub ? sub.nextSibling : null);
+      }
+      var nm = form.querySelector('input#author, input[name*=author], input[name*=name]');
+      if (nm) nm.setAttribute('placeholder', 'Name & Phone Required');
+    };
+    // forms placed (in the builder) right after a service block's checklist: style + label them for that block
+    var used = [];
+    forms.forEach(function (fs) {
+      var prev = fs.previousElementSibling; while (prev && prev.tagName !== 'SECTION') prev = prev.previousElementSibling;
+      if (!prev || !prev.classList.contains('r101-tight')) return;
+      var bt = blockText(prev), k = KINDS.filter(function (kk) { return kk[0].test(bt.text); })[0];
+      style(fs, prev); used.push(fs);
+      var ta = fs.querySelector('textarea');
+      if (k && ta) { if (!ta.value) ta.value = k[1]; ta.setAttribute('placeholder', k[2]); }
+      prev.classList.add('r101-inf-host');
+      if (bt.intro) { var pb = bt.intro.querySelector('.hero__buttons'); if (pb) pb.style.display = 'none'; }
     });
+    // the remaining (original) form sits right under the main checklist
+    var mainForm = forms.filter(function (f) { return used.indexOf(f) < 0; })[0];
+    if (mainForm) {
+      if (host.nextElementSibling !== mainForm) host.parentNode.insertBefore(mainForm, host.nextElementSibling);
+      style(mainForm, host); host.classList.add('r101-inf-host');
+    }
   }
+
 
   function run() {
     try {
