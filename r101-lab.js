@@ -3535,7 +3535,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   // fill-in-the-blanks forms: don't send until every "Label:" line has an answer (Glenn, Nov 2)
   function requireBlanks() {
     if (window.__r101blanks) return; window.__r101blanks = 1;
-    addStyle('r101-blank-css', 'html body .r101-blankmsg{display:block!important;margin:10px 0 4px!important;padding:12px 16px!important;border-radius:10px!important;background:#fff!important;border:0!important;border-left:6px solid #FF6600!important;box-shadow:0 2px 10px rgba(0,0,0,.08)!important;color:#111!important;opacity:1!important;font:700 16px/1.4 Inter,system-ui,sans-serif!important;text-transform:none!important;letter-spacing:0!important}');
+    addStyle('r101-blank-css', 'html body main section div.r101-blankmsg,html body div.r101-blankmsg{display:block!important;margin:10px 0 4px!important;padding:12px 16px!important;border-radius:10px!important;background:#fff!important;border:0!important;border-left:6px solid #FF6600!important;box-shadow:0 2px 10px rgba(0,0,0,.08)!important;color:#111!important;-webkit-text-fill-color:#111!important;opacity:1!important;font:700 16px/1.4 Inter,system-ui,sans-serif!important;text-transform:none!important;letter-spacing:0!important}');
     document.addEventListener('submit', function (e) {
       var ta = e.target && e.target.querySelector && e.target.querySelector('textarea[data-r101pre]');
       if (!ta) return;
@@ -3546,7 +3546,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       if (!miss.length) return;
       e.preventDefault(); e.stopImmediatePropagation();
       try { sessionStorage.removeItem('r101sent'); } catch (x) {}
-      var msg = document.createElement('p'); msg.className = 'r101-blankmsg';
+      var msg = document.createElement('div'); msg.className = 'r101-blankmsg'; msg.setAttribute('role', 'alert');
       msg.textContent = 'Almost there! Please fill in: ' + miss.join(', ') + '.';
       ta.parentNode.insertBefore(msg, ta.nextSibling);
       ta.focus();
