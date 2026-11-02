@@ -3349,6 +3349,124 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
   }
 
 
+  /* ---------- PRICE COMPARISON CHART (Glenn, Nov 2) ----------
+     Replaces the old graph image (".../Route101PricingTheProof...") with a live, on-brand chart.
+     Data read off the May 2025 audit graph, $/day by rental length (days 1-30). Edit PRICE_DATA to update. */
+  var PRICE_AS_OF = 'May 2025';
+  var PRICE_DATA = [
+    { n: 'Route 101', k: 'r', d: [205, 244, 228, 221, 215, 208, 195, 200, 200, 200, 200, 200, 200, 195, 195, 195, 195, 195, 195, 195, 183, 183, 183, 183, 183, 183, 183, 183, 183, 183] },
+    { n: 'Competitor A', k: 'a', d: [299, 299, 299, 299, 283, 283, 283, 267, 264, 262, 260, 258, 253, 239, 235, 232, 229, 226, 223, 221, 231, 227, 225, 222, 219, 217, 215, 213, 211, 219] },
+    { n: 'Competitor B', k: 'b', d: [244, 244, 265, 232, 230, 230, 229, 228, 225, 225, 224, 224, 223, 214, 214, 213, 213, 213, 212, 212, 212, 211, 211, 211, 210, 210, 210, 209, 209, 209] },
+    { n: 'Competitor C', k: 'c', d: [259, 259, 251, 248, 247, 246, 245, 245, 245, 244, 244, 244, 244, 244, 244, 244, 244, 244, 244, 243, 243, 243, 243, 243, 243, 243, 243, 243, 243, 243] }
+  ];
+  var CHART_CSS = `
+#r101-pc{background:#fff;padding:48px 0 40px}
+#r101-pc .eb{font:600 13px/1 Inter,system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:${O};margin:0 0 10px}
+#r101-pc h2{font-family:Anton,Impact,sans-serif!important;text-transform:uppercase!important;color:#111!important;font-size:clamp(28px,3.4vw,46px)!important;line-height:1.05!important;margin:0 0 6px!important;text-align:left!important}
+#r101-pc .sub{font:400 16px/1.5 Inter,system-ui,sans-serif;color:#555;margin:0 0 22px;max-width:760px}
+#r101-pc .card{background:#111;border-radius:18px;padding:22px 22px 14px;position:relative}
+#r101-pc .lg{display:flex;flex-wrap:wrap;gap:8px 20px;margin:0 0 10px}
+#r101-pc .lg span{display:inline-flex;align-items:center;gap:8px;font:600 13px/1 Inter,system-ui,sans-serif;color:#cfcfcf}
+#r101-pc .lg i{display:inline-block;width:22px;height:4px;border-radius:2px}
+#r101-pc .lg span.r{color:#fff}
+#r101-pc .plot{position:relative;width:100%}
+#r101-pc svg{display:block;width:100%;height:auto;overflow:visible}
+#r101-pc svg text{font-family:Inter,system-ui,sans-serif}
+#r101-pc .ln{fill:none;stroke-linejoin:round;stroke-linecap:round}
+#r101-pc.anim .ln{stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
+#r101-pc.anim.in .ln{transition:stroke-dashoffset 1.6s ease;stroke-dashoffset:0}
+#r101-pc.anim.in .ln.r{transition-delay:.35s;transition-duration:1.9s}
+#r101-pc .tip{position:absolute;top:0;pointer-events:none;background:#fff;color:#111;border-radius:12px;padding:10px 12px;font:600 13px/1.45 Inter,system-ui,sans-serif;box-shadow:0 10px 26px rgba(0,0,0,.35);opacity:0;transition:opacity .12s;white-space:nowrap;z-index:2}
+#r101-pc .tip b{display:block;font-weight:800;margin-bottom:2px}
+#r101-pc .tip .r{color:${O};font-weight:800}
+#r101-pc .tip .m{color:#555}
+#r101-pc .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 0}
+#r101-pc .st{background:#f5f4f1;border-radius:14px;padding:14px 16px;border-left:5px solid ${O}}
+#r101-pc .st b{display:block;font:800 22px/1.1 Inter,system-ui,sans-serif;color:#111}
+#r101-pc .st span{display:block;font:500 13px/1.4 Inter,system-ui,sans-serif;color:#555;margin-top:4px}
+#r101-pc .src{font:400 12px/1.5 Inter,system-ui,sans-serif;color:#888;margin:12px 0 0}
+@media (max-width:760px){#r101-pc{padding:36px 0 30px}#r101-pc .card{padding:16px 12px 10px;border-radius:14px}#r101-pc .stats{grid-template-columns:1fr}#r101-pc .lg{gap:6px 14px}#r101-pc .lg span{font-size:12px}}
+@media (prefers-reduced-motion:reduce){#r101-pc.anim .ln{stroke-dasharray:none;stroke-dashoffset:0}}
+`;
+  var PC_COL = { r: O, a: '#8a8a8a', b: '#b8b8b8', c: '#5e5e5e' };
+  function priceChart() {
+    var main = document.querySelector('main'); if (!main) return;
+    var imgSec = [].slice.call(main.querySelectorAll('section')).filter(function (s) {
+      var im = s.querySelector('img');
+      return im && /PricingTheProof/i.test((im.getAttribute('src') || '') + (im.currentSrc || ''));
+    })[0];
+    if (!imgSec || document.getElementById('r101-pc')) return;
+    addStyle('r101-pc-css', CHART_CSS);
+    // the heading section right above the image ("When We Say Lowest Prices - We Prove It!")
+    var headSec = imgSec.previousElementSibling, title = 'When we say lowest prices, we prove it';
+    if (headSec && headSec.tagName === 'SECTION' && !headSec.querySelector('img') && (headSec.textContent || '').trim().length < 90) {
+      title = (headSec.textContent || '').trim().replace(/\s+-\s+/, ', ').replace(/!$/, '');
+      headSec.style.display = 'none';
+    } else headSec = null;
+    imgSec.style.display = 'none';
+    // savings callouts from the data
+    var R = PRICE_DATA[0].d, others = PRICE_DATA.slice(1);
+    var low = function (day) { return Math.min.apply(null, others.map(function (o) { return o.d[day - 1]; })); };
+    var wk = (low(7) - R[6]) * 7, mo = (low(30) - R[29]) * 30;
+    var sec = document.createElement('section'); sec.id = 'r101-pc'; sec.className = 'anim';
+    var lg = PRICE_DATA.map(function (s) { return '<span class="' + s.k + '"><i style="background:' + PC_COL[s.k] + '"></i>' + s.n + '</span>'; }).join('');
+    sec.innerHTML = '<div class="container"><p class="eb">Price comparison</p><h2></h2>' +
+      '<p class="sub">Price per day by rental length, Route 101 vs. other San Diego motorcycle rental options. Hover or tap the chart to compare any day.</p>' +
+      '<div class="card"><div class="lg">' + lg + '</div><div class="plot"></div><div class="tip"></div></div>' +
+      '<div class="stats">' +
+      '<div class="st"><b>$' + R[0] + '</b><span>A one-day Harley rental. Free gear, $500 deposit.</span></div>' +
+      '<div class="st"><b>Save $' + wk + '+</b><span>On a 7-day trip vs. the next-lowest rate ($' + R[6] + '/day vs. $' + Math.round(low(7)) + ').</span></div>' +
+      '<div class="st"><b>Save $' + mo.toLocaleString() + '+</b><span>On a 30-day rental vs. the next-lowest rate.</span></div>' +
+      '</div><p class="src">Based on an internal audit of competitor pricing, ' + PRICE_AS_OF + '. Competitor names withheld.</p></div>';
+    sec.querySelector('h2').textContent = title;
+    (headSec || imgSec).parentNode.insertBefore(sec, headSec || imgSec);
+    var plot = sec.querySelector('.plot'), tip = sec.querySelector('.tip'), card = sec.querySelector('.card');
+    var draw = function () {
+      var W = Math.max(280, plot.clientWidth), sm = W < 560;
+      var H = Math.round(sm ? W * 0.78 : Math.min(420, W * 0.42));
+      var L = sm ? 34 : 46, Rr = 10, T = 12, B = sm ? 34 : 40, fs = sm ? 11 : 13;
+      var y0 = 180, y1 = 300, X = function (d) { return L + (d - 1) / 29 * (W - L - Rr); }, Y = function (v) { return T + (y1 - v) / (y1 - y0) * (H - T - B); };
+      var g = '';
+      for (var v = y0; v <= y1; v += 20) g += '<line x1="' + L + '" x2="' + (W - Rr) + '" y1="' + Y(v) + '" y2="' + Y(v) + '" stroke="#2a2a2a"/><text x="' + (L - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end" font-size="' + fs + '" fill="#8a8a8a">$' + v + '</text>';
+      [1, 5, 10, 15, 20, 25, 30].forEach(function (d) { g += '<text x="' + X(d) + '" y="' + (H - B + (sm ? 18 : 22)) + '" text-anchor="middle" font-size="' + fs + '" fill="#8a8a8a">' + d + '</text>'; });
+      g += '<text x="' + (L + (W - L - Rr) / 2) + '" y="' + (H - 2) + '" text-anchor="middle" font-size="' + (fs - 1) + '" fill="#6f6f6f">Rental length (days)</text>';
+      var lines = '';
+      PRICE_DATA.slice().reverse().forEach(function (s) {
+        var pts = s.d.map(function (v, i) { return X(i + 1).toFixed(1) + ',' + Y(v).toFixed(1); }).join(' ');
+        lines += '<polyline class="ln ' + s.k + '" points="' + pts + '" stroke="' + PC_COL[s.k] + '" stroke-width="' + (s.k === 'r' ? (sm ? 4 : 5) : (sm ? 2 : 2.5)) + '"/>';
+      });
+      var dot = '<line class="vx" x1="0" x2="0" y1="' + T + '" y2="' + (H - B) + '" stroke="#fff" stroke-opacity=".35" stroke-dasharray="3 4" style="display:none"/>' +
+        PRICE_DATA.map(function (s) { return '<circle class="dt ' + s.k + '" r="' + (s.k === 'r' ? 6 : 4) + '" fill="' + PC_COL[s.k] + '" stroke="#111" stroke-width="2" style="display:none"/>'; }).join('');
+      plot.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Line chart: Route 101 daily rental price is at or below three competitors for every rental length from 1 to 30 days.">' + g + lines + dot + '</svg>';
+      [].slice.call(plot.querySelectorAll('.ln')).forEach(function (p) { try { p.style.setProperty('--len', Math.ceil(p.getTotalLength())); } catch (e) {} });
+      var svg = plot.querySelector('svg');
+      var show = function (cx) {
+        var r = svg.getBoundingClientRect(), x = (cx - r.left) * (W / r.width);
+        var d = Math.max(1, Math.min(30, Math.round((x - L) / (W - L - Rr) * 29) + 1));
+        var vx = svg.querySelector('.vx'); vx.setAttribute('x1', X(d)); vx.setAttribute('x2', X(d)); vx.style.display = '';
+        PRICE_DATA.forEach(function (s) { var c = svg.querySelector('.dt.' + s.k); c.setAttribute('cx', X(d)); c.setAttribute('cy', Y(s.d[d - 1])); c.style.display = ''; });
+        var h = '<b>' + d + (d === 1 ? ' day' : ' days') + '</b><span class="r">Route 101: $' + R[d - 1] + '/day</span>';
+        others.forEach(function (o) { h += '<br><span class="m">' + o.n + ': $' + o.d[d - 1] + '/day</span>'; });
+        tip.innerHTML = h; tip.style.opacity = 1;
+        var cr = card.getBoundingClientRect(), px = X(d) * (r.width / W) + (r.left - cr.left);
+        var tw = tip.offsetWidth, left = px + 14; if (left + tw > cr.width - 8) left = px - tw - 14;
+        tip.style.left = Math.max(8, left) + 'px'; tip.style.top = ((r.top - cr.top) + 10) + 'px';
+      };
+      var hide = function () { tip.style.opacity = 0; svg.querySelector('.vx').style.display = 'none'; [].slice.call(svg.querySelectorAll('.dt')).forEach(function (c) { c.style.display = 'none'; }); };
+      svg.addEventListener('mousemove', function (e) { show(e.clientX); });
+      svg.addEventListener('mouseleave', hide);
+      svg.addEventListener('touchstart', function (e) { if (e.touches[0]) show(e.touches[0].clientX); }, { passive: true });
+      svg.addEventListener('touchmove', function (e) { if (e.touches[0]) show(e.touches[0].clientX); }, { passive: true });
+    };
+    draw();
+    var lastW = plot.clientWidth;
+    addEventListener('resize', function () { if (Math.abs(plot.clientWidth - lastW) > 30) { lastW = plot.clientWidth; draw(); if (sec.classList.contains('in')) sec.classList.add('in'); } });
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { sec.classList.add('in'); io.disconnect(); } }); }, { threshold: 0.3 });
+      io.observe(sec);
+    } else sec.classList.add('in');
+  }
+
   function run() {
     try {
       addFont();
@@ -3375,6 +3493,7 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
+      try { priceChart(); } catch (e) {}
       try { bookTicker(); } catch (e) {}
       reviewRow();
       try { exitPopup(); } catch (e) {}
