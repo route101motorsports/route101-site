@@ -191,3 +191,11 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 4) Add negatives to Harley Tires: atv, utv, golf cart, lawn mower, trailer, wheelbarrow, pit bike, minibike.
 5) Add Brakes phrase keywords: "harley brake job", "harley brakes".
 - Review status: $171 all-time, 50 clicks, 0 tracked conversions; since the restructure (Oct 29 on): $84, 25 clicks, $3.37 CPC. Call reporting ON (forwarding number on the 858 call asset), call recording ON. 85 negatives already in place. Next review at ~$250-300 total spend.
+
+## Google Ads changes, Nov 1 2026 (approved by Glenn)
+- (a) "Calls from ads (1)" (counted Every) set to Secondary. "Calls from ads" (One, 60s) is the only primary call conversion.
+- (b) Site pin 104e205: every tel: link tap fires GA4 `phone_call_click` (to G-SHPG20B48V, G-43JHYBLPZB, G-5SZV1SH4NH). Still to do (scheduled for Nov 2): star it as a key event in GA4 once it shows in Recent events, then import it into Ads as Secondary.
+- (c) GA4 quote_form_submit = form_submit where form_id contains "contact". The live service forms have id="contact", so it matches, and form_submit/quote_form_submit show in Recent events. Test submit skipped (forms use reCAPTCHA; the rule is already proven).
+- (d) Harley Tires negatives added: atv, utv, golf cart, lawn mower, trailer, wheelbarrow, pit bike, minibike (93 total).
+- (e) Harley Brakes phrase keywords added: "harley brakes" (under review), "harley brake job" (low search volume).
+- Anchor fix (pin 7c3a91d) verified on all service pages, PC + phone.
