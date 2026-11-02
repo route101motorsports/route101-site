@@ -2561,7 +2561,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     var BIKE = BR === 'BMW' ? 'BMW' : 'Harley';
     var prefill = function (c) {
       var ta = form && form.querySelector('textarea');
-      if (ta && !ta.value.trim()) ta.value = 'Service: ' + c.t + ' (' + c.p + ')\nMy ' + BIKE + ' (year & model): ';
+      if (ta && (!ta.value.trim() || /^Service request:$/.test(ta.value.trim()))) ta.value = 'Service request: ' + c.t + ' (' + c.p + ')\nMy ' + BIKE + ' (year & model): ';
       try { gtag('event', 'service_card_click', { service: c.t }); } catch (x) {}
     };
 
@@ -3601,6 +3601,8 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     if (mainForm) {
       if (host.nextElementSibling !== mainForm) host.parentNode.insertBefore(mainForm, host.nextElementSibling);
       style(mainForm, host); host.classList.add('r101-inf-host');
+      var mta = mainForm.querySelector('textarea');
+      if (mta) { if (!mta.value.trim()) mta.value = 'Service request: '; mta.setAttribute('data-r101pre', 'Service request: '); }
     }
   }
 
