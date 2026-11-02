@@ -3114,6 +3114,13 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       var off = Math.max(hb, 60) + 16;
       var y = el.getBoundingClientRect().top + scrollY - off;
       scrollTo({ top: Math.max(0, y), behavior: smooth ? 'smooth' : 'auto' });
+      if (smooth) {
+        // photos below load during the scroll and push the target down: re-aim once it settles
+        var fix = function () { go(el, false); };
+        var done = false, once = function () { if (done) return; done = true; fix(); setTimeout(fix, 500); };
+        if ('onscrollend' in window) addEventListener('scrollend', once, { once: true });
+        setTimeout(once, 1100);
+      }
     };
     [].slice.call(document.querySelectorAll('a[href*="#"]')).forEach(function (a) {
       var u; try { u = new URL(a.getAttribute('href'), location.href); } catch (e) { return; }
