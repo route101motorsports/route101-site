@@ -2561,7 +2561,8 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     var BIKE = BR === 'BMW' ? 'BMW' : 'Harley';
     var prefill = function (c) {
       var ta = form && form.querySelector('textarea');
-      if (ta && (!ta.value.trim() || /^Service request:$/.test(ta.value.trim()))) ta.value = 'Service request: ' + c.t + ' (' + c.p + ')\nMy ' + BIKE + ' (year & model): ';
+      var pre = ta && ta.getAttribute('data-r101pre');
+      if (ta && (!ta.value.trim() || /^Service request:$/.test(ta.value.trim()) || (pre && ta.value === pre) || /^Service request: .*\(.*\)\nYear, make & model: \nMileage: $/.test(ta.value))) ta.value = 'Service request: ' + c.t + ' (' + c.p + ')\nYear, make & model: \nMileage: ';
       try { gtag('event', 'service_card_click', { service: c.t }); } catch (x) {}
     };
 
@@ -3531,6 +3532,28 @@ html body.r101-pad main > section.contact-form.r101-inform > div{padding-bottom:
 html body.r101-pad main > section.accordion > div{padding-top:40px!important;padding-bottom:40px!important}
 }
 `;
+  // fill-in-the-blanks forms: don't send until every "Label:" line has an answer (Glenn, Nov 2)
+  function requireBlanks() {
+    if (window.__r101blanks) return; window.__r101blanks = 1;
+    addStyle('r101-blank-css', '.r101-blankmsg{margin:8px 0 0;padding:10px 14px;border-radius:10px;background:#fff3e8;border-left:5px solid #FF6600;color:#111;font:600 15px/1.4 Inter,system-ui,sans-serif}');
+    document.addEventListener('submit', function (e) {
+      var ta = e.target && e.target.querySelector && e.target.querySelector('textarea[data-r101pre]');
+      if (!ta) return;
+      var lines = ta.value.split('\n');
+      var miss = [];
+      lines.forEach(function (ln) { var m = ln.match(/^\s*([^:]{3,40}):\s*(.*)$/); if (m && !/request$/i.test(m[1].trim()) && !m[2].trim()) miss.push(m[1].trim()); });
+      var old = e.target.querySelector('.r101-blankmsg'); if (old) old.remove();
+      if (!miss.length) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      try { sessionStorage.removeItem('r101sent'); } catch (x) {}
+      var msg = document.createElement('p'); msg.className = 'r101-blankmsg';
+      msg.textContent = 'Almost there! Please fill in: ' + miss.join(', ') + '.';
+      ta.parentNode.insertBefore(msg, ta.nextSibling);
+      ta.focus();
+      var pos = ta.value.indexOf(miss[0] + ':'); if (pos > -1) { pos += miss[0].length + 2; try { ta.setSelectionRange(pos, pos); } catch (x) {} }
+      try { gtag('event', 'form_blank_block', { missing: miss.join('|') }); } catch (x) {}
+    }, true);
+  }
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
@@ -3558,9 +3581,9 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     }
     var bgOf = function (el) { var c = el && getComputedStyle(el).backgroundColor; return c && !/rgba\(0, 0, 0, 0\)|transparent/.test(c) ? c : ''; };
     var KINDS = [
-      [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics request: ', 'Year, make & model, mileage, and any warning lights, codes or symptoms.'],
-      [/tire/i, 'Tire request: ', 'Year, make & model, and front, rear or both?'],
-      [/brake/i, 'Brake request: ', 'Year, make & model, and front only or front & rear?']
+      [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics request:\nYear, make & model: \nMileage: \nWarning lights, codes or symptoms: ', ''],
+      [/tire/i, 'Tire request:\nYear, make & model: \nFront, rear or both: ', ''],
+      [/brake/i, 'Brake request:\nYear, make & model: \nFront only or front & rear: ', '']
     ];
     var blockText = function (blk) {
       var p1 = blk.previousElementSibling; while (p1 && !(p1.tagName === 'SECTION' && p1.classList.contains('hero'))) p1 = p1.previousElementSibling;
@@ -3592,7 +3615,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       var bt = blockText(prev), k = KINDS.filter(function (kk) { return kk[0].test(bt.text); })[0];
       style(fs, prev); used.push(fs);
       var ta = fs.querySelector('textarea');
-      if (k && ta) { if (!ta.value) ta.value = k[1]; ta.setAttribute('placeholder', k[2]); ta.setAttribute('data-r101pre', k[1]); }
+      if (k && ta) { if (!ta.value) ta.value = k[1]; ta.setAttribute('placeholder', ''); ta.setAttribute('data-r101pre', k[1]); ta.rows = 5; }
       prev.classList.add('r101-inf-host');
       if (bt.intro) { var pb = bt.intro.querySelector('.hero__buttons'); if (pb) pb.style.display = 'none'; }
     });
@@ -3602,7 +3625,9 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       if (host.nextElementSibling !== mainForm) host.parentNode.insertBefore(mainForm, host.nextElementSibling);
       style(mainForm, host); host.classList.add('r101-inf-host');
       var mta = mainForm.querySelector('textarea');
-      if (mta) { if (!mta.value.trim()) mta.value = 'Service request: '; mta.setAttribute('data-r101pre', 'Service request: '); }
+      var MPRE = 'Service request:\nYear, make & model: \nMileage: \nService needed: ';
+      if (mta) { if (!mta.value.trim() || /^Service request:$/.test(mta.value.trim())) mta.value = MPRE; mta.setAttribute('data-r101pre', MPRE); mta.setAttribute('placeholder', ''); mta.rows = 5; }
+      requireBlanks();
     }
   }
 
