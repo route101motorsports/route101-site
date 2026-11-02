@@ -710,7 +710,7 @@ body.r101-ftr footer .r101-pop{font:600 11px/1 Inter,system-ui,sans-serif;letter
 
     // 'Get a quote' goes to this page's own quote form if it has one, otherwise to Contact Us
     // the page's main form is the LAST one in the builder (extra request forms sit above it)
-    var pfs = document.querySelectorAll('main section.contact-form'), pf = pfs[pfs.length - 1];
+    var pf = mainFormSec();
     if (pf && !pf.id) pf.id = 'r101-quote';
     var quote = pf ? '#' + pf.id : '/pages/contact-us';
     var cta = document.createElement('section');
@@ -2573,7 +2573,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     addStyle('r101-hrl-css', HRL_CSS);
     var secs = [].slice.call(main.querySelectorAll('section')).filter(function (s) { return !s.parentElement.closest('section'); });
     var hero = secs[0];
-    var forms0 = main.querySelectorAll('section.contact-form'), form = forms0[forms0.length - 1];   // main form = last one
+    var form = mainFormSec();
     var formHash = form && form.id ? '#' + form.id : '#section-contact-form';
     var dec = function (s) { var t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
     var BR = /bmw/i.test(location.pathname) ? 'BMW' : 'Harley';            // brand words for the BMW GS hub
@@ -3583,6 +3583,14 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       try { gtag('event', 'form_blank_block', { missing: miss.join('|') }); } catch (x) {}
     }, true);
   }
+  // the page's main form: the first one after the FAQs (extra request forms added in the builder sit below it), else the last one
+  function mainFormSec() {
+    var fs = [].slice.call(document.querySelectorAll('main section.contact-form'));
+    if (!fs.length) return null;
+    var acc = document.querySelector('main section.accordion');
+    if (acc) { var after = fs.filter(function (f) { return acc.compareDocumentPosition(f) & 4; }); if (after.length) return after[0]; }
+    return fs[fs.length - 1];
+  }
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
@@ -3636,6 +3644,17 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       var nm = form.querySelector('input#author, input[name*=author], input[name*=name]');
       if (nm) nm.setAttribute('placeholder', 'Name & Phone Required');
     };
+    // extra forms added at the bottom of the builder (below the main form): each moves under the next checklist without a form
+    var mf = mainFormSec();
+    if (mf) {
+      var spares = forms.filter(function (f) { return f !== mf && (mf.compareDocumentPosition(f) & 4); });
+      [].slice.call(main.querySelectorAll('section.hero.r101-tight')).forEach(function (ck) {
+        if (!spares.length) return;
+        var nx = ck.nextElementSibling; while (nx && nx.tagName !== 'SECTION') nx = nx.nextElementSibling;
+        if (nx && nx.classList.contains('contact-form')) return;
+        ck.parentNode.insertBefore(spares.shift(), ck.nextSibling);
+      });
+    }
     // forms placed (in the builder) right after a service block's checklist: style + label them for that block
     var used = [];
     forms.forEach(function (fs) {
