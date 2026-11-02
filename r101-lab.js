@@ -820,7 +820,7 @@ body.r101-brakes .hero__buttons{gap:12px}
 body.r101-brakes .r101-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
 body.r101-brakes .r101-chips span{font:600 14px/1 Inter,sans-serif;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:10px 14px;border-radius:999px}
 body.r101-brakes .r101-chips b{color:${O};margin-right:6px}
-#r101-steps{background:var(--r101-soft);padding:56px 0}
+#r101-steps{background:var(--r101-soft);padding:40px 0 56px}
 #r101-steps .eb{font:600 13px/1 Inter,sans-serif;letter-spacing:.18em;color:${O};text-transform:uppercase;margin:0 0 10px}
 #r101-steps h2{font-family:Anton,sans-serif;text-transform:uppercase;margin:0 0 24px;color:var(--r101-ink)}
 #r101-steps .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
@@ -2427,7 +2427,7 @@ body.r101-harley .r101-hide-sec,body.r101-harley .r101-hide{display:none!importa
 body.r101-harley section.contact-form{scroll-margin-top:110px}
 body.r101-harley .r101-hhero .hero__description strong{font-weight:inherit}
 body.r101-harley .r101-hhero .hero__description p.r101-tag{font:700 15px/1.3 Inter,system-ui,sans-serif!important;letter-spacing:.04em;color:${O}!important;margin:0 0 10px!important}
-#r101-svc{background:#fff;padding:60px 0}
+#r101-svc{background:#fff;padding:40px 0 24px}
 #r101-svc .eb,#r101-hl .eb{font:600 13px/1 Inter,sans-serif;letter-spacing:.18em;color:${O};text-transform:uppercase;margin:0 0 10px}
 #r101-svc h2{font-family:Anton,sans-serif;text-transform:uppercase;margin:0 0 22px;color:var(--r101-ink)}
 #r101-svc .g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
