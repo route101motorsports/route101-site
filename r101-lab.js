@@ -3480,7 +3480,10 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
   var INFORM_LIVE = false;
   var INFORM_CSS = `
 section.r101-inf-host .hero__buttons{display:none!important}
-section.r101-inf-host .hero__wrapper{padding-bottom:18px!important}
+body main section.r101-inf-host .hero__wrapper{padding-bottom:0!important}
+body main section.r101-inf-host .hero__description{padding-bottom:0!important}
+body main section.r101-inf-host ul{margin-bottom:0!important}
+body main section.contact-form.r101-inform form{margin-top:20px!important}
 body.r101-form main section.contact-form.r101-inform .contact-form__wrapper{background:var(--r101-inf-bg,#f5f4f1)!important;padding-top:0!important;padding-bottom:52px!important}
 section.contact-form.r101-inform .r101-inf-x{display:none!important}
 body.r101-form main section.contact-form.r101-inform form{background:none!important;border:0!important;padding:0!important;border-radius:0!important}
