@@ -3257,6 +3257,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
   var TICK_CSS = `
 #r101-tick{background:#111;overflow:hidden;white-space:nowrap;padding:11px 0;margin:0}
 body:not(.r101-home) #r101-tick{margin:28px 0}
+#r101-tick:has(+ section.collection-page){margin:0 0 4px!important}
 #r101-tick .tr{display:inline-flex;animation:r101tick 70s linear infinite;will-change:transform}
 #r101-tick:hover .tr{animation-play-state:paused}
 #r101-tick span{font:700 13px/1 Inter,system-ui,sans-serif!important;letter-spacing:.16em!important;text-transform:uppercase;color:${O}!important;padding-right:28px}
