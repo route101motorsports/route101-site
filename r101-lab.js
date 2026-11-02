@@ -1725,7 +1725,7 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
   var BL_SETS = [
     [/TireBrands/i, [['dunlop', 'Dunlop', 540], ['michelin', 'Michelin', 526], ['bridgestone', 'Bridgestone', 540], ['metzeler', 'Metzeler', 540], ['pirelli', 'Pirelli', 540], ['shinko', 'Shinko', 540], ['maxxis', 'Maxxis', 540], ['mitas', 'Mitas', 540]], 'tires'],
     [/iCarSoft/i, [['icarsoft', 'iCarsoft MT Pro diagnostics', 540]], 'one', 'Dealership-level diagnostics at local shop prices'],
-    [/GS911/i, [['gs911', 'HEX GS-911 BMW diagnostics', 490]], 'one']
+    [/GS911/i, [['gs911', 'HEX GS-911 BMW diagnostics', 490]], 'one', 'Dealership-level diagnostics at local shop prices']
   ];
   function serviceLogos() {
     var secs = [].slice.call(document.querySelectorAll('main section.logos')).filter(function (s) { return !s.classList.contains('r101-blsec') && !s.classList.contains('r101-revrow-sec'); });
@@ -2447,13 +2447,13 @@ body.r101-harley .r101-hl li:before{content:"\\2713";position:absolute;left:0;to
 body.r101-harley .r101-hl .r101-src{display:none!important}
 body.r101-harley .r101-hl .hero__text-area,body.r101-harley .r101-hl .hero__content,body.r101-harley .r101-hl .hero__description{max-width:none!important;width:100%!important}
 body.r101-harley .r101-hl .hero__wrapper{padding-left:0!important;padding-right:0!important}
-body.r101-harley .r101-tight .hero__wrapper{padding-bottom:28px!important}
+body.r101-harley .r101-tight .hero__wrapper{padding-bottom:48px!important}
 body.r101-harley .r101-tight .hero__description{padding-bottom:0!important}
 body.r101-harley .r101-tight ul.r101-done{margin-bottom:0!important}
 body.r101-harley .r101-tight-logos img{max-height:46px!important;width:auto!important}
 body.r101-harley .r101-logorow img{max-height:40px!important;width:auto!important}
 body.r101-harley .r101-tight .hero__wrapper{padding-top:8px!important}
-body.r101-harley .r101-tight-logos .logos__wrapper{padding-top:28px!important;padding-bottom:0!important}
+body.r101-harley .r101-tight-logos .logos__wrapper{padding-top:48px!important;padding-bottom:0!important}
 body.r101-harley .r101-logorow .logos__images-wrapper{display:flex!important;flex-wrap:wrap;justify-content:center;align-items:center;gap:18px 40px}
 body.r101-harley .r101-logorow .logos__wrapper{padding:20px 0 28px!important}
 body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .logos__images-wrapper{padding:0!important;margin:0!important}
