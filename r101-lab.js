@@ -3489,6 +3489,13 @@ body.r101-form main section.contact-form.r101-inform textarea::placeholder{color
 body.r101-form main section.contact-form.r101-inform .form__textarea{height:110px!important;min-height:90px!important}
 section.contact-form.r101-inform .r101-orcall{grid-column:1/-1;margin:10px 0 0!important;text-align:center;font:500 14px/1.4 Inter,system-ui,sans-serif!important;color:#555!important}
 section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight:700;text-decoration:none}
+main .r101-reqbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:22px 0 0}
+main .r101-reqbar .button{min-width:250px;text-align:center}
+main .r101-reqbar span{font:500 14px/1.4 Inter,system-ui,sans-serif!important;color:#555}
+main .r101-reqbar span a{color:#111!important;font-weight:700;text-decoration:none}
+main section.hero:not(.r101-hl) .r101-reqbar span,main section.hero:not(.r101-hl) .r101-reqbar span a{color:#e5e5e5!important}
+main .r101-reqbar.r101-here{display:none!important}
+@media (max-width:620px){main .r101-reqbar .button{flex:1 1 100%;min-width:0}}
 `;
   function inlineForm() {
     var u = new URLSearchParams(location.search);
@@ -3517,6 +3524,47 @@ section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight
       oc.innerHTML = 'Prefer to talk? Call <a href="tel:+18885095032">(888) 509-5032</a>';
       var sub = form.querySelector('.form__submit'); (sub && sub.parentNode === form ? form : form).insertBefore(oc, sub ? sub.nextSibling : null);
     }
+    // one real form that comes to them: a "Submit ___ Request" bar at the end of each service block
+    var ta = form.querySelector('textarea'), basePh = ta ? ta.getAttribute('placeholder') : '';
+    var bike = /bmw/.test(location.pathname) ? 'BMW' : 'Harley';
+    var KINDS = [
+      [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics', 'Diagnostics request: ', 'Year, model, mileage, and any warning lights, codes or symptoms.'],
+      [/tire/i, 'Tire', 'Tire request: ', 'Year, make & model, tire brand or size if you know it, and front, rear or both?'],
+      [/brake/i, 'Brake', 'Brake request: ', 'Year, make & model, and front only or front & rear?']
+    ];
+    var bars = [];
+    var mk = function (label, prefix, ph, after) {
+      var b = document.createElement('div'); b.className = 'r101-reqbar';
+      b.innerHTML = '<a href="#contact" class="button button--primary button--large">Submit ' + label + ' Request</a><span>or call <a href="tel:+18885095032">(888) 509-5032</a></span>';
+      b.querySelector('a.button').addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        after.parentNode.insertBefore(fs, after.nextSibling);
+        bars.forEach(function (x) { x.classList.toggle('r101-here', x === b); });
+        if (ta) {
+          var v = ta.value, known = KINDS.map(function (k) { return k[2]; }).concat(['Service request: ']);
+          known.forEach(function (k) { if (v.indexOf(k) === 0) v = v.slice(k.length); });
+          ta.value = prefix + v; ta.setAttribute('placeholder', ph || basePh);
+        }
+        var nm = form.querySelector('input#author') || form.querySelector('input');
+        var y = fs.getBoundingClientRect().top + scrollY - 140;
+        scrollTo({ top: y, behavior: 'smooth' });
+        setTimeout(function () { try { nm && nm.focus({ preventScroll: true }); } catch (x) {} }, 600);
+        try { if (window.gtag) gtag('event', 'service_request_open', { kind: label }); } catch (x) {}
+      });
+      return b;
+    };
+    // back-to-checklist bar (hidden while the form sits under the checklist)
+    var hb = mk('Service', 'Service request: ', basePh, host); hb.classList.add('r101-here');
+    (host.querySelector('.hero__text-area') || host.querySelector('.hero__content') || host.querySelector('.container') || host).appendChild(hb); bars.push(hb);
+    [].slice.call(main.querySelectorAll('section.hero.r101-hl.r101-tight')).forEach(function (blk) {
+      var p1 = blk.previousElementSibling; while (p1 && !(p1.tagName === 'SECTION' && p1.classList.contains('hero'))) p1 = p1.previousElementSibling;
+      var tx = ((p1 && p1.querySelector('h1,h2,h3')) || {}).textContent || '';
+      tx += ' ' + (((blk.querySelector('h2,h3')) || {}).textContent || '');
+      var k = KINDS.filter(function (kk) { return kk[0].test(tx); })[0];
+      if (!k) return;
+      var b = mk(k[1], k[2], k[3], blk);
+      (blk.querySelector('.hero__text-area') || blk.querySelector('.hero__content') || blk.querySelector('.container') || blk).appendChild(b); bars.push(b);
+    });
   }
 
   function run() {
