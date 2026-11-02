@@ -3612,19 +3612,33 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       '.r101-pac::after{color:' + BLU + '!important}.r101-pab::after{background-color:' + BLU + '!important}.r101-pad2::after{border-color:' + BLU + '!important}');
     var orange = function (c) { var m = c && c.match(/\d+(\.\d+)?/g); if (!m || m.length < 3) return false; var r = +m[0], g = +m[1], b = +m[2], a = m.length > 3 ? +m[3] : 1; return a > 0.05 && r > 220 && g > 70 && g < 140 && b < 60; };
     var skip = function (el) { return el.closest('header, footer, #r101-cta, #r101-tick, .r101-cta, [class*=top-bar]'); };
+    var pseudoCss = '', pn = 0;
+    var setP = function (el, prop) { el.style.setProperty(prop, BLU, 'important'); };
+    var pseudo = function (el, which, props) {
+      if (!el.id) el.id = 'r101b' + (++pn);
+      var sel = '#' + el.id + '#' + el.id + '::' + which;
+      if (pseudoCss.indexOf(sel + '{' + props) > -1) return;
+      pseudoCss += sel + '{' + props + '}';
+    };
     var paint = function () {
       var main = document.querySelector('main'); if (!main) return;
       [].slice.call(main.querySelectorAll('*')).forEach(function (el) {
         if (skip(el)) return;
         var cs = getComputedStyle(el);
-        if (orange(cs.color)) el.classList.add('r101-bc');
-        if (orange(cs.backgroundColor)) el.classList.add('r101-bb');
-        if (orange(cs.borderTopColor) || orange(cs.borderLeftColor) || orange(cs.borderBottomColor)) el.classList.add('r101-bd');
-        if (el instanceof SVGElement) { if (orange(cs.fill)) el.classList.add('r101-bf'); if (orange(cs.stroke)) el.classList.add('r101-bs'); }
-        var b = getComputedStyle(el, '::before'), af = getComputedStyle(el, '::after');
-        if (b.content && b.content !== 'none') { if (orange(b.color)) el.classList.add('r101-pbc'); if (orange(b.backgroundColor)) el.classList.add('r101-pbb'); if (orange(b.borderTopColor) || orange(b.borderLeftColor)) el.classList.add('r101-pbd'); }
-        if (af.content && af.content !== 'none') { if (orange(af.color)) el.classList.add('r101-pac'); if (orange(af.backgroundColor)) el.classList.add('r101-pab'); if (orange(af.borderTopColor) || orange(af.borderLeftColor)) el.classList.add('r101-pad2'); }
+        if (orange(cs.color)) setP(el, 'color');
+        if (orange(cs.backgroundColor)) setP(el, 'background-color');
+        ['top', 'right', 'bottom', 'left'].forEach(function (sd) { if (orange(cs['border' + sd.charAt(0).toUpperCase() + sd.slice(1) + 'Color'])) setP(el, 'border-' + sd + '-color'); });
+        if (el instanceof SVGElement) { if (orange(cs.fill)) setP(el, 'fill'); if (orange(cs.stroke)) setP(el, 'stroke'); }
+        ['before', 'after'].forEach(function (w) {
+          var p = getComputedStyle(el, '::' + w); if (!p.content || p.content === 'none') return;
+          var props = '';
+          if (orange(p.color)) props += 'color:' + BLU + '!important;';
+          if (orange(p.backgroundColor)) props += 'background-color:' + BLU + '!important;';
+          if (orange(p.borderTopColor) || orange(p.borderLeftColor) || orange(p.borderBottomColor)) props += 'border-color:' + BLU + '!important;';
+          if (props) pseudo(el, w, props);
+        });
       });
+      addStyle('r101-blue-ps', ''); var st = document.getElementById('r101-blue-ps'); if (st) st.textContent = pseudoCss;
     };
     paint(); setTimeout(paint, 400); setTimeout(paint, 1500); setTimeout(paint, 3500); addEventListener('load', function () { setTimeout(paint, 200); });
     document.addEventListener('submit', function () { setTimeout(paint, 50); }, true);
