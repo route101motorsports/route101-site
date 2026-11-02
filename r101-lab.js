@@ -3092,8 +3092,47 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
   }
   // r101-ready tells the anti-flash rule (in the header top bar) that the new design is applied
   function ready() { try { document.documentElement.classList.add('r101-ready'); } catch (e) {} }
+  // In-page jumps (e.g. "Submit service request" -> #contact-form). Booqable buttons often use the full URL
+  // with a trailing slash, which reloads the page and jumps before our layout settles (lands at the footer).
+  // Make same-page links pure scrolls, offset below the fixed header; re-aim after load when arriving with a hash.
+  function anchors() {
+    var norm = function (p) { return (p || '/').replace(/\/+$/, '') || '/'; };
+    var here = norm(location.pathname);
+    var target = function (hash) {
+      if (!hash || hash.length < 2) return null;
+      var id = decodeURIComponent(hash.slice(1));
+      return document.getElementById(id) || document.querySelector('[name="' + id.replace(/"/g, '') + '"]');
+    };
+    var go = function (el, smooth) {
+      var hd = document.getElementById('header');
+      var off = (hd ? hd.getBoundingClientRect().height : 0) + 12;
+      var y = el.getBoundingClientRect().top + scrollY - off;
+      scrollTo({ top: Math.max(0, y), behavior: smooth ? 'smooth' : 'auto' });
+    };
+    [].slice.call(document.querySelectorAll('a[href*="#"]')).forEach(function (a) {
+      var u; try { u = new URL(a.getAttribute('href'), location.href); } catch (e) { return; }
+      if (u.origin !== location.origin || norm(u.pathname) !== here || !u.hash) return;
+      a.setAttribute('href', u.hash);
+    });
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey) return;
+      var el = target(a.getAttribute('href'));
+      if (!el) return;
+      e.preventDefault();
+      go(el, true);
+      try { history.replaceState(null, '', a.getAttribute('href')); } catch (e2) {}
+    });
+    if (location.hash && target(location.hash)) {
+      var moved = false, mark = function () { moved = true; };
+      ['wheel', 'touchmove', 'keydown', 'mousedown'].forEach(function (ev) { addEventListener(ev, mark, { passive: true, once: true }); });
+      var aim = function () { if (!moved) { var el = target(location.hash); if (el) go(el, false); } };
+      aim(); setTimeout(aim, 350); setTimeout(aim, 1200); addEventListener('load', function () { aim(); setTimeout(aim, 300); });
+    }
+  }
   function boot() {
     try { run(); } catch (e) {}
+    try { anchors(); } catch (e) {}
     requestAnimationFrame(ready); setTimeout(ready, 300);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
