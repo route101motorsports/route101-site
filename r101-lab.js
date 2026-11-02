@@ -3142,10 +3142,26 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       go(el, true);
       try { history.replaceState(null, '', a.getAttribute('href')); } catch (e2) {}
     });
-    if (location.hash && target(location.hash)) {
+    // after a form is sent, the page reloads with the "thank you" (or an error) in .form__info: land on that, not the footer
+    var formMsg = function () {
+      var m = [].slice.call(document.querySelectorAll('.form__info')).filter(function (x) { return (x.textContent || '').trim().length > 3; });
+      return m[0] || null;
+    };
+    try {
+      addStyle('r101-formmsg-css',
+        '.form__info:not(:empty){background:#fff!important;color:#111!important;border:0!important;border-left:6px solid #FF6600!important;border-radius:12px!important;padding:16px 18px!important;margin:6px 0 14px!important;font:600 17px/1.45 Inter,system-ui,sans-serif!important;box-shadow:0 6px 22px rgba(0,0,0,.35)!important;opacity:1!important}' +
+        '.form__info:not(:empty) *{color:#111!important;opacity:1!important;font:inherit!important;background:none!important}' +
+        '.form__info:not(:empty) svg,.form__info:not(:empty) i,.form__info:not(:empty) [class*=icon]{color:#FF6600!important;fill:#FF6600!important}');
+    } catch (e) {}
+    if (formMsg() || (location.hash && target(location.hash))) {
       var moved = false, mark = function () { moved = true; };
       ['wheel', 'touchmove', 'keydown', 'mousedown'].forEach(function (ev) { addEventListener(ev, mark, { passive: true, once: true }); });
-      var aim = function () { if (!moved) { var el = target(location.hash); if (el) go(el, false); } };
+      var aim = function () {
+        if (moved) return;
+        var m = formMsg();
+        if (m) { scrollTo({ top: Math.max(0, m.getBoundingClientRect().top + scrollY - Math.round(innerHeight * 0.42)), behavior: 'auto' }); return; }
+        var el = target(location.hash); if (el) go(el, false);
+      };
       aim(); setTimeout(aim, 350); setTimeout(aim, 1200); addEventListener('load', function () { aim(); setTimeout(aim, 300); });
     }
   }
