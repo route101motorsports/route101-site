@@ -3512,7 +3512,7 @@ html body.r101-pad main > section.r101-hero1 img,html body.r101-pad main > secti
 @media (max-width:760px){html body.r101-pad main > section.r101-photoblk > div{height:clamp(420px,70svh,600px)!important}}
 @media (max-width:760px){
 html body.r101-pad #r101-pbrands{padding:22px 0!important}
-html body.r101-pad #r101-svc,html body.r101-pad #r101-steps{padding:32px 0!important}
+html body.r101-pad #r101-svc{padding:32px 0!important}html body.r101-pad #r101-steps{padding:0 0 32px!important}
 html body.r101-pad main > section.r101-inf-host:not(.r101-tight) > div,html body.r101-pad main > section.r101-tight-logos > div{padding-top:32px!important}
 html body.r101-pad main > section.contact-form.r101-inform > div{padding-bottom:40px!important}
 html body.r101-pad main > section.accordion > div{padding-top:40px!important;padding-bottom:40px!important}
