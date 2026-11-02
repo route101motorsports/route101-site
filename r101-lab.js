@@ -1113,6 +1113,7 @@ body.r101-home section.testimonials .carousel__btn,body.r101-home section.produc
     var hero = secs[0];
     // "Advance Booking Required." line -> small notice pill
     secs.forEach(function (s) { if (s.classList.contains('text') && /advance booking/i.test(s.textContent) && s.textContent.trim().length < 80) s.classList.add('r101-notice'); });
+    try { bookTicker(main); } catch (e) {}
     // Rentals + Garage hub right under the hero (both sides of the business, one tap each)
     if (hero && !document.getElementById('r101-hub')) {
       var hub = document.createElement('section');
@@ -3245,6 +3246,38 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
     try {
       if (window.gtag) gtag('event', ids.length || prods ? 'site_search' : 'search_no_results', { search_term: raw, page_matches: ids.length, product_matches: prods });
     } catch (e) {}
+  }
+
+  /* ---------- HOMEPAGE "BY APPOINTMENT" TICKER (Glenn, Nov 2) ----------
+     Replaces the small "Advance booking required" pill with a thin black full-width scrolling band.
+     TEST MODE: only browsers that opened ?tick=test see it (?tick=off clears). TICK_LIVE = true shows everyone. */
+  var TICK_LIVE = false;
+  var TICK_MSG = 'Advance booking and service appointments required <i>·</i> No walk-ins <i>·</i> Book online or call <a href="tel:+18885095032">(888) 509-5032</a> <i>·</i> ';
+  var TICK_CSS = `
+#r101-tick{background:#111;overflow:hidden;white-space:nowrap;padding:11px 0;margin:0}
+#r101-tick .tr{display:inline-flex;animation:r101tick 70s linear infinite;will-change:transform}
+#r101-tick:hover .tr{animation-play-state:paused}
+#r101-tick span{font:700 13px/1 Inter,system-ui,sans-serif!important;letter-spacing:.16em!important;text-transform:uppercase;color:${O}!important;padding-right:28px}
+#r101-tick i{font-style:normal;color:#fff;margin:0 14px}
+#r101-tick a{color:#fff!important;text-decoration:none!important;font:inherit!important;letter-spacing:inherit!important}
+@keyframes r101tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (max-width:760px){#r101-tick{padding:10px 0}#r101-tick span{font-size:12px!important;letter-spacing:.12em!important}#r101-tick .tr{animation-duration:55s}}
+@media (prefers-reduced-motion:reduce){#r101-tick .tr{animation:none}}
+`;
+  function bookTicker(main) {
+    var u = new URLSearchParams(location.search);
+    try { if (u.get('tick') === 'test') localStorage.setItem('r101tick', '1'); if (u.get('tick') === 'off') localStorage.removeItem('r101tick'); } catch (e) {}
+    var on = TICK_LIVE; try { on = on || localStorage.getItem('r101tick') === '1'; } catch (e) {}
+    if (!on || document.getElementById('r101-tick')) return;
+    var sec = main.querySelector('section.r101-notice');
+    if (!sec) return;
+    addStyle('r101-tick-css', TICK_CSS);
+    var t = document.createElement('div'); t.id = 'r101-tick'; t.setAttribute('role', 'note');
+    t.setAttribute('aria-label', 'Advance booking and service appointments required. No walk-ins. Book online or call (888) 509-5032.');
+    var one = '<span>' + TICK_MSG + '</span>';
+    t.innerHTML = '<div class="tr">' + one + one + one + one + '</div>';
+    sec.parentNode.insertBefore(t, sec);
+    sec.style.display = 'none';
   }
 
   function run() {
