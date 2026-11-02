@@ -1665,8 +1665,8 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
   var REV_CSS = `
 .r101-revrow-sec .logos__images,.r101-revrow-sec .logos__images-wrapper,.r101-revrow-sec .logos__list{display:none!important}
 #r101-revs,.r101-revs{text-align:center;padding:6px 0 4px}
-.r101-revs .claim{font:700 clamp(15px,1.25vw,18px)/1.35 Inter,sans-serif!important;color:var(--r101-ink,#111)!important;margin:0 0 18px!important;letter-spacing:0}
-.r101-revs .claim b{color:${O};font:inherit!important;font-weight:800!important;letter-spacing:0!important;text-transform:none!important}
+.r101-revs .claim{font:700 clamp(12px,1vw,15px)/1.4 Inter,sans-serif!important;color:var(--r101-ink,#111)!important;margin:0 0 18px!important;letter-spacing:.14em!important;text-transform:uppercase!important}
+.r101-revs .claim b{color:${O};font:inherit!important;font-weight:800!important;letter-spacing:inherit!important;text-transform:uppercase!important}
 .r101-revs .row{display:flex;justify-content:center;align-items:center;gap:clamp(22px,3.6vw,56px);flex-wrap:wrap}
 .r101-revs .row a{display:block;line-height:0;transition:transform .2s ease,filter .2s ease}
 .r101-revs .row a:hover{transform:translateY(-3px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
@@ -1693,7 +1693,7 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
     secs.forEach(function (s) {
       s.classList.add('r101-revrow-sec');
       var box = document.createElement('div'); box.className = 'r101-revs';
-      var html = '<p class="claim">5 Years in Business<span class="dot"> &middot;</span> <b>100s of 100% 5-Star Reviews!</b></p><div class="row">';
+      var html = '<p class="claim">5 Years in Business<span class="dot"> &middot;</span> <b>100&rsquo;s of 5-Star Reviews</b></p><div class="row">';
       REVIEWS.forEach(function (r) {
         html += '<a href="' + r[2] + '" target="_blank" rel="noopener" aria-label="Read our 5-star reviews on ' + r[1] + '" style="--k:' + r[3] + '">' +
           '<img src="' + REV_BASE + 'tight-review-' + r[0] + '.png" alt="Route 101 Motorsports 5-star reviews on ' + r[1] + '" loading="lazy" decoding="async"></a>';
