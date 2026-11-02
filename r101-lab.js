@@ -2840,19 +2840,21 @@ main section.spacer:has(+ section.accordion){display:none!important}
 main section.accordion .accordion__wrapper{background:var(--r101-soft)!important}
 main section.accordion .accordion__description p{margin:6px 0 0}
 main section.accordion .accordion__list{max-width:none!important;width:100%;margin:0;padding:0;list-style:none}
-main section.accordion .accordion__item{border:1px solid var(--r101-line)!important;border-radius:14px!important;background:#fff;margin:0 0 8px!important;overflow:hidden;position:relative;transition:border-color .2s,box-shadow .2s}
-main section.accordion .accordion__item:hover{border-color:#cfcfcf!important}
-main section.accordion .accordion__item:has(.accordion__trigger:checked){border-color:${O}!important;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+main section.accordion .accordion__item{border:1px solid #111!important;border-radius:14px!important;background:#111;margin:0 0 8px!important;overflow:hidden;position:relative;transition:border-color .2s,box-shadow .2s}
+main section.accordion .accordion__item:hover{border-color:#444!important}
+main section.accordion .accordion__item:has(.accordion__trigger:checked){border-color:${O}!important;box-shadow:0 6px 18px rgba(0,0,0,.18)}
 main section.accordion .accordion__item:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:${O};opacity:0;transition:opacity .2s}
 main section.accordion .accordion__item:has(.accordion__trigger:checked):before{opacity:1}
-main section.accordion .accordion__item-heading{font:600 clamp(16px,calc(.25vw + 15px),18px)/1.3 Inter,system-ui,sans-serif!important;letter-spacing:0!important;text-transform:none!important;color:var(--r101-ink)!important;padding:16px 20px!important;gap:16px;align-items:center;justify-content:space-between;cursor:pointer}
+main section.accordion .accordion__item-heading{font:600 clamp(16px,calc(.25vw + 15px),18px)/1.3 Inter,system-ui,sans-serif!important;letter-spacing:0!important;text-transform:none!important;color:#fff!important;padding:16px 20px!important;gap:16px;align-items:center;justify-content:space-between;cursor:pointer}
 main section.accordion .accordion__item-heading svg{flex:0 0 auto;width:12px;height:auto}
 main section.accordion .accordion__item-heading svg path{fill:${O}!important}
 main section.accordion .accordion__content{padding:0 56px 0 20px!important}
-main section.accordion .accordion__content-inner{font:400 16px/1.4 Inter,system-ui,sans-serif!important;color:var(--r101-mute)!important}
+main section.accordion .accordion__content-inner{font:400 16px/1.4 Inter,system-ui,sans-serif!important;color:#cfcfcf!important}
+main section.accordion .accordion__content-inner a{color:${O}!important}
+main section.accordion .accordion__item-heading *{color:#fff!important}
 main section.accordion .accordion__content-inner p{margin:0!important}
 main section.accordion .accordion__content-inner p+p{margin-top:8px!important}
-main section.accordion .accordion__content-inner b,main section.accordion .accordion__content-inner strong{color:var(--r101-ink);font-weight:600}
+main section.accordion .accordion__content-inner b,main section.accordion .accordion__content-inner strong{color:#fff;font-weight:600}
 main section.accordion .accordion__content-inner p:empty{display:none!important}
 main section.accordion .accordion__content-inner:after{content:"";display:block;height:16px}
 @media (max-width:760px){main section.accordion .accordion__item-heading{padding:14px 16px!important}main section.accordion .accordion__content{padding:0 16px!important}}
