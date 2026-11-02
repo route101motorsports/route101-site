@@ -3591,6 +3591,45 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     if (acc) { var after = fs.filter(function (f) { return acc.compareDocumentPosition(f) & 4; }); if (after.length) return after[0]; }
     return fs[fs.length - 1];
   }
+  /* ---------- BMW BLUE (Glenn, Nov 2) ----------
+     BMW GS Service page: every orange accent INSIDE the page turns BMW-style blue; the Route 101 frame
+     (top bar, header, menu, footer, orange "Need tires..." banner) stays orange. TEST MODE: ?bmwblue=test (?bmwblue=off clears). */
+  var BLUE_LIVE = false, BLU = '#1C69D4';
+  function bmwBlue() {
+    if (!/^\/pages\/san-diego-bmw-gs-service\/?$/.test(location.pathname)) return;
+    var u = new URLSearchParams(location.search);
+    try { if (u.get('bmwblue') === 'test') localStorage.setItem('r101blue', '1'); if (u.get('bmwblue') === 'off') localStorage.removeItem('r101blue'); } catch (e) {}
+    var on = BLUE_LIVE; try { on = on || localStorage.getItem('r101blue') === '1'; } catch (e) {}
+    if (!on) return;
+    document.body.classList.add('r101-blue');
+    addStyle('r101-blue-css',
+      'body.r101-blue main{--background-accent:' + BLU + ';--background-accent-hover:' + BLU + 'CC}' +
+      'body.r101-blue main .form__info:not(:empty),body.r101-blue main div.r101-blankmsg{border-left-color:' + BLU + '!important}' +
+      'body.r101-blue main .form__info:not(:empty) svg{color:' + BLU + '!important;fill:' + BLU + '!important}' +
+      '.r101-bc{color:' + BLU + '!important}.r101-bb{background-color:' + BLU + '!important}.r101-bd{border-color:' + BLU + '!important}' +
+      '.r101-bf{fill:' + BLU + '!important}.r101-bs{stroke:' + BLU + '!important}' +
+      '.r101-pbc::before{color:' + BLU + '!important}.r101-pbb::before{background-color:' + BLU + '!important}.r101-pbd::before{border-color:' + BLU + '!important}' +
+      '.r101-pac::after{color:' + BLU + '!important}.r101-pab::after{background-color:' + BLU + '!important}.r101-pad2::after{border-color:' + BLU + '!important}');
+    var orange = function (c) { var m = c && c.match(/\d+(\.\d+)?/g); if (!m || m.length < 3) return false; var r = +m[0], g = +m[1], b = +m[2], a = m.length > 3 ? +m[3] : 1; return a > 0.05 && r > 220 && g > 70 && g < 140 && b < 60; };
+    var skip = function (el) { return el.closest('header, footer, #r101-cta, #r101-tick, .r101-cta, [class*=top-bar]'); };
+    var paint = function () {
+      var main = document.querySelector('main'); if (!main) return;
+      [].slice.call(main.querySelectorAll('*')).forEach(function (el) {
+        if (skip(el)) return;
+        var cs = getComputedStyle(el);
+        if (orange(cs.color)) el.classList.add('r101-bc');
+        if (orange(cs.backgroundColor)) el.classList.add('r101-bb');
+        if (orange(cs.borderTopColor) || orange(cs.borderLeftColor) || orange(cs.borderBottomColor)) el.classList.add('r101-bd');
+        if (el instanceof SVGElement) { if (orange(cs.fill)) el.classList.add('r101-bf'); if (orange(cs.stroke)) el.classList.add('r101-bs'); }
+        var b = getComputedStyle(el, '::before'), af = getComputedStyle(el, '::after');
+        if (b.content && b.content !== 'none') { if (orange(b.color)) el.classList.add('r101-pbc'); if (orange(b.backgroundColor)) el.classList.add('r101-pbb'); if (orange(b.borderTopColor) || orange(b.borderLeftColor)) el.classList.add('r101-pbd'); }
+        if (af.content && af.content !== 'none') { if (orange(af.color)) el.classList.add('r101-pac'); if (orange(af.backgroundColor)) el.classList.add('r101-pab'); if (orange(af.borderTopColor) || orange(af.borderLeftColor)) el.classList.add('r101-pad2'); }
+      });
+    };
+    paint(); setTimeout(paint, 400); setTimeout(paint, 1500); setTimeout(paint, 3500); addEventListener('load', function () { setTimeout(paint, 200); });
+    document.addEventListener('submit', function () { setTimeout(paint, 50); }, true);
+  }
+
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
@@ -3708,6 +3747,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
       try { priceChart(); } catch (e) {}
       if (/^\/pages\/(san-diego-harley-service|san-diego-bmw-gs-service|harley-brake-service)\/?$/.test(location.pathname)) { try { inlineForm(); } catch (e) {} }
+      try { bmwBlue(); } catch (e) {}
       try { bookTicker(); } catch (e) {}
       reviewRow();
       try { exitPopup(); } catch (e) {}
