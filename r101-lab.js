@@ -1648,8 +1648,54 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
 
   /* ---------- FOOTER LANDING PAGES (SEO) ----------
      BMW landing hero is set to Booqable color-set-1 (dark headline) over a dark photo. */
+  /* ---------- RENTAL LANDING PAGES (Harley / BMW / San Diego / Pacific Beach) ----------
+     Review tiles and bike / add-on cards reuse the homepage styling exactly; plus a real "Book" button in step 3. */
+  var LAND_CSS = `
+body.r101-land section.products .products__tag{display:block!important;font:600 13px/1.6 Inter,system-ui,sans-serif!important;letter-spacing:.14em!important;text-transform:uppercase!important;color:${O}!important;margin:0 0 10px!important;text-align:left!important}
+body.r101-land section.products .products__heading{text-align:left!important}
+body.r101-land section.products .product-card img{object-fit:contain!important;background:#fff}
+body.r101-land section.products .r101-free{display:none!important}
+body.r101-land .r101-s3{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:22px}
+body.r101-land .r101-s3 a{min-width:240px;text-align:center}
+@media (max-width:620px){body.r101-land .r101-s3 a{flex:1 1 100%;min-width:0}body.r101-land section.products .products__tag{font-size:11px!important;letter-spacing:.1em!important}}
+`;
+  var LAND_FLEET = {
+    'san-diego-harley-rentals': '/collections/motorcycle-rentals',
+    'pacific-beach-harley-rentals': '/collections/motorcycle-rentals',
+    'san-diego-bmw-adventure-bike-rentals': '/collections/explore-our-bmw-gs-rental-fleet',
+    'motorcycle-rentals-san-diego': '/collections/route-rental-fleet'
+  };
   function landingPage() {
     addStyle('r101-land-css', 'main section.hero:first-of-type .hero__heading{color:#fff!important}');
+    document.body.classList.add('r101-land');
+    var shared = HOME_CSS.split('\n').filter(function (l) { return /section\.(products|testimonials)/.test(l); })
+      .map(function (l) { return l.replace(/body\.r101-home/g, 'body.r101-land'); }).join('\n');
+    addStyle('r101-land-shared-css', shared + LAND_CSS);
+    var main = document.querySelector('main'); if (!main) return;
+    // "★ San Diego's #1 ... ★<br>★ ... ★" -> one clean eyebrow line
+    [].slice.call(main.querySelectorAll('section.products .products__tag')).forEach(function (tg) {
+      var tx = (tg.textContent || '').replace(/★/g, ' ').replace(/\s+/g, ' ').trim();
+      var parts = tx.split(/\s{0,}(?=5-Star Service|Verified Lowest|Zero Games)/).map(function (x) { return x.trim(); }).filter(Boolean);
+      if (parts.length) tg.textContent = parts.join(' · ');
+    });
+    // add-ons with no daily price show "$0.00 / 1 day": hide that line
+    var zero = function () {
+      [].slice.call(main.querySelectorAll('section.products .product-card__price-info')).forEach(function (pi) {
+        if (/^\$0\.00\b/.test((pi.textContent || '').trim())) pi.classList.add('r101-free');
+      });
+    };
+    zero(); setTimeout(zero, 800); setTimeout(zero, 2000); setTimeout(zero, 4500);
+    // step 3 "Book Your Rental!" had nothing to click
+    var slug = location.pathname.replace(/\/+$/, '').split('/').pop();
+    var fleet = LAND_FLEET[slug] || '/collections/route-rental-fleet';
+    [].slice.call(main.querySelectorAll('section.text')).forEach(function (sec) {
+      var h = sec.querySelector('h2,h3');
+      if (!h || !/^\s*3\.\s*Book/i.test(h.textContent) || sec.querySelector('.r101-s3')) return;
+      var b = document.createElement('div'); b.className = 'r101-s3';
+      b.innerHTML = '<a class="button button--primary button--large" href="' + fleet + '">Select your dates &amp; book</a>' +
+        '<a class="button button--outlined button--large" href="tel:+18885095032">Call (888) 509-5032</a>';
+      (sec.querySelector('.text__container') || sec).appendChild(b);
+    });
   }
 
   /* ---------- REVIEW LOGO ROW ----------
@@ -3318,7 +3364,7 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
       if (/^\/collections\/?$/.test(location.pathname)) rentalsHub();
       if (/^\/pages\/straight-talk\/?$/.test(location.pathname)) stIndex();
       if (/^\/privacy-policy\/?$/.test(location.pathname)) privacyPage();
-      if (/^\/pages\/(san-diego-harley-rentals|san-diego-bmw-adventure-bike-rentals|motorcycle-rentals-san-diego)\/?$/.test(location.pathname)) landingPage();
+      if (/^\/pages\/(san-diego-harley-rentals|san-diego-bmw-adventure-bike-rentals|motorcycle-rentals-san-diego|pacific-beach-harley-rentals)\/?$/.test(location.pathname)) landingPage();
       if (/^\/pages\/(straight-talk-(?!route-101-motorsports-offers-)|press-release-)/.test(location.pathname)) article();
       if (/^\/products\/[^\/]+\/?$/.test(location.pathname)) productPage();
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
