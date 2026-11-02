@@ -3470,6 +3470,54 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
     } else sec.classList.add('in');
   }
 
+  /* ---------- SERVICE PAGES: FORM RIGHT UNDER THE CHECKLIST (Glenn, Nov 2) ----------
+     The checklist's two buttons go away and the page's real service form (garage@, reCAPTCHA, GA quote event,
+     "thank you" card) sits directly under the checklist on the same background, compact.
+     Best: drag the contact-form section under the checklist in the builder (no jump on load); if it hasn't been
+     dragged, the code moves it. TEST MODE: ?inform=test (?inform=off clears). INFORM_LIVE = true shows everyone. */
+  var INFORM_LIVE = false;
+  var INFORM_CSS = `
+section.r101-inf-host .hero__buttons{display:none!important}
+section.r101-inf-host .hero__wrapper{padding-bottom:18px!important}
+body.r101-form main section.contact-form.r101-inform .contact-form__wrapper{background:var(--r101-inf-bg,#f5f4f1)!important;padding-top:0!important;padding-bottom:52px!important}
+section.contact-form.r101-inform .r101-inf-x{display:none!important}
+body.r101-form main section.contact-form.r101-inform form{background:none!important;border:0!important;padding:0!important;border-radius:0!important}
+body.r101-form main section.contact-form.r101-inform .form__label{color:#444!important;font:600 13px/1.3 Inter,system-ui,sans-serif!important}
+body.r101-form main section.contact-form.r101-inform .form__input,body.r101-form main section.contact-form.r101-inform .form__textarea{background:#fff!important;border:1px solid #d9d6cf!important;color:#111!important}
+body.r101-form main section.contact-form.r101-inform textarea::placeholder{color:#8a8a8a!important}
+body.r101-form main section.contact-form.r101-inform .form__textarea{height:110px!important;min-height:90px!important}
+section.contact-form.r101-inform .r101-orcall{grid-column:1/-1;margin:10px 0 0!important;text-align:center;font:500 14px/1.4 Inter,system-ui,sans-serif!important;color:#555!important}
+section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight:700;text-decoration:none}
+`;
+  function inlineForm() {
+    var u = new URLSearchParams(location.search);
+    try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
+    var on = INFORM_LIVE; try { on = on || localStorage.getItem('r101inform') === '1'; } catch (e) {}
+    if (!on) return;
+    var main = document.querySelector('main'); if (!main) return;
+    var host = [].slice.call(main.querySelectorAll('section.hero.r101-hl')).filter(function (s) { return !s.classList.contains('r101-tight') && s.querySelector('ul'); })[0];
+    var fs = main.querySelector('section.contact-form');
+    var form = fs && fs.querySelector('form#contact, form');
+    if (!host || !fs || !form || fs.classList.contains('r101-inform')) return;
+    addStyle('r101-inform-css', INFORM_CSS);
+    // move it up if it hasn't been dragged there in the builder
+    if (host.nextElementSibling !== fs) host.parentNode.insertBefore(fs, host.nextElementSibling);
+    host.classList.add('r101-inf-host'); fs.classList.add('r101-inform');
+    var hw = host.querySelector('[class*=wrapper]') || host;
+    fs.style.setProperty('--r101-inf-bg', getComputedStyle(hw).backgroundColor || '#f5f4f1');
+    // hide everything in the form section except the form itself (headings, intro text, lists)
+    var n = form;
+    while (n && n !== fs) {
+      [].slice.call(n.parentElement ? n.parentElement.children : []).forEach(function (sib) { if (sib !== n && sib.tagName !== 'SCRIPT') sib.classList.add('r101-inf-x'); });
+      n = n.parentElement;
+    }
+    if (!form.querySelector('.r101-orcall')) {
+      var oc = document.createElement('p'); oc.className = 'r101-orcall';
+      oc.innerHTML = 'Prefer to talk? Call <a href="tel:+18885095032">(888) 509-5032</a>';
+      var sub = form.querySelector('.form__submit'); (sub && sub.parentNode === form ? form : form).insertBefore(oc, sub ? sub.nextSibling : null);
+    }
+  }
+
   function run() {
     try {
       addFont();
@@ -3497,6 +3545,7 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
       if (/^\/customers\/login\/?$/.test(location.pathname)) guestCheckout();
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
       try { priceChart(); } catch (e) {}
+      if (/^\/pages\/(san-diego-harley-service|san-diego-bmw-gs-service|harley-brake-service)\/?$/.test(location.pathname)) { try { inlineForm(); } catch (e) {} }
       try { bookTicker(); } catch (e) {}
       reviewRow();
       try { exitPopup(); } catch (e) {}
