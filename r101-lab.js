@@ -3046,6 +3046,199 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
     }
   }
 
+  /* ---------- SITE SEARCH: Booqable only searches products. Add page/service results on /search ---------- */
+  var SRCH_LIVE = false;   // false = only browsers that opened ?srch=test see it (Glenn's check). true = everyone.
+  var ST_ = '/pages/straight-talk-';
+  var SPAGES = {
+    hs: ['/pages/san-diego-harley-service', 'Harley-Davidson Service', 'Oil changes, scheduled service, diagnostics and repairs for your Harley, right here in Carlsbad.', 'H'],
+    hb: ['/pages/harley-brake-service', 'Harley Brake Service', 'EBC sintered pads, fresh DOT 4 fluid and a full brake inspection, done same-day.', 'H'],
+    gs: ['/pages/san-diego-bmw-gs-service', 'BMW GS Service', 'Service, brakes, diagnostics and repairs for BMW GS and GSA adventure bikes.', 'B'],
+    ti: ['/pages/motorcycle-tires', 'Motorcycle Tires', 'Top-brand tires sold, mounted and balanced in Carlsbad, for Harley, BMW and more.', ''],
+    ga: [ST_ + 'route-101-motorsports-offers-san-diego-harley-bmw-gs-motorcycle-service-diagnostics-and-tire-installation', 'Route 101 Garage', 'Our shop, our story and everything the garage offers.', ''],
+    qt: ['/pages/san-diego-harley-service#contact', 'Get a Service Quote', 'Tell us your bike and what it needs. A tech gets back to you fast.', ''],
+    oil: [ST_ + 'harley-oil-change-101-keep-your-engine-alive-ride-with-confidence', 'Harley Oil Change 101', 'What goes into a proper Harley oil change, and why it matters.', 'H'],
+    rent: ['/pages/motorcycle-rentals-san-diego', 'San Diego Motorcycle Rentals', 'Harley and BMW GS rentals in 3 clicks, with transparent pricing.', ''],
+    fleet: ['/collections/route-rental-fleet', 'See the Rental Fleet', 'Every bike with live pricing and availability.', ''],
+    hr: ['/pages/san-diego-harley-rentals', 'Harley-Davidson Rentals', 'Street Glide, Softail and touring Harleys for a day or a week.', 'H'],
+    br: ['/pages/san-diego-bmw-adventure-bike-rentals', 'BMW GS Adventure Bike Rentals', 'R 1250 GS and GSA adventure bikes, ready for road or dirt.', 'B'],
+    pb: ['/pages/pacific-beach-harley-rentals', 'Pacific Beach Harley Rentals', 'Harley rentals for riders staying in and around Pacific Beach.', 'H'],
+    tours: ['/collections/motorcycle-tours', 'Motorcycle Tours', 'Guided rides through the best roads in San Diego County.', ''],
+    gstour: ['/collections/book-a-bmw-gs-adventure-tour', 'BMW GS Adventure Tour', 'A guided adventure ride on a BMW GS.', 'B'],
+    add: ['/collections/gear-and-rental-add-ons', 'Gear & Rental Add-Ons', 'Helmets, jackets, gloves, insurance plans and more for your rental.', ''],
+    faq: ['/#section-accordion', 'Rental FAQs', 'License, age, deposits, insurance and gear: answers to the common questions.', ''],
+    hidden: [ST_ + 'the-hidden-costs-of-motorcycle-rentals-how-route-101-breaks-the-mold', 'The Hidden Costs of Motorcycle Rentals', 'What other rental shops add on, and how Route 101 does it differently.', ''],
+    p2p: [ST_ + 'peer-to-peer-motorcycle-rentals-the-pros-cons-what-you-should-know', 'Peer-to-Peer Motorcycle Rentals', 'The pros, cons and what you should know before renting from a stranger.', ''],
+    gear: [ST_ + 'protect-yourself-a-beginners-guide-to-choosing-motorcycle-safety-gear', 'Choosing Motorcycle Safety Gear', 'A beginner\'s guide to helmets, jackets, gloves and boots.', ''],
+    fund: [ST_ + 'motorcycle-riding-fundamentals-build-a-strong-foundation-for-your-riding-skills', 'Motorcycle Riding Fundamentals', 'Build a strong foundation for every ride.', ''],
+    tips: ['/pages/motorcycle-rental-tips', 'Riding Advice, Safety Tips & Route Ideas', 'Where to ride in San Diego and how to ride it well.', ''],
+    tw: ['/pages/twysted-throttle', 'Learn to Ride: Twysted Throttle', 'California-approved 3-day motorcycle training course.', ''],
+    st: ['/pages/straight-talk', 'Straight Talk Blog', 'Articles on riding, renting, service and the motorcycle industry.', ''],
+    about: ['/pages/about-us', 'About Route 101 Motorsports', 'Who we are and why riders trust us.', ''],
+    contact: ['/pages/contact-us', 'Contact Us & Hours', 'Call, email or visit us in Carlsbad. Open 7 days by appointment.', ''],
+    merch: ['/collections/route-101-merch', 'Route 101 Merch', 'Shirts, hats and more.', ''],
+    vs: [ST_ + 'route-101-vs-the-industry-google-ai-just-called-out-our-competitors', 'Route 101 vs The Industry', 'Google AI weighs in on the motorcycle rental competition.', ''],
+    founder: [ST_ + 'route-101-founder-glenn-cogan-straight-talk-on-industry-disruption', 'Founder Glenn Cogan on Industry Disruption', 'Risks, rivals and where the motorcycle business is headed.', ''],
+    soar: [ST_ + 'motorcycle-prices-soar-sales-slump-rentals-win', 'Motorcycle Prices Soar, Sales Slump: Rentals Win', 'Why renting makes more sense than ever.', ''],
+    rev: [ST_ + 'revving-in-reverse-understanding-harley-davidsons-decline', 'Revving in Reverse', 'Understanding Harley-Davidson\'s decline.', 'H'],
+    ai: [ST_ + 'human-ai-partnership-route-101-founder-redefines-business', 'Human & AI Partnership', 'How Route 101\'s founder built a business with an AI partner.', ''],
+    press: ['/pages/press-release-route-101-motorsports-built-by-human-with-ai-partner', 'Press Release: Built by a Human with an AI Partner', 'The Route 101 story, in the news.', '']
+  };
+  // topics: trigger words/phrases -> pages, best first
+  var STOPICS = [
+    { w: ['brake', 'brakes', 'braking', 'break', 'breaks', 'pad', 'pads', 'brake pads', 'rotor', 'rotors', 'caliper', 'calipers', 'abs', 'brake fluid', 'brake job', 'squeal', 'squeak', 'grinding', 'stopping', 'sintered', 'ebc'], p: ['hb', 'gs', 'hs', 'qt'] },
+    { w: ['oil', 'oil change', 'lube', 'filter', 'primary', 'transmission', 'trans', 'fluid', 'fluids', 'synthetic', 'interval', 'service interval', 'motul'], p: ['hs', 'oil', 'gs', 'qt'] },
+    { w: ['service', 'servicing', 'repair', 'repairs', 'fix', 'maintenance', 'mechanic', 'mechanics', 'shop', 'garage', 'diagnostic', 'diagnostics', 'diagnose', 'check engine', 'engine light', 'wont start', 'won t start', 'no start', 'not starting', 'battery', 'electrical', 'inspection', 'tune', 'tune up', 'tuneup', 'clunk', 'clunking', 'noise', 'leak', 'leaking', 'recall', 'warranty', 'scan', 'code', 'codes', 'mt pro', 'technician', 'tech', 'install', 'installation', 'parts'], p: ['hs', 'gs', 'ga', 'qt'] },
+    { w: ['quote', 'estimate', 'appointment', 'schedule', 'drop off', 'how much service'], p: ['qt', 'hs', 'gs'] },
+    { w: ['tire', 'tires', 'tyre', 'tyres', 'mount', 'mounting', 'balance', 'balancing', 'metzeler', 'dunlop', 'michelin', 'bridgestone', 'pirelli', 'avon', 'continental', 'flat', 'puncture', 'tread', 'wheel', 'wheels', 'rubber'], p: ['ti'] },
+    { w: ['helmet', 'helmets', 'jacket', 'jackets', 'glove', 'gloves', 'boot', 'boots', 'gear', 'riding gear', 'apparel', 'armor', 'vest', 'rain gear', 'safety'], p: ['add', 'gear', 'faq'] },
+    { w: ['rent', 'rental', 'rentals', 'renting', 'hire', 'book', 'booking', 'reserve', 'reservation', 'availability', 'available', 'price', 'prices', 'pricing', 'cost', 'costs', 'rate', 'rates', 'cheap', 'deal', 'daily', 'weekly', 'weekend', 'deposit', 'eaglerider', 'eagle rider', 'riders share', 'ridersshare'], p: ['rent', 'fleet', 'faq', 'hidden'] },
+    { w: ['street glide', 'road glide', 'road king', 'softail', 'heritage', 'heritage classic', 'fat boy', 'fatboy', 'low rider', 'touring', 'ultra', 'ultra limited', 'cruiser', 'bagger', 'flhx', 'flhxs', 'flhcs', 'flstc', 'flhr', 'electra glide'], p: ['hr', 'fleet', 'hs'] },
+    { w: ['harley', 'harleys', 'harley davidson', 'davidson', 'hd', 'h d', 'milwaukee eight', 'm8', 'twin cam'], p: ['hr', 'hs', 'hb', 'oil', 'pb'], k: 0.6 },
+    { w: ['bmw', 'gs', 'gsa', 'r1250', 'r 1250', 'r1200', 'r 1200', '1250', '1200', 'r1300', 'adventure', 'adv', 'dual sport', 'dualsport', 'off road', 'offroad', 'dirt', 'boxer', 'esa'], p: ['br', 'gs', 'gstour'], k: 0.6 },
+    { w: ['tour', 'tours', 'guided', 'guide', 'ride', 'rides', 'route', 'routes', 'trip', 'trips', 'pacific coast', 'pch', 'coast', 'highway 101', 'julian', 'palomar', 'mountains', 'desert', 'anza', 'borrego'], p: ['tours', 'gstour', 'tips'] },
+    { w: ['insurance', 'insure', 'insured', 'coverage', 'covered', 'ridershield', 'protection', 'protectionone', 'protectionplus', 'damage', 'waiver', 'liability', 'credit card', 'auto insurance'], p: ['add', 'faq', 'hidden'] },
+    { w: ['license', 'licence', 'licensed', 'm1', 'endorsement', 'permit', 'age', 'how old', 'minimum age', 'experience', 'beginner', 'beginners', 'new rider', 'learn', 'learning', 'lesson', 'lessons', 'course', 'training', 'msf', 'class', 'school'], p: ['faq', 'tw', 'fund', 'gear'] },
+    { w: ['tips', 'advice', 'how to ride', 'riding tips', 'skills', 'technique'], p: ['tips', 'fund', 'gear'] },
+    { w: ['contact', 'hours', 'open', 'address', 'location', 'directions', 'where', 'phone', 'call', 'number', 'email', 'carlsbad', 'san diego', 'north county', 'oceanside', 'encinitas', 'vista', 'san marcos', 'near me', 'visit'], p: ['contact', 'about'] },
+    { w: ['pacific beach', 'pb', 'mission beach', 'la jolla', 'downtown'], p: ['pb', 'rent'] },
+    { w: ['merch', 'shirt', 'shirts', 't shirt', 'tshirt', 'hat', 'hats', 'hoodie', 'sticker', 'stickers', 'swag'], p: ['merch'] },
+    { w: ['blog', 'article', 'articles', 'news', 'straight talk', 'read'], p: ['st'] },
+    { w: ['about', 'founder', 'glenn', 'story', 'team', 'owner', 'who', 'ai', 'press', 'reviews', 'review', 'trust'], p: ['about', 'founder', 'ai', 'press'] },
+    { w: ['peer to peer', 'p2p', 'riders share', 'private'], p: ['p2p', 'hidden'] },
+    { w: ['hidden fees', 'fees', 'fee', 'hidden', 'extra charges'], p: ['hidden', 'faq'] }
+  ];
+  var SBRAND = { H: ['harley', 'harleys', 'harley davidson', 'davidson', 'hd', 'street glide', 'road glide', 'road king', 'softail', 'touring', 'bagger', 'fat boy', 'heritage', 'low rider', 'm8', 'twin cam', 'flhx', 'flhcs', 'flstc'], B: ['bmw', 'gs', 'gsa', 'r1250', 'r1200', '1250', '1200', 'r1300', 'adventure', 'adv', 'boxer', 'dual sport', 'esa'] };
+  function sNorm(s) { return (' ' + String(s || '').toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g, ' ').trim() + ' '); }
+  function sStem(w) { return w.length > 4 ? w.replace(/(es|s)$/, '') : w.replace(/s$/, ''); }
+  function sLev1(a, b) {                       // true when a and b differ by at most one edit
+    if (Math.abs(a.length - b.length) > 1) return false;
+    var i = 0, j = 0, d = 0;
+    while (i < a.length && j < b.length) {
+      if (a[i] === b[j]) { i++; j++; continue; }
+      if (++d > 1) return false;
+      if (a.length > b.length) i++; else if (b.length > a.length) j++; else { i++; j++; }
+    }
+    return d + (a.length - i) + (b.length - j) <= 1;
+  }
+  function sHit(q, toks, term) {               // 0 = no match, 1.2-1.5 = partial/typo, 3 = exact
+    var t = sNorm(term);
+    if (q.indexOf(t) >= 0) return 3;
+    var tw = t.trim().split(' ');
+    if (tw.length > 1) return 0;               // phrases must match as phrases
+    var w = tw[0], ws = sStem(w);
+    for (var k = 0; k < toks.length; k++) {
+      var x = toks[k];
+      if (sStem(x) === ws) return 3;
+      if (x.length >= 3 && w.length > x.length && w.indexOf(x) === 0 && k === toks.length - 1) return 1.2;  // still typing
+      if (Math.min(x.length, w.length) >= 5 && Math.max(x.length, w.length) >= 6 && sLev1(x, w)) return 1.5;  // small typo
+    }
+    return 0;
+  }
+  function siteSearchMatch(raw) {
+    var q = sNorm(raw), toks = q.trim().split(' ').filter(function (t) { return t; });
+    if (!toks.length) return [];
+    var brand = '';
+    ['H', 'B'].forEach(function (b) { SBRAND[b].forEach(function (t) { if (!brand && sHit(q, toks, t) === 3) brand = b; }); });
+    var score = {};
+    STOPICS.forEach(function (tp) {
+      var best = 0;
+      tp.w.forEach(function (t) { var h = sHit(q, toks, t); if (h > best) best = h; });
+      if (!best) return;
+      tp.p.forEach(function (id, i) { score[id] = (score[id] || 0) + best * (tp.k || 1) * (1 - i * 0.15); });
+    });
+    // page titles count too, so any article can be found by the words in its title
+    var STOP = ' the and for you your our with how what why are can from this that out not all a an of to in on is it my me at or motorcycle motorcycles bike bikes san diego route 101 harley bmw rentals rental ';
+    Object.keys(SPAGES).forEach(function (id) {
+      var tt = sNorm(SPAGES[id][1]);
+      toks.forEach(function (x) { if (x.length >= 3 && STOP.indexOf(' ' + x + ' ') < 0 && tt.indexOf(' ' + x) >= 0) score[id] = (score[id] || 0) + 1.2; });
+    });
+    Object.keys(score).forEach(function (id) {
+      var pb = SPAGES[id][3];
+      if (brand && pb === brand) score[id] += 1.5;
+      if (brand && pb && pb !== brand) score[id] -= 1.5;
+    });
+    var top = 0; Object.keys(score).forEach(function (id) { if (score[id] > top) top = score[id]; });
+    return Object.keys(score).filter(function (id) { return score[id] > 0.9 && score[id] >= top * 0.4; })
+      .sort(function (a, b) { return score[b] - score[a]; }).slice(0, 6);
+  }
+  var SRCH_CSS = `
+.r101-sr{margin:0 0 34px}
+.r101-sr .eb{font:700 12px/1 Inter,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:${O};margin:0 0 14px}
+.r101-sr .lead{font:400 17px/1.5 Inter,system-ui,sans-serif;color:#333;margin:0 0 16px}
+.r101-sr .g{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.r101-sr a.c{display:block;background:#fff;border:1px solid #e4e2dc;border-left:5px solid ${O};border-radius:14px;padding:16px 18px;text-decoration:none!important;color:#111!important;transition:transform .15s,box-shadow .15s}
+.r101-sr a.c:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.10)}
+.r101-sr a.c b{display:block;font:700 18px/1.25 Inter,system-ui,sans-serif;margin:0 0 5px;color:#111}
+.r101-sr a.c span{display:block;font:400 15px/1.45 Inter,system-ui,sans-serif;color:#555}
+.r101-sr a.c i{font-style:normal;color:${O};font-weight:700}
+.r101-sr .bt{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.r101-sr .bt a{display:inline-block;padding:13px 22px;border-radius:999px;font:700 15px Inter,system-ui,sans-serif;text-decoration:none!important}
+.r101-sr .bt a.p{background:#111;color:#fff!important}
+.r101-sr .bt a.s{border:2px solid ${O};color:#111!important}
+.r101-sr-prod{font:700 12px/1 Inter,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:${O};margin:6px 0 14px}
+@media (max-width:760px){.r101-sr .g{grid-template-columns:1fr}}
+`;
+  function siteSearch() {
+    var u = new URLSearchParams(location.search);
+    try {
+      if (u.get('srch') === 'test') localStorage.setItem('r101srch', '1');
+      if (u.get('srch') === 'off') localStorage.removeItem('r101srch');
+    } catch (e) {}
+    var on = SRCH_LIVE; try { on = on || localStorage.getItem('r101srch') === '1'; } catch (e) {}
+    if (!on) return;
+    var raw = (u.get('q') || '').slice(0, 80);
+    if (!raw.trim()) return;
+    var box = document.querySelector('.search__container');
+    if (!box || box.querySelector('.r101-sr')) return;
+    addStyle('r101-srch-css', SRCH_CSS);
+    var ids = siteSearchMatch(raw);
+    var prods = box.querySelectorAll('.search-results .product-card').length;
+    var msg = box.querySelector('.search__message');
+    var card = function (id) {
+      var p = SPAGES[id], a = document.createElement('a');
+      a.className = 'c'; a.href = p[0];
+      a.innerHTML = '<b></b><span></span>';
+      a.querySelector('b').textContent = p[1];
+      a.querySelector('span').innerHTML = '';
+      a.querySelector('span').appendChild(document.createTextNode(p[2] + ' '));
+      var ar = document.createElement('i'); ar.textContent = '→'; a.querySelector('span').appendChild(ar);
+      a.addEventListener('click', function () { try { if (window.gtag) gtag('event', 'search_page_click', { search_term: raw, page: p[0] }); } catch (e) {} });
+      return a;
+    };
+    var wrap = document.createElement('div'); wrap.className = 'r101-sr';
+    var eb = document.createElement('p'); eb.className = 'eb';
+    var g = document.createElement('div'); g.className = 'g';
+    if (ids.length) {
+      eb.textContent = 'Pages & services';
+      wrap.appendChild(eb);
+      ids.forEach(function (id) { g.appendChild(card(id)); });
+      wrap.appendChild(g);
+      if (msg && !prods) msg.style.display = 'none';
+    } else if (!prods) {
+      eb.textContent = 'No exact match';
+      var ld = document.createElement('p'); ld.className = 'lead';
+      ld.textContent = 'We couldn’t find “' + raw + '”, but one of these will get you there. Or just call us, we answer 24/7.';
+      wrap.appendChild(eb); wrap.appendChild(ld);
+      ['rent', 'hs', 'gs', 'ti', 'faq', 'contact'].forEach(function (id) { g.appendChild(card(id)); });
+      wrap.appendChild(g);
+      var bt = document.createElement('div'); bt.className = 'bt';
+      bt.innerHTML = '<a class="p" href="tel:+18885095032">Call (888) 509-5032</a><a class="s" href="/pages/san-diego-harley-service#contact">Get a quote</a>';
+      wrap.appendChild(bt);
+      if (msg) msg.style.display = 'none';
+    } else {
+      return;   // products only: Booqable's own results are fine
+    }
+    box.insertBefore(wrap, box.firstChild);
+    if (prods) {
+      var pl = document.createElement('p'); pl.className = 'r101-sr-prod'; pl.textContent = 'Bikes, gear & add-ons';
+      var grid = box.querySelector('.search__grid');
+      if (grid) box.insertBefore(pl, grid);
+    }
+    try {
+      if (window.gtag) gtag('event', ids.length || prods ? 'site_search' : 'search_no_results', { search_term: raw, page_matches: ids.length, product_matches: prods });
+    } catch (e) {}
+  }
+
   function run() {
     try {
       addFont();
@@ -3074,6 +3267,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       if (/^\/checkouts\/[^\/]+\/success\/?$/.test(location.pathname)) thankYou();
       reviewRow();
       try { exitPopup(); } catch (e) {}
+      if (/^\/search\/?$/.test(location.pathname)) { try { siteSearch(); } catch (e) {} }
       serviceLogos();
       photoBands();
       rhythm();
