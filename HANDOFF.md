@@ -200,7 +200,7 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - (e) Harley Brakes phrase keywords added: "harley brakes" (under review), "harley brake job" (low search volume).
 - Anchor fix (pin 7c3a91d) verified on all service pages, PC + phone.
 
-## Site search (pin f2e39ff, Nov 2 2026), TEST MODE
+## Site search (LIVE Nov 2 2026)
 - Booqable's /search only finds products. `siteSearch()` adds a "Pages & services" block on /search from `SPAGES` (32 pages) + `STOPICS` (topic word lists: brakes, oil, service, quote, tires, gear, rentals, Harley models, Harley/BMW brand, tours, insurance, license, tips, contact, PB, merch, blog, about, p2p, fees).
 - Scoring: exact word/phrase = 3, partial (still typing) = 1.2, one-letter typo on 6+ letter words = 1.5; topic position weight; brand bonus (Harley vs BMW) ±1.5; page title words +1.2; results keep only scores >= 40% of top, max 6.
 - No pages and no products -> "No exact match" + 6 main pages + Call/Quote buttons.

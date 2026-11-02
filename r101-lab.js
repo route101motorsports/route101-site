@@ -3047,7 +3047,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
   }
 
   /* ---------- SITE SEARCH: Booqable only searches products. Add page/service results on /search ---------- */
-  var SRCH_LIVE = false;   // false = only browsers that opened ?srch=test see it (Glenn's check). true = everyone.
+  var SRCH_LIVE = true;    // false = only browsers that opened ?srch=test see it (Glenn's check). true = everyone.
   var ST_ = '/pages/straight-talk-';
   var SPAGES = {
     hs: ['/pages/san-diego-harley-service', 'Harley-Davidson Service', 'Oil changes, scheduled service, diagnostics and repairs for your Harley, right here in Carlsbad.', 'H'],
