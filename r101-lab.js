@@ -3490,7 +3490,7 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
      "thank you" card) sits directly under the checklist on the same background, compact.
      Best: drag the contact-form section under the checklist in the builder (no jump on load); if it hasn't been
      dragged, the code moves it. TEST MODE: ?inform=test (?inform=off clears). INFORM_LIVE = true shows everyone. */
-  var INFORM_LIVE = false;
+  var INFORM_LIVE = false;   // site-wide switch; Harley Service is live on its own (Glenn, Nov 2)
   var INFORM_CSS = `
 section.r101-inf-host .hero__buttons{display:none!important}
 body.r101-harley main section.r101-inf-host.r101-hl .hero__wrapper,body main section.r101-inf-host.r101-hl .hero__wrapper{padding-bottom:0!important}
@@ -3534,7 +3534,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
-    var on = INFORM_LIVE; try { on = on || localStorage.getItem('r101inform') === '1'; } catch (e) {}
+    var on = INFORM_LIVE || /^\/pages\/san-diego-harley-service\/?$/.test(location.pathname); try { on = on || localStorage.getItem('r101inform') === '1'; } catch (e) {}
     var main = document.querySelector('main'); if (!main) return;
     if (!on) {
       // not switched on yet: the extra builder forms under each service block stay hidden; the original form stays where it was
@@ -3592,7 +3592,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       var bt = blockText(prev), k = KINDS.filter(function (kk) { return kk[0].test(bt.text); })[0];
       style(fs, prev); used.push(fs);
       var ta = fs.querySelector('textarea');
-      if (k && ta) { if (!ta.value) ta.value = k[1]; ta.setAttribute('placeholder', k[2]); }
+      if (k && ta) { if (!ta.value) ta.value = k[1]; ta.setAttribute('placeholder', k[2]); ta.setAttribute('data-r101pre', k[1]); }
       prev.classList.add('r101-inf-host');
       if (bt.intro) { var pb = bt.intro.querySelector('.hero__buttons'); if (pb) pb.style.display = 'none'; }
     });
@@ -3706,6 +3706,21 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       try { history.replaceState(null, '', a.getAttribute('href')); } catch (e2) {}
     });
     // after a form is sent, the page reloads with the "thank you" (or an error) in .form__info: land on that, not the footer
+    // pages with several forms: Booqable echoes the reply (and the typed text) into EVERY form, so keep it only on the one that was sent
+    document.addEventListener('submit', function (e) {
+      var sec = e.target && e.target.closest && e.target.closest('section.contact-form');
+      try { if (sec && sec.id) sessionStorage.setItem('r101sent', sec.id); } catch (x) {}
+    }, true);
+    var sentId = ''; try { sentId = sessionStorage.getItem('r101sent') || ''; sessionStorage.removeItem('r101sent'); } catch (x) {}
+    var infos0 = [].slice.call(document.querySelectorAll('.form__info')).filter(function (x) { return (x.textContent || '').trim().length > 3; });
+    if (sentId && infos0.length > 1 && document.getElementById(sentId)) {
+      infos0.forEach(function (x) {
+        var sec = x.closest('section.contact-form');
+        if (!sec || sec.id === sentId) return;
+        x.innerHTML = '';
+        [].slice.call(sec.querySelectorAll('input[type=text], input[type=email], textarea')).forEach(function (f) { if (f.name !== 'form[type]') f.value = f.getAttribute('data-r101pre') || ''; });
+      });
+    }
     var formMsg = function () {
       var m = [].slice.call(document.querySelectorAll('.form__info')).filter(function (x) { return (x.textContent || '').trim().length > 3; });
       return m[0] || null;
