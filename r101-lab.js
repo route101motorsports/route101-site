@@ -2809,6 +2809,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     // or - right after a photo/break - pulls the next section in with it; full sections start a new shade
     var groups = [], cur = null;
     secs.forEach(function (s) {
+      if (s.classList.contains('r101-inform')) { if (cur) cur.push(s); return; }   // inline forms ride with the section above
       if (isBreak(s)) { cur = null; return; }
       var h = s.offsetHeight, tiny = h < 300, short = h < 480;
       if (tiny) {
@@ -3520,7 +3521,8 @@ section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight
     var style = function (fs, after) {
       var form = fs.querySelector('form');
       fs.classList.add('r101-inform');
-      fs.style.setProperty('--r101-inf-bg', bgOf(after.querySelector('[class*=wrapper]')) || bgOf(after) || '#f5f4f1');
+      var paint = function () { fs.style.setProperty('--r101-inf-bg', bgOf(after.querySelector('[class*=wrapper]')) || bgOf(after) || '#f5f4f1'); };
+      paint(); setTimeout(paint, 0); setTimeout(paint, 600);   // the cream/white rhythm is applied after this runs
       var n = form;
       while (n && n !== fs) {
         [].slice.call(n.parentElement ? n.parentElement.children : []).forEach(function (sib) { if (sib !== n && sib.tagName !== 'SCRIPT') sib.classList.add('r101-inf-x'); });
