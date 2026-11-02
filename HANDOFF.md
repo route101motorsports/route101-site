@@ -199,3 +199,11 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - (d) Harley Tires negatives added: atv, utv, golf cart, lawn mower, trailer, wheelbarrow, pit bike, minibike (93 total).
 - (e) Harley Brakes phrase keywords added: "harley brakes" (under review), "harley brake job" (low search volume).
 - Anchor fix (pin 7c3a91d) verified on all service pages, PC + phone.
+
+## Site search (pin f2e39ff, Nov 2 2026), TEST MODE
+- Booqable's /search only finds products. `siteSearch()` adds a "Pages & services" block on /search from `SPAGES` (32 pages) + `STOPICS` (topic word lists: brakes, oil, service, quote, tires, gear, rentals, Harley models, Harley/BMW brand, tours, insurance, license, tips, contact, PB, merch, blog, about, p2p, fees).
+- Scoring: exact word/phrase = 3, partial (still typing) = 1.2, one-letter typo on 6+ letter words = 1.5; topic position weight; brand bonus (Harley vs BMW) ±1.5; page title words +1.2; results keep only scores >= 40% of top, max 6.
+- No pages and no products -> "No exact match" + 6 main pages + Call/Quote buttons.
+- GA events: site_search, search_no_results (search_term, page_matches, product_matches), search_page_click.
+- Gate: `SRCH_LIVE = false`. A browser opens `?srch=test` once (localStorage r101srch=1) to see it; `?srch=off` clears. Go live = set SRCH_LIVE true, push, pin.
+- New page added to the site -> add it to SPAGES (+ topic words if needed).
