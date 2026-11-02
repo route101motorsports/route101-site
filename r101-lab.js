@@ -2844,6 +2844,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     secs.forEach(function (s) {
       if (s.classList.contains('r101-inform')) { if (cur) cur.push(s); return; }   // inline forms ride with the section above
       if (isBreak(s)) { cur = null; return; }
+      if (s.classList.contains('r101-split') || s.classList.contains('r101-intro')) { cur = [s]; groups.push(cur); return; }   // article rows: always their own shade
       var h = s.offsetHeight, tiny = h < 300, short = h < 480;
       if (tiny) {
         if (cur) { cur.push(s); return; }
