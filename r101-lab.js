@@ -3096,7 +3096,16 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
   // with a trailing slash, which reloads the page and jumps before our layout settles (lands at the footer).
   // Make same-page links pure scrolls, offset below the fixed header; re-aim after load when arriving with a hash.
   function anchors() {
-    var hbMax = 0;
+    var hbNow = function () {
+      var hd = document.getElementById('header'), hb = 0;
+      if (hd) [hd].concat([].slice.call(hd.querySelectorAll('*'))).forEach(function (n) {
+        var r = n.getBoundingClientRect();
+        if (r.height > 0 && r.width > 200 && r.top < 45 && r.bottom > hb && r.bottom < 200) hb = r.bottom;
+      });
+      return hb;
+    };
+    var hbMax = scrollY < 5 ? hbNow() : 0;
+    addEventListener('resize', function () { if (scrollY < 5) hbMax = hbNow(); });
     var norm = function (p) { return (p || '/').replace(/\/+$/, '') || '/'; };
     var here = norm(location.pathname);
     var target = function (hash) {
@@ -3107,12 +3116,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
     var go = function (el, smooth) {
       // visible header bottom: the bar is an absolutely positioned child, so measure descendants
       // (ignore hidden/offscreen menus: only things starting near the top, capped at 200px)
-      var hd = document.getElementById('header'), hb = 0;
-      if (hd) [hd].concat([].slice.call(hd.querySelectorAll('*'))).forEach(function (n) {
-        var r = n.getBoundingClientRect();
-        if (r.height > 0 && r.width > 200 && r.top < 45 && r.bottom > hb && r.bottom < 200) hb = r.bottom;
-      });
-      hbMax = Math.max(hbMax, hb);   // header re-grows (top bar returns) on any upward scroll: clear its tallest size
+      hbMax = Math.max(hbMax, hbNow());   // header re-grows (top bar returns) on any upward scroll: clear its tallest size
       var off = Math.max(hbMax, 60) + 16;
       var y = el.getBoundingClientRect().top + scrollY - off;
       scrollTo({ top: Math.max(0, y), behavior: smooth ? 'smooth' : 'auto' });
