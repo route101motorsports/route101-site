@@ -3535,7 +3535,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   // fill-in-the-blanks forms: don't send until every "Label:" line has an answer (Glenn, Nov 2)
   function requireBlanks() {
     if (window.__r101blanks) return; window.__r101blanks = 1;
-    addStyle('r101-blank-css', '.r101-blankmsg{margin:8px 0 0;padding:10px 14px;border-radius:10px;background:#fff3e8;border-left:5px solid #FF6600;color:#111;font:600 15px/1.4 Inter,system-ui,sans-serif}');
+    addStyle('r101-blank-css', 'html body .r101-blankmsg{display:block!important;margin:10px 0 4px!important;padding:12px 16px!important;border-radius:10px!important;background:#FF6600!important;border:0!important;color:#fff!important;opacity:1!important;font:700 16px/1.4 Inter,system-ui,sans-serif!important;text-transform:none!important;letter-spacing:0!important}');
     document.addEventListener('submit', function (e) {
       var ta = e.target && e.target.querySelector && e.target.querySelector('textarea[data-r101pre]');
       if (!ta) return;
