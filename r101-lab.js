@@ -3555,7 +3555,7 @@ main .r101-reqbar.r101-here{display:none!important}
     };
     // back-to-checklist bar (hidden while the form sits under the checklist)
     var hb = mk('Service', 'Service request: ', basePh, host); hb.classList.add('r101-here');
-    (host.querySelector('.hero__text-area') || host.querySelector('.hero__content') || host.querySelector('.container') || host).appendChild(hb); bars.push(hb);
+    (host.querySelector('.hero__container') || host.querySelector('.container') || host).appendChild(hb); bars.push(hb);
     [].slice.call(main.querySelectorAll('section.hero.r101-hl.r101-tight')).forEach(function (blk) {
       var p1 = blk.previousElementSibling; while (p1 && !(p1.tagName === 'SECTION' && p1.classList.contains('hero'))) p1 = p1.previousElementSibling;
       var tx = ((p1 && p1.querySelector('h1,h2,h3')) || {}).textContent || '';
@@ -3563,7 +3563,8 @@ main .r101-reqbar.r101-here{display:none!important}
       var k = KINDS.filter(function (kk) { return kk[0].test(tx); })[0];
       if (!k) return;
       var b = mk(k[1], k[2], k[3], blk);
-      (blk.querySelector('.hero__text-area') || blk.querySelector('.hero__content') || blk.querySelector('.container') || blk).appendChild(b); bars.push(b);
+      (blk.querySelector('.hero__container') || blk.querySelector('.container') || blk).appendChild(b); bars.push(b);
+      if (p1) { var pb = p1.querySelector('.hero__buttons'); if (pb) pb.style.display = 'none'; }
     });
   }
 
