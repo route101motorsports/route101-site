@@ -3149,7 +3149,21 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       aim(); setTimeout(aim, 350); setTimeout(aim, 1200); addEventListener('load', function () { aim(); setTimeout(aim, 300); });
     }
   }
+  function callTaps() {
+    if (window.__r101calls) return; window.__r101calls = 1;
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+      if (!a) return;
+      try {
+        if (typeof window.gtag === 'function') window.gtag('event', 'phone_call_click', {
+          link_text: (a.textContent || '').trim().slice(0, 60),
+          page_path: location.pathname
+        });
+      } catch (x) {}
+    }, true);
+  }
   function boot() {
+    try { callTaps(); } catch (e) {}
     try { run(); } catch (e) {}
     try { anchors(); } catch (e) {}
     requestAnimationFrame(ready); setTimeout(ready, 300);
