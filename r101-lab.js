@@ -3498,9 +3498,9 @@ section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight
      Builder padding settings are ignored; code sets every non-photo section. Photo sections keep their size. */
   var PAD_CSS = `
 html body.r101-pad #r101-pbrands{padding:28px 0!important}
-html body.r101-pad #r101-svc{padding:40px 0!important}
-html body.r101-pad #r101-steps{padding:40px 0!important}
-html body.r101-pad main > section.r101-inf-host:not(.r101-tight) > div{padding-top:40px!important;padding-bottom:0!important}
+html body.r101-pad #r101-svc{padding:40px 0 40px!important}
+html body.r101-pad #r101-steps{padding:0 0 40px!important}
+html body.r101-pad main > section.r101-inf-host:not(.r101-tight) > div{padding-top:0!important;padding-bottom:0!important}html body.r101-pad main > section.r101-inf-host:not(.r101-tight) .hero__wrapper{padding-top:0!important}
 html body.r101-pad main > section.r101-tight-logos > div{padding-top:40px!important;padding-bottom:0!important}
 html body.r101-pad main > section.r101-tight > div{padding-top:16px!important;padding-bottom:0!important}
 html body.r101-pad main > section.contact-form.r101-inform > div{padding-top:0!important;padding-bottom:56px!important}
