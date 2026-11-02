@@ -1696,7 +1696,7 @@ body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h
         html += '<a href="' + r[2] + '" target="_blank" rel="noopener" aria-label="Read our 5-star reviews on ' + r[1] + '" style="--k:' + r[3] + '">' +
           '<img src="' + REV_BASE + 'tight-review-' + r[0] + '.png" alt="Route 101 Motorsports 5-star reviews on ' + r[1] + '" loading="lazy" decoding="async"></a>';
       });
-      box.innerHTML = html + '</div>' + (set[3] ? '<p class="tag">' + set[3] + '</p>' : '');
+      box.innerHTML = html + '</div>';
       var c = s.querySelector('.logos__container') || s.firstElementChild || s;
       c.appendChild(box);
     });
@@ -1745,7 +1745,7 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
           ? '<a href="/pages/motorcycle-tires#brand-' + l[0] + '" aria-label="See ' + l[1] + ' tires" style="--w:' + l[2] + 'px">' + img + '</a>'
           : '<span style="--w:' + l[2] + 'px">' + img + '</span>';
       });
-      box.innerHTML = html + '</div>';
+      box.innerHTML = html + '</div>' + (set[3] ? '<p class="tag">' + set[3] + '</p>' : '');
       var c = s.querySelector('.logos__container') || s.firstElementChild || s;
       c.appendChild(box);
     });
