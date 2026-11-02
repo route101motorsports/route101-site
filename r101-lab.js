@@ -2832,7 +2832,8 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
 
   /* ---------- FAQ ACCORDIONS (any page) ---------- */
   var ACC_CSS = `
-main section.accordion .accordion__top{margin-bottom:18px;text-align:left!important;align-items:flex-start!important}
+main section.accordion .accordion__top{margin-bottom:24px!important;text-align:left!important;align-items:flex-start!important}
+main section.accordion .accordion__description{padding-bottom:0!important;margin-bottom:0!important}
 main section.accordion .accordion__description p:empty{display:none!important}
 main section.accordion .accordion__container{max-width:1440px!important}
 main section.spacer:has(+ section.accordion){display:none!important}
