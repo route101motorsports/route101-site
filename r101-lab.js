@@ -808,6 +808,18 @@ body.r101-form section.contact-form .form__submit .button{width:100%;background:
     }[p] || 'Year, make & model of your bike, and how we can help.';
     document.querySelectorAll('main section.contact-form textarea').forEach(function (t) { t.setAttribute('placeholder', ph); });
     document.querySelectorAll('main section.contact-form input#author').forEach(function (t) { t.setAttribute('placeholder', 'Name & Phone Required'); });
+    // fill-in-the-blanks + "Almost there" check, page by page (Harley Service has its own per-form set in inlineForm)
+    var TPL = [
+      [/^\/pages\/straight-talk-route-101-motorsports-offers-/, 'Service request:\nYear, make and model: \nWhat you need: ']
+    ].filter(function (x) { return x[0].test(p); })[0];
+    if (TPL) {
+      document.querySelectorAll('main section.contact-form textarea').forEach(function (t) {
+        if (t.getAttribute('data-r101pre')) return;
+        if (!t.value.trim()) t.value = TPL[1];
+        t.setAttribute('data-r101pre', TPL[1]); t.setAttribute('placeholder', ''); t.rows = 4;
+      });
+      requireBlanks();
+    }
   }
 
   /* ---------- HARLEY BRAKE SERVICE PAGE ---------- */
