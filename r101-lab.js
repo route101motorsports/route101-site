@@ -3096,6 +3096,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
   // with a trailing slash, which reloads the page and jumps before our layout settles (lands at the footer).
   // Make same-page links pure scrolls, offset below the fixed header; re-aim after load when arriving with a hash.
   function anchors() {
+    var hbMax = 0;
     var norm = function (p) { return (p || '/').replace(/\/+$/, '') || '/'; };
     var here = norm(location.pathname);
     var target = function (hash) {
@@ -3111,7 +3112,8 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
         var r = n.getBoundingClientRect();
         if (r.height > 0 && r.width > 200 && r.top < 45 && r.bottom > hb && r.bottom < 200) hb = r.bottom;
       });
-      var off = Math.max(hb, 60) + 16;
+      hbMax = Math.max(hbMax, hb);   // header re-grows (top bar returns) on any upward scroll: clear its tallest size
+      var off = Math.max(hbMax, 60) + 16;
       var y = el.getBoundingClientRect().top + scrollY - off;
       scrollTo({ top: Math.max(0, y), behavior: smooth ? 'smooth' : 'auto' });
       if (smooth) {
