@@ -1786,8 +1786,15 @@ body.r101-harley .r101-blsec .r101-bl .row img,body .r101-blsec .r101-bl .row im
   function serviceLogos() {
     var secs = [].slice.call(document.querySelectorAll('main section.logos')).filter(function (s) { return !s.classList.contains('r101-blsec') && !s.classList.contains('r101-revrow-sec'); });
     secs.forEach(function (s) {
-      var im = s.querySelector('img'); if (!im) return;
-      var src = im.getAttribute('src') || im.currentSrc || '';
+      var im = s.querySelector('img');
+      var src = im ? (im.getAttribute('src') || im.currentSrc || '') : '';
+      if (!src) {
+        // builder image deleted (Glenn, Nov 2): tell the bar from the photo heading above it
+        var pv = s.previousElementSibling; while (pv && pv.tagName !== 'SECTION') pv = pv.previousElementSibling;
+        var ht = ((pv && pv.querySelector('h1,h2,h3')) || {}).textContent || '';
+        src = /gs-?911/i.test(ht) ? 'GS911' : /icarsoft|ics mt|mt pro/i.test(ht) ? 'iCarSoft' : /tire/i.test(ht) ? 'TireBrands' : '';
+        if (!src) return;
+      }
       var set = null;
       BL_SETS.forEach(function (b) { if (!set && b[0].test(src)) set = b; });
       if (!set) return;
