@@ -3256,6 +3256,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
   var TICK_MSG = 'Advance booking and service appointments required <i>·</i> No walk-ins <i>·</i> Book online or call <a href="tel:+18885095032">(888) 509-5032</a> <i>·</i> ';
   var TICK_CSS = `
 #r101-tick{background:#111;overflow:hidden;white-space:nowrap;padding:11px 0;margin:0}
+body:not(.r101-home) #r101-tick{margin:28px 0}
 #r101-tick .tr{display:inline-flex;animation:r101tick 70s linear infinite;will-change:transform}
 #r101-tick:hover .tr{animation-play-state:paused}
 #r101-tick span{font:700 13px/1 Inter,system-ui,sans-serif!important;letter-spacing:.16em!important;text-transform:uppercase;color:${O}!important;padding-right:28px}
@@ -3284,6 +3285,10 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
     var before = (notice && notice.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING) ? notice : target;
     before.parentNode.insertBefore(t, before);
     if (notice) notice.style.display = 'none';
+    // the old one-line "Advance Booking Required." text elsewhere on the page is now redundant
+    [].slice.call(main.querySelectorAll('h1,h2,h3,h4,p')).forEach(function (el) {
+      if (!t.contains(el) && /^advance booking required\.?$/i.test((el.textContent || '').trim())) el.style.display = 'none';
+    });
   }
 
 
