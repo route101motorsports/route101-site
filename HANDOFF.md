@@ -222,3 +222,10 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - priceChart(): PRICE_DATA (read off May 2025 audit image) drawn as SVG, hover/tap tooltip, draw-in, 3 savings stats; Competitor A/B/C (names withheld). Live on Harley rentals + San Diego motorcycle rentals pages (pin ec3e5b2).
 - PENDING: pin 8b549b3 (chart anchors on the "lowest prices" heading, not the image) BEFORE deleting the graph image hero section in the builder (templates for san-diego-harley-rentals and motorcycle-rentals-san-diego). Chrome disconnected at that point.
 - Ticker still TEST MODE (TICK_LIVE=false) awaiting Glenn's go.
+
+## Nov 2 afternoon: Harley Service cleanup + link lesson
+- Builder cleanup on Harley Service (template "Bmw gs 5k 50k service tires"): deleted 2 ServiceBrands logo strips, 3 poster heroes, 3 spacers. Backup: backups/harley-service-builder-2026-11-02.md. Card text now in code (SVC_CARDS in harleyPage).
+- KEEP builder images in logo sections named TireBrands / iCarSoft / GS911: serviceLogos() keys on those file names.
+- Bug found by Glenn: card "Book this service" + banner "Get a quote" pointed at the FIRST form (hidden tire form). Fixed: main form = LAST section.contact-form (footer + harleyPage).
+- RULE for every page cleanup (Glenn): audit EVERY link/button/anchor on the page (cards, popups, banners, hero buttons, footer CTA) in BOTH visitor view (?inform=off) and test view, and confirm each lands on a visible target. Expect the Tires page to be the hardest.
+- Google Ads: phone_call_click starred in GA4 + imported to Ads as Secondary ("Route 101 Motorsports (web) phone_call_click", ctId 7887265905).
