@@ -3503,8 +3503,8 @@ section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight
     // move it up if it hasn't been dragged there in the builder
     if (host.nextElementSibling !== fs) host.parentNode.insertBefore(fs, host.nextElementSibling);
     host.classList.add('r101-inf-host'); fs.classList.add('r101-inform');
-    var hw = host.querySelector('[class*=wrapper]') || host;
-    fs.style.setProperty('--r101-inf-bg', getComputedStyle(hw).backgroundColor || '#f5f4f1');
+    var bgOf = function (el) { var c = el && getComputedStyle(el).backgroundColor; return c && !/rgba\(0, 0, 0, 0\)|transparent/.test(c) ? c : ''; };
+    fs.style.setProperty('--r101-inf-bg', bgOf(host.querySelector('[class*=wrapper]')) || bgOf(host) || '#f5f4f1');
     // hide everything in the form section except the form itself (headings, intro text, lists)
     var n = form;
     while (n && n !== fs) {
