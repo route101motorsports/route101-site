@@ -3539,6 +3539,7 @@ main .r101-reqbar.r101-here{display:none!important}
       b.querySelector('a.button').addEventListener('click', function (e) {
         e.preventDefault(); e.stopPropagation();
         after.parentNode.insertBefore(fs, after.nextSibling);
+        fs.style.setProperty('--r101-inf-bg', bgOf(after.querySelector('[class*=wrapper]')) || bgOf(after) || '#f5f4f1');
         bars.forEach(function (x) { x.classList.toggle('r101-here', x === b); });
         if (ta) {
           var v = ta.value, known = KINDS.map(function (k) { return k[2]; }).concat(['Service request: ']);
