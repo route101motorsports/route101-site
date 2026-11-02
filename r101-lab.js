@@ -3506,6 +3506,10 @@ html body.r101-pad main > section.r101-tight > div{padding-top:16px!important;pa
 html body.r101-pad main > section.contact-form.r101-inform > div{padding-top:0!important;padding-bottom:56px!important}
 html body.r101-pad main > section.accordion > div{padding-top:56px!important;padding-bottom:56px!important}
 html body.r101-pad main > section.spacer{display:none!important}
+html body.r101-pad main > section.r101-hero1 > div{min-height:100vh!important;min-height:100svh!important;height:100vh;height:100svh;padding-top:0!important;padding-bottom:0!important;display:flex!important;align-items:center!important;box-sizing:border-box}
+html body.r101-pad main > section.r101-photoblk > div{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important;display:flex!important;align-items:center!important;box-sizing:border-box;overflow:hidden}
+html body.r101-pad main > section.r101-hero1 img,html body.r101-pad main > section.r101-photoblk img{object-fit:cover!important;object-position:center!important}
+@media (max-width:760px){html body.r101-pad main > section.r101-photoblk > div{height:clamp(420px,70svh,600px)!important}}
 @media (max-width:760px){
 html body.r101-pad #r101-pbrands{padding:22px 0!important}
 html body.r101-pad #r101-svc,html body.r101-pad #r101-steps{padding:32px 0!important}
@@ -3531,7 +3535,12 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     var forms = [].slice.call(main.querySelectorAll('section.contact-form')).filter(function (f) { return f.querySelector('form') && !f.classList.contains('r101-inform'); });
     if (!host || !forms.length) return;
     addStyle('r101-inform-css', INFORM_CSS);
-    if (/^\/pages\/san-diego-harley-service\/?$/.test(location.pathname)) { document.body.classList.add('r101-pad'); addStyle('r101-pad-css', PAD_CSS); }
+    if (/^\/pages\/san-diego-harley-service\/?$/.test(location.pathname)) {
+      document.body.classList.add('r101-pad'); addStyle('r101-pad-css', PAD_CSS);
+      // golden rules: hero #1 = full screen; every other photo block = one size
+      var ps = [].slice.call(main.children).filter(function (x) { return x.tagName === 'SECTION' && (x.classList.contains('hero') || x.classList.contains('cta')) && [].slice.call(x.querySelectorAll('img')).some(function (im) { return im.offsetHeight > 200 && !im.closest('.r101-pic'); }); });
+      ps.forEach(function (x, i) { x.classList.add(i === 0 && x === main.querySelector('section') ? 'r101-hero1' : 'r101-photoblk'); });
+    }
     var bgOf = function (el) { var c = el && getComputedStyle(el).backgroundColor; return c && !/rgba\(0, 0, 0, 0\)|transparent/.test(c) ? c : ''; };
     var KINDS = [
       [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics request: ', 'Year, make & model, mileage, and any warning lights, codes or symptoms.'],
