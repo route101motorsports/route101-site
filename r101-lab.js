@@ -2562,7 +2562,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     var prefill = function (c) {
       var ta = form && form.querySelector('textarea');
       var pre = ta && ta.getAttribute('data-r101pre');
-      if (ta && (!ta.value.trim() || /^Service request:$/.test(ta.value.trim()) || (pre && ta.value === pre) || /^Service request: .*\(.*\)\nYear, make & model: \nMileage: $/.test(ta.value))) ta.value = 'Service request: ' + c.t + ' (' + c.p + ')\nYear, make & model: \nMileage: ';
+      if (ta && (!ta.value.trim() || /^Service request:$/.test(ta.value.trim()) || (pre && ta.value === pre) || /^Service request: .*\(.*\)\nYear, make and model: \nMileage: $/.test(ta.value))) ta.value = 'Service request: ' + c.t + ' (' + c.p + ')\nYear, make and model: \nMileage: ';
       try { gtag('event', 'service_card_click', { service: c.t }); } catch (x) {}
     };
 
@@ -3543,7 +3543,12 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       var miss = [];
       lines.forEach(function (ln) { var m = ln.match(/^\s*([^:]{3,40}):\s*(.*)$/); if (m && !/request$/i.test(m[1].trim()) && !m[2].trim()) miss.push(m[1].trim()); });
       var old = e.target.querySelector('.r101-blankmsg'); if (old) old.remove();
-      if (!miss.length) return;
+      if (!miss.length) {
+        // Booqable's email flattens line breaks and shows "&" as "&amp;": send one tidy line instead
+        ta.value = ta.value.replace(/&/g, 'and').split('\n').map(function (l) { return l.trim(); }).filter(Boolean)
+          .map(function (l) { return /:$/.test(l) ? l.slice(0, -1) : l; }).join(' | ');
+        return;
+      }
       e.preventDefault(); e.stopImmediatePropagation();
       try { sessionStorage.removeItem('r101sent'); } catch (x) {}
       var msg = document.createElement('div'); msg.className = 'r101-blankmsg'; msg.setAttribute('role', 'alert');
@@ -3581,9 +3586,9 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     }
     var bgOf = function (el) { var c = el && getComputedStyle(el).backgroundColor; return c && !/rgba\(0, 0, 0, 0\)|transparent/.test(c) ? c : ''; };
     var KINDS = [
-      [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics request:\nYear, make & model: \nMileage: \nWarning lights, codes or symptoms: ', ''],
-      [/tire/i, 'Tire request:\nYear, make & model: \nFront, rear or both: ', ''],
-      [/brake/i, 'Brake request:\nYear, make & model: \nFront only or front & rear: ', '']
+      [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics request:\nYear, make and model: \nMileage: \nWarning lights, codes or symptoms: ', ''],
+      [/tire/i, 'Tire request:\nYear, make and model: \nFront, rear or both: ', ''],
+      [/brake/i, 'Brake request:\nYear, make and model: \nFront only or front & rear: ', '']
     ];
     var blockText = function (blk) {
       var p1 = blk.previousElementSibling; while (p1 && !(p1.tagName === 'SECTION' && p1.classList.contains('hero'))) p1 = p1.previousElementSibling;
@@ -3625,7 +3630,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       if (host.nextElementSibling !== mainForm) host.parentNode.insertBefore(mainForm, host.nextElementSibling);
       style(mainForm, host); host.classList.add('r101-inf-host');
       var mta = mainForm.querySelector('textarea');
-      var MPRE = 'Service request:\nYear, make & model: \nMileage: \nService needed: ';
+      var MPRE = 'Service request:\nYear, make and model: \nMileage: \nService needed: ';
       if (mta) { if (!mta.value.trim() || /^Service request:$/.test(mta.value.trim())) mta.value = MPRE; mta.setAttribute('data-r101pre', MPRE); mta.setAttribute('placeholder', ''); mta.rows = 5; }
       requireBlanks();
     }
