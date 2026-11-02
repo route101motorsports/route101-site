@@ -3392,19 +3392,21 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
   var PC_COL = { r: O, a: '#8a8a8a', b: '#b8b8b8', c: '#5e5e5e' };
   function priceChart() {
     var main = document.querySelector('main'); if (!main) return;
-    var imgSec = [].slice.call(main.querySelectorAll('section')).filter(function (s) {
+    var all = [].slice.call(main.querySelectorAll('section'));
+    var imgSec = all.filter(function (s) {
       var im = s.querySelector('img');
       return im && /PricingTheProof/i.test((im.getAttribute('src') || '') + (im.currentSrc || ''));
-    })[0];
-    if (!imgSec || document.getElementById('r101-pc')) return;
+    })[0] || null;
+    // the heading section ("When We Say Lowest Prices - We Prove It!"); still works after the image is deleted in the builder
+    var headSec = all.filter(function (s) {
+      var tx = (s.textContent || '').trim();
+      return !s.querySelector('img') && tx.length < 90 && /lowest prices/i.test(tx) && /prove/i.test(tx);
+    })[0] || null;
+    if ((!imgSec && !headSec) || document.getElementById('r101-pc')) return;
     addStyle('r101-pc-css', CHART_CSS);
-    // the heading section right above the image ("When We Say Lowest Prices - We Prove It!")
-    var headSec = imgSec.previousElementSibling, title = 'When we say lowest prices, we prove it';
-    if (headSec && headSec.tagName === 'SECTION' && !headSec.querySelector('img') && (headSec.textContent || '').trim().length < 90) {
-      title = (headSec.textContent || '').trim().replace(/\s+-\s+/, ', ').replace(/!$/, '');
-      headSec.style.display = 'none';
-    } else headSec = null;
-    imgSec.style.display = 'none';
+    var title = 'When we say lowest prices, we prove it';
+    if (headSec) { title = (headSec.textContent || '').trim().replace(/\s+-\s+/, ', ').replace(/!$/, ''); headSec.style.display = 'none'; }
+    if (imgSec) imgSec.style.display = 'none';
     // savings callouts from the data
     var R = PRICE_DATA[0].d, others = PRICE_DATA.slice(1);
     var low = function (day) { return Math.min.apply(null, others.map(function (o) { return o.d[day - 1]; })); };
