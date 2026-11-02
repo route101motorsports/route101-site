@@ -2701,6 +2701,10 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
         ['Harley-Spec Interval Service', '$459', 'Full Harley-spec service from 1,000 to 30,000 miles, plus a Route 101 safety inspection.', ''],
         ['Harley Brake Service', 'from $235', 'EBC H-H sintered pads and Motul DOT 4 fluid. Front $235, front & rear $299.', '/pages/harley-brake-service'],
         ['V-Twin 3-Hole Oil Service', '$195', 'AMSOIL synthetic engine, primary and transmission oil, plus a K&N filter and new derby gasket.', '']
+      ],
+      'san-diego-bmw-gs-service': [
+        ['BMW Engine & Final Drive Oil Service', '$200', 'AMSOIL synthetic 5W-40 engine oil and 75W-90 final drive oil, plus a new oil filter.', ''],
+        ['BMW Brake Service', 'from $235', 'EBC H-H sintered pads and Motul DOT 4 fluid. Front $235, front & rear $299.', '']
       ]
     };
     var slug = location.pathname.replace(/\/+$/, '').split('/').pop();
@@ -3582,7 +3586,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
-    var on = INFORM_LIVE || /^\/pages\/san-diego-harley-service\/?$/.test(location.pathname); try { on = on || localStorage.getItem('r101inform') === '1'; } catch (e) {}
+    var on = INFORM_LIVE || /^\/pages\/san-diego-(harley-service|bmw-gs-service)\/?$/.test(location.pathname); try { on = on || localStorage.getItem('r101inform') === '1'; } catch (e) {}
     var main = document.querySelector('main'); if (!main) return;
     if (!on) {
       // not switched on yet: the extra builder forms under each service block stay hidden; the original form stays where it was
@@ -3596,7 +3600,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     var forms = [].slice.call(main.querySelectorAll('section.contact-form')).filter(function (f) { return f.querySelector('form') && !f.classList.contains('r101-inform'); });
     if (!host || !forms.length) return;
     addStyle('r101-inform-css', INFORM_CSS);
-    if (/^\/pages\/san-diego-harley-service\/?$/.test(location.pathname)) {
+    if (/^\/pages\/san-diego-(harley-service|bmw-gs-service)\/?$/.test(location.pathname)) {
       document.body.classList.add('r101-pad'); addStyle('r101-pad-css', PAD_CSS);
       var tagFaq = function () { document.querySelectorAll('main > section.accordion').forEach(function (acc) { var e = acc.previousElementSibling; while (e && e.offsetHeight === 0) e = e.previousElementSibling; if (e && e.classList.contains('r101-inform')) acc.classList.add('r101-afterform'); }); };
       tagFaq(); setTimeout(tagFaq, 0); setTimeout(tagFaq, 700); setTimeout(tagFaq, 2000);
