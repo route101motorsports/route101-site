@@ -3537,7 +3537,8 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     addStyle('r101-inform-css', INFORM_CSS);
     if (/^\/pages\/san-diego-harley-service\/?$/.test(location.pathname)) {
       document.body.classList.add('r101-pad'); addStyle('r101-pad-css', PAD_CSS);
-      document.querySelectorAll('main > section.accordion').forEach(function (acc) { var e = acc.previousElementSibling; while (e && e.offsetHeight === 0) e = e.previousElementSibling; if (e && e.classList.contains('r101-inform')) acc.classList.add('r101-afterform'); });
+      var tagFaq = function () { document.querySelectorAll('main > section.accordion').forEach(function (acc) { var e = acc.previousElementSibling; while (e && e.offsetHeight === 0) e = e.previousElementSibling; if (e && e.classList.contains('r101-inform')) acc.classList.add('r101-afterform'); }); };
+      tagFaq(); setTimeout(tagFaq, 0); setTimeout(tagFaq, 700); setTimeout(tagFaq, 2000);
       // golden rules: hero #1 = full screen; every other photo block = one size
       var ps = [].slice.call(main.children).filter(function (x) { return x.tagName === 'SECTION' && (x.classList.contains('hero') || x.classList.contains('cta')) && [].slice.call(x.querySelectorAll('img')).some(function (im) { return im.offsetHeight > 200 && !im.closest('.r101-pic'); }); });
       ps.forEach(function (x, i) { x.classList.add(i === 0 && x === main.querySelector('section') ? 'r101-hero1' : 'r101-photoblk'); });
