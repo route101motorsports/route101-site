@@ -3109,7 +3109,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       var hd = document.getElementById('header'), hb = 0;
       if (hd) [hd].concat([].slice.call(hd.querySelectorAll('*'))).forEach(function (n) {
         var r = n.getBoundingClientRect();
-        if (r.height > 0 && r.width > 200 && r.top < 120 && r.bottom > hb && r.bottom < 200) hb = r.bottom;
+        if (r.height > 0 && r.width > 200 && r.top < 45 && r.bottom > hb && r.bottom < 200) hb = r.bottom;
       });
       var off = Math.max(hb, 60) + 16;
       var y = el.getBoundingClientRect().top + scrollY - off;
