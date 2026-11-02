@@ -801,7 +801,7 @@ body.r101-form section.contact-form .form__submit .button{width:100%;background:
     var p = location.pathname.replace(/\/+$/, '');
     var ph = {
       '/pages/harley-brake-service': 'Year, make & model (e.g. 2019 Street Glide), plus front only or front & rear?',
-      '/pages/motorcycle-tires': 'Year, make & model, tire brand or size if you know it, and front, rear or both?',
+      '/pages/motorcycle-tires': 'Year, make & model, and front, rear or both?',
       '/pages/san-diego-harley-service': 'Year, make & model, current mileage, and what service you need.',
       '/pages/san-diego-bmw-gs-service': 'Year & model (e.g. 2021 R 1250 GSA), mileage, and what you need.'
     }[p] || 'Year, make & model of your bike, and how we can help.';
@@ -3528,8 +3528,8 @@ main .r101-reqbar.r101-here{display:none!important}
     var ta = form.querySelector('textarea'), basePh = ta ? ta.getAttribute('placeholder') : '';
     var bike = /bmw/.test(location.pathname) ? 'BMW' : 'Harley';
     var KINDS = [
-      [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics', 'Diagnostics request: ', 'Year, model, mileage, and any warning lights, codes or symptoms.'],
-      [/tire/i, 'Tire', 'Tire request: ', 'Year, make & model, tire brand or size if you know it, and front, rear or both?'],
+      [/diagnos|gs-?911|mt pro|icarsoft/i, 'Diagnostics', 'Diagnostics request: ', 'Year, make & model, mileage, and any warning lights, codes or symptoms.'],
+      [/tire/i, 'Tire', 'Tire request: ', 'Year, make & model, and front, rear or both?'],
       [/brake/i, 'Brake', 'Brake request: ', 'Year, make & model, and front only or front & rear?']
     ];
     var bars = [];
