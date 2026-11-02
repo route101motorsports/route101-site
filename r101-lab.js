@@ -3104,8 +3104,14 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       return document.getElementById(id) || document.querySelector('[name="' + id.replace(/"/g, '') + '"]');
     };
     var go = function (el, smooth) {
-      var hd = document.getElementById('header');
-      var off = (hd ? hd.getBoundingClientRect().height : 0) + 12;
+      // visible header bottom: the bar is an absolutely positioned child, so measure descendants
+      // (ignore hidden/offscreen menus: only things starting near the top, capped at 200px)
+      var hd = document.getElementById('header'), hb = 0;
+      if (hd) [hd].concat([].slice.call(hd.querySelectorAll('*'))).forEach(function (n) {
+        var r = n.getBoundingClientRect();
+        if (r.height > 0 && r.width > 200 && r.top < 120 && r.bottom > hb && r.bottom < 200) hb = r.bottom;
+      });
+      var off = Math.max(hb, 60) + 16;
       var y = el.getBoundingClientRect().top + scrollY - off;
       scrollTo({ top: Math.max(0, y), behavior: smooth ? 'smooth' : 'auto' });
     };
