@@ -1194,7 +1194,7 @@ body.r101-st section.r101-intro .hero__container,body.r101-st section.r101-intro
 body.r101-st section.r101-intro .hero__text-area{max-width:880px!important;width:100%!important}
 body.r101-st section.r101-intro .hero__vision{display:none!important}
 body.r101-st section.r101-intro h1,body.r101-st section.r101-split h1,body.r101-st section.r101-split h2{text-transform:uppercase;font-size:clamp(28px,calc(1.8vw + 16px),46px)!important;color:var(--r101-ink)!important}
-body.r101-st section.r101-split .hero__wrapper{padding:44px 0!important;min-height:0!important;height:auto!important;background:#fff!important}
+body.r101-st section.r101-split .hero__wrapper{padding:44px 0!important;min-height:0!important;height:auto!important;background:transparent!important}
 body.r101-st section.r101-split .hero__vision{display:none!important}
 body.r101-st section.r101-split .hero__container{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:44px;align-items:center;min-height:0!important;height:auto!important}
 body.r101-st section.r101-split .hero__text-area{width:auto!important;max-width:none!important;height:auto!important;min-height:0!important}
@@ -1212,7 +1212,7 @@ body.r101-st section.r101-split .r101-pic{opacity:0;transform:translateX(-56px);
 body.r101-st section.r101-split.rev .r101-pic{transform:translateX(56px)}
 body.r101-st section.r101-split .hero__text-area{opacity:0;transform:translateY(22px);transition:opacity .8s ease .15s,transform .9s cubic-bezier(.2,.7,.2,1) .15s}
 body.r101-st section.r101-split.in .r101-pic,body.r101-st section.r101-split.in .hero__text-area{opacity:1;transform:none}
-@media (max-width:860px){body.r101-st section.r101-split .hero__container{grid-template-columns:1fr;gap:18px}body.r101-st section.r101-split.rev .r101-pic{order:0}body.r101-st section.r101-split .hero__wrapper{padding:28px 0!important}body.r101-st section.r101-split + section.r101-split .hero__wrapper{padding-top:4px!important}body.r101-st section.r101-intro .hero__wrapper{padding:36px 0!important}body.r101-st section.r101-split .hero__buttons .button,body.r101-st section.r101-intro .hero__buttons .button{width:100%;text-align:center}}
+@media (max-width:860px){body.r101-st section.r101-split .hero__container{grid-template-columns:1fr;gap:18px}body.r101-st section.r101-split.rev .r101-pic{order:0}body.r101-st section.r101-split .hero__wrapper{padding:28px 0!important}body.r101-st section.r101-intro .hero__wrapper{padding:36px 0!important}body.r101-st section.r101-split .hero__buttons .button,body.r101-st section.r101-intro .hero__buttons .button{width:100%;text-align:center}}
 `;
   function garageStory() {
     var main = document.querySelector('main');
