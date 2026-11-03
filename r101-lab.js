@@ -1769,6 +1769,10 @@ body.r101-rhub .r101-hide-sec{display:none!important}
         if (nx && nx.classList.contains('logos') && nx.querySelectorAll('img').length <= 1 && !nx.textContent.trim()) nx.classList.add('r101-hide-sec');
         var ta = s.querySelector('.cta__text-area') || s.querySelector('.cta__container');
         if (ta) ta.appendChild(steps(cfg.step2));
+        // reviews sit right after "3 clicks", same spot as Harley Rentals (Glenn, Nov 3)
+        var rv = main.querySelector(':scope > section.testimonials');
+        var anchor = nx && nx.classList.contains('r101-hide-sec') ? nx : s;
+        if (rv) anchor.parentNode.insertBefore(rv, anchor.nextSibling);
       });
     }
   }
