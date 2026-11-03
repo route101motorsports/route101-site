@@ -3652,7 +3652,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
-    var on = INFORM_LIVE || /^\/pages\/san-diego-(harley-service|bmw-gs-service)\/?$/.test(location.pathname); try { on = on || localStorage.getItem('r101inform') === '1'; } catch (e) {}
+    var on = INFORM_LIVE || /^\/pages\/(san-diego-harley-service|san-diego-bmw-gs-service|harley-brake-service)\/?$/.test(location.pathname); try { on = on || localStorage.getItem('r101inform') === '1'; } catch (e) {}
     var main = document.querySelector('main'); if (!main) return;
     if (!on) {
       // not switched on yet: the extra builder forms under each service block stay hidden; the original form stays where it was
