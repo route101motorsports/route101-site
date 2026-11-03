@@ -3606,10 +3606,11 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
      (top bar, header, menu, footer, orange "Need tires..." banner) stays orange. TEST MODE: ?bmwblue=test (?bmwblue=off clears). */
   var BLUE_LIVE = true, BLU = '#1C69D4', BLU_LT = '#4FA3FF';   // LIVE (Glenn, Nov 2 4:02pm); lighter blue for text over dark photos
   function bmwBlue() {
-    if (!/^\/pages\/san-diego-bmw-gs-service\/?$/.test(location.pathname)) return;
+    var svc = /^\/pages\/san-diego-bmw-gs-service\/?$/.test(location.pathname), rent = /^\/pages\/san-diego-bmw-adventure-bike-rentals\/?$/.test(location.pathname);
+    if (!svc && !rent) return;
     var u = new URLSearchParams(location.search);
     try { if (u.get('bmwblue') === 'test') localStorage.setItem('r101blue', '1'); if (u.get('bmwblue') === 'off') localStorage.removeItem('r101blue'); } catch (e) {}
-    var on = BLUE_LIVE; try { on = on || localStorage.getItem('r101blue') === '1'; } catch (e) {}
+    var on = svc ? BLUE_LIVE : bpadOn(); try { on = on || localStorage.getItem('r101blue') === '1'; } catch (e) {}   // BMW rentals rides the ?bpad=test switch (Glenn, Nov 3)
     if (!on) return;
     document.body.classList.add('r101-blue');
     addStyle('r101-blue-css',
