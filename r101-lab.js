@@ -3639,7 +3639,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       all.forEach(function (el) {
         if (skip(el)) return;
         var cs = getComputedStyle(el);
-        if (orange(cs.color)) { if (el.closest('section.r101-hero1, section.r101-photoblk, section.hero.r101-hhero')) el.style.setProperty('color', BLU_LT, 'important'); else setP(el, 'color'); }
+        if (orange(cs.color)) { if ((el.closest('section.r101-hero1, section.r101-photoblk, section.hero.r101-hhero, section.cta.r101-band') || el.closest('main > section.hero') === document.querySelector('main > section'))) el.style.setProperty('color', BLU_LT, 'important'); else setP(el, 'color'); }
         if (orange(cs.backgroundColor)) setP(el, 'background-color');
         ['top', 'right', 'bottom', 'left'].forEach(function (sd) { if (orange(cs['border' + sd.charAt(0).toUpperCase() + sd.slice(1) + 'Color'])) setP(el, 'border-' + sd + '-color'); });
         if (el instanceof SVGElement) { if (orange(cs.fill)) setP(el, 'fill'); if (orange(cs.stroke)) setP(el, 'stroke'); }
