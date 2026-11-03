@@ -238,3 +238,6 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Lesson: after pushing a code commit ALWAYS pin it before testing builder changes that depend on it (missed pin of 6db26d2 once).
 - Nov 2 4:55pm: Harley Brake Service rebuilt + LIVE (template "Harley brake service"): logos x2, poster, spacer deleted; EBC + Includes buttons cleared; form title/desc cleared, thank-you added. Form hosted under section.r101-checks (Includes). Brake request blanks. Brakes-only PAD spacing rules. Backup: backups/harley-brakes-builder-2026-11-02.md.
 - GLENN'S BACKGROUND RULE: short pages (a handful of sections, with big photo heroes/CTAs breaking up the text) stay all beige. Long pages where white/beige sections would stack: decide case by case (alternate).
+- Nov 2 5:09pm: booking ticker LIVE (TICK_LIVE=true). Homepage: dead logo section deleted (backup backups/homepage-builder-2026-11-02.md); homePad() spacing standard LIVE 5:25pm (HPAD_LIVE=true): measures content, 40px same-color / 40+40 across color changes, ticker counts as a break, photo bands 680. Builder padding settings were NOT changed (Glenn: not decided, leave).
+- Parallax + zoom drift verified working on homepage, Harley, BMW, Brakes after the resizing.
+- Later: delete the hidden homepage "Advance Booking Required." text section (ticker replaces it). Tires page is next.

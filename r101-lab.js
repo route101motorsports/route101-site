@@ -3653,7 +3653,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
      Measures the real content in every section and sets padding so content sits 40px from a color change,
      and 40px from the next block when two sections share a color. Photo bands = the standard photo size.
      TEST MODE: ?hpad=test (?hpad=off clears). HPAD_LIVE = true shows everyone. */
-  var HPAD_LIVE = false;
+  var HPAD_LIVE = true;   // LIVE (Glenn, Nov 2 5:25pm)
   function homePad() {
     if (location.pathname !== '/' && location.pathname !== '') return;
     var u = new URLSearchParams(location.search);
