@@ -3702,7 +3702,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   /* ---------- TIRES PAGE STANDARD (Glenn, Nov 2) ----------
      Hero full screen; each brand (gallery + its help bar) is one block, alternating beige / white; content 40px from
      each color change, gallery -> its help bar 24px. TEST MODE: ?tpad=test (?tpad=off clears). */
-  var TPAD_LIVE = false;
+  var TPAD_LIVE = true;
   function tiresPad() {
     if (!/^\/pages\/motorcycle-tires\/?$/.test(location.pathname)) return;
     var on = TPAD_LIVE; try { on = on || localStorage.getItem('r101tpad') === '1'; } catch (e) {}
