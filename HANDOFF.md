@@ -241,3 +241,8 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Nov 2 5:09pm: booking ticker LIVE (TICK_LIVE=true). Homepage: dead logo section deleted (backup backups/homepage-builder-2026-11-02.md); homePad() spacing standard LIVE 5:25pm (HPAD_LIVE=true): measures content, 40px same-color / 40+40 across color changes, ticker counts as a break, photo bands 680. Builder padding settings were NOT changed (Glenn: not decided, leave).
 - Parallax + zoom drift verified working on homepage, Harley, BMW, Brakes after the resizing.
 - Later: delete the hidden homepage "Advance Booking Required." text section (ticker replaces it). Tires page is next.
+
+## Nov 2: Tires page (test mode ?tpad=test, pin 7c92985)
+- Builder: 7 hidden Call to action sections deleted and published (backup: backups/motorcycle-tires-builder-2026-11-02.md).
+- Code (TPAD_LIVE=false): full-screen hero, brands alternate beige/white, 40px each side of every color change (80 between content), gallery->help bar 24, form top 40, Tire request blanks + "Almost there", popup prefill "Tire request: <name>".
+- Waiting on Glenn's "live" to flip TPAD_LIVE=true.
