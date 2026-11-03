@@ -3961,7 +3961,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       'html body.r101-tt main > section.cta.r101-band > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}' +
       '@media (max-width:760px){html body.r101-tt main > section.cta.r101-band > div.cta__wrapper{height:clamp(420px,70svh,600px)!important}}';
     css += HOME_CSS.split('\n').filter(function (l) { return /^body\.r101-home section\.articles|^@media \(max-width:760px\)\{body\.r101-home section\.articles/.test(l); }).join('\n').replace(/body\.r101-home/g, 'body.r101-tt');
-    css += '\nbody.r101-tt section.articles .articles__image-wrapper{display:block!important}@media (max-width:900px){body.r101-tt section.articles .articles__list{grid-template-columns:1fr!important}}';
+    css += '\nbody.r101-tt section.articles .articles__list{grid-template-columns:repeat(2,minmax(0,1fr))!important}body.r101-tt section.articles .articles__image-wrapper{display:block!important}@media (max-width:900px){body.r101-tt section.articles .articles__list{grid-template-columns:1fr!important}}';
     addStyle('r101-tt-css', css);
   }
 
