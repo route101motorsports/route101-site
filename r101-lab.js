@@ -818,8 +818,9 @@ body.r101-form section.contact-form .form__submit .button{width:100%;background:
       [/^\/pages\/straight-talk-route-101-motorsports-offers-/, 'Service request:\nYear, make and model: \nWhat you need: '],
       [/^\/pages\/motorcycle-tires$/, 'Tire request:\nYear, make and model: \nFront, rear or both: \nRiding style: ', 'tpad'],
       [/^\/pages\/san-diego-harley-rentals$/, 'Rental request:\nDates: \nBike: \nRiding days: \nApprox. miles: \nPassenger (yes/no): \nLocal or touring: \nAnything else (optional): ', 'rpad'],
+      [/^\/pages\/twysted-throttle$/, 'Discount code request:\nClass date: \nCertificate #: ', 'ttpad'],
       [/^\/pages\/san-diego-bmw-adventure-bike-rentals$/, 'Rental request:\nDates: \nBike: \nRiding days: \nApprox. miles: \nPassenger (yes/no): \nPavement, dirt or both: \nLocal or touring: \nAnything else (optional): ']
-    ].filter(function (x) { if (x[2] === 'rpad') return rpadOn(); if (x[2] === 'tpad') { var on = TPAD_LIVE; try { var q = new URLSearchParams(location.search).get('tpad'); if (q === 'test') localStorage.setItem('r101tpad', '1'); if (q === 'off') localStorage.removeItem('r101tpad'); on = on || localStorage.getItem('r101tpad') === '1'; } catch (e) {} return on; } return true; }).filter(function (x) { return x[0].test(p); })[0];
+    ].filter(function (x) { if (x[2] === 'rpad') return rpadOn(); if (x[2] === 'ttpad') return ttpadOn(); if (x[2] === 'tpad') { var on = TPAD_LIVE; try { var q = new URLSearchParams(location.search).get('tpad'); if (q === 'test') localStorage.setItem('r101tpad', '1'); if (q === 'off') localStorage.removeItem('r101tpad'); on = on || localStorage.getItem('r101tpad') === '1'; } catch (e) {} return on; } return true; }).filter(function (x) { return x[0].test(p); })[0];
     if (TPL) {
       document.querySelectorAll('main section.contact-form textarea').forEach(function (t) {
         if (t.getAttribute('data-r101pre')) return;
@@ -3893,7 +3894,8 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   }
   function rentalsPad() {
     var isH = /^\/pages\/san-diego-harley-rentals\/?$/.test(location.pathname), isB = /^\/pages\/san-diego-bmw-adventure-bike-rentals\/?$/.test(location.pathname);
-    if (!((isH && rpadOn()) || (isB && bpadOn()))) return;
+    var isT = /^\/pages\/twysted-throttle\/?$/.test(location.pathname);
+    if (!((isH && rpadOn()) || (isB && bpadOn()) || (isT && ttpadOn()))) return;
     var main = document.querySelector('main'); if (!main) return;
     document.body.classList.add('r101-rpad');
     addStyle('r101-rpad-css', 'html body.r101-rpad main > section.hero:first-of-type > div{min-height:100svh!important}html body.r101-rpad #r101-tick{margin-top:0!important;margin-bottom:0!important}html body.r101-rpad main > section.cta.r101-band > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}@media (max-width:760px){html body.r101-rpad main > section.cta.r101-band > div.cta__wrapper{height:clamp(420px,70svh,600px)!important}}');
@@ -3929,6 +3931,38 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       }
     };
     run(); setTimeout(run, 600); setTimeout(run, 1800); setTimeout(run, 4000); addEventListener('load', function () { setTimeout(run, 300); });
+  }
+
+  /* ---------- TWYSTED THROTTLE PAGE (Glenn, Nov 3) ----------
+     Live now: the two dead "/" links point where their twins go.
+     TEST MODE ?ttpad=test (?ttpad=off clears): full-screen hero, standard photo bands, clean course cards,
+     40px rhythm (rentalsPad), discount-code blanks. TTPAD_LIVE = true shows everyone. */
+  var TTPAD_LIVE = false;
+  function ttpadOn() {
+    var on = TTPAD_LIVE;
+    try { var q = new URLSearchParams(location.search).get('ttpad'); if (q === 'test') localStorage.setItem('r101ttpad', '1'); if (q === 'off') localStorage.removeItem('r101ttpad'); on = on || localStorage.getItem('r101ttpad') === '1'; } catch (e) {}
+    return on;
+  }
+  function twystedPage() {
+    if (!/^\/pages\/twysted-throttle\/?$/.test(location.pathname)) return;
+    var main = document.querySelector('main'); if (!main) return;
+    var isHome = function (a) { var h = a.getAttribute('href') || ''; return h === '/' || h === location.origin + '/' || h === ''; };
+    // course tiles: a "More Info!" that goes home borrows the working one's link
+    var more = [].slice.call(main.querySelectorAll('section.articles a')).filter(function (a) { return /more info/i.test(a.textContent); });
+    var good = more.filter(function (a) { return !isHome(a); })[0];
+    if (good) more.forEach(function (a) { if (isHome(a)) { a.setAttribute('href', good.getAttribute('href')); a.setAttribute('target', good.getAttribute('target') || '_blank'); a.setAttribute('rel', 'noopener'); } });
+    // photo bands: a "Check Class Availability" that goes home borrows the class sign-up link
+    var chk = [].slice.call(main.querySelectorAll('section.cta a')).filter(function (a) { return /class availability/i.test(a.textContent); });
+    var reg = chk.filter(function (a) { return !isHome(a); })[0];
+    if (reg) chk.forEach(function (a) { if (isHome(a)) { a.setAttribute('href', reg.getAttribute('href')); a.setAttribute('target', reg.getAttribute('target') || '_blank'); a.setAttribute('rel', 'noopener'); } });
+    if (!ttpadOn()) return;
+    document.body.classList.add('r101-tt');
+    var css = 'html body.r101-tt main > section.hero:first-of-type > div{min-height:100svh!important}' +
+      'html body.r101-tt main > section.cta.r101-band > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}' +
+      '@media (max-width:760px){html body.r101-tt main > section.cta.r101-band > div.cta__wrapper{height:clamp(420px,70svh,600px)!important}}';
+    css += HOME_CSS.split('\n').filter(function (l) { return /^body\.r101-home section\.articles|^@media \(max-width:760px\)\{body\.r101-home section\.articles/.test(l); }).join('\n').replace(/body\.r101-home/g, 'body.r101-tt');
+    css += '\nbody.r101-tt section.articles .articles__image-wrapper{display:block!important}@media (max-width:900px){body.r101-tt section.articles .articles__list{grid-template-columns:1fr!important}}';
+    addStyle('r101-tt-css', css);
   }
 
   function inlineForm() {
@@ -4095,6 +4129,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       footer();
       forms();
       try { bmwRentalsOrder(); } catch (e) {}
+      try { twystedPage(); } catch (e) {}
       try { rentalHub(); } catch (e) {}
       if (/^\/pages\/straight-talk-/.test(location.pathname)) deDash();   // Straight Talk articles only (Glenn)
       if (document.querySelector('main section.accordion')) addStyle('r101-acc-css', ACC_CSS);
