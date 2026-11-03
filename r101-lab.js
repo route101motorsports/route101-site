@@ -3901,7 +3901,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     addStyle('r101-rpad-css', 'html body.r101-rpad main > section.hero:first-of-type > div{min-height:100svh!important}html body.r101-rpad #r101-tick{margin-top:0!important;margin-bottom:0!important}html body.r101-rpad main > section.cta.r101-band > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}@media (max-width:760px){html body.r101-rpad main > section.cta.r101-band > div.cta__wrapper{height:clamp(420px,70svh,600px)!important}}');
     var G = matchMedia('(max-width:760px)').matches ? 32 : 40;
     var content = function (s) {
-      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,a,img,button,input,label,textarea,canvas,svg,li,.product-card,.r101-3steps .s,#r101-hub .c,.cta__tag,#r101-3cb .tg,.articles__item,.columns__item,.accordion__item')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden' && !x.closest('.r101-src') && !(x.closest('.r101-revrow-sec') && x.closest('.logos__images,.logos__images-wrapper,.logos__list')); });
+      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,a,img,button,input,label,textarea,canvas,svg,li,.product-card,.r101-3steps .s,#r101-hub .c,.cta__tag,#r101-3cb .tg,.articles__item,.columns__item,.accordion__item,#r101-courses .c')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden' && !x.closest('.r101-src') && !(x.closest('.r101-revrow-sec') && x.closest('.logos__images,.logos__images-wrapper,.logos__list')); });
       if (!v.length) return null;
       var t = Infinity, b = -Infinity; v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top < t) t = r.top; if (r.bottom > b) b = r.bottom; });
       return { t: t, b: b };
@@ -3970,6 +3970,39 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     });
     if (!ttpadOn()) return;
     document.body.classList.add('r101-tt');
+    // course cards drawn in our style (Glenn, Nov 3): who it's for, length, course info + book a class, graduate discount line
+    var art = main.querySelector(':scope > section.articles');
+    if (art && !document.getElementById('r101-courses')) {
+      var imgs = [].slice.call(art.querySelectorAll('.articles__item img')).map(function (im) { return im.currentSrc || im.src; });
+      var book = function (cc) { try { var u = new URL(base || 'https://register.msi5.com/webreg/production/reactapp/?book=CATWYST'); u.searchParams.set('CC', cc); return u.toString(); } catch (e) { return COURSE.mtc; } };
+      var C = [
+        { k: 'New riders', t: 'Motorcyclist Training Course (MTC)', f: ['15 hours, 2 to 3 days', 'Ages 15&frac12;+', 'Required under 21'], d: 'Classroom and riding with certified CMSP instructors. Pass the course and the DMV waives your riding skills test.', info: COURSE.mtc, cc: 'MTC', img: imgs[0] },
+        { k: 'Experienced riders', t: '1 Day Premier Course (1DPC)', f: ['One 8-hour day', 'Ages 21+', 'Already ride or coming back'], d: 'For riders who already know how to ride but are not licensed yet, or want to sharpen their skills after time away.', info: COURSE.dpc, cc: '1DPC', img: imgs[1] || imgs[0] }
+      ];
+      var g = document.createElement('div'); g.id = 'r101-courses';
+      g.innerHTML = C.map(function (c) {
+        return '<div class="c">' + (c.img ? '<div class="ph"><img src="' + c.img + '" alt="' + c.t + ' with Twysted Throttle" loading="lazy" decoding="async"></div>' : '') +
+          '<div class="bd"><p class="k">' + c.k + '</p><h3>' + c.t + '</h3><ul class="fx">' + c.f.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+          '<p class="d">' + c.d + '</p><p class="dc">Graduates get an exclusive Route 101 Harley rental discount.</p>' +
+          '<div class="bt"><a class="pri" href="' + book(c.cc) + '" target="_blank" rel="noopener">Book a class</a><a class="sec" href="' + c.info + '" target="_blank" rel="noopener">Course info</a></div></div></div>';
+      }).join('');
+      var list = art.querySelector('.articles__list');
+      if (list) { list.style.setProperty('display', 'none', 'important'); list.parentNode.insertBefore(g, list); }
+      addStyle('r101-courses-css', '#r101-courses{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:6px}' +
+        '#r101-courses .c{display:flex;flex-direction:column;background:#fff;border:1px solid var(--r101-line);border-radius:18px;overflow:hidden}' +
+        '#r101-courses .ph{aspect-ratio:16/9;overflow:hidden;background:#ddd}#r101-courses .ph img{width:100%;height:100%;object-fit:cover;display:block}' +
+        '#r101-courses .bd{display:flex;flex-direction:column;flex:1;padding:22px 22px 22px}' +
+        '#r101-courses .k{font:700 12px/1 Inter,sans-serif!important;letter-spacing:.16em;text-transform:uppercase;color:' + O + '!important;margin:0 0 10px!important}' +
+        '#r101-courses h3{font-family:Anton,sans-serif!important;text-transform:uppercase;font-size:clamp(24px,2.2vw,30px)!important;line-height:1.06!important;margin:0 0 12px!important;color:var(--r101-ink)!important}' +
+        '#r101-courses .fx{list-style:none;margin:0 0 14px!important;padding:0!important;display:flex;flex-wrap:wrap;gap:8px}' +
+        '#r101-courses .fx li{font:600 13px/1 Inter,sans-serif;color:var(--r101-ink);background:var(--r101-soft);border:1px solid var(--r101-line);border-radius:999px;padding:8px 12px;margin:0}' +
+        '#r101-courses .d{font:400 16px/1.45 Inter,sans-serif!important;color:var(--r101-mute)!important;margin:0 0 12px!important;flex:1}' +
+        '#r101-courses .dc{font:600 14px/1.4 Inter,sans-serif!important;color:var(--r101-ink)!important;margin:0 0 18px!important;padding-left:12px;border-left:4px solid ' + O + '}' +
+        '#r101-courses .bt{display:flex;gap:10px;flex-wrap:wrap}' +
+        '#r101-courses .bt a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:999px;font:700 15px/1 Inter,sans-serif;text-decoration:none;transition:transform .2s}' +
+        '#r101-courses .bt a:hover{transform:translateY(-2px)}#r101-courses .bt .pri{background:' + O + ';color:#111}#r101-courses .bt .sec{border:1.5px solid var(--r101-ink);color:var(--r101-ink)}' +
+        '@media (max-width:760px){#r101-courses{grid-template-columns:1fr;gap:12px}#r101-courses .bd{padding:18px}#r101-courses .bt a{flex:1}}');
+    }
     var css = 'html body.r101-tt main > section.hero:first-of-type > div{min-height:100svh!important}' +
       'html body.r101-tt main > section.cta.r101-band > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}' +
       '@media (max-width:760px){html body.r101-tt main > section.cta.r101-band > div.cta__wrapper{height:clamp(420px,70svh,600px)!important}}';
