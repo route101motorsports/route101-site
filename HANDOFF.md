@@ -6,7 +6,7 @@ _Last updated: 2026-10-31, end of session._
 - **Platform:** Booqable website builder (theme `a64592c4-9950-4366-ad2b-a0044b2ce483`).
 - **Design layer:** `r101-lab.js` in this repo, delivered by jsDelivr:
   `https://cdn.jsdelivr.net/gh/route101motorsports/route101-site@<commit-id>/r101-lab.js`
-- **Booqable loader:** Settings → Checkout → Additional scripts (741 chars). Line 1 must stay
+- **Booqable loader:** Settings → Checkout → Additional scripts (763 chars since Nov 3 5am; copy in loader-box.js). Main copy from jsDelivr, backup from rawcdn.githack.com if the main copy errors or has not run after 4s; r101-lab.js has a run-once guard (window.__r101loaded). Line 1 must stay
   `Booqable.setupGoogleAnalytics('G-SHPG20B48V', true, false);`. The loader sets `var V = '<commit-id>'`.
   Currently pinned to `2266228454a789ef6c761c37d1e7cc3c604dd617` (Nov 1: garage story page rows slide in like the articles; Straight Talk article v2 on every article; everything before it).
 - **Lab gate:** `?lab=1` turns the new design on for a device, `?lab=0` off (localStorage `r101lab`).
@@ -279,3 +279,6 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Pinned b44747d; the design did not run anywhere (body had no r101 classes, native Booqable theme showed). Rolled back to cba1a47 within ~4 min. Re-pinned b44747d a few minutes later and it ran fine. File and syntax were OK; most likely jsDelivr/browser served a bad first copy.
 - NEW RULE: warm with cache:"reload" and require status 200 + full length + the final run() call near the end of the file, THEN pin, THEN immediately load the homepage and confirm body has r101-hdr. If not, roll back at once.
 - BMW reviews now move up under "3 clicks" (rhub test mode).
+
+## Nov 3 ~5:05am: loader backup source LIVE (Glenn OK)
+- Loader (763 chars) = loader-box.js. Pin workflow regex var V = <40hex> still works. Tested: normal load uses jsDelivr only; with jsDelivr broken, githack copy runs.
