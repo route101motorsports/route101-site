@@ -1669,7 +1669,7 @@ body.r101-art2 main section.text .text__wrapper{padding-top:38px!important;paddi
   /* ---------- PRIVACY POLICY ---------- */
   var PRV_CSS = `
 body.r101-prv main section.hero .hero__buttons,body.r101-prv main section.cta .cta__buttons{display:none!important}
-body.r101-prv main section:not(.hero) [class*=__container]{max-width:860px!important;margin-left:auto!important;margin-right:auto!important}
+body.r101-prv main section:not(.hero) [class*=__content],body.r101-prv main section:not(.hero) [class*=__text-area],body.r101-prv main section:not(.hero) .rx-content{max-width:none!important;width:100%!important;margin-left:0!important;margin-right:0!important;padding-left:0!important;padding-right:0!important}   /* text runs the full section width like every other page (Glenn, Nov 3) */
 body.r101-prv main section:not(.hero) p,body.r101-prv main section:not(.hero) li{font:400 16px/1.7 Inter,sans-serif!important;color:#333!important}
 body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h3{text-align:left!important}
 `;
