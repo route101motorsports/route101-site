@@ -3773,7 +3773,9 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     var bikes = prods[0], addons = prods[prods.length - 1];
     bikes.parentNode.insertBefore(addons, bikes.nextSibling);
     if (book) addons.parentNode.insertBefore(book, addons.nextSibling);
-    var cf = main.querySelector('section.contact-form');
+    addStyle('r101-bmwr-css', 'main section.text.r101-book3 h2{font-size:clamp(34px,4vw,52px)!important;line-height:1.1!important}main section.contact-form.r101-bmwr-form .form__text,main section.contact-form.r101-bmwr-form .form__text *{color:#fff!important;opacity:.92}');
+    if (book) book.classList.add('r101-book3');
+    var cf = main.querySelector('section.contact-form'); if (cf) cf.classList.add('r101-bmwr-form');
     if (cf) [].slice.call(cf.querySelectorAll('.form__text, p')).forEach(function (pp) { if (/^Tell something about your company/i.test((pp.textContent || '').trim())) pp.textContent = "Tell us about your BMW GS rental plan: your dates, where you're headed, pavement or dirt, and roughly how many miles. A staff member will reply shortly to help!"; });
   }
   function rentalsPad() {
