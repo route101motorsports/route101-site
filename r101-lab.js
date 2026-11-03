@@ -3749,7 +3749,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   /* ---------- HARLEY RENTALS PAGE: golden rules (Glenn, Nov 3) ----------
      Full-screen hero, 40px to every color change (40 total between same-color blocks), Rental request form.
      TEST MODE: ?rpad=test (?rpad=off clears). RPAD_LIVE = true shows everyone. */
-  var RPAD_LIVE = false;
+  var RPAD_LIVE = true;   // LIVE (Glenn, Nov 3 4:10am)
   function rpadOn() {
     var on = RPAD_LIVE;
     try { var q = new URLSearchParams(location.search).get('rpad'); if (q === 'test') localStorage.setItem('r101rpad', '1'); if (q === 'off') localStorage.removeItem('r101rpad'); on = on || localStorage.getItem('r101rpad') === '1'; } catch (e) {}
