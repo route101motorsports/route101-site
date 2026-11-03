@@ -1686,6 +1686,93 @@ body.r101-land .r101-s3 a{min-width:240px;text-align:center}
     'san-diego-bmw-adventure-bike-rentals': '/collections/explore-our-bmw-gs-rental-fleet',
     'motorcycle-rentals-san-diego': '/collections/route-rental-fleet'
   };
+  /* ---------- RENTAL PAGES: homepage-style hub + "3 clicks" steps (Glenn, Nov 3) ----------
+     Harley Rentals gets a Harley hub and a code-built "3 clicks" block; BMW Rentals gets a BMW hub and its
+     existing "3 clicks" CTA turns into numbered steps (the clip-art icon strip after it is hidden).
+     TEST MODE: ?rhub=test (?rhub=off clears). RHUB_LIVE = true shows everyone. */
+  var RHUB_LIVE = false;
+  var RHUB = {
+    'san-diego-harley-rentals': {
+      rent: ['Harley Rentals', 'Rent a Harley-Davidson', 'Touring and cruiser Harleys, plus riding gear, add-ons and guided tours. Pick your dates, pick your bike, book your ride.',
+        [['Harley Rentals', '/collections/harley-rentals'], ['Motorcycle Tours', '/collections/motorcycle-tours'], ['Rental Add Ons', '/collections/gear-and-rental-add-ons']], ['See the Harley fleet', '/collections/harley-rentals']],
+      gar: ['Route 101 Garage', 'Harley service, brakes &amp; tires', 'Harley-spec interval service, 3-hole oil, EBC brake jobs, iCS MT Pro diagnostics, and top-brand tires with mounting and balancing, right here in Carlsbad.',
+        [['Harley Service', '/pages/san-diego-harley-service'], ['Harley Brakes', '/pages/harley-brake-service'], ['Tires', '/pages/motorcycle-tires']], ['Explore Harley Service', '/pages/san-diego-harley-service']],
+      three: ['San Diego Harley Rentals in 3 Clicks!', 'Lock In Your Harley Rental', '/collections/harley-rentals', 'Harley touring or cruiser, ready to ride.']
+    },
+    'san-diego-bmw-adventure-bike-rentals': {
+      rent: ['BMW GS Rentals', 'Rent a BMW GS', 'R 1250 GS, R 1200 GS and GSA adventure bikes, plus dual sport gear, side cases and guided tours. Pick your dates, pick your bike, book your ride.',
+        [['BMW GS Rentals', '/collections/explore-our-bmw-gs-rental-fleet'], ['Adventure Bike Tours', '/collections/book-a-bmw-gs-adventure-tour'], ['Rental Add Ons', '/collections/gear-and-rental-add-ons']], ['See the BMW GS fleet', '/collections/explore-our-bmw-gs-rental-fleet']],
+      gar: ['Route 101 Garage', 'BMW GS service &amp; tires', 'BMW GS oil service, EBC brake jobs, GS-911 diagnostics, and top-brand adventure tires with mounting and balancing, right here in Carlsbad.',
+        [['BMW GS Service', '/pages/san-diego-bmw-gs-service'], ['Tires', '/pages/motorcycle-tires']], ['Explore BMW GS Service', '/pages/san-diego-bmw-gs-service']],
+      three: null, step2: 'R 1250 GS, R 1200 GS or GSA adventure.'
+    }
+  };
+  var RHUB_CSS = `
+body.r101-rhub section.r101-3c .cta__wrapper,#r101-3cb{background:var(--r101-soft)!important}
+body.r101-rhub section.r101-3c .cta__tag,#r101-3cb .tg{font:600 13px/1 Inter,sans-serif!important;letter-spacing:.18em!important;text-transform:uppercase!important;color:${O}!important}
+body.r101-rhub section.r101-3c h2{color:var(--r101-ink)!important}
+body.r101-rhub .r101-hide-sec{display:none!important}
+#r101-3cb{text-align:center}
+#r101-3cb .tg{display:block;margin:0 0 14px}
+#r101-3cb h2{font-family:Anton,sans-serif;text-transform:uppercase;color:var(--r101-ink);font-size:clamp(32px,4.2vw,60px);line-height:1.05;margin:0 0 22px}
+#r101-3cb .bt{display:inline-flex;align-items:center;min-height:48px;padding:12px 26px;border-radius:999px;background:${O};color:#111;font-family:Anton,sans-serif;text-transform:uppercase;font-size:18px;text-decoration:none;transition:transform .2s}
+#r101-3cb .bt:hover{transform:translateY(-2px)}
+@media (max-width:900px){.r101-3steps{grid-template-columns:1fr;gap:10px}}
+@media (max-width:760px){.r101-3steps .s{padding:14px 16px}}
+`;
+  var STEPS_CSS = `
+.r101-3steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:1100px;margin:26px auto 0;text-align:left}
+.r101-3steps .s{background:#fff;border:1px solid var(--r101-line);border-radius:16px;padding:20px 22px;display:flex;gap:14px;align-items:flex-start}
+.r101-3steps .n{flex:0 0 36px;height:36px;border-radius:50%;background:var(--r101-ink);color:#fff;font:700 15px/36px Inter,sans-serif;text-align:center}
+.r101-3steps h3{font-family:Anton,sans-serif!important;text-transform:uppercase;font-size:20px!important;line-height:1.1!important;margin:2px 0 4px!important;color:var(--r101-ink)!important}
+.r101-3steps p{font:400 15px/1.35 Inter,sans-serif!important;color:var(--r101-mute)!important;margin:0!important}
+`;
+  function rentalHub() {
+    var slug = location.pathname.replace(/\/+$/, '').split('/').pop(), cfg = RHUB[slug];
+    if (!cfg) return;
+    var u = new URLSearchParams(location.search), on = RHUB_LIVE;
+    try { if (u.get('rhub') === 'test') localStorage.setItem('r101rhub', '1'); if (u.get('rhub') === 'off') localStorage.removeItem('r101rhub'); on = on || localStorage.getItem('r101rhub') === '1'; } catch (e) {}
+    if (!on || document.getElementById('r101-hub')) return;
+    var main = document.querySelector('main'); if (!main) return;
+    document.body.classList.add('r101-rhub');
+    addStyle('r101-steps-css', STEPS_CSS);
+    addStyle('r101-rhub-css', RHUB_CSS);
+    if (!document.getElementById('r101-home-hubcss')) addStyle('r101-home-hubcss', HOME_CSS.split('\n').filter(function (l) { return /^#r101-hub|^@media \(max-width:760px\)\{#r101-hub/.test(l); }).join('\n'));
+    var card = function (c) {
+      return '<div class="c"><p class="k">' + c[0] + '</p><h3>' + c[1] + '</h3><p>' + c[2] + '</p><div class="l">' +
+        c[3].map(function (l) { return '<a href="' + l[1] + '">' + l[0] + '</a>'; }).join('') + '</div><a class="go" href="' + c[4][1] + '">' + c[4][0] + '</a></div>';
+    };
+    var hub = document.createElement('section'); hub.id = 'r101-hub';
+    hub.innerHTML = '<div class="container"><p class="eb">Route 101 Motorsports &amp; Garage</p><h2>Rentals &amp; Garage, all under one roof</h2><div class="g">' + card(cfg.rent) + card(cfg.gar) + '</div></div>';
+    var secs = [].slice.call(main.children);
+    var trust = secs[1] && secs[1].classList.contains('logos') ? secs[1] : null;
+    var after = trust || secs[0];
+    after.parentNode.insertBefore(hub, after.nextSibling);
+    var steps = function (pick) {
+      var st = document.createElement('div'); st.className = 'r101-3steps';
+      st.innerHTML = '<div class="s"><div class="n">1</div><div><h3>Select your dates</h3><p>See real-time availability and pricing.</p></div></div>' +
+        '<div class="s"><div class="n">2</div><div><h3>Pick your bike</h3><p>' + pick + '</p></div></div>' +
+        '<div class="s"><div class="n">3</div><div><h3>Book your ride</h3><p>Reserve online in minutes.</p></div></div>';
+      return st;
+    };
+    if (cfg.three) {
+      var b = document.createElement('section'); b.id = 'r101-3cb';
+      b.innerHTML = '<div class="container"><span class="tg">Go. Just go.&trade;</span><h2>' + cfg.three[0] + '</h2><a class="bt" href="' + cfg.three[2] + '">' + cfg.three[1] + '</a></div>';
+      b.firstElementChild.appendChild(steps(cfg.three[3]));
+      hub.parentNode.insertBefore(b, hub.nextSibling);
+    } else {
+      var all = [].slice.call(main.querySelectorAll(':scope > section'));
+      all.forEach(function (s, i) {
+        if (!s.classList.contains('cta') || s.querySelector('img') || !/3 clicks/i.test(s.textContent) || s.querySelector('.r101-3steps')) return;
+        s.classList.add('r101-3c');
+        var nx = all[i + 1];
+        if (nx && nx.classList.contains('logos') && nx.querySelectorAll('img').length <= 1 && !nx.textContent.trim()) nx.classList.add('r101-hide-sec');
+        var ta = s.querySelector('.cta__text-area') || s.querySelector('.cta__container');
+        if (ta) ta.appendChild(steps(cfg.step2));
+      });
+    }
+  }
+
   function landingPage() {
     addStyle('r101-land-css', 'main section.hero:first-of-type .hero__heading{color:#fff!important}');
     document.body.classList.add('r101-land');
@@ -3983,6 +4070,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       footer();
       forms();
       try { bmwRentalsOrder(); } catch (e) {}
+      try { rentalHub(); } catch (e) {}
       if (/^\/pages\/straight-talk-/.test(location.pathname)) deDash();   // Straight Talk articles only (Glenn)
       if (document.querySelector('main section.accordion')) addStyle('r101-acc-css', ACC_CSS);
       if (location.pathname === '/' || location.pathname === '') homePage();
