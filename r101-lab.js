@@ -3611,7 +3611,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       '.r101-pbc::before{color:' + BLU + '!important}.r101-pbb::before{background-color:' + BLU + '!important}.r101-pbd::before{border-color:' + BLU + '!important}' +
       '.r101-pac::after{color:' + BLU + '!important}.r101-pab::after{background-color:' + BLU + '!important}.r101-pad2::after{border-color:' + BLU + '!important}');
     var orange = function (c) { var m = c && c.match(/\d+(\.\d+)?/g); if (!m || m.length < 3) return false; var r = +m[0], g = +m[1], b = +m[2], a = m.length > 3 ? +m[3] : 1; return a > 0.05 && r > 220 && g > 70 && g < 140 && b < 60; };
-    var skip = function (el) { return el.closest('header, footer, #r101-cta, #r101-tick, .r101-cta, [class*=top-bar]'); };
+    var skip = function (el) { return el.closest('header, footer, #r101-tick, [class*=top-bar]'); };   // the bottom banner goes blue too (Glenn)
     var pseudoCss = '', pn = 0;
     var setP = function (el, prop) { el.style.setProperty(prop, BLU, 'important'); };
     var pseudo = function (el, which, props) {
@@ -3622,7 +3622,10 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     };
     var paint = function () {
       var main = document.querySelector('main'); if (!main) return;
-      [].slice.call(main.querySelectorAll('*')).forEach(function (el) {
+      var cta = document.getElementById('r101-cta');
+      var all = [].slice.call(main.querySelectorAll('*'));
+      if (cta && !main.contains(cta)) all = all.concat([cta], [].slice.call(cta.querySelectorAll('*')));
+      all.forEach(function (el) {
         if (skip(el)) return;
         var cs = getComputedStyle(el);
         if (orange(cs.color)) { if (el.closest('section.r101-hero1, section.r101-photoblk, section.hero.r101-hhero')) el.style.setProperty('color', BLU_LT, 'important'); else setP(el, 'color'); }
