@@ -3683,7 +3683,8 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
         var r = s.getBoundingClientRect();
         var pt = parseFloat(getComputedStyle(w).paddingTop) || 0, pb = parseFloat(getComputedStyle(w).paddingBottom) || 0;
         var prev = secs[i - 1], next = secs[i + 1];
-        var sameUp = prev && !prev.classList.contains('r101-photo') && i - 1 !== 0 && bgOf(prev) === bgOf(s);
+        var between = s.previousElementSibling; while (between && between !== prev && between.offsetHeight === 0) between = between.previousElementSibling;
+        var sameUp = prev && between === prev && !prev.classList.contains('r101-photo') && i - 1 !== 0 && bgOf(prev) === bgOf(s);   // a strip in between (ticker) = a break
         var wantT = sameUp ? 0 : G, wantB = G;
         var nt = Math.max(0, pt + (wantT - (c.t - r.top))), nb = Math.max(0, pb + (wantB - (r.bottom - c.b)));
         w.style.setProperty('padding-top', Math.round(nt) + 'px', 'important');
