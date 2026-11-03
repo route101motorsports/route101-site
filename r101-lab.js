@@ -3839,7 +3839,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
      100svh box it spills up under the sticky header/date bar and down under the Call button.
      Fix: when the hero content doesn't fit, let the hero grow and pad it clear of the header.
      TEST MODE: ?hfix=test (?hfix=off clears). HFIX_LIVE = true shows everyone. */
-  var HFIX_LIVE = false;
+  var HFIX_LIVE = true;   // LIVE (Glenn, Nov 3 3:16am)
   function heroFix() {
     var u = new URLSearchParams(location.search), on = HFIX_LIVE;
     try { if (u.get('hfix') === 'test') localStorage.setItem('r101hfix', '1'); if (u.get('hfix') === 'off') localStorage.removeItem('r101hfix'); on = on || localStorage.getItem('r101hfix') === '1'; } catch (e) {}
