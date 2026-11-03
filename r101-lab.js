@@ -815,8 +815,9 @@ body.r101-form section.contact-form .form__submit .button{width:100%;background:
     // fill-in-the-blanks + "Almost there" check, page by page (Harley Service has its own per-form set in inlineForm)
     var TPL = [
       [/^\/pages\/straight-talk-route-101-motorsports-offers-/, 'Service request:\nYear, make and model: \nWhat you need: '],
-      [/^\/pages\/motorcycle-tires$/, 'Tire request:\nYear, make and model: \nFront, rear or both: \nRiding style: ', 'tpad']
-    ].filter(function (x) { if (x[2] === 'tpad') { var on = TPAD_LIVE; try { var q = new URLSearchParams(location.search).get('tpad'); if (q === 'test') localStorage.setItem('r101tpad', '1'); if (q === 'off') localStorage.removeItem('r101tpad'); on = on || localStorage.getItem('r101tpad') === '1'; } catch (e) {} return on; } return true; }).filter(function (x) { return x[0].test(p); })[0];
+      [/^\/pages\/motorcycle-tires$/, 'Tire request:\nYear, make and model: \nFront, rear or both: \nRiding style: ', 'tpad'],
+      [/^\/pages\/san-diego-harley-rentals$/, 'Rental request:\nDates: \nBike: \nNumber of riders: ', 'rpad']
+    ].filter(function (x) { if (x[2] === 'rpad') return rpadOn(); if (x[2] === 'tpad') { var on = TPAD_LIVE; try { var q = new URLSearchParams(location.search).get('tpad'); if (q === 'test') localStorage.setItem('r101tpad', '1'); if (q === 'off') localStorage.removeItem('r101tpad'); on = on || localStorage.getItem('r101tpad') === '1'; } catch (e) {} return on; } return true; }).filter(function (x) { return x[0].test(p); })[0];
     if (TPL) {
       document.querySelectorAll('main section.contact-form textarea').forEach(function (t) {
         if (t.getAttribute('data-r101pre')) return;
@@ -1679,7 +1680,7 @@ body.r101-land .r101-s3 a{min-width:240px;text-align:center}
 @media (max-width:620px){body.r101-land .r101-s3 a{flex:1 1 100%;min-width:0}body.r101-land section.products .products__tag{font-size:11px!important;letter-spacing:.1em!important}}
 `;
   var LAND_FLEET = {
-    'san-diego-harley-rentals': '/collections/motorcycle-rentals',
+    'san-diego-harley-rentals': '/collections/harley-rentals',
     'pacific-beach-harley-rentals': '/collections/motorcycle-rentals',
     'san-diego-bmw-adventure-bike-rentals': '/collections/explore-our-bmw-gs-rental-fleet',
     'motorcycle-rentals-san-diego': '/collections/route-rental-fleet'
@@ -1757,6 +1758,7 @@ body.r101-land .r101-s3 a{min-width:240px;text-align:center}
       if (s.classList.contains('r101-revrow-sec') || s.classList.contains('r101-auth')) return false;
       if (((s.querySelector('.logos__heading') || {}).textContent || '').trim()) return false;
       var im = s.querySelector('img');
+      if (!im && /^\/pages\/san-diego-harley-rentals\/?$/.test(location.pathname) && s === (document.querySelector('main section.logos'))) return true;   // builder image deleted (Glenn, Nov 3): first empty logos section is the review row
       return im && /5starreviewsicon/i.test(im.getAttribute('src') || im.currentSrc || '');
     });
     if (!secs.length) return;
@@ -3462,7 +3464,7 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
       '<p class="sub">Price per day by rental length, Route 101 vs. other San Diego motorcycle rental options. Hover or tap the chart to compare any day.</p>' +
       '<div class="card"><div class="lg">' + lg + '</div><div class="plot"></div><div class="tip"></div></div>' +
       '<div class="stats">' +
-      '<div class="st"><b>From $' + R[0] + '</b><span>A one-day Harley rental. Free gear, $500 deposit.</span></div>' +
+      '<div class="st"><b>From $' + R[0] + '</b><span>A same-day Harley rental. Free gear, $500 deposit.</span></div>' +
       '<div class="st"><b>Save $' + wk + '+</b><span>On a 7-day trip vs. the next-lowest rate ($' + R[6] + '/day vs. $' + Math.round(low(7)) + ').</span></div>' +
       '<div class="st"><b>Save $' + mo.toLocaleString() + '+</b><span>On a 30-day rental vs. the next-lowest rate.</span></div>' +
       '</div><p class="src">Based on an internal audit of competitor pricing, ' + PRICE_AS_OF + '. Competitor names withheld.</p></div>';
@@ -3744,6 +3746,53 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     run(); setTimeout(run, 600); setTimeout(run, 1800); setTimeout(run, 4000); addEventListener('load', function () { setTimeout(run, 300); });
   }
 
+  /* ---------- HARLEY RENTALS PAGE: golden rules (Glenn, Nov 3) ----------
+     Full-screen hero, 40px to every color change (40 total between same-color blocks), Rental request form.
+     TEST MODE: ?rpad=test (?rpad=off clears). RPAD_LIVE = true shows everyone. */
+  var RPAD_LIVE = false;
+  function rpadOn() {
+    var on = RPAD_LIVE;
+    try { var q = new URLSearchParams(location.search).get('rpad'); if (q === 'test') localStorage.setItem('r101rpad', '1'); if (q === 'off') localStorage.removeItem('r101rpad'); on = on || localStorage.getItem('r101rpad') === '1'; } catch (e) {}
+    return on;
+  }
+  function rentalsPad() {
+    if (!/^\/pages\/san-diego-harley-rentals\/?$/.test(location.pathname) || !rpadOn()) return;
+    var main = document.querySelector('main'); if (!main) return;
+    document.body.classList.add('r101-rpad');
+    addStyle('r101-rpad-css', 'html body.r101-rpad main > section.hero:first-of-type > div{min-height:100svh!important}');
+    var G = matchMedia('(max-width:760px)').matches ? 32 : 40;
+    var content = function (s) {
+      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,a,img,button,input,label,textarea,canvas,svg,li')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden' && !x.closest('.r101-src,.logos__images,.logos__images-wrapper,.logos__list'); });
+      if (!v.length) return null;
+      var t = Infinity, b = -Infinity; v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top < t) t = r.top; if (r.bottom > b) b = r.bottom; });
+      return { t: t, b: b };
+    };
+    var pad = function (s, side, want) {
+      var w = /^r101-/.test(s.id) ? s : s.firstElementChild; if (!w) return;
+      if (w !== s) s.style.setProperty('padding-' + side, '0px', 'important');
+      var c = content(s); if (!c) return;
+      var r = s.getBoundingClientRect(), cur = parseFloat(getComputedStyle(w)['padding' + (side === 'top' ? 'Top' : 'Bottom')]) || 0;
+      var have = side === 'top' ? c.t - r.top : r.bottom - c.b;
+      w.style.setProperty('padding-' + side, Math.max(0, Math.round(cur + want - have)) + 'px', 'important');
+    };
+    var bg = function (s) {
+      var el = s, c;
+      while (el && el !== document.body) { c = getComputedStyle(el).backgroundColor; if (c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') return c; el = el.firstElementChild && el === s ? el.firstElementChild : null; }
+      return getComputedStyle(s).backgroundColor;
+    };
+    var run = function () {
+      var secs = [].slice.call(main.children).filter(function (s) { return s.getBoundingClientRect().height > 0 && getComputedStyle(s).display !== 'none'; });
+      for (var i = 1; i < secs.length; i++) {
+        var s = secs[i]; if (s.id === 'r101-tick') continue;
+        var prev = secs[i - 1], next = secs[i + 1];
+        var tp = prev.id === 'r101-tick' || i === 1 || bg(prev) !== bg(s) ? G : G / 2;
+        var bt = !next || next.id === 'r101-tick' || bg(next) !== bg(s) ? G : G / 2;
+        pad(s, 'top', tp); pad(s, 'bottom', bt);
+      }
+    };
+    run(); setTimeout(run, 600); setTimeout(run, 1800); setTimeout(run, 4000); addEventListener('load', function () { setTimeout(run, 300); });
+  }
+
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
@@ -3937,6 +3986,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       rhythm();
       try { homePad(); } catch (e) {}
       try { tiresPad(); } catch (e) {}
+      try { rentalsPad(); } catch (e) {}
       try { heroFix(); } catch (e) {}
       try { topBarRotate(); } catch (e) {}
       parallax();
