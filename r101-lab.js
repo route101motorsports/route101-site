@@ -3462,7 +3462,7 @@ body:not(.r101-home) #r101-tick{margin:28px 0}
       '<p class="sub">Price per day by rental length, Route 101 vs. other San Diego motorcycle rental options. Hover or tap the chart to compare any day.</p>' +
       '<div class="card"><div class="lg">' + lg + '</div><div class="plot"></div><div class="tip"></div></div>' +
       '<div class="stats">' +
-      '<div class="st"><b>$' + R[0] + '</b><span>A one-day Harley rental. Free gear, $500 deposit.</span></div>' +
+      '<div class="st"><b>From $' + R[0] + '</b><span>A one-day Harley rental. Free gear, $500 deposit.</span></div>' +
       '<div class="st"><b>Save $' + wk + '+</b><span>On a 7-day trip vs. the next-lowest rate ($' + R[6] + '/day vs. $' + Math.round(low(7)) + ').</span></div>' +
       '<div class="st"><b>Save $' + mo.toLocaleString() + '+</b><span>On a 30-day rental vs. the next-lowest rate.</span></div>' +
       '</div><p class="src">Based on an internal audit of competitor pricing, ' + PRICE_AS_OF + '. Competitor names withheld.</p></div>';
