@@ -3537,7 +3537,7 @@ section.contact-form.r101-inform .r101-orcall a{color:#111!important;font-weight
   var PAD_CSS = `
 html body.r101-pad #r101-pbrands{padding:28px 0!important}
 html body.r101-pad #r101-svc{padding:40px 0 40px!important}
-html body.r101-pad #r101-steps{padding:0 0 40px!important}
+html body.r101-pad #r101-steps{padding:0 0 40px!important}html body.r101-pad.r101-brakes #r101-steps{padding:40px 0!important}
 html body.r101-pad main > section.r101-inf-host:not(.r101-tight) > div{padding-top:0!important;padding-bottom:0!important}html body.r101-pad main > section.r101-inf-host:not(.r101-tight) .hero__wrapper{padding-top:0!important}
 html body.r101-pad main > section.r101-tight-logos > div{padding-top:40px!important;padding-bottom:0!important}
 html body.r101-pad main > section.r101-tight > div{padding-top:16px!important;padding-bottom:0!important}
@@ -3660,11 +3660,12 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       });
       return;
     }
-    var host = [].slice.call(main.querySelectorAll('section.hero.r101-hl')).filter(function (s) { return !s.classList.contains('r101-tight') && s.querySelector('ul'); })[0];
+    var host = [].slice.call(main.querySelectorAll('section.hero.r101-hl')).filter(function (s) { return !s.classList.contains('r101-tight') && s.querySelector('ul'); })[0]
+      || main.querySelector('section.r101-checks');   // Brakes: the "Every EBC Brake Service Includes" checklist hosts the form
     var forms = [].slice.call(main.querySelectorAll('section.contact-form')).filter(function (f) { return f.querySelector('form') && !f.classList.contains('r101-inform'); });
     if (!host || !forms.length) return;
     addStyle('r101-inform-css', INFORM_CSS);
-    if (/^\/pages\/san-diego-(harley-service|bmw-gs-service)\/?$/.test(location.pathname)) {
+    if (/^\/pages\/(san-diego-harley-service|san-diego-bmw-gs-service|harley-brake-service)\/?$/.test(location.pathname)) {
       document.body.classList.add('r101-pad'); addStyle('r101-pad-css', PAD_CSS);
       var tagFaq = function () { document.querySelectorAll('main > section.accordion').forEach(function (acc) { var e = acc.previousElementSibling; while (e && e.offsetHeight === 0) e = e.previousElementSibling; if (e && e.classList.contains('r101-inform')) acc.classList.add('r101-afterform'); }); };
       tagFaq(); setTimeout(tagFaq, 0); setTimeout(tagFaq, 700); setTimeout(tagFaq, 2000);
@@ -3729,7 +3730,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       if (host.nextElementSibling !== mainForm) host.parentNode.insertBefore(mainForm, host.nextElementSibling);
       style(mainForm, host); host.classList.add('r101-inf-host');
       var mta = mainForm.querySelector('textarea');
-      var MPRE = 'Service request:\nYear, make and model: \nMileage: \nService needed: ';
+      var MPRE = /brake/.test(location.pathname) ? 'Brake request:\nYear, make and model: \nFront only or front and rear: ' : 'Service request:\nYear, make and model: \nMileage: \nService needed: ';
       if (mta) { if (!mta.value.trim() || /^Service request:$/.test(mta.value.trim())) mta.value = MPRE; mta.setAttribute('data-r101pre', MPRE); mta.setAttribute('placeholder', ''); mta.rows = 5; }
       requireBlanks();
     }
