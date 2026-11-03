@@ -3854,7 +3854,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       if (y > 5) return;   // measure only at the top of the page (header is fixed)
       v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top + y < ct) ct = r.top + y; if (r.bottom + y > cb) cb = r.bottom + y; });
       var hd = document.getElementById('header'), hb = 0;
-      if (hd) { var hr = hd.getBoundingClientRect(); hb = hr.bottom + y; [].slice.call(hd.querySelectorAll('*')).forEach(function (e) { var r = e.getBoundingClientRect(); if (r.height > 0 && r.width > innerWidth * 0.5 && r.top < 320 && r.bottom + y > hb && getComputedStyle(e).visibility !== 'hidden') hb = r.bottom + y; }); }
+      if (hd) { var hr = hd.getBoundingClientRect(); hb = hr.bottom + y; [].slice.call(hd.querySelectorAll('*')).forEach(function (e) { var r = e.getBoundingClientRect(); if (r.height > 0 && r.height < 160 && r.width > innerWidth * 0.5 && r.top >= 0 && r.top < 320 && r.bottom + y > hb && getComputedStyle(e).visibility !== 'hidden') hb = r.bottom + y; }); }
       [].slice.call(document.querySelectorAll('body *')).forEach(function (e) { var p = getComputedStyle(e).position; if ((p === 'fixed' || p === 'sticky') && !e.closest('main') && !e.closest('#r101-call')) { var r = e.getBoundingClientRect(); if (r.top < 260 && r.height > 0 && r.height < 200 && r.width > innerWidth * 0.5 && r.bottom > hb && y < 5) hb = r.bottom; } });
       var sr = s.getBoundingClientRect(), st = sr.top + y, sb = sr.bottom + y;
       var top = Math.max(st, hb) + 24;
