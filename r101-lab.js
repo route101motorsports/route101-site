@@ -816,13 +816,13 @@ body.r101-form section.contact-form .form__submit .button{width:100%;background:
     var TPL = [
       [/^\/pages\/straight-talk-route-101-motorsports-offers-/, 'Service request:\nYear, make and model: \nWhat you need: '],
       [/^\/pages\/motorcycle-tires$/, 'Tire request:\nYear, make and model: \nFront, rear or both: \nRiding style: ', 'tpad'],
-      [/^\/pages\/san-diego-harley-rentals$/, 'Rental request:\nDates: \nBike: \nNumber of riders: ', 'rpad']
+      [/^\/pages\/san-diego-harley-rentals$/, 'Rental request:\nDates: \nBike: \nRiding days: \nApprox. miles: \nPassenger (yes/no): \nLocal or touring: \nAnything else (optional): ', 'rpad']
     ].filter(function (x) { if (x[2] === 'rpad') return rpadOn(); if (x[2] === 'tpad') { var on = TPAD_LIVE; try { var q = new URLSearchParams(location.search).get('tpad'); if (q === 'test') localStorage.setItem('r101tpad', '1'); if (q === 'off') localStorage.removeItem('r101tpad'); on = on || localStorage.getItem('r101tpad') === '1'; } catch (e) {} return on; } return true; }).filter(function (x) { return x[0].test(p); })[0];
     if (TPL) {
       document.querySelectorAll('main section.contact-form textarea').forEach(function (t) {
         if (t.getAttribute('data-r101pre')) return;
         if (!t.value.trim()) t.value = TPL[1];
-        t.setAttribute('data-r101pre', TPL[1]); t.setAttribute('placeholder', ''); t.rows = 4;
+        t.setAttribute('data-r101pre', TPL[1]); t.setAttribute('placeholder', ''); t.rows = Math.max(4, TPL[1].split('\n').length);
       });
       requireBlanks();
     }
@@ -3574,11 +3574,11 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       if (!ta) return;
       var lines = ta.value.split('\n');
       var miss = [];
-      lines.forEach(function (ln) { var m = ln.match(/^\s*([^:]{3,40}):\s*(.*)$/); if (m && !/request$/i.test(m[1].trim()) && !m[2].trim()) miss.push(m[1].trim()); });
+      lines.forEach(function (ln) { var m = ln.match(/^\s*([^:]{3,40}):\s*(.*)$/); if (m && !/request$/i.test(m[1].trim()) && !/optional/i.test(m[1]) && !m[2].trim()) miss.push(m[1].trim()); });
       var old = e.target.querySelector('.r101-blankmsg'); if (old) old.remove();
       if (!miss.length) {
         // Booqable's email flattens line breaks and shows "&" as "&amp;": send one tidy line instead
-        ta.value = ta.value.replace(/&/g, 'and').split('\n').map(function (l) { return l.trim(); }).filter(Boolean)
+        ta.value = ta.value.replace(/&/g, 'and').split('\n').map(function (l) { return l.trim(); }).filter(function (l) { return l && !/optional\):?$/i.test(l); }).map(function (l) { return l.replace(/\s*\(optional\)/i, ''); })
           .map(function (l) { return /:$/.test(l) ? l.slice(0, -1) : l; }).join(' | ');
         return;
       }
