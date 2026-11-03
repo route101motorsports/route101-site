@@ -246,3 +246,8 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Builder: 7 hidden Call to action sections deleted and published (backup: backups/motorcycle-tires-builder-2026-11-02.md).
 - Code (TPAD_LIVE=false): full-screen hero, brands alternate beige/white, 40px each side of every color change (80 between content), gallery->help bar 24, form top 40, Tire request blanks + "Almost there", popup prefill "Tire request: <name>".
 - LIVE Nov 2 (TPAD_LIVE=true, pin 26481d3). Verified as visitor.
+
+## Nov 2 night: phone hero fix (NOT pinned yet)
+- Glenn's phone screenshot (Harley Service): hero heading hidden under sticky header/"Select rental dates" bar, Submit button under Call now. Cause: r101-hero1 is fixed height 100svh + centered; long phone text overflows top and bottom.
+- Commit c01494d adds heroFix() (HFIX_LIVE=false, ?hfix=test / ?hfix=off, localStorage r101hfix): phone only, when content doesn't fit, hero height auto / min 100svh, padding-top clears header, bottom 96px.
+- TODO in the morning: warm + pin c01494d, test at phone width (iframe 412px on the site's own origin works for measuring), send Glenn ?hfix=test link, then go live on his OK.
