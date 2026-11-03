@@ -3844,6 +3844,10 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     var u = new URLSearchParams(location.search), on = HFIX_LIVE;
     try { if (u.get('hfix') === 'test') localStorage.setItem('r101hfix', '1'); if (u.get('hfix') === 'off') localStorage.removeItem('r101hfix'); on = on || localStorage.getItem('r101hfix') === '1'; } catch (e) {}
     if (!on) return;
+    // top bar: a stray trailing space after the link wraps onto its own line on phones (empty 3rd line)
+    [].slice.call(document.querySelectorAll('#header .top-bar__text b, #header .top-bar__text p')).forEach(function (el) {
+      var n = el.lastChild; while (n && n.nodeType === 3 && !n.textContent.replace(/[\s\u00a0]/g, '')) { var p = n.previousSibling; el.removeChild(n); n = p; }
+    });
     var fix = function () {
       if (!matchMedia('(max-width:760px)').matches) return;
       var main = document.querySelector('main'), s = main && main.querySelector('section'); if (!s) return;
