@@ -65,7 +65,7 @@ Merch: route-101-ss-tee-black, route-101-ss-tee-white
 - /blog (Booqable default blog index)
 
 ## Google Search Console: Request Indexing plan (about 10 a day)
-Day 1 (Nov 3):
+Day 1 (Nov 3): DONE, all 10 requested (all already "URL is on Google")
 1. /
 2. /pages/san-diego-harley-service
 3. /pages/san-diego-bmw-gs-service
