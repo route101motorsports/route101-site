@@ -3546,8 +3546,10 @@ html body.r101-pad main > section.accordion > div{padding-top:56px!important;pad
 html body.r101-pad main > section.spacer{display:none!important}
 html body.r101-pad main > section.r101-hero1 > div{min-height:100vh!important;min-height:100svh!important;height:100vh;height:100svh;padding-top:0!important;padding-bottom:0!important;display:flex!important;align-items:center!important;box-sizing:border-box}
 html body.r101-pad main > section.r101-photoblk > div{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important;display:flex!important;align-items:center!important;box-sizing:border-box;overflow:hidden}
+html body.r101-pad main > section.r101-photoblk.cta.r101-band > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}
 html body.r101-pad main > section.r101-hero1 img,html body.r101-pad main > section.r101-photoblk img{object-fit:cover!important;object-position:center!important}
 @media (max-width:760px){html body.r101-pad main > section.r101-photoblk > div{height:clamp(420px,70svh,600px)!important}}
+@media (max-width:760px){html body.r101-pad main > section.r101-photoblk.cta.r101-band > div.cta__wrapper{height:clamp(420px,70svh,600px)!important;min-height:0!important}}
 @media (max-width:760px){
 html body.r101-pad #r101-pbrands{padding:22px 0!important}
 html body.r101-pad #r101-svc{padding:32px 0!important}html body.r101-pad #r101-steps{padding:0 0 32px!important}
