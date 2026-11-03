@@ -270,3 +270,7 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Live (ungated): bmwRentalsOrder() moves add-ons + Book after the bikes; BMW Rental request form blanks (adds Pavement, dirt or both) + Almost there; Book heading size; form intro white.
 - Test (BPAD_LIVE=false): full-screen hero, 40px rhythm via rentalsPad, photo band clamp(480,62vh,680).
 - Builder automation note: real key typing into the builder only works sometimes (tab focus). Plain inputs: native value setter + input/change events works reliably.
+
+## Nov 3 ~5:15am: rental hub + 3-clicks steps (test mode ?rhub=test, pin cba1a47)
+- rentalHub(): Harley Rentals = Harley hub (Rent a Harley-Davidson / Harley service, brakes and tires) + code-built "San Diego Harley Rentals in 3 Clicks!" (#r101-3cb) -> /collections/harley-rentals. BMW Rentals = BMW hub (Rent a BMW GS / BMW GS service and tires) + existing 3-clicks CTA gets numbered steps; clip-art steps image section hidden (delete in builder once live).
+- RHUB_LIVE=false.
