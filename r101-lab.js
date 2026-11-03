@@ -3834,6 +3834,41 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   }
 
 
+  /* ---------- PHONE HERO FIX ----------
+     On phones a full-screen hero with a lot of text can be taller than the screen; centered in a fixed
+     100svh box it spills up under the sticky header/date bar and down under the Call button.
+     Fix: when the hero content doesn't fit, let the hero grow and pad it clear of the header.
+     TEST MODE: ?hfix=test (?hfix=off clears). HFIX_LIVE = true shows everyone. */
+  var HFIX_LIVE = false;
+  function heroFix() {
+    var u = new URLSearchParams(location.search), on = HFIX_LIVE;
+    try { if (u.get('hfix') === 'test') localStorage.setItem('r101hfix', '1'); if (u.get('hfix') === 'off') localStorage.removeItem('r101hfix'); on = on || localStorage.getItem('r101hfix') === '1'; } catch (e) {}
+    if (!on) return;
+    var fix = function () {
+      if (!matchMedia('(max-width:760px)').matches) return;
+      var main = document.querySelector('main'), s = main && main.querySelector('section'); if (!s) return;
+      var w = s.firstElementChild; if (!w) return;
+      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,p,a,button')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden'; });
+      if (!v.length) return;
+      var y = window.scrollY, ct = Infinity, cb = -Infinity;
+      v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top + y < ct) ct = r.top + y; if (r.bottom + y > cb) cb = r.bottom + y; });
+      var hd = document.getElementById('header'), hb = 0;
+      if (hd) { var hr = hd.getBoundingClientRect(); hb = (getComputedStyle(hd).position === 'fixed' || getComputedStyle(hd).position === 'sticky') ? hr.height + (y < 5 ? hr.top : 0) : hr.bottom + y; }
+      [].slice.call(document.querySelectorAll('body *')).forEach(function (e) { var p = getComputedStyle(e).position; if ((p === 'fixed' || p === 'sticky') && !e.closest('main') && !e.closest('#r101-call')) { var r = e.getBoundingClientRect(); if (r.top < 260 && r.height > 0 && r.height < 200 && r.width > innerWidth * 0.5 && r.bottom > hb && y < 5) hb = r.bottom; } });
+      var sr = s.getBoundingClientRect(), st = sr.top + y, sb = sr.bottom + y;
+      var top = Math.max(st, hb) + 24;
+      if (w.getAttribute('data-r101hfix') !== '1' && ct >= top && cb <= sb - 96) return;
+      w.setAttribute('data-r101hfix', '1');
+      var need = Math.max(32, Math.round(hb - st + 32));
+      w.style.setProperty('height', 'auto', 'important');
+      w.style.setProperty('min-height', '100svh', 'important');
+      w.style.setProperty('padding-top', need + 'px', 'important');
+      w.style.setProperty('padding-bottom', '96px', 'important');
+      w.style.setProperty('align-items', 'center', 'important');
+    };
+    fix(); setTimeout(fix, 800); setTimeout(fix, 2500); addEventListener('load', function () { setTimeout(fix, 300); });
+  }
+
   function run() {
     try {
       addFont();
@@ -3872,6 +3907,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       rhythm();
       try { homePad(); } catch (e) {}
       try { tiresPad(); } catch (e) {}
+      try { heroFix(); } catch (e) {}
       parallax();
       [].slice.call(document.querySelectorAll('main .button--outlined')).forEach(function (b) {
         var m = (getComputedStyle(b).color.match(/\d+/g) || [0, 0, 0]).map(Number);
