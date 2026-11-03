@@ -3851,6 +3851,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       var v = [].slice.call(s.querySelectorAll('h1,h2,h3,p,a,button')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden'; });
       if (!v.length) return;
       var y = window.scrollY, ct = Infinity, cb = -Infinity;
+      if (y > 5) return;   // measure only at the top of the page (header is fixed)
       v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top + y < ct) ct = r.top + y; if (r.bottom + y > cb) cb = r.bottom + y; });
       var hd = document.getElementById('header'), hb = 0;
       if (hd) { var hr = hd.getBoundingClientRect(); hb = hr.bottom + y; [].slice.call(hd.querySelectorAll('*')).forEach(function (e) { var r = e.getBoundingClientRect(); if (r.height > 0 && r.width > innerWidth * 0.5 && r.top < 320 && r.bottom + y > hb && getComputedStyle(e).visibility !== 'hidden') hb = r.bottom + y; }); }
