@@ -2661,7 +2661,10 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
 #r101-plb img{max-width:min(1200px,96vw);max-height:88vh;width:auto;height:auto;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 #r101-plb button{position:absolute;top:14px;right:16px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#111;font:700 22px/44px Inter,sans-serif;cursor:pointer}
 #r101-svc .g.n2{grid-template-columns:repeat(2,minmax(0,1fr))}
-#r101-svc .c.r101-rent .ek{font:700 12px/1 Inter,sans-serif!important;letter-spacing:.16em;text-transform:uppercase;color:${O};margin:0 0 10px!important}
+#r101-svc .c.r101-rent .ek{position:absolute;left:22px;right:22px;top:16px;font:700 12px/1 Inter,sans-serif!important;letter-spacing:.16em;text-transform:uppercase;color:${O};margin:0!important}
+#r101-svc .g.r101-hasrent .c{padding-top:42px}
+#r101-svc .g.r101-hasrent .a{margin-top:auto}
+@media (min-width:701px){#r101-svc .g.r101-hasrent .c h3{min-height:2.1em}}
 #r101-svc .c.r101-rent .pr .pd{font:600 13px/1 Inter,sans-serif;color:var(--r101-mute);margin-left:6px;align-self:flex-end;padding-bottom:8px}
 @media (max-width:1024px){#r101-svc .g{grid-template-columns:1fr 1fr}body.r101-harley .r101-hl ul{columns:2}}
 @media (max-width:700px){#r101-svc{padding:44px 0}#r101-svc .g,#r101-svc .g.n2{grid-template-columns:1fr;gap:12px}#r101-svc .c{padding:20px 18px 16px}body.r101-harley .r101-hl ul{columns:1}}
@@ -2846,7 +2849,8 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
           var pd = document.createElement('small'); pd.className = 'pd'; pd.textContent = '/ day';
           cs[k].querySelector('.pr').appendChild(pd);
           b.textContent = 'See the GS fleet';
-          var lk = cs[k].querySelector('.lk'); if (lk) lk.remove();
+          var lk = cs[k].querySelector('.lk'); if (lk) { lk.style.visibility = 'hidden'; lk.setAttribute('aria-hidden', 'true'); lk.tabIndex = -1; }   // keeps the buttons level with the other tiles
+          cs[k].parentNode.classList.add('r101-hasrent');
         }
       });
       sv.addEventListener('click', function (e) {
