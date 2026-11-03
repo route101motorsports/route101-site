@@ -291,3 +291,4 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Test (TTPAD_LIVE=false): full-screen hero, bands standard size, course tiles as clean white cards (2 across), 40px rhythm via rentalsPad, form blanks Discount code request / Class date / Certificate #.
 - Rhythm content list now includes .articles__item,.columns__item,.accordion__item.
 - Pending Glenn "live": rhub (Harley+BMW rentals), bpad (BMW rentals), ttpad (Twysted).
+- Twysted links (live, pin f73b062): MTC tile + "Trade Your Cage" band -> MTC page / sign-up CC=MTC; CMSP tile + "Be Safe" band -> /courses/1dpc/ / sign-up CC=1DPC. Sign-up keeps existing source code SC=BIGGSHD (looks like a Biggs Harley-Davidson referral code; their own pages use *FA). Asked Glenn.
