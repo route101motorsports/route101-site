@@ -274,3 +274,8 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 ## Nov 3 ~5:15am: rental hub + 3-clicks steps (test mode ?rhub=test, pin cba1a47)
 - rentalHub(): Harley Rentals = Harley hub (Rent a Harley-Davidson / Harley service, brakes and tires) + code-built "San Diego Harley Rentals in 3 Clicks!" (#r101-3cb) -> /collections/harley-rentals. BMW Rentals = BMW hub (Rent a BMW GS / BMW GS service and tires) + existing 3-clicks CTA gets numbered steps; clip-art steps image section hidden (delete in builder once live).
 - RHUB_LIVE=false.
+
+## Nov 3 ~4:48-4:52am: 4-minute design outage (rolled back)
+- Pinned b44747d; the design did not run anywhere (body had no r101 classes, native Booqable theme showed). Rolled back to cba1a47 within ~4 min. Re-pinned b44747d a few minutes later and it ran fine. File and syntax were OK; most likely jsDelivr/browser served a bad first copy.
+- NEW RULE: warm with cache:"reload" and require status 200 + full length + the final run() call near the end of the file, THEN pin, THEN immediately load the homepage and confirm body has r101-hdr. If not, roll back at once.
+- BMW reviews now move up under "3 clicks" (rhub test mode).
