@@ -3874,6 +3874,28 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     fix(); setTimeout(fix, 800); setTimeout(fix, 2500); addEventListener('load', function () { setTimeout(fix, 300); }); addEventListener('orientationchange', function () { setTimeout(fix, 400); });
   }
 
+  /* ---------- ROTATING TOP BAR (Glenn, Nov 3) ----------
+     The top bar swaps between the builder text and "Advance Booking Required. No Walk-Ins." with a soft fade.
+     TEST MODE: ?tbar=test (?tbar=off clears). TBAR_LIVE = true shows everyone. */
+  var TBAR_LIVE = false;
+  var TBAR_MSG = 'Advance Booking Required. No Walk-Ins.';
+  function topBarRotate() {
+    var u = new URLSearchParams(location.search), on = TBAR_LIVE;
+    try { if (u.get('tbar') === 'test') localStorage.setItem('r101tbar', '1'); if (u.get('tbar') === 'off') localStorage.removeItem('r101tbar'); on = on || localStorage.getItem('r101tbar') === '1'; } catch (e) {}
+    if (!on) return;
+    var el = document.querySelector('#header .top-bar__container > .top-bar__text');
+    if (!el || el.getAttribute('data-r101rot')) return;
+    el.setAttribute('data-r101rot', '1');
+    addStyle('r101-tbar-css', '#header .top-bar__container > .top-bar__text[data-r101rot]{transition:opacity .45s ease}#header .top-bar__container > .top-bar__text.r101-off{opacity:0}#header .r101-tmsg{color:#fff!important;font-weight:700!important;white-space:nowrap}@media (prefers-reduced-motion:reduce){#header .top-bar__container > .top-bar__text[data-r101rot]{transition:none}}');
+    var a = el.innerHTML, b = '<p><span class="r101-tmsg">' + TBAR_MSG + '</span></p>', showA = true;
+    var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setInterval(function () {
+      if (document.hidden) return;
+      el.classList.add('r101-off');
+      setTimeout(function () { showA = !showA; el.innerHTML = showA ? a : b; el.classList.remove('r101-off'); }, still ? 0 : 450);
+    }, still ? 8000 : 5000);
+  }
+
   function run() {
     try {
       addFont();
@@ -3913,6 +3935,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       try { homePad(); } catch (e) {}
       try { tiresPad(); } catch (e) {}
       try { heroFix(); } catch (e) {}
+      try { topBarRotate(); } catch (e) {}
       parallax();
       [].slice.call(document.querySelectorAll('main .button--outlined')).forEach(function (b) {
         var m = (getComputedStyle(b).color.match(/\d+/g) || [0, 0, 0]).map(Number);
