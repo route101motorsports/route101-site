@@ -1672,6 +1672,14 @@ body.r101-prv main section.hero .hero__buttons,body.r101-prv main section.cta .c
 body.r101-prv main section:not(.hero) [class*=__content],body.r101-prv main section:not(.hero) [class*=__text-area],body.r101-prv main section:not(.hero) .rx-content{max-width:none!important;width:100%!important;margin-left:0!important;margin-right:0!important;padding-left:0!important;padding-right:0!important}   /* text runs the full section width like every other page (Glenn, Nov 3) */
 body.r101-prv main section:not(.hero) p,body.r101-prv main section:not(.hero) li{font:400 16px/1.7 Inter,sans-serif!important;color:#333!important}
 body.r101-prv main section:not(.hero) h2,body.r101-prv main section:not(.hero) h3{text-align:left!important}
+body.r101-prv main section.text h3{margin:44px 0 12px!important;font-size:clamp(22px,2vw,28px)!important;line-height:1.15!important}
+body.r101-prv main section.text .rx-content > h3:first-child,body.r101-prv main section.text [class*=__content] > h3:first-child{margin-top:0!important}
+body.r101-prv main section.text p{margin:0 0 12px!important}
+body.r101-prv main section.text ul,body.r101-prv main section.text ol{padding-left:24px!important;margin:4px 0 16px!important}
+body.r101-prv main section.text ul{list-style:disc!important}body.r101-prv main section.text ol{list-style:decimal!important}
+body.r101-prv main section.text li{margin:0 0 8px!important;padding-left:4px}
+body.r101-prv main section.text p > strong:first-child{color:#141414}
+body.r101-prv main section.text p:has(> strong:only-child){margin:20px 0 8px!important}
 `;
   function privacyPage() {
     if (document.body.classList.contains('r101-prv')) return;
