@@ -2814,7 +2814,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
       ]
     };
     // rental tile on BMW GS Service (Glenn, Nov 3). TEST MODE: ?svrent=test (?svrent=off clears). SVRENT_LIVE = true shows everyone.
-    var SVRENT_LIVE = false, svrentOn = SVRENT_LIVE;
+    var SVRENT_LIVE = true, svrentOn = SVRENT_LIVE;
     try { var sq = new URLSearchParams(location.search).get('svrent'); if (sq === 'test') localStorage.setItem('r101svrent', '1'); if (sq === 'off') localStorage.removeItem('r101svrent'); svrentOn = svrentOn || localStorage.getItem('r101svrent') === '1'; } catch (e) {}
     var slug = location.pathname.replace(/\/+$/, '').split('/').pop();
     if (!cards.length && SVC_CARDS[slug]) SVC_CARDS[slug].forEach(function (c) {
