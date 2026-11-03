@@ -3937,7 +3937,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
      Live now: the two dead "/" links point where their twins go.
      TEST MODE ?ttpad=test (?ttpad=off clears): full-screen hero, standard photo bands, clean course cards,
      40px rhythm (rentalsPad), discount-code blanks. TTPAD_LIVE = true shows everyone. */
-  var TTPAD_LIVE = false;
+  var TTPAD_LIVE = true;   // LIVE (Glenn, Nov 3 6:22am)
   function ttpadOn() {
     var on = TTPAD_LIVE;
     try { var q = new URLSearchParams(location.search).get('ttpad'); if (q === 'test') localStorage.setItem('r101ttpad', '1'); if (q === 'off') localStorage.removeItem('r101ttpad'); on = on || localStorage.getItem('r101ttpad') === '1'; } catch (e) {}
@@ -3976,12 +3976,11 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     var lim = lg && lg.querySelector('img');
     if (lg && lim && !document.getElementById('r101-ttref')) {
       var ref = document.createElement('div'); ref.id = 'r101-ttref';
-      ref.innerHTML = '<div class="l"><p class="eb">Route 101 Motorsports proudly refers new riders to</p>' +
-        '<a class="lo" href="https://twystedthrottle.com/" target="_blank" rel="noopener" aria-label="Twysted Throttle, North County motorcycle training (opens their website)"><img src="' + (lim.currentSrc || lim.src) + '" alt="Twysted Throttle, North County\'s premier motorcycle training" width="750" height="370"></a></div>' +
-        '<a class="go" href="https://twystedthrottle.com/" target="_blank" rel="noopener">Visit Twysted Throttle</a>';
-      var lc = lg.querySelector('.logos__container') || lg.firstElementChild;
-      [].slice.call(lc.children).forEach(function (ch) { ch.style.setProperty('display', 'none', 'important'); });
-      lc.appendChild(ref);
+      // heading stays as built (big, black, centered); the builder logo strip is replaced by a code-sized, linked logo, centered
+      ref.innerHTML = '<a class="lo" href="https://twystedthrottle.com/" target="_blank" rel="noopener" aria-label="Twysted Throttle, North County motorcycle training (opens their website)"><img src="' + (lim.currentSrc || lim.src) + '" alt="Twysted Throttle, North County\'s premier motorcycle training" width="750" height="370"></a>';
+      var strip = lim.closest('.logos__images-wrapper, .logos__images, .logos__list') || lim.parentNode;
+      strip.style.setProperty('display', 'none', 'important');
+      strip.parentNode.insertBefore(ref, strip);
     }
     // course cards drawn in our style (Glenn, Nov 3): who it's for, length, course info + book a class, graduate discount line
     var art = main.querySelector(':scope > section.articles');
@@ -4024,13 +4023,12 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
         '#r101-courses .bt{display:flex;gap:10px;flex-wrap:wrap}' +
         '#r101-courses .bt a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:999px;font:700 15px/1 Inter,sans-serif;text-decoration:none;transition:transform .2s}' +
         '#r101-courses .bt a:hover{transform:translateY(-2px)}#r101-courses .bt .pri{background:' + O + ';color:#111}#r101-courses .bt .sec{border:1.5px solid var(--r101-ink);color:var(--r101-ink)}' +
-        '#r101-ttref{display:flex;align-items:center;justify-content:space-between;gap:20px 32px;flex-wrap:wrap}' +
+        '#r101-ttref{display:flex;justify-content:center;margin-top:22px}' +
         '#r101-ttref .eb,.r101-ceb{font:700 13px/1.3 Inter,sans-serif!important;letter-spacing:.18em;text-transform:uppercase;color:' + O + '!important;margin:0 0 14px!important;text-align:left!important}' +
         '#r101-ttref .lo{display:inline-block;line-height:0;transition:transform .2s}#r101-ttref .lo:hover{transform:translateY(-2px)}' +
         '#r101-ttref .lo img{display:block;height:clamp(72px,9vw,120px);width:auto;max-width:100%}' +
         '#r101-ttref .go{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:999px;border:1.5px solid var(--r101-ink);color:var(--r101-ink);font:700 15px/1 Inter,sans-serif;text-decoration:none;transition:transform .2s}' +
         '#r101-ttref .go:hover{transform:translateY(-2px)}' +
-        '@media (max-width:760px){#r101-ttref{flex-direction:column;align-items:flex-start}#r101-ttref .go{width:100%}}' +
         '#r101-m1{position:relative;margin-top:16px;background:#161616;color:#fff;border-radius:20px;padding:30px 30px 28px;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}' +
         '#r101-m1:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:' + O + '}' +
         '#r101-m1 .tx{flex:1 1 420px;max-width:720px}#r101-m1 .k{font:700 12px/1 Inter,sans-serif!important;letter-spacing:.18em;text-transform:uppercase;color:' + O + '!important;margin:0 0 10px!important}' +
