@@ -4023,10 +4023,11 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
         '#r101-courses .bt{display:flex;gap:10px;flex-wrap:wrap}' +
         '#r101-courses .bt a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:999px;font:700 15px/1 Inter,sans-serif;text-decoration:none;transition:transform .2s}' +
         '#r101-courses .bt a:hover{transform:translateY(-2px)}#r101-courses .bt .pri{background:' + O + ';color:#111}#r101-courses .bt .sec{border:1.5px solid var(--r101-ink);color:var(--r101-ink)}' +
-        '#r101-ttref{display:flex;justify-content:center;margin-top:22px}' +
+        '#r101-ttref{display:flex;justify-content:center;margin-top:0}' +
+        'body.r101-tt main > section.logos .logos__heading{margin-bottom:14px!important}body.r101-tt main > section.logos .logos__top,body.r101-tt main > section.logos [class*=logos__heading-wrapper]{margin-bottom:0!important;padding-bottom:0!important}' +
         '#r101-ttref .eb,.r101-ceb{font:700 13px/1.3 Inter,sans-serif!important;letter-spacing:.18em;text-transform:uppercase;color:' + O + '!important;margin:0 0 14px!important;text-align:left!important}' +
         '#r101-ttref .lo{display:inline-block;line-height:0;transition:transform .2s}#r101-ttref .lo:hover{transform:translateY(-2px)}' +
-        '#r101-ttref .lo img{display:block;height:clamp(72px,9vw,120px);width:auto;max-width:100%}' +
+        '#r101-ttref .lo img{display:block;height:clamp(120px,15vw,190px);width:auto;max-width:90vw}' +
         '#r101-ttref .go{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:999px;border:1.5px solid var(--r101-ink);color:var(--r101-ink);font:700 15px/1 Inter,sans-serif;text-decoration:none;transition:transform .2s}' +
         '#r101-ttref .go:hover{transform:translateY(-2px)}' +
         '#r101-m1{position:relative;margin-top:16px;background:#161616;color:#fff;border-radius:20px;padding:30px 30px 28px;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}' +
