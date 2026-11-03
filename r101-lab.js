@@ -3901,7 +3901,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     addStyle('r101-rpad-css', 'html body.r101-rpad main > section.hero:first-of-type > div{min-height:100svh!important}html body.r101-rpad #r101-tick{margin-top:0!important;margin-bottom:0!important}html body.r101-rpad main > section.cta.r101-band > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}@media (max-width:760px){html body.r101-rpad main > section.cta.r101-band > div.cta__wrapper{height:clamp(420px,70svh,600px)!important}}');
     var G = matchMedia('(max-width:760px)').matches ? 32 : 40;
     var content = function (s) {
-      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,a,img,button,input,label,textarea,canvas,svg,li,.product-card,.r101-3steps .s,#r101-hub .c,.cta__tag,#r101-3cb .tg,.articles__item,.columns__item,.accordion__item,#r101-courses .c,#r101-m1,section.contact-form form')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden' && !x.closest('.r101-src') && !(x.closest('.r101-revrow-sec') && x.closest('.logos__images,.logos__images-wrapper,.logos__list')) && !(x.closest('.accordion__content') && x.closest('.accordion__content').getBoundingClientRect().height < 2); });   // closed FAQ answers are clipped, not content
+      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,a,img,button,input,label,textarea,canvas,svg,li,.product-card,.r101-3steps .s,#r101-hub .c,.cta__tag,#r101-3cb .tg,.articles__item,.columns__item,.accordion__item,#r101-courses .c,#r101-m1,section.contact-form form,#r101-ttref .lo img,.r101-ceb')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden' && !x.closest('.r101-src') && !(x.closest('.r101-revrow-sec') && x.closest('.logos__images,.logos__images-wrapper,.logos__list')) && !(x.closest('.accordion__content') && x.closest('.accordion__content').getBoundingClientRect().height < 2); });   // closed FAQ answers are clipped, not content
       if (!v.length) return null;
       var t = Infinity, b = -Infinity; v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top < t) t = r.top; if (r.bottom > b) b = r.bottom; });
       return { t: t, b: b };
@@ -3970,6 +3970,19 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     });
     if (!ttpadOn()) return;
     document.body.classList.add('r101-tt');
+    // referral row (Glenn, Nov 3): small orange eyebrow instead of the big heading, the logo sized by code and linked to his site,
+    // the "Go To Website!" button moves up beside it; "Courses Offered" becomes a small eyebrow over the cards
+    var lg = main.querySelector(':scope > section.logos');
+    var lim = lg && lg.querySelector('img');
+    if (lg && lim && !document.getElementById('r101-ttref')) {
+      var ref = document.createElement('div'); ref.id = 'r101-ttref';
+      ref.innerHTML = '<div class="l"><p class="eb">Route 101 Motorsports proudly refers new riders to</p>' +
+        '<a class="lo" href="https://twystedthrottle.com/" target="_blank" rel="noopener" aria-label="Twysted Throttle, North County motorcycle training (opens their website)"><img src="' + (lim.currentSrc || lim.src) + '" alt="Twysted Throttle, North County\'s premier motorcycle training" width="750" height="370"></a></div>' +
+        '<a class="go" href="https://twystedthrottle.com/" target="_blank" rel="noopener">Visit Twysted Throttle</a>';
+      var lc = lg.querySelector('.logos__container') || lg.firstElementChild;
+      [].slice.call(lc.children).forEach(function (ch) { ch.style.setProperty('display', 'none', 'important'); });
+      lc.appendChild(ref);
+    }
     // course cards drawn in our style (Glenn, Nov 3): who it's for, length, course info + book a class, graduate discount line
     var art = main.querySelector(':scope > section.articles');
     if (art && !document.getElementById('r101-courses')) {
@@ -3988,6 +4001,8 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       }).join('');
       var list = art.querySelector('.articles__list');
       if (list) { list.style.setProperty('display', 'none', 'important'); list.parentNode.insertBefore(g, list); }
+      var atop = art.querySelector('.articles__top');
+      if (atop) { atop.style.setProperty('display', 'none', 'important'); var ceb = document.createElement('p'); ceb.className = 'r101-ceb'; ceb.textContent = 'Courses offered'; g.parentNode.insertBefore(ceb, g); }
       // "Get your M1, and rent a bike!" promo under the course cards (Glenn, Nov 3)
       var cf = main.querySelector(':scope > section.contact-form'), cfId = cf ? cf.id : '';
       var m1 = document.createElement('div'); m1.id = 'r101-m1';
@@ -4009,6 +4024,13 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
         '#r101-courses .bt{display:flex;gap:10px;flex-wrap:wrap}' +
         '#r101-courses .bt a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:999px;font:700 15px/1 Inter,sans-serif;text-decoration:none;transition:transform .2s}' +
         '#r101-courses .bt a:hover{transform:translateY(-2px)}#r101-courses .bt .pri{background:' + O + ';color:#111}#r101-courses .bt .sec{border:1.5px solid var(--r101-ink);color:var(--r101-ink)}' +
+        '#r101-ttref{display:flex;align-items:center;justify-content:space-between;gap:20px 32px;flex-wrap:wrap}' +
+        '#r101-ttref .eb,.r101-ceb{font:700 13px/1.3 Inter,sans-serif!important;letter-spacing:.18em;text-transform:uppercase;color:' + O + '!important;margin:0 0 14px!important;text-align:left!important}' +
+        '#r101-ttref .lo{display:inline-block;line-height:0;transition:transform .2s}#r101-ttref .lo:hover{transform:translateY(-2px)}' +
+        '#r101-ttref .lo img{display:block;height:clamp(72px,9vw,120px);width:auto;max-width:100%}' +
+        '#r101-ttref .go{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:999px;border:1.5px solid var(--r101-ink);color:var(--r101-ink);font:700 15px/1 Inter,sans-serif;text-decoration:none;transition:transform .2s}' +
+        '#r101-ttref .go:hover{transform:translateY(-2px)}' +
+        '@media (max-width:760px){#r101-ttref{flex-direction:column;align-items:flex-start}#r101-ttref .go{width:100%}}' +
         '#r101-m1{position:relative;margin-top:16px;background:#161616;color:#fff;border-radius:20px;padding:30px 30px 28px;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}' +
         '#r101-m1:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:' + O + '}' +
         '#r101-m1 .tx{flex:1 1 420px;max-width:720px}#r101-m1 .k{font:700 12px/1 Inter,sans-serif!important;letter-spacing:.18em;text-transform:uppercase;color:' + O + '!important;margin:0 0 10px!important}' +
