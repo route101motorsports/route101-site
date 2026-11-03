@@ -3993,7 +3993,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       var m1 = document.createElement('div'); m1.id = 'r101-m1';
       m1.innerHTML = '<div class="tx"><p class="k">Twysted Throttle graduates</p><h3>Get your M1, and rent a bike!</h3>' +
         '<p>Finished your course and got your M1 endorsement? Celebrate on a Harley. Graduates get an exclusive Route 101 rental discount. Ask for your code, then pick your bike.</p></div>' +
-        '<div class="bt"><a class="pri" href="' + (cfId ? '#' + cfId : '#') + '">Get my discount code</a><a class="sec" href="/collections/harley-rentals">See the Harley fleet</a></div>';
+        '<div class="bt"><a class="pri" href="' + (cfId ? '#' + cfId : '#') + '">Get my discount code</a><a class="sec" href="/">See our rentals</a></div>';
       g.parentNode.insertBefore(m1, g.nextSibling);
       m1.querySelector('.pri').addEventListener('click', function (e) { if (!cf) return; e.preventDefault(); cf.scrollIntoView({ behavior: 'smooth', block: 'start' }); var ta = cf.querySelector('textarea'); if (ta) setTimeout(function () { try { ta.focus({ preventScroll: true }); } catch (x) {} }, 700); });
       addStyle('r101-courses-css', '#r101-courses{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:6px}' +
