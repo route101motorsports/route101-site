@@ -3877,7 +3877,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   /* ---------- ROTATING TOP BAR (Glenn, Nov 3) ----------
      The top bar swaps between the builder text and "Advance Booking Required. No Walk-Ins." with a soft fade.
      TEST MODE: ?tbar=test (?tbar=off clears). TBAR_LIVE = true shows everyone. */
-  var TBAR_LIVE = false;
+  var TBAR_LIVE = true;   // LIVE (Glenn, Nov 3 3:44am)
   var TBAR_MSG = 'Advance Booking Required. No Walk-Ins.';
   function topBarRotate() {
     var u = new URLSearchParams(location.search), on = TBAR_LIVE;
@@ -3891,7 +3891,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     // hold the bar at the taller of the two lines so the page never jumps when they swap (narrow phones wrap line 1)
     var lock = function () { el.style.minHeight = ''; var h1 = el.offsetHeight, cur = el.innerHTML; el.innerHTML = cur === a ? b : a; var h2 = el.offsetHeight; el.innerHTML = cur; el.style.minHeight = Math.max(h1, h2) + 'px'; el.style.display = el.style.display || ''; };
-    lock(); addEventListener('resize', lock); addEventListener('load', lock);
+    lock(); addEventListener('resize', lock); addEventListener('load', lock); setTimeout(lock, 1500); if (document.fonts && document.fonts.ready) document.fonts.ready.then(lock);
     setInterval(function () {
       if (document.hidden) return;
       el.classList.add('r101-off');

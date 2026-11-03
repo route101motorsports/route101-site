@@ -251,3 +251,7 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Glenn's phone screenshot (Harley Service): hero heading hidden under sticky header/"Select rental dates" bar, Submit button under Call now. Cause: r101-hero1 is fixed height 100svh + centered; long phone text overflows top and bottom.
 - Commit c01494d adds heroFix() (HFIX_LIVE=false, ?hfix=test / ?hfix=off, localStorage r101hfix): phone only, when content doesn't fit, hero height auto / min 100svh, padding-top clears header, bottom 96px.
 - LIVE Nov 3 3:16am (HFIX_LIVE=true). Also trims the top bar stray trailing space. Glenn shortened the top bar text to one line.
+
+## Nov 3 3:44am: rotating top bar LIVE (TBAR_LIVE=true)
+- Builder text "Harley & BMW Motorcycle Service | Tires" <-> "Advance Booking Required. No Walk-Ins." every 5s (8s, no fade, for reduced motion). Height locked to the taller line.
+- Ticker decision pending (Glenn living with the top bar first). Apply->bikes redirect shelved; dropping content shelved.
