@@ -3886,9 +3886,12 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     var el = document.querySelector('#header .top-bar__container > .top-bar__text');
     if (!el || el.getAttribute('data-r101rot')) return;
     el.setAttribute('data-r101rot', '1');
-    addStyle('r101-tbar-css', '#header .top-bar__container > .top-bar__text[data-r101rot]{transition:opacity .45s ease}#header .top-bar__container > .top-bar__text.r101-off{opacity:0}#header .r101-tmsg{color:#fff!important;font-weight:700!important;white-space:nowrap}@media (prefers-reduced-motion:reduce){#header .top-bar__container > .top-bar__text[data-r101rot]{transition:none}}');
+    addStyle('r101-tbar-css', '#header .top-bar__container > .top-bar__text[data-r101rot]{transition:opacity .45s ease}#header .top-bar__container > .top-bar__text.r101-off{opacity:0}#header .top-bar__container > .top-bar__text[data-r101rot]{display:flex;align-items:center;justify-content:center}#header .r101-tmsg{color:#fff!important;font-weight:700!important;white-space:nowrap}@media (prefers-reduced-motion:reduce){#header .top-bar__container > .top-bar__text[data-r101rot]{transition:none}}');
     var a = el.innerHTML, b = '<p><span class="r101-tmsg">' + TBAR_MSG + '</span></p>', showA = true;
     var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // hold the bar at the taller of the two lines so the page never jumps when they swap (narrow phones wrap line 1)
+    var lock = function () { el.style.minHeight = ''; var h1 = el.offsetHeight, cur = el.innerHTML; el.innerHTML = cur === a ? b : a; var h2 = el.offsetHeight; el.innerHTML = cur; el.style.minHeight = Math.max(h1, h2) + 'px'; el.style.display = el.style.display || ''; };
+    lock(); addEventListener('resize', lock); addEventListener('load', lock);
     setInterval(function () {
       if (document.hidden) return;
       el.classList.add('r101-off');
