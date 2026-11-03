@@ -296,3 +296,4 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 
 ## Nov 3 6:22am: Twysted Throttle LIVE (TTPAD_LIVE=true, pin 254a248)
 - Big black centered heading kept; logo centered, code-sized (clamp 72-120px), linked to twystedthrottle.com (still uses the builder image file: delete from builder only after the logo is on GitHub; Glenn to send the file). Courses offered = small orange eyebrow; Go To Website button hidden (logo + course buttons link out).
+- Nov 3 6:35am: Tires: brands with no builder help text get a code-drawn help bar (section.r101-genhelp) -> Mitas now has "Dont see the tire you want?" with Call + Get a quote. Live (pin 895de30).
