@@ -3901,7 +3901,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     addStyle('r101-rpad-css', 'html body.r101-rpad main > section.hero:first-of-type > div{min-height:100svh!important}html body.r101-rpad #r101-tick{margin-top:0!important;margin-bottom:0!important}html body.r101-rpad main > section.cta.r101-band > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}@media (max-width:760px){html body.r101-rpad main > section.cta.r101-band > div.cta__wrapper{height:clamp(420px,70svh,600px)!important}}');
     var G = matchMedia('(max-width:760px)').matches ? 32 : 40;
     var content = function (s) {
-      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,a,img,button,input,label,textarea,canvas,svg,li,.product-card,.r101-3steps .s,#r101-hub .c,.cta__tag,#r101-3cb .tg,.articles__item,.columns__item,.accordion__item,#r101-courses .c')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden' && !x.closest('.r101-src') && !(x.closest('.r101-revrow-sec') && x.closest('.logos__images,.logos__images-wrapper,.logos__list')); });
+      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,a,img,button,input,label,textarea,canvas,svg,li,.product-card,.r101-3steps .s,#r101-hub .c,.cta__tag,#r101-3cb .tg,.articles__item,.columns__item,.accordion__item,#r101-courses .c,#r101-m1')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden' && !x.closest('.r101-src') && !(x.closest('.r101-revrow-sec') && x.closest('.logos__images,.logos__images-wrapper,.logos__list')); });
       if (!v.length) return null;
       var t = Infinity, b = -Infinity; v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top < t) t = r.top; if (r.bottom > b) b = r.bottom; });
       return { t: t, b: b };
@@ -3988,6 +3988,14 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       }).join('');
       var list = art.querySelector('.articles__list');
       if (list) { list.style.setProperty('display', 'none', 'important'); list.parentNode.insertBefore(g, list); }
+      // "Get your M1, and rent a bike!" promo under the course cards (Glenn, Nov 3)
+      var cf = main.querySelector(':scope > section.contact-form'), cfId = cf ? cf.id : '';
+      var m1 = document.createElement('div'); m1.id = 'r101-m1';
+      m1.innerHTML = '<div class="tx"><p class="k">Twysted Throttle graduates</p><h3>Get your M1, and rent a bike!</h3>' +
+        '<p>Finished your course and got your M1 endorsement? Celebrate on a Harley. Graduates get an exclusive Route 101 rental discount. Ask for your code, then pick your bike.</p></div>' +
+        '<div class="bt"><a class="pri" href="' + (cfId ? '#' + cfId : '#') + '">Get my discount code</a><a class="sec" href="/collections/harley-rentals">See the Harley fleet</a></div>';
+      g.parentNode.insertBefore(m1, g.nextSibling);
+      m1.querySelector('.pri').addEventListener('click', function (e) { if (!cf) return; e.preventDefault(); cf.scrollIntoView({ behavior: 'smooth', block: 'start' }); var ta = cf.querySelector('textarea'); if (ta) setTimeout(function () { try { ta.focus({ preventScroll: true }); } catch (x) {} }, 700); });
       addStyle('r101-courses-css', '#r101-courses{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:6px}' +
         '#r101-courses .c{display:flex;flex-direction:column;background:#fff;border:1px solid var(--r101-line);border-radius:18px;overflow:hidden}' +
         '#r101-courses .ph{aspect-ratio:16/9;overflow:hidden;background:#ddd}#r101-courses .ph img{width:100%;height:100%;object-fit:cover;display:block}' +
@@ -4001,7 +4009,14 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
         '#r101-courses .bt{display:flex;gap:10px;flex-wrap:wrap}' +
         '#r101-courses .bt a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:999px;font:700 15px/1 Inter,sans-serif;text-decoration:none;transition:transform .2s}' +
         '#r101-courses .bt a:hover{transform:translateY(-2px)}#r101-courses .bt .pri{background:' + O + ';color:#111}#r101-courses .bt .sec{border:1.5px solid var(--r101-ink);color:var(--r101-ink)}' +
-        '@media (max-width:760px){#r101-courses{grid-template-columns:1fr;gap:12px}#r101-courses .bd{padding:18px}#r101-courses .bt a{flex:1}}');
+        '#r101-m1{position:relative;margin-top:16px;background:#161616;color:#fff;border-radius:20px;padding:30px 30px 28px;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}' +
+        '#r101-m1:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:' + O + '}' +
+        '#r101-m1 .tx{flex:1 1 420px;max-width:720px}#r101-m1 .k{font:700 12px/1 Inter,sans-serif!important;letter-spacing:.18em;text-transform:uppercase;color:' + O + '!important;margin:0 0 10px!important}' +
+        '#r101-m1 h3{font-family:Anton,sans-serif!important;text-transform:uppercase;font-size:clamp(28px,3vw,40px)!important;line-height:1.04!important;margin:0 0 10px!important;color:#fff!important}' +
+        '#r101-m1 p:not(.k){font:400 16px/1.45 Inter,sans-serif!important;color:#c4c4c4!important;margin:0!important}' +
+        '#r101-m1 .bt{display:flex;gap:10px;flex-wrap:wrap}#r101-m1 .bt a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:999px;font:700 15px/1 Inter,sans-serif;text-decoration:none;transition:transform .2s}' +
+        '#r101-m1 .bt a:hover{transform:translateY(-2px)}#r101-m1 .bt .pri{background:' + O + ';color:#111}#r101-m1 .bt .sec{border:1.5px solid #fff;color:#fff}' +
+        '@media (max-width:760px){#r101-courses{grid-template-columns:1fr;gap:12px}#r101-courses .bd{padding:18px}#r101-courses .bt a{flex:1}#r101-m1{padding:24px 20px 20px;margin-top:12px}#r101-m1 .bt{width:100%}#r101-m1 .bt a{flex:1}}');
     }
     var css = 'html body.r101-tt main > section.hero:first-of-type > div{min-height:100svh!important}' +
       'html body.r101-tt main > section.cta.r101-band > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}' +
