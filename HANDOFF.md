@@ -245,4 +245,4 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 ## Nov 2: Tires page (test mode ?tpad=test, pin 7c92985)
 - Builder: 7 hidden Call to action sections deleted and published (backup: backups/motorcycle-tires-builder-2026-11-02.md).
 - Code (TPAD_LIVE=false): full-screen hero, brands alternate beige/white, 40px each side of every color change (80 between content), gallery->help bar 24, form top 40, Tire request blanks + "Almost there", popup prefill "Tire request: <name>".
-- Waiting on Glenn's "live" to flip TPAD_LIVE=true.
+- LIVE Nov 2 (TPAD_LIVE=true, pin 26481d3). Verified as visitor.
