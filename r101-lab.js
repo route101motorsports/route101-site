@@ -4022,6 +4022,16 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       'html body.r101-tt main > section.cta.r101-band > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}' +
       '@media (max-width:760px){html body.r101-tt main > section.cta.r101-band > div.cta__wrapper{height:clamp(420px,70svh,600px)!important}}';
     css += HOME_CSS.split('\n').filter(function (l) { return /^body\.r101-home section\.articles|^@media \(max-width:760px\)\{body\.r101-home section\.articles/.test(l); }).join('\n').replace(/body\.r101-home/g, 'body.r101-tt');
+    // graduate form on a light background (Glenn: after a photo or dark section, go light)
+    var F = 'html body.r101-tt main section.contact-form';
+    css += '\n' + F + ' > div{background:#f5f4f1!important}' +
+      F + ' form{background:#fff!important;border:1px solid #e7e5e1!important}' +
+      F + ' h2,' + F + ' .form__heading{color:#141414!important}' +
+      F + ' .form__text,' + F + ' .form__text *{color:#5d5d5d!important}' +
+      F + ' label,' + F + ' .form__label{color:#141414!important}' +
+      F + ' input:not([type=submit]):not([type=hidden]),' + F + ' textarea{background:#fff!important;color:#111!important;-webkit-text-fill-color:#111!important;border:1px solid #d6d3cd!important}' +
+      F + ' input::placeholder,' + F + ' textarea::placeholder{color:#8a8a8a!important;-webkit-text-fill-color:#8a8a8a!important}' +
+      F + ' input:focus,' + F + ' textarea:focus{border-color:' + O + '!important;outline:none}';
     css += '\nbody.r101-tt section.articles .articles__list{grid-template-columns:repeat(2,minmax(0,1fr))!important}body.r101-tt section.articles .articles__image-wrapper{display:block!important}@media (max-width:900px){body.r101-tt section.articles .articles__list{grid-template-columns:1fr!important}}';
     addStyle('r101-tt-css', css);
   }
