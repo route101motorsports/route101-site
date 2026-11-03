@@ -257,6 +257,16 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
         t.classList.add('r101-merged');
         if (alt) t.classList.add('r101-alt');
         if (c && c.matches('section.cta')) c.classList.add('r101-hide');
+      } else if (!(t && t.classList.contains('r101-merged'))) {
+        // brand with no help text in the builder (e.g. Mitas): draw the same help bar (Glenn, Nov 3)
+        var gs = document.createElement('section');
+        gs.className = 'text r101-merged r101-genhelp' + (alt ? ' r101-alt' : '');
+        var gbar = '<div class="r101-help container"><div class="in"><p>Don\'t see the tire you want? Call us for other ' + brand.replace(/</g, '&lt;') +
+          ' motorcycle tire models, sizes, pricing and availability!</p><div class="b">' +
+          '<a class="c" href="tel:+18885095032">Call (888) 509-5032</a>' +
+          '<a class="q" href="' + QUOTE + '">Get a quote</a></div></div></div>';
+        gs.innerHTML = '<div class="text__wrapper">' + gbar + '</div>';
+        g.parentNode.insertBefore(gs, g.nextSibling);
       }
     });
 
