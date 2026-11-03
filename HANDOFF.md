@@ -255,3 +255,8 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 ## Nov 3 3:44am: rotating top bar LIVE (TBAR_LIVE=true)
 - Builder text "Harley & BMW Motorcycle Service | Tires" <-> "Advance Booking Required. No Walk-Ins." every 5s (8s, no fade, for reduced motion). Height locked to the taller line.
 - Ticker decision pending (Glenn living with the top bar first). Apply->bikes redirect shelved; dropping content shelved.
+
+## Nov 3 ~4am: San Diego Harley Rentals (test mode ?rpad=test, pin 2ca0300)
+- Builder (published): deleted hidden old-graph Hero (PricingTheProof); deleted the review-strip image in Logos (reviewRow now treats the first image-less logos section as the review row on this page). Kept the image-gallery heading section = price chart anchor. Backup: backups/harley-rentals-builder-2026-11-03.md
+- Code: RPAD_LIVE=false. Full-screen hero, 40px per color change / 40 total within same color, ticker margins 0, Rental request form (Dates / Bike / Number of riders) + Almost there.
+- Live (not gated): "From $205" + "A same-day Harley rental", step-3 button -> /collections/harley-rentals.
