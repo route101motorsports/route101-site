@@ -3664,8 +3664,8 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     document.body.classList.add('r101-hpad');
     var phone = matchMedia('(max-width:760px)').matches, G = phone ? 32 : 40;
     addStyle('r101-hpad-css',
-      'body.r101-hpad main > section.r101-photo > div{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}' +
-      '@media (max-width:760px){body.r101-hpad main > section.r101-photo > div{height:clamp(420px,70svh,600px)!important}}');
+      'html body.r101-hpad main > section.cta.r101-photo > div.cta__wrapper,html body.r101-hpad main > section.cta.r101-band.r101-photo > div.cta__wrapper{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}' +
+      '@media (max-width:760px){html body.r101-hpad main > section.cta.r101-band.r101-photo > div.cta__wrapper{height:clamp(420px,70svh,600px)!important}}');
     var bgOf = function (s) { var w = s.firstElementChild, c = w ? getComputedStyle(w).backgroundColor : ''; if (!c || /rgba\(0, 0, 0, 0\)|transparent/.test(c)) c = getComputedStyle(s).backgroundColor; return c; };
     var content = function (s) {
       var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,li,a,img,button,input,label,bq-product-price,.products__item,.collections__item,.testimonials__item,.articles__item,.accordion__item,.r101-trust-row,.r101-revrow')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden'; });
@@ -3678,6 +3678,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       secs.forEach(function (s, i) {
         if (i === 0 || s.classList.contains('r101-photo') || s.classList.contains('r101-notice')) return;   // hero + photo bands keep their own size
         var w = s.firstElementChild; if (!w) return;
+        s.style.setProperty('padding-top', '0px', 'important'); s.style.setProperty('padding-bottom', '0px', 'important');   // all spacing lives on the inner layer
         var c = content(s); if (!c) return;
         var r = s.getBoundingClientRect();
         var pt = parseFloat(getComputedStyle(w).paddingTop) || 0, pb = parseFloat(getComputedStyle(w).paddingBottom) || 0;
