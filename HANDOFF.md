@@ -293,3 +293,6 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Pending Glenn "live": rhub (Harley+BMW rentals), bpad (BMW rentals), ttpad (Twysted).
 - Twysted links (live, pin f73b062): MTC tile + "Trade Your Cage" band -> MTC page / sign-up CC=MTC; CMSP tile + "Be Safe" band -> /courses/1dpc/ / sign-up CC=1DPC. Sign-up keeps existing source code SC=BIGGSHD (looks like a Biggs Harley-Davidson referral code; their own pages use *FA). Asked Glenn.
 - WAITING on Jeremy (Twysted owner, Glenn texted Nov 3 6am): new classroom address? which email (jeremy@ vs admin@)? Then: Locations card -> Classroom + Riding (333 S Twin Oaks Valley Rd, Lot F) with directions; also ask about a Route 101 referral code instead of BIGGSHD.
+
+## Nov 3 6:22am: Twysted Throttle LIVE (TTPAD_LIVE=true, pin 254a248)
+- Big black centered heading kept; logo centered, code-sized (clamp 72-120px), linked to twystedthrottle.com (still uses the builder image file: delete from builder only after the logo is on GitHub; Glenn to send the file). Courses offered = small orange eyebrow; Go To Website button hidden (logo + course buttons link out).
