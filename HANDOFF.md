@@ -282,3 +282,6 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 
 ## Nov 3 ~5:05am: loader backup source LIVE (Glenn OK)
 - Loader (763 chars) = loader-box.js. Pin workflow regex var V = <40hex> still works. Tested: normal load uses jsDelivr only; with jsDelivr broken, githack copy runs.
+
+## Nov 3 ~5:20am: BMW GS Service rental tile (test ?svrent=test, pin b345683)
+- SVC_CARDS third card "Rent a BMW GS" from $210 / day -> /pages/san-diego-bmw-adventure-bike-rentals; eyebrow "While yours is in the shop"; no See whats included. SVRENT_LIVE=false.
