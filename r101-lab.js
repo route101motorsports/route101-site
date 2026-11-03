@@ -546,7 +546,11 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       close();
       if (!form) return;
       var ta = form.querySelector('textarea');
-      if (ta && ta.value.indexOf(name) === -1) {
+      var pre = ta && ta.getAttribute('data-r101pre');
+      if (ta && pre && (ta.value === pre || /^Tire request: .*\nYear, make and model: \nFront, rear or both: \nRiding style: $/.test(ta.value) || !ta.value.trim())) {
+        ta.value = 'Tire request: ' + name + '\nYear, make and model: \nFront, rear or both: \nRiding style: ';
+        ta.dispatchEvent(new Event('input', { bubbles: true }));
+      } else if (ta && ta.value.indexOf(name) === -1) {
         ta.value = 'Tire: ' + name + (ta.value ? '\n' + ta.value : '\nMy bike (year / make / model): ');
         ta.dispatchEvent(new Event('input', { bubbles: true }));
       }
@@ -810,8 +814,9 @@ body.r101-form section.contact-form .form__submit .button{width:100%;background:
     document.querySelectorAll('main section.contact-form input#author').forEach(function (t) { t.setAttribute('placeholder', 'Name & Phone Required'); });
     // fill-in-the-blanks + "Almost there" check, page by page (Harley Service has its own per-form set in inlineForm)
     var TPL = [
-      [/^\/pages\/straight-talk-route-101-motorsports-offers-/, 'Service request:\nYear, make and model: \nWhat you need: ']
-    ].filter(function (x) { return x[0].test(p); })[0];
+      [/^\/pages\/straight-talk-route-101-motorsports-offers-/, 'Service request:\nYear, make and model: \nWhat you need: '],
+      [/^\/pages\/motorcycle-tires$/, 'Tire request:\nYear, make and model: \nFront, rear or both: \nRiding style: ', 'tpad']
+    ].filter(function (x) { if (x[2] === 'tpad') { var on = TPAD_LIVE; try { var q = new URLSearchParams(location.search).get('tpad'); if (q === 'test') localStorage.setItem('r101tpad', '1'); if (q === 'off') localStorage.removeItem('r101tpad'); on = on || localStorage.getItem('r101tpad') === '1'; } catch (e) {} return on; } return true; }).filter(function (x) { return x[0].test(p); })[0];
     if (TPL) {
       document.querySelectorAll('main section.contact-form textarea').forEach(function (t) {
         if (t.getAttribute('data-r101pre')) return;
@@ -3694,6 +3699,50 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     run(); setTimeout(run, 600); setTimeout(run, 1800); setTimeout(run, 4000); addEventListener('load', function () { setTimeout(run, 300); });
   }
 
+  /* ---------- TIRES PAGE STANDARD (Glenn, Nov 2) ----------
+     Hero full screen; each brand (gallery + its help bar) is one block, alternating beige / white; content 40px from
+     each color change, gallery -> its help bar 24px. TEST MODE: ?tpad=test (?tpad=off clears). */
+  var TPAD_LIVE = false;
+  function tiresPad() {
+    if (!/^\/pages\/motorcycle-tires\/?$/.test(location.pathname)) return;
+    var on = TPAD_LIVE; try { on = on || localStorage.getItem('r101tpad') === '1'; } catch (e) {}
+    if (!on) return;
+    var main = document.querySelector('main'); if (!main) return;
+    document.body.classList.add('r101-tpad');
+    addStyle('r101-tpad-css', 'html body.r101-tpad main > section.hero:first-of-type > div{min-height:100svh!important}');
+    var G = matchMedia('(max-width:760px)').matches ? 32 : 40, CREAM = '#f5f4f1';
+    var content = function (s) {
+      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,a,img,button,input,label,.r101-help .in,#r101-tbrands .row,#r101-steps .s')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden' && !x.closest('.r101-src'); });
+      if (!v.length) return null;
+      var t = Infinity, b = -Infinity; v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top < t) t = r.top; if (r.bottom > b) b = r.bottom; });
+      return { t: t, b: b };
+    };
+    var padTo = function (s, wantT, wantB) {
+      var w = s.id && /^r101-/.test(s.id) ? s : s.firstElementChild; if (!w) return;
+      if (w !== s) { s.style.setProperty('padding-top', '0px', 'important'); s.style.setProperty('padding-bottom', '0px', 'important'); }
+      var c = content(s); if (!c) return;
+      var r = s.getBoundingClientRect(), cs = getComputedStyle(w);
+      var pt = parseFloat(cs.paddingTop) || 0, pb = parseFloat(cs.paddingBottom) || 0;
+      if (wantT !== null) w.style.setProperty('padding-top', Math.max(0, Math.round(pt + wantT - (c.t - r.top))) + 'px', 'important');
+      if (wantB !== null) w.style.setProperty('padding-bottom', Math.max(0, Math.round(pb + wantB - (r.bottom - c.b))) + 'px', 'important');
+    };
+    var paint = function (s, col) { s.style.setProperty('background', col, 'important'); var w = s.firstElementChild; if (w) w.style.setProperty('background', col, 'important'); };
+    var run = function () {
+      var tb = document.getElementById('r101-tbrands'), st = document.getElementById('r101-steps');
+      if (tb) padTo(tb, G, G);
+      if (st) padTo(st, G, G);
+      var k = 0;
+      [].slice.call(main.querySelectorAll('section.image-gallery')).forEach(function (g) {
+        var t = g.nextElementSibling; if (t && !t.classList.contains('r101-merged')) t = null;
+        var col = k % 2 === 0 ? CREAM : '#fff'; k++;
+        paint(g, col); if (t) paint(t, col);
+        padTo(g, G, t ? 24 : G);
+        if (t) padTo(t, 0, G);
+      });
+    };
+    run(); setTimeout(run, 600); setTimeout(run, 1800); setTimeout(run, 4000); addEventListener('load', function () { setTimeout(run, 300); });
+  }
+
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
@@ -3821,6 +3870,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       photoBands();
       rhythm();
       try { homePad(); } catch (e) {}
+      try { tiresPad(); } catch (e) {}
       parallax();
       [].slice.call(document.querySelectorAll('main .button--outlined')).forEach(function (b) {
         var m = (getComputedStyle(b).color.match(/\d+/g) || [0, 0, 0]).map(Number);
