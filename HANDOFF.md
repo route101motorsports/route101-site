@@ -260,3 +260,7 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Builder (published): deleted hidden old-graph Hero (PricingTheProof); deleted the review-strip image in Logos (reviewRow now treats the first image-less logos section as the review row on this page). Kept the image-gallery heading section = price chart anchor. Backup: backups/harley-rentals-builder-2026-11-03.md
 - Code: RPAD_LIVE=true (LIVE Nov 3 4:10am). Full-screen hero, 40px per color change / 40 total within same color, ticker margins 0, Rental request form (Dates / Bike / Number of riders) + Almost there.
 - Live (not gated): "From $205" + "A same-day Harley rental", step-3 button -> /collections/harley-rentals.
+
+## TO DO LATER: site-wide hero survey (started Nov 3, stopped by Glenn to finish BMW Rentals)
+- Idea: one site-wide full-screen hero rule with exceptions, OR check pages with short heroes in case a non-hero section was added by mistake.
+- Partial results at 1280x800: home hero 761/800; Straight Talk articles hero 761/800; twysted-throttle 691/800; brakes 800/800 (done). Re-run the survey (iframe through sitemap pages) when we pick this up.
