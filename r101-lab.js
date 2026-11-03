@@ -3855,10 +3855,10 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       var v = [].slice.call(s.querySelectorAll('h1,h2,h3,p,a,button')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden'; });
       if (!v.length) return;
       var y = window.scrollY, ct = Infinity, cb = -Infinity;
-      if (y > 5) return;   // measure only at the top of the page (header is fixed)
       v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top + y < ct) ct = r.top + y; if (r.bottom + y > cb) cb = r.bottom + y; });
       var hd = document.getElementById('header'), hb = 0;
-      if (hd) { var hr = hd.getBoundingClientRect(); hb = hr.bottom + y; [].slice.call(hd.querySelectorAll('.top-bar__wrapper,.header__inner,.header__date-picker-wrapper')).forEach(function (e) { var r = e.getBoundingClientRect(); if (r.height > 0 && r.height < 160 && r.bottom + y > hb) hb = r.bottom + y; }); }
+      // header stack height as it sits at the top of the page, measured relative to the header itself so scroll position doesn't matter
+      if (hd) { var hr = hd.getBoundingClientRect(), fx = /fixed|sticky/.test(getComputedStyle(hd).position), base = fx ? hr.top : -y; hb = hr.bottom - base; [].slice.call(hd.querySelectorAll('.top-bar__wrapper,.header__inner,.header__date-picker-wrapper')).forEach(function (e) { var r = e.getBoundingClientRect(); if (r.height > 0 && r.height < 160 && r.bottom - base > hb) hb = r.bottom - base; }); }
       [].slice.call(document.querySelectorAll('body *')).forEach(function (e) { var p = getComputedStyle(e).position; if ((p === 'fixed' || p === 'sticky') && !e.closest('main') && !e.closest('#r101-call')) { var r = e.getBoundingClientRect(); if (r.top < 260 && r.height > 0 && r.height < 200 && r.width > innerWidth * 0.5 && r.bottom > hb && y < 5) hb = r.bottom; } });
       var sr = s.getBoundingClientRect(), st = sr.top + y, sb = sr.bottom + y;
       var top = Math.max(st, hb) + 24;
@@ -3871,7 +3871,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       w.style.setProperty('padding-bottom', '96px', 'important');
       w.style.setProperty('align-items', 'center', 'important');
     };
-    fix(); setTimeout(fix, 800); setTimeout(fix, 2500); addEventListener('load', function () { setTimeout(fix, 300); });
+    fix(); setTimeout(fix, 800); setTimeout(fix, 2500); addEventListener('load', function () { setTimeout(fix, 300); }); addEventListener('orientationchange', function () { setTimeout(fix, 400); });
   }
 
   function run() {
