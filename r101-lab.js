@@ -2,6 +2,7 @@
    LIVE for every visitor since launch (Nov 1, 2026). Rollback: change the commit ID in the
    Booqable loader (Settings > Checkout > Additional scripts) or remove the loader.        */
 (function () {
+  if (window.__r101loaded) return; window.__r101loaded = 1;   // the loader may fetch a backup copy; run once only
   try { localStorage.removeItem('r101lab'); } catch (e) {}   // old lab flag, no longer used
 
   var O = '#FF6600';
