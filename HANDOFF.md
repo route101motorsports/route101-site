@@ -301,5 +301,5 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 ## Nov 3 ~7am: Privacy policy rewritten and LIVE
 - Builder template privacy-policy.json: Text 1 date -> "Effective November 3, 2026"; Text 2 body replaced with content/privacy-policy-2026-11-03.html (19 numbered sections). Old version summarized in backups/privacy-policy-OLD-2026-11-03.md.
 - Code: text full section width; spacing CSS for h3/lists/sub-heads (pin cfaedd4).
-- New statements for Glenn to confirm: "We do not sell your Personal Information"; business-transfer sharing; marketing texts max 4/month; SMS opt-in = verbal or website checkbox; mailing address 2705 Corte Del Nogal (confirm current).
+- Glenn confirmed (Nov 3): we do not sell; customer info can transfer in a sale; mailing address now 6351 Corte Del Abeto #107, Carlsbad, CA 92011 (published); phone + info@ correct.
 - Builder automation: setContent on RedactorX + setFocus(end) + type x + BackSpace + Tab saves long rich text.
