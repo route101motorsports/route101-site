@@ -285,3 +285,9 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 
 ## Nov 3 ~5:20am: BMW GS Service rental tile (test ?svrent=test, pin b345683)
 - SVC_CARDS third card "Rent a BMW GS" from $210 / day -> /pages/san-diego-bmw-adventure-bike-rentals; eyebrow "While yours is in the shop"; no See whats included. SVRENT_LIVE=false.
+
+## Nov 3 ~5:45am: Twysted Throttle (test ?ttpad=test, pin c13c80e)
+- Live: twystedPage() fixes CMSP "More Info!" and 2nd band "Check Class Availability!" (both went to "/"). Builder (published): "Courses Offered" typo; form message label now "Please provide your class date and certificate #" (no license # per Glenn). Backup: backups/twysted-throttle-builder-2026-11-03.md
+- Test (TTPAD_LIVE=false): full-screen hero, bands standard size, course tiles as clean white cards (2 across), 40px rhythm via rentalsPad, form blanks Discount code request / Class date / Certificate #.
+- Rhythm content list now includes .articles__item,.columns__item,.accordion__item.
+- Pending Glenn "live": rhub (Harley+BMW rentals), bpad (BMW rentals), ttpad (Twysted).
