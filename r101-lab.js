@@ -3759,10 +3759,10 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     if (!/^\/pages\/san-diego-harley-rentals\/?$/.test(location.pathname) || !rpadOn()) return;
     var main = document.querySelector('main'); if (!main) return;
     document.body.classList.add('r101-rpad');
-    addStyle('r101-rpad-css', 'html body.r101-rpad main > section.hero:first-of-type > div{min-height:100svh!important}');
+    addStyle('r101-rpad-css', 'html body.r101-rpad main > section.hero:first-of-type > div{min-height:100svh!important}html body.r101-rpad #r101-tick{margin-top:0!important;margin-bottom:0!important}');
     var G = matchMedia('(max-width:760px)').matches ? 32 : 40;
     var content = function (s) {
-      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,a,img,button,input,label,textarea,canvas,svg,li')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden' && !x.closest('.r101-src,.logos__images,.logos__images-wrapper,.logos__list'); });
+      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,a,img,button,input,label,textarea,canvas,svg,li,.product-card')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden' && !x.closest('.r101-src,.logos__images,.logos__images-wrapper,.logos__list'); });
       if (!v.length) return null;
       var t = Infinity, b = -Infinity; v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top < t) t = r.top; if (r.bottom > b) b = r.bottom; });
       return { t: t, b: b };
