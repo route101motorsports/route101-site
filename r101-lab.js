@@ -3946,15 +3946,28 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   function twystedPage() {
     if (!/^\/pages\/twysted-throttle\/?$/.test(location.pathname)) return;
     var main = document.querySelector('main'); if (!main) return;
-    var isHome = function (a) { var h = a.getAttribute('href') || ''; return h === '/' || h === location.origin + '/' || h === ''; };
-    // course tiles: a "More Info!" that goes home borrows the working one's link
-    var more = [].slice.call(main.querySelectorAll('section.articles a')).filter(function (a) { return /more info/i.test(a.textContent); });
-    var good = more.filter(function (a) { return !isHome(a); })[0];
-    if (good) more.forEach(function (a) { if (isHome(a)) { a.setAttribute('href', good.getAttribute('href')); a.setAttribute('target', good.getAttribute('target') || '_blank'); a.setAttribute('rel', 'noopener'); } });
-    // photo bands: a "Check Class Availability" that goes home borrows the class sign-up link
-    var chk = [].slice.call(main.querySelectorAll('section.cta a')).filter(function (a) { return /class availability/i.test(a.textContent); });
-    var reg = chk.filter(function (a) { return !isHome(a); })[0];
-    if (reg) chk.forEach(function (a) { if (isHome(a)) { a.setAttribute('href', reg.getAttribute('href')); a.setAttribute('target', reg.getAttribute('target') || '_blank'); a.setAttribute('rel', 'noopener'); } });
+    // Each course tile and photo band points at its own course on twystedthrottle.com (Glenn, Nov 3):
+    // MTC tile + "Trade Your Cage" band -> Motorcyclist Training Course; CMSP tile + "Be Safe" band -> 1 Day Premier Course.
+    var TT = 'https://twystedthrottle.com/courses/';
+    var COURSE = { mtc: TT + 'motorcyclist-training-course/', dpc: TT + '1dpc/' };
+    var go = function (a, href) { a.setAttribute('href', href); a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener'); };
+    [].slice.call(main.querySelectorAll('section.articles .articles__item')).forEach(function (it) {
+      var t = (it.querySelector('h1,h2,h3,h4') || it).textContent;
+      var a = [].slice.call(it.querySelectorAll('a')).filter(function (x) { return /more info/i.test(x.textContent); })[0];
+      if (!a) return;
+      if (/\(MTC\)|training course/i.test(t)) go(a, COURSE.mtc);
+      else if (/CMSP|safety program|premier|1DPC/i.test(t)) go(a, COURSE.dpc);
+    });
+    // class sign-up: keep the existing sign-up link's settings, switch only the course code
+    var bands = [].slice.call(main.querySelectorAll(':scope > section.cta')).filter(function (b) { return [].slice.call(b.querySelectorAll('a')).some(function (x) { return /class availability/i.test(x.textContent); }); });
+    var base = null;
+    bands.forEach(function (b) { [].slice.call(b.querySelectorAll('a')).forEach(function (x) { if (!base && /msi5\.com/.test(x.href)) base = x.href; }); });
+    if (base) bands.forEach(function (b, i) {
+      var a = [].slice.call(b.querySelectorAll('a')).filter(function (x) { return /class availability/i.test(x.textContent); })[0];
+      var tx = b.textContent;
+      var cc = /learn the latest skills/i.test(tx) ? '1DPC' : (/cage/i.test(tx) ? 'MTC' : (i === 0 ? 'MTC' : '1DPC'));
+      try { var u = new URL(base); u.searchParams.set('CC', cc); go(a, u.toString()); } catch (e) {}
+    });
     if (!ttpadOn()) return;
     document.body.classList.add('r101-tt');
     var css = 'html body.r101-tt main > section.hero:first-of-type > div{min-height:100svh!important}' +
