@@ -2661,6 +2661,8 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
 #r101-plb img{max-width:min(1200px,96vw);max-height:88vh;width:auto;height:auto;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 #r101-plb button{position:absolute;top:14px;right:16px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#111;font:700 22px/44px Inter,sans-serif;cursor:pointer}
 #r101-svc .g.n2{grid-template-columns:repeat(2,minmax(0,1fr))}
+#r101-svc .c.r101-rent .ek{font:700 12px/1 Inter,sans-serif!important;letter-spacing:.16em;text-transform:uppercase;color:${O};margin:0 0 10px!important}
+#r101-svc .c.r101-rent .pr .pd{font:600 13px/1 Inter,sans-serif;color:var(--r101-mute);margin-left:6px;align-self:flex-end;padding-bottom:8px}
 @media (max-width:1024px){#r101-svc .g{grid-template-columns:1fr 1fr}body.r101-harley .r101-hl ul{columns:2}}
 @media (max-width:700px){#r101-svc{padding:44px 0}#r101-svc .g,#r101-svc .g.n2{grid-template-columns:1fr;gap:12px}#r101-svc .c{padding:20px 18px 16px}body.r101-harley .r101-hl ul{columns:1}}
 `;
@@ -2804,12 +2806,17 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
       ],
       'san-diego-bmw-gs-service': [
         ['BMW Engine & Final Drive Oil Service', '$200', 'AMSOIL synthetic 5W-40 engine oil and 75W-90 final drive oil, plus a new oil filter.', ''],
-        ['BMW Brake Service', 'from $235', 'EBC H-H sintered pads and Motul DOT 4 fluid. Front $235, front & rear $299.', '']
+        ['BMW Brake Service', 'from $235', 'EBC H-H sintered pads and Motul DOT 4 fluid. Front $235, front & rear $299.', ''],
+        ['Rent a BMW GS', 'from $210', 'R 1250 GS, R 1200 GS or GSA, with free riding gear and same-day booking.', '/pages/san-diego-bmw-adventure-bike-rentals', 'rent']
       ]
     };
+    // rental tile on BMW GS Service (Glenn, Nov 3). TEST MODE: ?svrent=test (?svrent=off clears). SVRENT_LIVE = true shows everyone.
+    var SVRENT_LIVE = false, svrentOn = SVRENT_LIVE;
+    try { var sq = new URLSearchParams(location.search).get('svrent'); if (sq === 'test') localStorage.setItem('r101svrent', '1'); if (sq === 'off') localStorage.removeItem('r101svrent'); svrentOn = svrentOn || localStorage.getItem('r101svrent') === '1'; } catch (e) {}
     var slug = location.pathname.replace(/\/+$/, '').split('/').pop();
     if (!cards.length && SVC_CARDS[slug]) SVC_CARDS[slug].forEach(function (c) {
-      cards.push({ t: c[0], p: c[1], d: c[2], href: c[3] || formHash, here: !c[3], img: '' });
+      if (c[4] === 'rent' && !svrentOn) return;
+      cards.push({ t: c[0], p: c[1], d: c[2], href: c[3] || formHash, here: !c[3], img: '', rent: c[4] === 'rent' });
     });
     cards.sort(function (x, y) { return (x.here ? 0 : 1) - (y.here ? 0 : 1); });
     var after = hero;
@@ -2832,6 +2839,15 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
         var b = cs[k].querySelector('a');
         b.setAttribute('href', c.href);
         b.textContent = c.here ? 'Book this service' : 'See ' + c.t;
+        if (c.rent) {
+          cs[k].classList.add('r101-rent');
+          var ek = document.createElement('p'); ek.className = 'ek'; ek.textContent = 'While yours is in the shop';
+          cs[k].insertBefore(ek, cs[k].firstChild);
+          var pd = document.createElement('small'); pd.className = 'pd'; pd.textContent = '/ day';
+          cs[k].querySelector('.pr').appendChild(pd);
+          b.textContent = 'See the GS fleet';
+          var lk = cs[k].querySelector('.lk'); if (lk) lk.remove();
+        }
       });
       sv.addEventListener('click', function (e) {
         var el = e.target.closest('[data-k]');
