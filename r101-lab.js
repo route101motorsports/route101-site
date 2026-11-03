@@ -3344,7 +3344,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
   /* ---------- HOMEPAGE "BY APPOINTMENT" TICKER (Glenn, Nov 2) ----------
      Replaces the small "Advance booking required" pill with a thin black full-width scrolling band.
      TEST MODE: only browsers that opened ?tick=test see it (?tick=off clears). TICK_LIVE = true shows everyone. */
-  var TICK_LIVE = false;
+  var TICK_LIVE = true;   // LIVE (Glenn, Nov 2 5:09pm)
   var TICK_MSG = 'Advance booking and service appointments required <i>·</i> No walk-ins <i>·</i> Book online or call <a href="tel:+18885095032">(888) 509-5032</a> <i>·</i> ';
   var TICK_CSS = `
 #r101-tick{background:#111;overflow:hidden;white-space:nowrap;padding:11px 0;margin:0}
@@ -3649,6 +3649,49 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     document.addEventListener('submit', function () { setTimeout(paint, 50); }, true);
   }
 
+  /* ---------- HOMEPAGE SPACING STANDARD (Glenn, Nov 2) ----------
+     Measures the real content in every section and sets padding so content sits 40px from a color change,
+     and 40px from the next block when two sections share a color. Photo bands = the standard photo size.
+     TEST MODE: ?hpad=test (?hpad=off clears). HPAD_LIVE = true shows everyone. */
+  var HPAD_LIVE = false;
+  function homePad() {
+    if (location.pathname !== '/' && location.pathname !== '') return;
+    var u = new URLSearchParams(location.search);
+    try { if (u.get('hpad') === 'test') localStorage.setItem('r101hpad', '1'); if (u.get('hpad') === 'off') localStorage.removeItem('r101hpad'); } catch (e) {}
+    var on = HPAD_LIVE; try { on = on || localStorage.getItem('r101hpad') === '1'; } catch (e) {}
+    if (!on) return;
+    var main = document.querySelector('main'); if (!main) return;
+    document.body.classList.add('r101-hpad');
+    var phone = matchMedia('(max-width:760px)').matches, G = phone ? 32 : 40;
+    addStyle('r101-hpad-css',
+      'body.r101-hpad main > section.r101-photo > div{height:clamp(480px,62vh,680px)!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important}' +
+      '@media (max-width:760px){body.r101-hpad main > section.r101-photo > div{height:clamp(420px,70svh,600px)!important}}');
+    var bgOf = function (s) { var w = s.firstElementChild, c = w ? getComputedStyle(w).backgroundColor : ''; if (!c || /rgba\(0, 0, 0, 0\)|transparent/.test(c)) c = getComputedStyle(s).backgroundColor; return c; };
+    var content = function (s) {
+      var v = [].slice.call(s.querySelectorAll('h1,h2,h3,h4,p,li,a,img,button,input,label,bq-product-price,.products__item,.collections__item,.testimonials__item,.articles__item,.accordion__item,.r101-trust-row,.r101-revrow')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden'; });
+      if (!v.length) return null;
+      var t = Infinity, b = -Infinity; v.forEach(function (x) { var r = x.getBoundingClientRect(); if (r.top < t) t = r.top; if (r.bottom > b) b = r.bottom; });
+      return { t: t, b: b };
+    };
+    var run = function () {
+      var secs = [].slice.call(main.children).filter(function (x) { return x.tagName === 'SECTION' && x.offsetHeight > 0; });
+      secs.forEach(function (s, i) {
+        if (i === 0 || s.classList.contains('r101-photo') || s.classList.contains('r101-notice')) return;   // hero + photo bands keep their own size
+        var w = s.firstElementChild; if (!w) return;
+        var c = content(s); if (!c) return;
+        var r = s.getBoundingClientRect();
+        var pt = parseFloat(getComputedStyle(w).paddingTop) || 0, pb = parseFloat(getComputedStyle(w).paddingBottom) || 0;
+        var prev = secs[i - 1], next = secs[i + 1];
+        var sameUp = prev && !prev.classList.contains('r101-photo') && i - 1 !== 0 && bgOf(prev) === bgOf(s);
+        var wantT = sameUp ? 0 : G, wantB = G;
+        var nt = Math.max(0, pt + (wantT - (c.t - r.top))), nb = Math.max(0, pb + (wantB - (r.bottom - c.b)));
+        w.style.setProperty('padding-top', Math.round(nt) + 'px', 'important');
+        w.style.setProperty('padding-bottom', Math.round(nb) + 'px', 'important');
+      });
+    };
+    run(); setTimeout(run, 600); setTimeout(run, 1800); setTimeout(run, 4000); addEventListener('load', function () { setTimeout(run, 300); });
+  }
+
   function inlineForm() {
     var u = new URLSearchParams(location.search);
     try { if (u.get('inform') === 'test') localStorage.setItem('r101inform', '1'); if (u.get('inform') === 'off') localStorage.removeItem('r101inform'); } catch (e) {}
@@ -3775,6 +3818,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       serviceLogos();
       photoBands();
       rhythm();
+      try { homePad(); } catch (e) {}
       parallax();
       [].slice.call(document.querySelectorAll('main .button--outlined')).forEach(function (b) {
         var m = (getComputedStyle(b).color.match(/\d+/g) || [0, 0, 0]).map(Number);
