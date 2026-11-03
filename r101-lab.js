@@ -3594,7 +3594,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   /* ---------- BMW BLUE (Glenn, Nov 2) ----------
      BMW GS Service page: every orange accent INSIDE the page turns BMW-style blue; the Route 101 frame
      (top bar, header, menu, footer, orange "Need tires..." banner) stays orange. TEST MODE: ?bmwblue=test (?bmwblue=off clears). */
-  var BLUE_LIVE = false, BLU = '#1C69D4';
+  var BLUE_LIVE = true, BLU = '#1C69D4', BLU_LT = '#4FA3FF';   // LIVE (Glenn, Nov 2 4:02pm); lighter blue for text over dark photos
   function bmwBlue() {
     if (!/^\/pages\/san-diego-bmw-gs-service\/?$/.test(location.pathname)) return;
     var u = new URLSearchParams(location.search);
@@ -3625,7 +3625,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       [].slice.call(main.querySelectorAll('*')).forEach(function (el) {
         if (skip(el)) return;
         var cs = getComputedStyle(el);
-        if (orange(cs.color)) setP(el, 'color');
+        if (orange(cs.color)) { if (el.closest('section.r101-hero1, section.r101-photoblk, section.hero.r101-hhero')) el.style.setProperty('color', BLU_LT, 'important'); else setP(el, 'color'); }
         if (orange(cs.backgroundColor)) setP(el, 'background-color');
         ['top', 'right', 'bottom', 'left'].forEach(function (sd) { if (orange(cs['border' + sd.charAt(0).toUpperCase() + sd.slice(1) + 'Color'])) setP(el, 'border-' + sd + '-color'); });
         if (el instanceof SVGElement) { if (orange(cs.fill)) setP(el, 'fill'); if (orange(cs.stroke)) setP(el, 'stroke'); }
