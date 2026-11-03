@@ -303,3 +303,8 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Code: text full section width; spacing CSS for h3/lists/sub-heads (pin cfaedd4).
 - Glenn confirmed (Nov 3): we do not sell; customer info can transfer in a sale; mailing address now 6351 Corte Del Abeto #107, Carlsbad, CA 92011 (published); phone + info@ correct.
 - Builder automation: setContent on RedactorX + setFocus(end) + type x + BackSpace + Tab saves long rich text.
+
+## TO DO LATER (Glenn, Nov 3): template cleanup
+- /pages/motorcycle-rental-tips uses the shared default "Page" template, so its content edits would hit every page on that template. Plan: give it its own template (duplicate), THEN fix its typos and bring it to standard. Later: rebuild the default "Page" template as a clean starter (blank sections, padding and colors preset).
+- Rental Tips SEO done Nov 3: title "Motorcycle Rental Tips, Safety & SoCal Ride Routes"; meta "How to choose the right Harley rental, 11 riding safety tips, and 13 Southern California day rides from Carlsbad, from PCH and Julian to Palomar and Temecula."
+- Rental Tips typos to fix once it has its own template: "motorcycles rentals" -> "motorcycle rentals"; Lucadia -> Leucadia; Solano Beach -> Solana Beach; Coronado bridge -> Coronado Bridge; "windy roads" -> "winding roads"; "Leaned-down design" -> "Stripped-down design"; "their lightweight" -> "their light weight"; "Counter Balancing" -> "Counterbalancing"; Big Bear is in the San Bernardino Mountains (not San Gabriel); Sunrise Highway line says "60 miles round trip ... (one way)" (pick one); author dates mixed 2023/2024; Cruiser/Street examples (Fat Boy, Road King, Street Bob, Dyna, Sportster, Low Rider S) are not in the fleet.
