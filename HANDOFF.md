@@ -264,3 +264,9 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 ## TO DO LATER: site-wide hero survey (started Nov 3, stopped by Glenn to finish BMW Rentals)
 - Idea: one site-wide full-screen hero rule with exceptions, OR check pages with short heroes in case a non-hero section was added by mistake.
 - Partial results at 1280x800: home hero 761/800; Straight Talk articles hero 761/800; twysted-throttle 691/800; brakes 800/800 (done). Re-run the survey (iframe through sitemap pages) when we pick this up.
+
+## Nov 3 ~5am: BMW Adventure Bike Rentals (test mode ?bpad=test, pin 4c19f6d)
+- Builder (published): deleted Collections "View Our Rental Fleet"; renamed bikes heading to "1. Select Your Bike"; ADDED Products "2. Select Your Add-Ons" (collection Dual Sport Add-Ons), Text "3. Book Your Rental!" (centered), Contact form "Prefer Email? No Problem!" (labels Full Name / Email / Tell us about your rental plan, success msg). Builder form intro text could not be saved (editor ignored input) so code replaces the default "Tell something about your company" text. Backup: backups/bmw-rentals-builder-2026-11-03.md
+- Live (ungated): bmwRentalsOrder() moves add-ons + Book after the bikes; BMW Rental request form blanks (adds Pavement, dirt or both) + Almost there; Book heading size; form intro white.
+- Test (BPAD_LIVE=false): full-screen hero, 40px rhythm via rentalsPad, photo band clamp(480,62vh,680).
+- Builder automation note: real key typing into the builder only works sometimes (tab focus). Plain inputs: native value setter + input/change events works reliably.
