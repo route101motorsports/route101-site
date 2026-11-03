@@ -3774,7 +3774,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     bikes.parentNode.insertBefore(addons, bikes.nextSibling);
     if (book) addons.parentNode.insertBefore(book, addons.nextSibling);
     var cf = main.querySelector('section.contact-form');
-    if (cf) [].slice.call(cf.querySelectorAll('p')).forEach(function (pp) { if (/^Tell something about your company/i.test((pp.textContent || '').trim())) pp.textContent = "Tell us about your BMW GS rental plan: your dates, where you're headed, pavement or dirt, and roughly how many miles. A staff member will reply shortly to help!"; });
+    if (cf) [].slice.call(cf.querySelectorAll('.form__text, p')).forEach(function (pp) { if (/^Tell something about your company/i.test((pp.textContent || '').trim())) pp.textContent = "Tell us about your BMW GS rental plan: your dates, where you're headed, pavement or dirt, and roughly how many miles. A staff member will reply shortly to help!"; });
   }
   function rentalsPad() {
     var isH = /^\/pages\/san-diego-harley-rentals\/?$/.test(location.pathname), isB = /^\/pages\/san-diego-bmw-adventure-bike-rentals\/?$/.test(location.pathname);
