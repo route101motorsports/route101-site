@@ -2823,7 +2823,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     // card text lives here once the builder poster sections are deleted ("Title | Price | One line", link)
     var SVC_CARDS = {
       'san-diego-harley-service': [
-        ['Harley-Spec Interval Service', '$459', 'Full Harley-spec service from 1,000 to 30,000 miles, plus a Route 101 safety inspection.', ''],
+        ['Harley Interval Service', '$459', 'Full Harley-spec service from 1,000 to 30,000 miles, plus a Route 101 safety inspection.', ''],
         ['Harley Brake Service', 'from $235', 'EBC H-H sintered pads and Motul DOT 4 fluid. Front $235, front & rear $299.', '/pages/harley-brake-service'],
         ['V-Twin 3-Hole Oil Service', '$195', 'AMSOIL synthetic engine, primary and transmission oil, plus a K&N filter and new derby gasket.', '']
       ],
@@ -2888,7 +2888,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
     if (!document.getElementById('r101-steps')) {
       var st = document.createElement('section');
       st.id = 'r101-steps';
-      st.innerHTML = '<div class="w container"><p class="eb">How it works</p><h2>' + (BR === 'BMW' ? 'BMW GS' : 'Harley') + ' service in 3 easy steps</h2><div class="g">' +
+      st.innerHTML = '<div class="w container"><p class="eb">How it works</p><h2>Service in 3 Steps</h2><div class="g">' +
         '<div class="s"><div class="n">1</div><h3>Tell us your ' + BIKE + '</h3><p>Year, model, mileage and what you need. Call or use the form.</p></div>' +
         '<div class="s"><div class="n">2</div><h3>We confirm your price</h3><p>Clear price up front. No extra parts or labor without your approval.</p></div>' +
         '<div class="s"><div class="n">3</div><h3>Relax while we wrench</h3><p>Grab a free Red Bull or coffee and relax in our Rider Lounge, or ask about a loaner bike.</p></div>' +
