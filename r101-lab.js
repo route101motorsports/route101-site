@@ -4178,7 +4178,9 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     var fix = function () {
       if (!matchMedia('(max-width:760px)').matches) return;
       var main = document.querySelector('main'), s = main && main.querySelector('section'); if (!s) return;
-      var w = s.firstElementChild; if (!w) return;
+      var w = s.firstElementChild;
+      while (w && /^(IMG|PICTURE|VIDEO)$/.test(w.tagName)) w = w.nextElementSibling;   // code-built heroes (e.g. #r101-rhero) start with the photo: pad the content box, not the photo
+      if (!w) return;
       var v = [].slice.call(s.querySelectorAll('h1,h2,h3,p,a,button')).filter(function (x) { var r = x.getBoundingClientRect(); return r.height > 0 && r.width > 0 && getComputedStyle(x).visibility !== 'hidden'; });
       if (!v.length) return;
       var y = window.scrollY, ct = Infinity, cb = -Infinity;
