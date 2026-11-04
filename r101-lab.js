@@ -252,7 +252,7 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
         bar.className = 'r101-help container';
         bar.innerHTML = '<div class="in"><p>' + msg.replace(/</g, '&lt;') + '</p><div class="b">' +
           '<a class="c" href="tel:+18885095032">Call (888) 509-5032</a>' +
-          '<a class="q" href="' + QUOTE + '">Get a Quote</a></div></div>';
+          '<a class="q" href="' + QUOTE + '">Get A Quote</a></div></div>';
         var wrap = t.querySelector('.text__wrapper') || t;
         wrap.appendChild(bar);
         t.classList.add('r101-merged');
@@ -265,7 +265,7 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
         var gbar = '<div class="r101-help container"><div class="in"><p>Don\'t see the tire you want? Call us for other ' + (brand === brand.toUpperCase() ? brand.charAt(0) + brand.slice(1).toLowerCase() : brand).replace(/</g, '&lt;') +
           ' motorcycle tire models, sizes, pricing and availability!</p><div class="b">' +
           '<a class="c" href="tel:+18885095032">Call (888) 509-5032</a>' +
-          '<a class="q" href="' + QUOTE + '">Get a Quote</a></div></div></div>';
+          '<a class="q" href="' + QUOTE + '">Get A Quote</a></div></div></div>';
         gs.innerHTML = '<div class="text__wrapper">' + gbar + '</div>';
         g.parentNode.insertBefore(gs, g.nextSibling);
       }
@@ -304,7 +304,7 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
       bn.id = 'r101-brandnav';
       bn.innerHTML = '<div class="w container"><span class="lbl">Jump to</span>' +
         nav.map(function (n) { return '<a href="#' + n[1] + '">' + n[0].charAt(0) + n[0].slice(1).toLowerCase() + '</a>'; }).join('') +
-        '<a href="' + QUOTE + '">Get a Quote</a></div>';
+        '<a href="' + QUOTE + '">Get A Quote</a></div>';
       steps.parentNode.insertBefore(bn, steps.nextSibling);
       var setTop = function () {
         // sit right under the visible header bar (the drawer/menu pieces inside the header are ignored)
@@ -452,9 +452,9 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
     lb.innerHTML = '<div class="bg"></div><div class="box"><button class="x" type="button" aria-label="Close">&times;</button>' +
       '<div class="pic"><button class="nv p" type="button" aria-label="Previous tire">&larr;</button><img alt=""><button class="nv n" type="button" aria-label="Next tire">&rarr;</button><span class="ct"></span></div>' +
       '<div class="meta"><div class="br"></div><h3></h3><p class="txt">Mounted and balanced in-house at Route 101 in Carlsbad. Tell us your bike and we\'ll confirm fitment and price.</p>' +
-      '<div class="btns"><a class="sp2" href="#" style="display:none">See Tire Specs</a><a class="q" href="#">Get a Quote on This Tire</a><a class="c" href="tel:+18885095032">Call (888) 509-5032</a></div>' +
+      '<div class="btns"><a class="sp2" href="#" style="display:none">See Tire Specs</a><a class="q" href="#">Get A Quote On This Tire</a><a class="c" href="tel:+18885095032">Call (888) 509-5032</a></div>' +
       '<a class="spec" href="#" target="_blank" rel="noopener"></a></div>' +
-      '<div class="spc" aria-hidden="true"><div class="sbg"></div><button class="bk" type="button">&larr; Back to photo</button><div class="si">' +
+      '<div class="spc" aria-hidden="true"><div class="sbg"></div><button class="bk" type="button">&larr; Back To Photo</button><div class="si">' +
       '<img class="lg" alt=""><h4></h4><p class="tg"></p><p class="sy"></p><table></table>' +
       '<div class="sb"><a class="q2" href="#">GET A QUOTE</a><a class="c2" href="tel:+18885095032">CALL US</a></div>' +
       '<a class="mf" href="#" target="_blank" rel="noopener">Manufacturer Page &#8599;</a></div></div></div>';
@@ -724,7 +724,7 @@ body.r101-ftr footer .r101-pop{font:600 11px/1 Inter,system-ui,sans-serif;letter
     document.body.classList.add('r101-ftr');
     addStyle('r101-ftr-css', FTR_CSS);
 
-    // 'Get a Quote' goes to this page's own quote form if it has one, otherwise to Contact Us
+    // 'Get A Quote' goes to this page's own quote form if it has one, otherwise to Contact Us
     // the page's main form is the LAST one in the builder (extra request forms sit above it)
     var pf = mainFormSec();
     if (pf && !pf.id) pf.id = 'r101-quote';
@@ -732,7 +732,7 @@ body.r101-ftr footer .r101-pop{font:600 11px/1 Inter,system-ui,sans-serif;letter
     var cta = document.createElement('section');
     cta.id = 'r101-cta';
     cta.innerHTML = '<div class="w container"><div><h2>Need tires, service or a rental?</h2><p>Route 101 Motorsports &amp; Garage &middot; Carlsbad, CA</p></div>' +
-      '<div class="b"><a class="p" href="tel:+18885095032">Call (888) 509-5032</a><a class="s" href="' + quote + '">Get a Quote</a><a class="s" href="/collections">Book a Rental</a></div></div>';
+      '<div class="b"><a class="p" href="tel:+18885095032">Call (888) 509-5032</a><a class="s" href="' + quote + '">Get A Quote</a><a class="s" href="/collections">Book A Rental</a></div></div>';
     f.parentNode.insertBefore(cta, f);
 
     var top = f.querySelector('.footer__top');
@@ -1027,7 +1027,7 @@ nav.menu.r101-inline .menu__dropdown-item:last-child{border-bottom:0!important}
     var quote = form && form.id ? '#' + form.id : '/pages/contact-us';
     var box = document.createElement('div');
     box.id = 'r101-mcta';
-    box.innerHTML = '<div class="b"><a class="c1" href="tel:+18885095032">Call (888) 509-5032</a><a class="c2" href="' + quote + '">Get a Quote</a></div>' +
+    box.innerHTML = '<div class="b"><a class="c1" href="tel:+18885095032">Call (888) 509-5032</a><a class="c2" href="' + quote + '">Get A Quote</a></div>' +
       '<p><b>Route 101 Motorsports &amp; Garage</b></p><p>6351 Corte Del Abeto #107, Carlsbad, CA 92011</p><p>Open 7 days, 8am–6pm, by appointment</p>';
     box.querySelector('.c2').addEventListener('click', function () { var o = document.getElementById('mobile-menu-opener'); if (o) o.checked = false; });
     var wrap = nav.querySelector('.menu__wrapper'), list = nav.querySelector('.menu__list');
@@ -1156,10 +1156,10 @@ body.r101-home section.testimonials .carousel__btn,body.r101-home section.produc
       hub.innerHTML = '<div class="container"><p class="eb">Route 101 Motorsports</p><h2>Rentals &amp; Garage</h2><div class="g">' +
         '<div class="c"><p class="k">Motorcycle Rentals</p><h3>Harley &amp; BMW GS</h3><p>Touring, cruiser and adventure bikes, plus gear, add-ons and guided tours. Pick your dates, pick your bike, book your ride.</p>' +
         '<div class="l"><a href="/collections/motorcycle-rentals">Harley Rentals</a><a href="/collections/explore-our-bmw-gs-rental-fleet">BMW GS Rentals</a><a href="/collections/motorcycle-tours">Motorcycle Tours</a><a href="/collections/gear-and-rental-add-ons">Rental Add-Ons</a></div>' +
-        '<a class="go" href="/collections/route-rental-fleet">See the Rental Fleet</a></div>' +
+        '<a class="go" href="/collections/route-rental-fleet">See The Rental Fleet</a></div>' +
         '<div class="c"><p class="k">Route 101 Garage</p><h3>Service &amp; Tires</h3><p>Harley and BMW GS service, EBC brake jobs, diagnostics, and top-brand tires with mounting and balancing, right here in Carlsbad.</p>' +
         '<div class="l"><a href="/pages/san-diego-harley-service">Harley Service</a><a href="/pages/san-diego-bmw-gs-service">BMW GS Service</a><a href="/pages/harley-brake-service">Harley Brakes</a><a href="/pages/motorcycle-tires">Tires</a></div>' +
-        '<a class="go" href="/pages/straight-talk-route-101-motorsports-offers-san-diego-harley-bmw-gs-motorcycle-service-diagnostics-and-tire-installation">Explore the Garage</a></div>' +
+        '<a class="go" href="/pages/straight-talk-route-101-motorsports-offers-san-diego-harley-bmw-gs-motorcycle-service-diagnostics-and-tire-installation">Explore The Garage</a></div>' +
         '</div></div>';
       // review badges stay right under the hero (sets the tone), hub follows them
       var trust = secs[1] && secs[1].classList.contains('logos') ? secs[1] : null;
@@ -1715,14 +1715,14 @@ body.r101-land .r101-s3 a{min-width:240px;text-align:center}
   var RHUB = {
     'san-diego-harley-rentals': {
       rent: ['Harley Rentals', 'Rent a Harley-Davidson', 'Touring and cruiser Harleys, plus riding gear, add-ons and guided tours. Pick your dates, pick your bike, book your ride.',
-        [['Harley Rentals', '/collections/harley-rentals'], ['Motorcycle Tours', '/collections/motorcycle-tours'], ['Rental Add-Ons', '/collections/gear-and-rental-add-ons']], ['See the Harley Fleet', '/collections/harley-rentals']],
+        [['Harley Rentals', '/collections/harley-rentals'], ['Motorcycle Tours', '/collections/motorcycle-tours'], ['Rental Add-Ons', '/collections/gear-and-rental-add-ons']], ['See The Harley Fleet', '/collections/harley-rentals']],
       gar: ['Route 101 Garage', 'Harley service, brakes &amp; tires', 'Harley-spec interval service, 3-hole oil, EBC brake jobs, iCS MT Pro diagnostics, and top-brand tires with mounting and balancing, right here in Carlsbad.',
         [['Harley Service', '/pages/san-diego-harley-service'], ['Harley Brakes', '/pages/harley-brake-service'], ['Tires', '/pages/motorcycle-tires']], ['Explore Harley Service', '/pages/san-diego-harley-service']],
       three: ['San Diego Harley Rentals in 3 Clicks!', 'Lock In Your Harley Rental', '/collections/harley-rentals', 'Harley touring or cruiser, ready to ride.']
     },
     'san-diego-bmw-adventure-bike-rentals': {
       rent: ['BMW GS Rentals', 'Rent a BMW GS', 'R 1250 GS, R 1200 GS and GSA adventure bikes, plus dual sport gear, side cases and guided tours. Pick your dates, pick your bike, book your ride.',
-        [['BMW GS Rentals', '/collections/explore-our-bmw-gs-rental-fleet'], ['Adventure Bike Tours', '/collections/book-a-bmw-gs-adventure-tour'], ['Rental Add-Ons', '/collections/gear-and-rental-add-ons']], ['See the BMW GS Fleet', '/collections/explore-our-bmw-gs-rental-fleet']],
+        [['BMW GS Rentals', '/collections/explore-our-bmw-gs-rental-fleet'], ['Adventure Bike Tours', '/collections/book-a-bmw-gs-adventure-tour'], ['Rental Add-Ons', '/collections/gear-and-rental-add-ons']], ['See The BMW GS Fleet', '/collections/explore-our-bmw-gs-rental-fleet']],
       gar: ['Route 101 Garage', 'BMW GS service &amp; tires', 'BMW GS oil service, EBC brake jobs, GS-911 diagnostics, and top-brand adventure tires with mounting and balancing, right here in Carlsbad.',
         [['BMW GS Service', '/pages/san-diego-bmw-gs-service'], ['Tires', '/pages/motorcycle-tires']], ['Explore BMW GS Service', '/pages/san-diego-bmw-gs-service']],
       three: null, step2: 'R 1250 GS, R 1200 GS or GSA adventure.'
@@ -2545,7 +2545,7 @@ body.r101-gco .acc__inner a[href*="force_guest_checkout"]:not(.g){display:none!i
     addStyle('r101-guest-css', GUEST_CSS);
     var b = document.createElement('div'); b.id = 'r101-guest';
     b.innerHTML = '<h2>Almost done!</h2><p>No account needed. Check out as a guest in a minute or two.</p>' +
-      '<a class="g" href="#">Continue as Guest &rarr;</a><div class="or">or</div>' +
+      '<a class="g" href="#">Continue As Guest &rarr;</a><div class="or">or</div>' +
       '<p class="vip"><b>Create an account</b> to save your details, earn <b>VIP rental credits</b> and receive <b>seasonal rental discounts</b> and <b>special offers!</b></p>';
     b.querySelector('a.g').href = to + (to.indexOf('?') > -1 ? '&' : '?') + 'force_guest_checkout=true';
     inner.parentNode.insertBefore(b, inner);
@@ -2868,7 +2868,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
           cs[k].insertBefore(ek, cs[k].firstChild);
           var pd = document.createElement('small'); pd.className = 'pd'; pd.textContent = '/ day';
           cs[k].querySelector('.pr').appendChild(pd);
-          b.textContent = 'See the GS Fleet';
+          b.textContent = 'See The GS Fleet';
           var lk = cs[k].querySelector('.lk'); if (lk) { lk.style.visibility = 'hidden'; lk.setAttribute('aria-hidden', 'true'); lk.tabIndex = -1; }   // keeps the buttons level with the other tiles
           cs[k].parentNode.classList.add('r101-hasrent');
         }
@@ -3300,7 +3300,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
     qt: ['/pages/san-diego-harley-service#contact', 'Get a Service Quote', 'Tell us your bike and what it needs. A tech gets back to you fast.', ''],
     oil: [ST_ + 'harley-oil-change-101-keep-your-engine-alive-ride-with-confidence', 'Harley Oil Change 101', 'What goes into a proper Harley oil change, and why it matters.', 'H'],
     rent: ['/pages/motorcycle-rentals-san-diego', 'San Diego Motorcycle Rentals', 'Harley and BMW GS rentals in 3 clicks, with transparent pricing.', ''],
-    fleet: ['/collections/route-rental-fleet', 'See the Rental Fleet', 'Every bike with live pricing and availability.', ''],
+    fleet: ['/collections/route-rental-fleet', 'See The Rental Fleet', 'Every bike with live pricing and availability.', ''],
     hr: ['/pages/san-diego-harley-rentals', 'Harley-Davidson Rentals', 'Street Glide, Softail and touring Harleys for a day or a week.', 'H'],
     br: ['/pages/san-diego-bmw-adventure-bike-rentals', 'BMW GS Adventure Bike Rentals', 'R 1250 GS and GSA adventure bikes, ready for road or dirt.', 'B'],
     pb: ['/pages/pacific-beach-harley-rentals', 'Pacific Beach Harley Rentals', 'Harley rentals for riders staying in and around Pacific Beach.', 'H'],
@@ -3464,7 +3464,7 @@ main section.accordion .accordion__content-inner:after{content:"";display:block;
       ['rent', 'hs', 'gs', 'ti', 'faq', 'contact'].forEach(function (id) { g.appendChild(card(id)); });
       wrap.appendChild(g);
       var bt = document.createElement('div'); bt.className = 'bt';
-      bt.innerHTML = '<a class="p" href="tel:+18885095032">Call (888) 509-5032</a><a class="s" href="/pages/san-diego-harley-service#contact">Get a Quote</a>';
+      bt.innerHTML = '<a class="p" href="tel:+18885095032">Call (888) 509-5032</a><a class="s" href="/pages/san-diego-harley-service#contact">Get A Quote</a>';
       wrap.appendChild(bt);
       if (msg) msg.style.display = 'none';
     } else {
@@ -4015,7 +4015,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
         return '<div class="c">' + (c.img ? '<div class="ph"><img src="' + c.img + '" alt="' + c.t + ' with Twysted Throttle" loading="lazy" decoding="async"></div>' : '') +
           '<div class="bd"><p class="k">' + c.k + '</p><h3>' + c.t + '</h3><ul class="fx">' + c.f.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
           '<p class="d">' + c.d + '</p><p class="dc">Graduates get an exclusive Route 101 Harley rental discount.</p>' +
-          '<div class="bt"><a class="pri" href="' + book(c.cc) + '" target="_blank" rel="noopener">Book a Class</a><a class="sec" href="' + c.info + '" target="_blank" rel="noopener">Course Info</a></div></div></div>';
+          '<div class="bt"><a class="pri" href="' + book(c.cc) + '" target="_blank" rel="noopener">Book A Class</a><a class="sec" href="' + c.info + '" target="_blank" rel="noopener">Course Info</a></div></div></div>';
       }).join('');
       var list = art.querySelector('.articles__list');
       if (list) { list.style.setProperty('display', 'none', 'important'); list.parentNode.insertBefore(g, list); }
