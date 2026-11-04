@@ -206,10 +206,10 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
     // how it works
     var steps = document.createElement('section');
     steps.id = 'r101-steps';
-    steps.innerHTML = '<div class="w container"><p class="eb">How it works</p><h2>New tires in 3 easy steps</h2><div class="g">' +
+    steps.innerHTML = '<div class="w container"><p class="eb">How it works</p><h2>New Tires in 3 Steps</h2><div class="g">' +
       '<div class="s"><div class="n">1</div><h3>Tell us your bike</h3><p>Send your year, make and model, or call. We\'ll match the right tire for how you ride.</p></div>' +
       '<div class="s"><div class="n">2</div><h3>We get your tires</h3><p>We source from top brands and confirm your price before anything is ordered.</p></div>' +
-      '<div class="s"><div class="n">3</div><h3>Ride out on fresh rubber</h3><p>Mounted and balanced in-house in Carlsbad. Grab a free Red Bull or coffee and relax in our Rider Lounge, or ask about a loaner bike.</p></div>' +
+      '<div class="s"><div class="n">3</div><h3>Ride On New Rubber</h3><p>Mounted and balanced in-house in Carlsbad. Grab a free Red Bull or coffee and relax in our Rider Lounge, or ask about a loaner bike.</p></div>' +
       '</div></div>';
     if (hero) hero.parentNode.insertBefore(steps, hero.nextSibling);
 
