@@ -24,6 +24,7 @@
   /* ---------- GLOBAL (every page, lab only) ---------- */
   var GLOBAL_CSS = `
 body main section.collections .collections__list .collections__item .collections__image-item::after{position:absolute!important;inset:0!important;height:100%!important;width:100%!important;pointer-events:none}
+@media (max-width:760px){body main section.collections .collections__bottom .collections__arrow{display:none!important}body main section.collections .collections__bottom .collections__text-area{padding-right:0!important;flex:1 1 auto!important}}
 main section.collections [class*=collections__wrapper]{padding-bottom:24px!important}
 :root{--r101-o:${O};--r101-ink:#141414;--r101-mute:#5d5d5d;--r101-line:#e7e5e1;--r101-soft:#f5f4f1}
 .rx-content p,.bq-content p,.text__wrapper p,.form__label,.contact-form__wrapper p{font-family:Inter,system-ui,sans-serif!important;letter-spacing:0;line-height:1.32}
