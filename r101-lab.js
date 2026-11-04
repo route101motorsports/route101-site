@@ -1153,10 +1153,10 @@ body.r101-home section.testimonials .carousel__btn,body.r101-home section.produc
       var hub = document.createElement('section');
       hub.id = 'r101-hub';
       hub.innerHTML = '<div class="container"><p class="eb">Route 101 Motorsports</p><h2>Rentals &amp; Garage</h2><div class="g">' +
-        '<div class="c"><p class="k">Motorcycle Rentals</p><h3>Rent a Harley or BMW GS</h3><p>Touring, cruiser and adventure bikes, plus gear, add-ons and guided tours. Pick your dates, pick your bike, book your ride.</p>' +
+        '<div class="c"><p class="k">Motorcycle Rentals</p><h3>Harley &amp; BMW GS</h3><p>Touring, cruiser and adventure bikes, plus gear, add-ons and guided tours. Pick your dates, pick your bike, book your ride.</p>' +
         '<div class="l"><a href="/collections/motorcycle-rentals">Harley Rentals</a><a href="/collections/explore-our-bmw-gs-rental-fleet">BMW GS Rentals</a><a href="/collections/motorcycle-tours">Motorcycle Tours</a><a href="/collections/gear-and-rental-add-ons">Rental Add Ons</a></div>' +
         '<a class="go" href="/collections/route-rental-fleet">See the rental fleet</a></div>' +
-        '<div class="c"><p class="k">Route 101 Garage</p><h3>Service, brakes &amp; tires</h3><p>Harley and BMW GS service, EBC brake jobs, diagnostics, and top-brand tires with mounting and balancing, right here in Carlsbad.</p>' +
+        '<div class="c"><p class="k">Route 101 Garage</p><h3>Service &amp; Tires</h3><p>Harley and BMW GS service, EBC brake jobs, diagnostics, and top-brand tires with mounting and balancing, right here in Carlsbad.</p>' +
         '<div class="l"><a href="/pages/san-diego-harley-service">Harley Service</a><a href="/pages/san-diego-bmw-gs-service">BMW GS Service</a><a href="/pages/harley-brake-service">Harley Brakes</a><a href="/pages/motorcycle-tires">Tires</a></div>' +
         '<a class="go" href="/pages/straight-talk-route-101-motorsports-offers-san-diego-harley-bmw-gs-motorcycle-service-diagnostics-and-tire-installation">Explore the Garage</a></div>' +
         '</div></div>';
