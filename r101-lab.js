@@ -2378,13 +2378,9 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
 `;
   var RH_GROUPS = [
     ['Rent a Motorcycle', 'Pick your bike', '', [
-      ['motorcycle-rentals', 'Harley-Davidson Rentals', 'Street Glide and Heritage Softail. Free helmet, H-D leather jacket and gloves.', IMG_HARLEY],
+      ['motorcycle-rentals', 'Harley-Davidson Rentals', 'Street Glide and Heritage Softail. Free helmet, H\u2011D leather jacket and gloves.', IMG_HARLEY],
       ['explore-our-bmw-gs-rental-fleet', 'BMW GS Rentals', 'R 1250 GS, R 1200 GS and GS Adventure. Pavement, dirt and everything between.', IMG_GS],
       ['route-rental-fleet', 'The Full Fleet', 'Every Harley and BMW GS we rent, side by side.', null, 'all']
-    ]],
-    ['Guided tours', 'Ride with a local', 'two', [
-      ['motorcycle-tours', 'Harley Day Tours', 'Coast, backcountry or desert with a San Diego native. One-day bike rental included.', IMG_HWY],
-      ['book-a-bmw-gs-adventure-tour', 'BMW GS Adventure Tours', 'Guided GS day rides, 100 to 200 miles round trip. One-day bike rental included.', IMG_GS2]
     ]],
     ['Protective Ride Gear', 'Add to Your Ride', '', [
       ['gear-and-rental-add-ons', 'Free Riding Gear', 'Helmet, jacket and gloves free with every rental, plus extras for your trip.', IMG_CITY],
@@ -2392,6 +2388,10 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
       ['dual-sport-add-ons', 'Adventure Bike Gear', 'Raptor helmet, jacket, pants and gloves, plus side cases and top box.', IMG_GS],
       ['roadside-add-ons', 'Rental Protection', 'RiderSHIELD™ from $19/day, plus ProtectionONE and ProtectionPLUS roadside plans.', IMG_BROKE],
       ['route-101-merch', 'Route 101 Merch', 'Route 101 tees in black and white. Wear the shield.', null]
+    ]],
+    ['Guided tours', 'Ride with a local', 'two', [
+      ['motorcycle-tours', 'Harley Day Tours', 'Coast, backcountry or desert with a San Diego native. One-day bike rental included.', IMG_HWY],
+      ['book-a-bmw-gs-adventure-tour', 'BMW GS Adventure Tours', 'Guided GS day rides, 100 to 200 miles round trip. One-day bike rental included.', IMG_GS2]
     ]]
   ];
   function rentalsHub() {
