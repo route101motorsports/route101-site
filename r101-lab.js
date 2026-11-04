@@ -2379,7 +2379,7 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
   var RH_GROUPS = [
     ['Rent a Motorcycle', 'Pick your bike', '', [
       ['motorcycle-rentals', 'Harley-Davidson Rentals', 'Street Glide and Heritage Softail. Free helmet, H-D leather jacket and gloves.', IMG_HARLEY],
-      ['explore-our-bmw-gs-rental-fleet', 'BMW GS Adventure Rentals', 'R 1250 GS, R 1200 GS and GS Adventure. Pavement, dirt and everything between.', IMG_GS],
+      ['explore-our-bmw-gs-rental-fleet', 'BMW GS Rentals', 'R 1250 GS, R 1200 GS and GS Adventure. Pavement, dirt and everything between.', IMG_GS],
       ['route-rental-fleet', 'The Full Fleet', 'Every Harley and BMW GS we rent, side by side.', null, 'all']
     ]],
     ['Guided tours', 'Ride with a local', 'two', [
@@ -2387,10 +2387,10 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
       ['book-a-bmw-gs-adventure-tour', 'BMW GS Adventure Tours', 'Guided GS day rides, 100 to 200 miles round trip. One-day bike rental included.', IMG_GS2]
     ]],
     ['Gear, protection & merch', 'Add to Your Ride', '', [
-      ['gear-and-rental-add-ons', 'Free Riding Gear & Add-Ons', 'Helmet, jacket and gloves free with every rental, plus extras for your trip.', IMG_CITY],
+      ['gear-and-rental-add-ons', 'Free Riding Gear', 'Helmet, jacket and gloves free with every rental, plus extras for your trip.', IMG_CITY],
       ['harley-add-ons', 'Harley Riding Gear', 'Venom helmet, Harley-Davidson leather jackets and Milwaukee gloves.', IMG_ROAD],
-      ['dual-sport-add-ons', 'Adventure & Dual Sport Gear', 'Raptor helmet, jacket, pants and gloves, plus side cases and top box.', IMG_GS],
-      ['roadside-add-ons', 'Insurance & Roadside Protection', 'RiderSHIELD™ from $19/day, plus ProtectionONE and ProtectionPLUS roadside plans.', IMG_BROKE],
+      ['dual-sport-add-ons', 'Adventure Bike Gear', 'Raptor helmet, jacket, pants and gloves, plus side cases and top box.', IMG_GS],
+      ['roadside-add-ons', 'Rental Protection', 'RiderSHIELD™ from $19/day, plus ProtectionONE and ProtectionPLUS roadside plans.', IMG_BROKE],
       ['route-101-merch', 'Route 101 Merch', 'Route 101 tees in black and white. Wear the shield.', null]
     ]]
   ];
