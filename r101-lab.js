@@ -2344,7 +2344,7 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
 #r101-rhero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 #r101-rhero:after{content:"";position:absolute;inset:0;background:linear-gradient(127deg,#000 25.94%,rgba(0,0,0,0) 100%);opacity:.72;pointer-events:none}
 #r101-rhero .in{position:relative;z-index:1;width:100%;max-width:1240px;margin:0 auto;padding:120px 24px 90px}
-#r101-rhero h1{font-family:Anton,sans-serif!important;font-size:clamp(40px,4.6vw,66px)!important;line-height:1.04!important;color:#fff!important;margin:0 0 18px!important;max-width:15ch;text-transform:none}
+#r101-rhero h1{font-family:Anton,sans-serif!important;font-size:clamp(40px,4.6vw,66px)!important;line-height:1.04!important;color:#fff!important;margin:0 0 18px!important;max-width:none;text-transform:none}
 #r101-rhero p{font:400 16px/1.5 Inter,sans-serif!important;color:#fff!important;max-width:620px;margin:0 0 28px!important}
 #r101-rhero .bt{display:flex;flex-wrap:wrap;gap:12px}
 #r101-rh{padding:64px 0 72px}
