@@ -948,7 +948,7 @@ body.r101-brakes .r101-checks p i,body.r101-brakes .r101-checks p em{font-size:1
       if (!document.getElementById('r101-steps')) {
         var st = document.createElement('section');
         st.id = 'r101-steps';
-        st.innerHTML = '<div class="w container"><p class="eb">How it works</p><h2>Fresh brakes in 3 easy steps</h2><div class="g">' +
+        st.innerHTML = '<div class="w container"><p class="eb">How it works</p><h2>Brakes in 3 Steps</h2><div class="g">' +
           '<div class="s"><div class="n">1</div><h3>Tell us your Harley</h3><p>Year and model, front, rear or both, and anything you\'ve noticed. Call or use the form.</p></div>' +
           '<div class="s"><div class="n">2</div><h3>We confirm your price</h3><p>Flat price up front. No extra parts or labor without your approval.</p></div>' +
           '<div class="s"><div class="n">3</div><h3>Done while you wait</h3><p>Grab a free Red Bull or coffee and relax in our Rider Lounge, or ask about a loaner bike.</p></div>' +
