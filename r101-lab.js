@@ -731,7 +731,7 @@ body.r101-ftr footer .r101-pop{font:600 11px/1 Inter,system-ui,sans-serif;letter
     var quote = pf ? '#' + pf.id : '/pages/contact-us';
     var cta = document.createElement('section');
     cta.id = 'r101-cta';
-    cta.innerHTML = '<div class="w container"><div><h2>Need tires, service or a rental?</h2><p>Route 101 Motorsports &amp; Garage &middot; Carlsbad, CA</p></div>' +
+    cta.innerHTML = '<div class="w container"><div><h2>Rentals &bull; Service &bull; Tires</h2><p>Route 101 Motorsports &amp; Garage &middot; Carlsbad, CA</p></div>' +
       '<div class="b"><a class="p" href="tel:+18885095032">Call (888) 509-5032</a><a class="s" href="' + quote + '">Get A Quote</a><a class="s" href="/collections">Book A Rental</a></div></div>';
     f.parentNode.insertBefore(cta, f);
 
