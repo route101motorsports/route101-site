@@ -1152,7 +1152,7 @@ body.r101-home section.testimonials .carousel__btn,body.r101-home section.produc
     if (hero && !document.getElementById('r101-hub')) {
       var hub = document.createElement('section');
       hub.id = 'r101-hub';
-      hub.innerHTML = '<div class="container"><p class="eb">Route 101 Motorsports &amp; Garage</p><h2>Rentals &amp; Garage, all under one roof</h2><div class="g">' +
+      hub.innerHTML = '<div class="container"><p class="eb">Route 101 Motorsports</p><h2>Rentals &amp; Garage</h2><div class="g">' +
         '<div class="c"><p class="k">Motorcycle Rentals</p><h3>Rent a Harley or BMW GS</h3><p>Touring, cruiser and adventure bikes, plus gear, add-ons and guided tours. Pick your dates, pick your bike, book your ride.</p>' +
         '<div class="l"><a href="/collections/motorcycle-rentals">Harley Rentals</a><a href="/collections/explore-our-bmw-gs-rental-fleet">BMW GS Rentals</a><a href="/collections/motorcycle-tours">Motorcycle Tours</a><a href="/collections/gear-and-rental-add-ons">Rental Add Ons</a></div>' +
         '<a class="go" href="/collections/route-rental-fleet">See the rental fleet</a></div>' +
@@ -1763,7 +1763,7 @@ body.r101-rhub .r101-hide-sec{display:none!important}
         c[3].map(function (l) { return '<a href="' + l[1] + '">' + l[0] + '</a>'; }).join('') + '</div><a class="go" href="' + c[4][1] + '">' + c[4][0] + '</a></div>';
     };
     var hub = document.createElement('section'); hub.id = 'r101-hub';
-    hub.innerHTML = '<div class="container"><p class="eb">Route 101 Motorsports &amp; Garage</p><h2>Rentals &amp; Garage, all under one roof</h2><div class="g">' + card(cfg.rent) + card(cfg.gar) + '</div></div>';
+    hub.innerHTML = '<div class="container"><p class="eb">Route 101 Motorsports</p><h2>Rentals &amp; Garage</h2><div class="g">' + card(cfg.rent) + card(cfg.gar) + '</div></div>';
     var secs = [].slice.call(main.children);
     var trust = secs[1] && secs[1].classList.contains('logos') ? secs[1] : null;
     var after = trust || secs[0];
