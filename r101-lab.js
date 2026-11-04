@@ -2386,7 +2386,7 @@ body.r101-rh main section.title,body.r101-rh main section.collections{display:no
       ['motorcycle-tours', 'Harley Day Tours', 'Coast, backcountry or desert with a San Diego native. One-day bike rental included.', IMG_HWY],
       ['book-a-bmw-gs-adventure-tour', 'BMW GS Adventure Tours', 'Guided GS day rides, 100 to 200 miles round trip. One-day bike rental included.', IMG_GS2]
     ]],
-    ['Gear, protection & merch', 'Add to Your Ride', '', [
+    ['Protective Ride Gear', 'Add to Your Ride', '', [
       ['gear-and-rental-add-ons', 'Free Riding Gear', 'Helmet, jacket and gloves free with every rental, plus extras for your trip.', IMG_CITY],
       ['harley-add-ons', 'Harley Riding Gear', 'Venom helmet, Harley-Davidson leather jackets and Milwaukee gloves.', IMG_ROAD],
       ['dual-sport-add-ons', 'Adventure Bike Gear', 'Raptor helmet, jacket, pants and gloves, plus side cases and top box.', IMG_GS],
