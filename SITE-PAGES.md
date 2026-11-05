@@ -77,6 +77,8 @@ Day 1 (Nov 3): DONE, all 10 requested (all already "URL is on Google")
 9. /pages/straight-talk-route-101-motorsports-offers-san-diego-harley-bmw-gs-motorcycle-service-diagnostics-and-tire-installation
 10. /pages/twysted-throttle
 
-Day 2: /pages/san-diego-bmw-adventure-bike-rentals (after its new layout is live), /pages/contact-us, /pages/about-us, /pages/straight-talk, /collections/motorcycle-rentals, /collections/explore-our-bmw-gs-rental-fleet, /products/rent-a-harley-flhx-street-glide-s, /products/rent-a-bmw-r-1250gs, /collections/motorcycle-tours, /privacy-policy
+Day 2 (Nov 5): DONE. Contact, About, Straight Talk hub, /collections/motorcycle-rentals, /collections/explore-our-bmw-gs-rental-fleet, Street Glide S product (before Glenn's rule below), Tours, Privacy Policy, Hidden Costs article, Route 101 vs the Industry article. R 1250 GS product request was interrupted (may or may not have gone through).
 
-Day 3+: remaining Straight Talk articles, then the other product pages. Skip /pages/pacific-beach-harley-rentals (to be deleted) and /collections/all.
+Glenn's rule (Nov 5): index only core pages linked from the header, menu drawer and footer. No bike, gear or other product pages (those are only seen while booking).
+
+Day 3: remaining Straight Talk articles (founder, oil change, prices soar, revving in reverse, human-AI, safety gear, riding fundamentals, peer-to-peer, press release), then BMW Rentals once it is live. Skip product pages, /pages/pacific-beach-harley-rentals (to be deleted), /pages/motorcycle-rental-tips (not linked yet) and /collections/all.
