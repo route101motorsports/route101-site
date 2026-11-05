@@ -314,3 +314,8 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Phones: collection tile titles use the full tile width (hidden hover arrow no longer reserves 55px) -> "Route 101 Rental Fleet" one line (GLOBAL_CSS, pin 17e9245).
 - HOUSE RULE (Glenn): every code-built button/link label capitalizes EVERY word, incl. The/A/Of/And/On/To ("See The Rental Fleet", "Get A Quote On This Tire"). Booqable's own all-caps buttons stay as is. Live pin 41e5a06.
 - Goal this round: remove two-line wraps on phone where it looks better; judge on Glenn's S20, not the emulator.
+
+## Nov 4 pm: header dates -> fleet (pin da47a65)
+- datesGo() in r101-lab.js: Apply in the header "Select rental period" pop-up sends visitors to /collections/route-rental-fleet once the pop-up closes (600ms delay so Booqable saves the dates). Skipped on /collections/* and /products/* pages. GA4 event: dates_applied_to_fleet.
+- This one-click flow existed for years in the old Additional Scripts and was lost when the code moved to GitHub (Oct 31).
+- Saving Additional scripts: ed.setValue() alone leaves Save disabled. Focus the editor and send a real key (space, Backspace) first, then click the form's submit button.
