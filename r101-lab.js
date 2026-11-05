@@ -4228,11 +4228,36 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     }, still ? 8000 : 5000);
   }
 
+  // Header "Select dates" -> Apply goes straight to the full fleet with prices and availability for those dates
+  // (Glenn, Nov 4: one clean click instead of Apply + "Check availability"). Bike and collection pages stay put:
+  // Booqable already refreshes their availability in place.
+  var FLEET_URL = '/collections/route-rental-fleet';
+  function datesGo() {
+    if (window.__r101datesGo) return;
+    window.__r101datesGo = true;
+    var fromHeader = false;
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest('bq-date-picker')) { fromHeader = !!t.closest('#header'); return; }
+      var b = t && t.closest && t.closest('button.rental-options-modal-button');
+      if (!b || !/apply/i.test(b.textContent) || !fromHeader) return;
+      if (/^\/(collections|products)\//.test(location.pathname)) return;
+      var n = 0, iv = setInterval(function () {
+        var open = [].some.call(document.querySelectorAll('button.rental-options-modal-button'), function (x) { return x.offsetParent; });
+        if (open) { if (++n > 40) clearInterval(iv); return; }   // still open after 8s (e.g. invalid dates): stay
+        clearInterval(iv);
+        try { gtag('event', 'dates_applied_to_fleet', { from_page: location.pathname }); } catch (x) {}
+        setTimeout(function () { location.href = FLEET_URL; }, 600);   // let Booqable save the dates to the cart first
+      }, 200);
+    }, true);
+  }
+
   function run() {
     try {
       addFont();
       addStyle('r101-global-css', GLOBAL_CSS);
       header();
+      datesGo();
       menuDrawer();
       footer();
       forms();
