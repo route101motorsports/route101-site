@@ -1027,7 +1027,7 @@ nav.menu.r101-inline .menu__dropdown-item:last-child{border-bottom:0!important}
     var quote = form && form.id ? '#' + form.id : '/pages/contact-us';
     var box = document.createElement('div');
     box.id = 'r101-mcta';
-    box.innerHTML = '<div class="b"><a class="c1" href="tel:+18885095032">Call (888) 509-5032</a><a class="c2" href="' + quote + '">Get A Quote</a></div>' +
+    box.innerHTML = '<div class="b"><a class="c1" href="tel:+18885095032" aria-label="Call (888) 509-5032">Call Now</a><a class="c2" href="' + quote + '">Get A Quote</a></div>' +
       '<p><b>Route 101 Motorsports &amp; Garage</b></p><p>6351 Corte Del Abeto #107, Carlsbad, CA 92011</p><p>Open 7 days, 8am–6pm, by appointment</p>';
     box.querySelector('.c2').addEventListener('click', function () { var o = document.getElementById('mobile-menu-opener'); if (o) o.checked = false; });
     var wrap = nav.querySelector('.menu__wrapper'), list = nav.querySelector('.menu__list');
