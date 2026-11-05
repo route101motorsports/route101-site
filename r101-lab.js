@@ -466,7 +466,7 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       var img = tile.querySelector('img');
       var a = tile.querySelector('a[href]');
       var alt = (img && img.alt || '').replace(/\s*Motorcycle Tires?\s*$/i, '').trim();
-      return { name: alt || (cur.brand + ' tire'), src: bestSrc(tile), href: a ? a.href : '' };
+      return { name: alt || (cur.brand + ' tire'), src: bestSrc(tile), href: a ? (a.getAttribute('data-mf') || a.href) : '' };
     }
     function show(i) {
       var n = cur.tiles.length;
@@ -485,6 +485,7 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       cur.spec = spec ? { d: spec, t: t } : null;
       if (!spec && t.href && t.href.indexOf(location.host) === -1) { sp.href = t.href; sp.textContent = cur.brand + ' tire specs ↗'; sp.style.display = ''; }
       else sp.style.display = 'none';
+      try { history.replaceState(null, '', '#' + brandSlug(t.name)); } catch (x) {}   // address bar = this tire's own share link
       track('tire_closeup', { tire_name: t.name, brand: cur.brand });
     }
     function open(tile) {
@@ -499,7 +500,29 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       show(cur.tiles.indexOf(tile));
       el('.x').focus();
     }
-    function close() { lb.classList.remove('open'); lb.querySelector('.box').classList.remove('sp-on'); document.documentElement.style.overflow = ''; }
+    function close() { try { history.replaceState(null, '', location.pathname + location.search); } catch (x) {} lb.classList.remove('open'); lb.querySelector('.box').classList.remove('sp-on'); document.documentElement.style.overflow = ''; }
+
+    // Each tile links to its own Route 101 share link (/pages/motorcycle-tires#dunlop-ae-2) instead of the brand's site,
+    // so hover, copy link, new tab and long-press stay on our page (Glenn, Nov 5). The brand URL is kept in data-mf
+    // for the "specs" fallback and the Manufacturer Page link inside our card.
+    var allTiles = function () { return [].slice.call(main.querySelectorAll('section.image-gallery .image-gallery__images > div')); };
+    allTiles().forEach(function (tile) {
+      var a = tile.querySelector('a[href]');
+      if (!a || a.hasAttribute('data-mf')) return;
+      a.setAttribute('data-mf', a.href);
+      a.setAttribute('href', location.pathname + '#' + brandSlug(info(tile).name));
+      a.removeAttribute('target');
+    });
+    var openHash = function () {
+      var h = decodeURIComponent((location.hash || '').slice(1));
+      if (!h || lb.classList.contains('open')) return;
+      var tile = allTiles().filter(function (t) { return brandSlug(info(t).name) === h; })[0];
+      if (!tile) return;
+      tile.scrollIntoView({ block: 'center' });
+      open(tile);
+    };
+    setTimeout(openHash, 400);
+    addEventListener('hashchange', openHash);
 
     main.addEventListener('click', function (e) {
       var tile = e.target.closest && e.target.closest('section.image-gallery .image-gallery__images > div');
