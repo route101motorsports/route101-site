@@ -319,3 +319,8 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - datesGo() in r101-lab.js: Apply in the header "Select rental period" pop-up sends visitors to /collections/route-rental-fleet once the pop-up closes (600ms delay so Booqable saves the dates). Skipped on /collections/* and /products/* pages. GA4 event: dates_applied_to_fleet.
 - This one-click flow existed for years in the old Additional Scripts and was lost when the code moved to GitHub (Oct 31).
 - Saving Additional scripts: ed.setValue() alone leaves Save disabled. Focus the editor and send a real key (space, Backspace) first, then click the form's submit button.
+
+## Nov 5: tire share links (pin 98f2e38)
+- Tire tiles now link to /pages/motorcycle-tires#<brand-model> (slug = brandSlug of the tile name) instead of the brand site. Brand URL kept in data-mf (used by the "specs" fallback and the "Manufacturer Page" link in our spec card).
+- Opening the card sets the address bar to the tire's hash; closing clears it. Loading a #tire link scrolls to and opens that tire's card. Example: /pages/motorcycle-tires#dunlop-trailmax-mission
+- Also Nov 5: menu drawer call button reads "Call Now" (0469fbc); BMW pop-up blue (09b862a); BMW card "Engine & Final Drive Oil" + builder heading "BMW GS Services" (7ff2aa1).
