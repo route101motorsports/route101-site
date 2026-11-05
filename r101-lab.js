@@ -2677,6 +2677,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
 #r101-inc .ft{padding:14px 24px 18px;border-top:1px solid var(--r101-line)}
 #r101-inc .ft .button{width:100%;min-height:48px;padding:12px 20px!important;border-radius:999px!important;display:flex!important;align-items:center;justify-content:center;background:${O}!important;border-color:${O}!important;color:#111!important}
 @media (max-width:640px){#r101-inc{padding:10px;align-items:flex-end}#r101-inc .p{max-height:92vh;border-radius:18px}#r101-inc .bd ul{grid-template-columns:1fr}#r101-inc .hd{padding:20px 60px 12px 18px}#r101-inc .bd{padding:14px 18px 6px}#r101-inc .ft{padding:12px 18px 16px}}
+#r101-inc.bmw .p:before,#r101-inc.bmw .bd li:before{background:#1C69D4}#r101-inc.bmw .eb,#r101-inc.bmw .pr,#r101-inc.bmw .bd h4{color:#1C69D4}#r101-inc.bmw .ft .button{background:#1C69D4!important;border-color:#1C69D4!important}
 #r101-plb{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
 #r101-plb img{max-width:min(1200px,96vw);max-height:88vh;width:auto;height:auto;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 #r101-plb button{position:absolute;top:14px;right:16px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#111;font:700 22px/44px Inter,sans-serif;cursor:pointer}
@@ -2754,6 +2755,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
       var old = document.getElementById('r101-inc'); if (old) old.remove();
       var ov = document.createElement('div');
       ov.id = 'r101-inc';
+      if (BR === 'BMW') ov.className = 'bmw';   // BMW GS page: blue instead of Route 101 orange (Glenn, Nov 5)
       ov.innerHTML = '<div class="p" role="dialog" aria-modal="true"><div class="hd"><p class="eb">What\'s included</p><h3></h3><div class="pr"></div>' +
         '<button type="button" class="x" aria-label="Close">&times;</button></div><div class="bd"><p class="ld">Loading&hellip;</p></div>' +
         '<div class="ft"><a class="button button--primary"></a></div></div>';
