@@ -2830,7 +2830,7 @@ body.r101-harley .r101-logorow .logos__images,body.r101-harley .r101-logorow .lo
         ['V-Twin 3-Hole Oil Service', '$195', 'AMSOIL synthetic engine, primary and transmission oil, plus a K&N filter and new derby gasket.', '']
       ],
       'san-diego-bmw-gs-service': [
-        ['BMW Engine & Final Drive Oil Service', '$200', 'AMSOIL synthetic 5W-40 engine oil and 75W-90 final drive oil, plus a new oil filter.', ''],
+        ['Engine & Final Drive Oil', '$200', 'AMSOIL synthetic 5W-40 engine oil and 75W-90 final drive oil, plus a new oil filter.', ''],
         ['BMW Brake Service', 'from $235', 'EBC H-H sintered pads and Motul DOT 4 fluid. Front $235, front & rear $299.', ''],
         ['Rent a BMW GS', 'from $210', 'R 1250 GS, R 1200 GS or GSA, with free riding gear and same-day booking.', '/pages/san-diego-bmw-adventure-bike-rentals', 'rent']
       ]
