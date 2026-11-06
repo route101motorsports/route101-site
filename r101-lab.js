@@ -4353,11 +4353,34 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     var msgs = box.querySelector('.msgs'), inp = box.querySelector('input'), started = false;
     var add = function (cls, html) { var d = document.createElement('div'); d.className = 'm ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; };
     var hist = [], busy = false;
+    var save = function () { try { sessionStorage.setItem('r101adv_hist', JSON.stringify(hist.slice(-20))); } catch (e) {} };
+    var sendQuote = function (d) {
+      var f = document.querySelector('main section.contact-form form'); if (!f) return false;
+      var A = f.querySelector('[name="form[author]"]'), E = f.querySelector('[name="form[email]"]'), B = f.querySelector('[name="form[body]"]');
+      if (!A || !E || !B) return false;
+      var v = function (x) { x = String(x || '').trim(); return x || 'n/a'; };
+      var set = function (el, val) { var pr = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype; Object.getOwnPropertyDescriptor(pr, 'value').set.call(el, val); el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); };
+      set(A, v(d.name) + ' / ' + v(d.phone));
+      set(E, String(d.email || '').trim());
+      set(B, 'Tire request:\nYear, make and model: ' + v(d.bike) + '\nFront, rear or both: ' + v(d.position) + '\nRiding style: ' + v(d.riding) + '\nNotes: ' + v(d.notes) + '\nText when quote is sent: ' + v(d.text) + '\nSent by: Tire Advisor chat');
+      try { sessionStorage.setItem('r101adv_sent', '1'); } catch (e) {}
+      save();
+      try { gtag('event', 'advisor_quote_sent', { lane: lane.lane }); } catch (e) {}
+      var b = f.querySelector('button[type=submit],input[type=submit]');
+      if (b) b.click(); else f.requestSubmit ? f.requestSubmit() : f.submit();
+      return true;
+    };
     var ask = function (q) {
       if (busy) return; busy = true;
-      add('u', esc(q)); hist.push({ role: 'user', content: q });
+      add('u', esc(q)); hist.push({ role: 'user', content: q }); save();
       var t = add('b typing', '&bull;&bull;&bull;');
-      var done = function (text) { t.className = 'm b'; t.innerHTML = esc(text); msgs.scrollTop = msgs.scrollHeight; hist.push({ role: 'assistant', content: text }); busy = false; };
+      var done = function (text) {
+        var m = text.match(/\[\[QUOTE\]\]\s*(\{[\s\S]*\})\s*$/), data = null;
+        if (m) { try { data = JSON.parse(m[1]); } catch (e) {} text = text.slice(0, m.index).trim(); }
+        t.className = 'm b'; t.innerHTML = esc(text); msgs.scrollTop = msgs.scrollHeight;
+        hist.push({ role: 'assistant', content: text }); save(); busy = false;
+        if (data && !sendQuote(data)) add('b', esc("I couldn't send the form from here. Please use the quote form on this page or call (888) 509-5032."));
+      };
       fetch(ADV_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lane: lane.lane, messages: hist.slice(-12) }) })
         .then(function (r) { return r.json(); })
         .then(function (j) { done(j.reply || "Sorry, I'm having trouble right now. Please call us at (888) 509-5032."); })
@@ -4379,6 +4402,15 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     };
     var close = function () { box.classList.remove('open'); document.body.classList.remove('r101-adv-open'); btn.style.display = ''; };
     btn.addEventListener('click', open);
+    try {
+      if (sessionStorage.getItem('r101adv_sent') === '1') {
+        sessionStorage.removeItem('r101adv_sent');
+        var old = JSON.parse(sessionStorage.getItem('r101adv_hist') || '[]');
+        started = true; open();
+        old.forEach(function (m) { add(m.role === 'user' ? 'u' : 'b', esc(m.content)); hist.push(m); });
+        add('b', esc('Your quote request is in. Watch your email; quotes usually go out within 20 to 30 minutes during business hours.'));
+      }
+    } catch (e) {}
     box.querySelector('.x').addEventListener('click', close);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && box.classList.contains('open')) close(); });
     box.querySelector('.q').addEventListener('click', function (e) {
