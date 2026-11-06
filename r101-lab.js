@@ -4383,6 +4383,15 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
         t.className = 'm b'; t.innerHTML = fmt(text); msgs.scrollTop = msgs.scrollHeight;
         hist.push({ role: 'assistant', content: text }); save(); busy = false;
         if (data && !sendQuote(data)) add('b', esc("I couldn't send the form from here. Please use the quote form on this page or call (888) 509-5032."));
+        if (!data && /send it\?\s*$/i.test(text)) {
+          var qc = document.createElement('div'); qc.className = 'chips';
+          [['Yes, Send It', 'Yes, send it'], ['Change Something', 'I need to change something']].forEach(function (o) {
+            var cb = document.createElement('button'); cb.type = 'button'; cb.className = 'chip'; cb.textContent = o[0];
+            cb.addEventListener('click', function () { qc.remove(); ask(o[1]); });
+            qc.appendChild(cb);
+          });
+          msgs.appendChild(qc); msgs.scrollTop = msgs.scrollHeight;
+        }
       };
       fetch(ADV_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lane: lane.lane, messages: hist.length > 40 ? hist.slice(0, 6).concat(hist.slice(-34)) : hist }) })
         .then(function (r) { return r.json(); })
