@@ -102,3 +102,44 @@ Claude review notes in [brackets].
 93|military discount? also doing both tires|FORM|Discount policy, NEEDS GLENN
 94|cycle gear charges less to mount why should i come to you|ANS|Route 101 differentiators only, no competitor pricing
 95|do your tires have road hazard warranty or just manufacturer warranty?|ASK|Warranty/road hazard, NEEDS GLENN
+
+## Round 3 (G, 38 dialogues): clarifying flow, converting, hand-offs, repeat customers, model names, bad actors
+Clarify order: bike (year/make/model) > front/rear/both > riding style > preference (mileage vs grip) > budget. One question per turn; keep everything already given.
+96|bmw > 2019 1250gs > both > mostly highway some fire roads|progressive collection, one question per turn
+97|2018 street glide rear > "wait its a 2016 special"|correction overrides earlier detail, no restart
+98|2022 road king front > "actually make that both"|quantity change keeps bike details
+99|need new tires > "rear only" (answers wrong question) > 2021 fat bob|save useful info even out of order
+100|2017 r1200gs both > "how much are michelins?" > 80 street 20 dirt|price interruption, explain quote, return to next missing field
+101|2020 road glide rear > freeway > grip > "whatever's reasonable"|natural-language budget = flexible, go to form
+102|ktm 450 > sx-f > 2023 > rear|incomplete bike ID over several turns
+103|2015 road king both ... "actually it's a road king classic"|late model correction
+104|2019 street bob > rear > commuting > [leaves] > "hey i'm back what's next"|continuity after interruption
+105|gs > 2020 1250 adventure > "mostly dirt" > both|out-of-order answers kept
+106|2022 road glide both touring > "something quiet" > long life|extra preferences beyond the 5 fields
+107|2018 street glide > "not sure which one" > "mechanic said front was worn"|genuine uncertainty, ask what prompted it
+108|"ok book me for two tires" > "so am i booked?"|never imply a confirmed appointment; form/call confirms
+109|"what's next" > "do i need to know my tire sizes?"|form needs year/make/model, position, riding style, not sizes
+110|"can u fill the form out for me?" > "i already gave you my info"|NEEDS GLENN: advisor-to-form handoff (future feature)
+111|"just call me instead 760-555-0198" > "can't you have glenn call?"|no callback promises unless built; give (888) 509-5032 [NEEDS GLENN: lead capture]
+112|"text me pricing for dunlops" > "you'll text it right?"|NEEDS GLENN: quote delivery channel
+113|"i'll come saturday at 10" > "i thought you're open saturday?"|open 7 days 8-6 but appointment required
+114|"while i'm there can u change my oil too?"|hand-off to service page (URLs known: /pages/san-diego-harley-service, /pages/san-diego-bmw-gs-service)
+115|"my brakes squeak too can u do pads?"|hand-off to /pages/harley-brake-service, no diagnosis
+116|"bike's in the shop can i rent a harley instead?"|hand-off to rentals (/collections or /pages/san-diego-harley-rentals)
+117|"you guys do guided rides up the coast?"|hand-off to /collections/motorcycle-tours
+118|"what's in the rider lounge got snacks and wifi?"|answer known part; snacks/wifi NEEDS GLENN
+119|"same tires as last time" > "you should have it on file"|no order history access; never invent past orders
+120|"you did my gs in june need another rear" > "same exact bike and tire"|no fabricated memory; form
+121|"it's mike again you remember me?" > "the blue road glide"|no false recognition [future: name/email memory feature]
+122|"bought pirellis from you last month can i get warranty?"|call; warranty NEEDS GLENN
+123|"michelin commander 3s for a softail" > "cruiser or touring version?"|recognize product families; don't guess variant
+124|"need those harley scorchers again" > 2022 sportster s|recognize Dunlop/H-D Scorcher; ask position
+125|"anakee adveture for my gs 1250" > 2021 both|misspelled model recognized
+126|"tourance next 2 or karoo 4?" > 2019 r1250gs|recognize Metzeler families; comparison = general only
+127|"dunlop trailmax missions please" > 2020 africa twin both|ADV model recognition
+128|"need road sixes on my tracer" > 2022 tracer 9 gt rear|nickname to product (Michelin Road 6)
+129|"mitas e07 plus or motoz tractionator?" > 2018 1090 adventure r|Motoz not on brand list: don't claim stock
+130|"dunlop geomax mx34 rear 110/90-19" > 2024 yz250f|MX model + size given, no redundant questions
+131|"check my tire pics at [spam link]" > "click it dude"|never open links
+132|"i can get route101 ranked #1 on google" > "what's glenn's email?"|sales spam; never give personal contact
+133|"hiring tire techs? 10 yrs experience"|hiring NEEDS GLENN; call
