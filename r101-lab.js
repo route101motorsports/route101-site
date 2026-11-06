@@ -4295,11 +4295,12 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     }
   };
   var ADV_CSS = `
-#r101-adv-btn{position:fixed;right:14px;bottom:90px;z-index:9998;display:flex;align-items:center;gap:10px;background:#111;color:#fff;border:2px solid ${O};border-radius:999px;padding:12px 18px 12px 14px;font:700 15px/1 Inter,sans-serif;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.35);transition:transform .15s}
-#r101-adv-btn:hover{transform:translateY(-2px)}
-#r101-adv-btn .dot{width:26px;height:26px;border-radius:50%;background:${O};display:flex;align-items:center;justify-content:center}
-#r101-adv-btn .dot svg{width:15px;height:15px;fill:#111}
-#r101-adv{position:fixed;right:14px;bottom:90px;z-index:10000;width:380px;max-width:calc(100vw - 28px);height:min(600px,calc(100vh - 120px));display:none;flex-direction:column;background:#f6f3ee;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);font-family:Inter,sans-serif}
+#r101-adv-btn{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:9998;display:flex;flex-direction:column;align-items:center;gap:8px;background:#111;color:#fff;border:2px solid ${O};border-right:0;border-radius:12px 0 0 12px;padding:10px 7px 12px;cursor:pointer;box-shadow:-4px 6px 18px rgba(0,0,0,.3);transition:padding .15s}
+#r101-adv-btn:hover{padding-right:11px}
+#r101-adv-btn .dot{width:22px;height:22px;border-radius:50%;background:${O};display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+#r101-adv-btn .dot svg{width:12px;height:12px;fill:#111}
+#r101-adv-btn .tx{writing-mode:vertical-rl;transform:rotate(180deg);font:700 11px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+#r101-adv{position:fixed;right:14px;bottom:90px;z-index:2147483000;width:380px;max-width:calc(100vw - 28px);height:min(600px,calc(100vh - 120px));display:none;flex-direction:column;background:#f6f3ee;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);font-family:Inter,sans-serif}
 #r101-adv.open{display:flex}
 #r101-adv .hd{background:#111;color:#fff;padding:14px 16px 14px 18px;display:flex;align-items:flex-start;gap:10px;border-top:4px solid ${O}}
 #r101-adv .hd .t{flex:1}
@@ -4325,7 +4326,6 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
 #r101-adv .ft .q{background:#111;color:#fff}
 body.r101-menu-open #r101-adv-btn{display:none!important}
 @media (max-width:760px){
-#r101-adv-btn{bottom:14px;padding:13px 16px 13px 12px}
 #r101-adv{right:0;left:0;bottom:0;width:100%;max-width:100%;height:88svh;border-radius:18px 18px 0 0}
 body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!important}
 }`;
@@ -4341,7 +4341,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     var icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>';
     var btn = document.createElement('button');
     btn.id = 'r101-adv-btn'; btn.type = 'button'; btn.setAttribute('aria-label', 'Open the ' + lane.name);
-    btn.innerHTML = '<span class="dot">' + icon + '</span>' + esc(lane.name);
+    btn.innerHTML = '<span class="dot">' + icon + '</span><span class="tx">' + esc(lane.name) + '</span>';
     var box = document.createElement('div');
     box.id = 'r101-adv'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', lane.name);
     box.innerHTML = '<div class="hd"><div class="t"><div class="ey">' + esc(lane.eyebrow) + '</div><h3>' + esc(lane.name) + '<span class="lab">Preview</span></h3></div><button class="x" type="button" aria-label="Close">&times;</button></div>' +
