@@ -324,3 +324,12 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Tire tiles now link to /pages/motorcycle-tires#<brand-model> (slug = brandSlug of the tile name) instead of the brand site. Brand URL kept in data-mf (used by the "specs" fallback and the "Manufacturer Page" link in our spec card).
 - Opening the card sets the address bar to the tire's hash; closing clears it. Loading a #tire link scrolls to and opens that tire's card. Example: /pages/motorcycle-tires#dunlop-trailmax-mission
 - Also Nov 5: menu drawer call button reads "Call Now" (0469fbc); BMW pop-up blue (09b862a); BMW card "Engine & Final Drive Oil" + builder heading "BMW GS Services" (7ff2aa1).
+
+## AI Advisor (Nov 6, 2026) — LAB look-and-feel preview
+- `advisor()` + `ADV` config + `ADV_CSS` in r101-lab.js. TEST MODE ONLY: `?advisor=test` (`?advisor=off` clears), `ADV_LIVE = false`.
+- Tire page only so far (lane `tires`). Canned answers to 4 quick-tap questions; typed questions get a "preview only" reply. No AI connected yet.
+- Launcher: slim right-edge tab, vertically centered (clears Call Now bottom-left and the reCAPTCHA badge bottom-right); text reads top-to-bottom under the orange dot (Glenn adopted, Nov 6).
+- Panel: dark header (eyebrow "Route 101 Garage", "Tire Advisor", "Preview" tag), cream messages, input, footer "Call Us" + "Get A Tire Quote" (scrolls to the form). Phone = bottom sheet 88svh. z-index above reCAPTCHA.
+- Plan: 1) look (done, iterating) 2) accounts: Anthropic API w/ spend cap + Cloudflare (Glenn signs up) 3) knowledge bank (Glenn + Claude + G) 4) Cloudflare Worker relay holds the key, one brain, lanes per page 5) live on tires, then service pages 6) weekly log review.
+- Phase 2 idea: WPS Data Depot API (dealer token from wps-inc.com/data-depot/v4/api/api-token; fitment needs WPS rep approval) for live stock/pricing. Token only as a Worker secret; dealer cost never sent to the browser.
+- Pinned: d0f826f.
