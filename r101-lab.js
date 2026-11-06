@@ -4437,7 +4437,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     box.querySelector('form').addEventListener('submit', function (e) {
       e.preventDefault();
       var v = inp.value.trim(); if (!v || busy) return;
-      inp.value = ''; ask(v);
+      inp.value = ''; var c0 = msgs.querySelector('.chips'); if (c0 && msgs.querySelectorAll('.m.u').length === 0) c0.remove(); ask(v);
     });
   }
   function run() {
