@@ -169,6 +169,7 @@ export default {
       if (!r.ok) { console.log('anthropic error', r.status, await r.text()); return json({ reply: "Sorry, I'm having trouble right now. Please call us at (888) 509-5032." }, 502, origin); }
       data = await r.json();
       const tx = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('').trim(); if (tx) said.push(tx);
+      console.log(JSON.stringify({ step: i, stop: data.stop_reason, blocks: (data.content || []).map(c => c.type + (c.type === 'tool_use' ? ':' + c.name + ':' + JSON.stringify(c.input) : '')), out_tokens: data.usage && data.usage.output_tokens }));
       const uses = (data.content || []).filter(c => c.type === 'tool_use');
       if (data.stop_reason !== 'tool_use' || !uses.length) break;
       convo.push({ role: 'assistant', content: data.content });
