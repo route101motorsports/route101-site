@@ -164,7 +164,7 @@ export default {
       const r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-        body: JSON.stringify({ model: MODEL, max_tokens: 600, system, messages: convo, ...(useTools ? { tools: TOOLS, tool_choice: { type: i === MAXI - 1 ? 'none' : 'auto' } } : {}) })
+        body: JSON.stringify({ model: MODEL, max_tokens: 2500, system, messages: convo, ...(useTools ? { tools: TOOLS, tool_choice: { type: i === MAXI - 1 ? 'none' : 'auto' } } : {}) })
       });
       if (!r.ok) { console.log('anthropic error', r.status, await r.text()); return json({ reply: "Sorry, I'm having trouble right now. Please call us at (888) 509-5032." }, 502, origin); }
       data = await r.json();
@@ -190,7 +190,7 @@ export default {
         const r2 = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
           headers: { 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-          body: JSON.stringify({ model: MODEL, max_tokens: 600, system, messages: convo, ...(useTools ? { tools: TOOLS, tool_choice: { type: 'none' } } : {}) })
+          body: JSON.stringify({ model: MODEL, max_tokens: 2500, system, messages: convo, ...(useTools ? { tools: TOOLS, tool_choice: { type: 'none' } } : {}) })
         });
         if (r2.ok) { const d2 = await r2.json(); reply = (d2.content || []).filter(c => c.type === 'text').map(c => c.text).join('').trim(); }
       } catch (e) { console.log('retry error', String(e)); }
