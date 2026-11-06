@@ -4353,6 +4353,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     var msgs = box.querySelector('.msgs'), inp = box.querySelector('input'), started = false;
     var add = function (cls, html) { var d = document.createElement('div'); d.className = 'm ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; };
     var hist = [], busy = false;
+    var fmt = function (x) { return esc(x).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>'); };
     var save = function () { try { sessionStorage.setItem('r101adv_hist', JSON.stringify(hist.slice(-20))); } catch (e) {} };
     var sendQuote = function (d) {
       var f = document.querySelector('main section.contact-form form'); if (!f) return false;
@@ -4375,9 +4376,10 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
       add('u', esc(q)); hist.push({ role: 'user', content: q }); save();
       var t = add('b typing', '&bull;&bull;&bull;');
       var done = function (text) {
-        var m = text.match(/\[\[QUOTE\]\]\s*(\{[\s\S]*\})\s*$/), data = null;
-        if (m) { try { data = JSON.parse(m[1]); } catch (e) {} text = text.slice(0, m.index).trim(); }
-        t.className = 'm b'; t.innerHTML = esc(text); msgs.scrollTop = msgs.scrollHeight;
+        var m = text.match(/\[\[QUOTE\]\]\s*(\{[^\n]*\})/), data = null;
+        if (m) { try { data = JSON.parse(m[1]); } catch (e) {} text = (text.slice(0, m.index) + text.slice(m.index + m[0].length)).trim(); }
+        if (data && !text) text = 'Got it, sending your quote request now. Expect an emailed quote, usually within 20 to 30 minutes during business hours.';
+        t.className = 'm b'; t.innerHTML = fmt(text); msgs.scrollTop = msgs.scrollHeight;
         hist.push({ role: 'assistant', content: text }); save(); busy = false;
         if (data && !sendQuote(data)) add('b', esc("I couldn't send the form from here. Please use the quote form on this page or call (888) 509-5032."));
       };
@@ -4407,7 +4409,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
         sessionStorage.removeItem('r101adv_sent');
         var old = JSON.parse(sessionStorage.getItem('r101adv_hist') || '[]');
         started = true; open();
-        old.forEach(function (m) { add(m.role === 'user' ? 'u' : 'b', esc(m.content)); hist.push(m); });
+        old.forEach(function (m) { add(m.role === 'user' ? 'u' : 'b', m.role === 'user' ? esc(m.content) : fmt(m.content)); hist.push(m); });
         add('b', esc('Your quote request is in. Watch your email; quotes usually go out within 20 to 30 minutes during business hours.'));
       }
     } catch (e) {}
