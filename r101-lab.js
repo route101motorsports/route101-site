@@ -4280,10 +4280,11 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   // ===== AI Advisor (LAB look-and-feel preview, canned answers; no AI connected yet) =====
   // TEST MODE ONLY: ?advisor=test turns it on for this device, ?advisor=off clears. ADV_LIVE = true shows everyone.
   var ADV_LIVE = false;
+  var ADV_URL = 'https://route101-advisor.silent-firefly-3c6d.workers.dev/';
   var ADV = {
     tires: {
       re: /^\/pages\/motorcycle-tires\/?$/,
-      name: 'Tire Advisor', eyebrow: 'Route 101 Garage',
+      lane: 'tires', name: 'Tire Advisor', eyebrow: 'Route 101 Garage',
       hello: "Hey, I'm the Route 101 Tire Advisor. Ask me anything about motorcycle tires, mounting, or getting a quote for your bike.",
       quote: ['Get A Tire Quote', '#contact-form'],
       chips: [
@@ -4351,15 +4352,22 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     document.body.appendChild(btn); document.body.appendChild(box);
     var msgs = box.querySelector('.msgs'), inp = box.querySelector('input'), started = false;
     var add = function (cls, html) { var d = document.createElement('div'); d.className = 'm ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; };
-    var reply = function (text) {
+    var hist = [], busy = false;
+    var ask = function (q) {
+      if (busy) return; busy = true;
+      add('u', esc(q)); hist.push({ role: 'user', content: q });
       var t = add('b typing', '&bull;&bull;&bull;');
-      setTimeout(function () { t.className = 'm b'; t.innerHTML = esc(text); msgs.scrollTop = msgs.scrollHeight; }, 800);
+      var done = function (text) { t.className = 'm b'; t.innerHTML = esc(text); msgs.scrollTop = msgs.scrollHeight; hist.push({ role: 'assistant', content: text }); busy = false; };
+      fetch(ADV_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lane: lane.lane, messages: hist.slice(-12) }) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) { done(j.reply || "Sorry, I'm having trouble right now. Please call us at (888) 509-5032."); })
+        .catch(function () { done("Sorry, I'm having trouble right now. Please call us at (888) 509-5032."); });
     };
     var chips = function () {
       var c = document.createElement('div'); c.className = 'chips';
       lane.chips.forEach(function (ch) {
         var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = ch[0];
-        b.addEventListener('click', function () { add('u', esc(ch[0])); reply(ch[1]); });
+        b.addEventListener('click', function () { c.remove(); ask(ch[0]); });
         c.appendChild(b);
       });
       msgs.appendChild(c);
@@ -4379,9 +4387,8 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     });
     box.querySelector('form').addEventListener('submit', function (e) {
       e.preventDefault();
-      var v = inp.value.trim(); if (!v) return;
-      add('u', esc(v)); inp.value = '';
-      reply("Thanks! This is a preview, so I can only answer the quick questions for now. Once I'm connected, I'll answer this from Route 101's tire knowledge. In the meantime, call (888) 509-5032 or send the tire quote form.");
+      var v = inp.value.trim(); if (!v || busy) return;
+      inp.value = ''; ask(v);
     });
   }
   function run() {
