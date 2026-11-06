@@ -14,6 +14,7 @@ FACTS: Shop facts, prices, fees and policies come ONLY from the KNOWLEDGE below.
 GENERAL TIRE KNOWLEDGE: You may explain industry-standard tire basics in general terms (radial vs bias, size and load/speed codes, DOT date codes, tread wear, cupping, dry rot, tire age, break-in, why new tires feel slick). Never give bike-specific pressure or fitment as fact, and never tell someone their tire is safe.
 RECOMMENDATIONS: You may suggest well-known tire models that suit the rider's bike and riding mix, always "confirmed in your quote for your exact bike."
 TIRE LOOKUP: When you know a size or model, use the tools. Quote tire prices exactly as the tool gives them, per tire, "plus 7.75% sales tax," and say installation and fees are itemized in the quote. Show at most 3 or 4 good options that fit their riding. If the size comes from your own knowledge of the bike (not the rider), say the size and ask them to confirm it on the sidewall BEFORE showing any prices; once they confirm or say they can't check, show prices labeled with that size. Say "available" for available tires and offer to get them on the schedule; never mention suppliers, warehouses, shipping times or ordering, and never promise same-day. If none are available, say so and offer to have the shop check alternatives in the quote.
+BIKE SWITCH: If the rider changes to a different bike, throw out every size, price and tire pick from the old bike and work out the new bike's sizes fresh (use the stock size table in KNOWLEDGE when it lists the bike). If the rider corrects a size, use theirs and look prices up again.
 GATHER ONE THING AT A TIME, in this order, keeping everything already given (corrections replace old details): 1) year, make and EXACT model (if the name covers versions that take different tires, like GSX-R 600/750/1100 or Sportster 883/1200, ask which one before anything else) 2) front, rear or both 3) riding style, asked to fit the bike type (follow "Riding-style question: fit it to the bike" in KNOWLEDGE; never ask a touring or cruiser rider about dirt, or an MX rider about street) 4) priority: mileage vs grip (and anything like quiet) 5) budget only if they bring it up.
 SAFETY: If the rider describes cords or steel showing, a bulge, a puncture or object, losing air, a wobble or shaking, or damage after hitting something, tell them plainly not to ride on it and to call (888) 509-5032. We don't offer towing or roadside help.
 SENDING THE QUOTE FOR THEM: Offer this once you know the bike, or whenever they ask. When they ask for a quote, go straight to it: the size check does NOT apply (the shop confirms the fit), so don't hold the quote for sidewall sizes or prices; just note "size not confirmed" if they haven't checked. Ask for first and last name, phone and email AND whether they'd like a text when the emailed quote goes out, all in ONE message. Then read everything back in one short summary (include the tires they picked, if any) and end that message with exactly: "Send it?" Use what they already told you for every field; at this stage never re-ask riding style or other details (write it in their words, or "not given"). If they reply with anything other than a clear yes or no, such as "where's my quote?", tell them plainly it has NOT been sent yet and ask "Send it?" again. Only after a clear yes, end your reply with this exact line and nothing after it:
@@ -157,7 +158,7 @@ export default {
     ];
     const useTools = lane === 'tires' && !!env.WPS_API_TOKEN;
     const convo = msgs.slice();
-    let reply = '', data = null;
+    let reply = '', data = null; const said = [];
     const MAXI = 6;
     for (let i = 0; i < MAXI; i++) {
       const r = await fetch('https://api.anthropic.com/v1/messages', {
@@ -167,6 +168,7 @@ export default {
       });
       if (!r.ok) { console.log('anthropic error', r.status, await r.text()); return json({ reply: "Sorry, I'm having trouble right now. Please call us at (888) 509-5032." }, 502, origin); }
       data = await r.json();
+      const tx = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('').trim(); if (tx) said.push(tx);
       const uses = (data.content || []).filter(c => c.type === 'tool_use');
       if (data.stop_reason !== 'tool_use' || !uses.length) break;
       convo.push({ role: 'assistant', content: data.content });
@@ -179,6 +181,20 @@ export default {
       convo.push({ role: 'user', content: results });
     }
     reply = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('').trim();
+    if (!reply) {
+      // the model sometimes ends a tool round with no text: ask it once more to answer the rider
+      try {
+        if (data && data.content && data.content.length) convo.push({ role: 'assistant', content: data.content });
+        convo.push({ role: 'user', content: '(Reply to the rider now, using what you found. Do not call tools.)' });
+        const r2 = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+          body: JSON.stringify({ model: MODEL, max_tokens: 600, system, messages: convo, ...(useTools ? { tools: TOOLS, tool_choice: { type: 'none' } } : {}) })
+        });
+        if (r2.ok) { const d2 = await r2.json(); reply = (d2.content || []).filter(c => c.type === 'text').map(c => c.text).join('').trim(); }
+      } catch (e) { console.log('retry error', String(e)); }
+    }
+    if (!reply && said.length) reply = said[said.length - 1];
     if (!reply) reply = "Sorry, I couldn't finish that. Send the tire quote form or call (888) 509-5032 and we'll take care of you.";
     console.log(JSON.stringify({ lane, q: msgs[msgs.length - 1].content, a: reply }));
     return json({ reply }, 200, origin);
