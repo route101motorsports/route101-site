@@ -333,3 +333,7 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Plan: 1) look (done, iterating) 2) accounts: Anthropic API w/ spend cap + Cloudflare (Glenn signs up) 3) knowledge bank (Glenn + Claude + G) 4) Cloudflare Worker relay holds the key, one brain, lanes per page 5) live on tires, then service pages 6) weekly log review.
 - Phase 2 idea: WPS Data Depot API (dealer token from wps-inc.com/data-depot/v4/api/api-token; fitment needs WPS rep approval) for live stock/pricing. Token only as a Worker secret; dealer cost never sent to the browser.
 - Pinned: d0f826f.
+- Nov 6 (later): Anthropic Console org "Route 101 Motorsports" (info@ login, linked to Glenn's Max plan: $100/mo API credit, spend limit set to $20/mo, auto-reload off). API key "route101-advisor" (Default workspace, never expires) lives ONLY as Cloudflare secret ANTHROPIC_API_KEY.
+- Cloudflare (info@ account): Worker `route101-advisor` at https://route101-advisor.silent-firefly-3c6d.workers.dev/ (code = advisor/worker.js, pasted via the dashboard editor; redeploy by pasting again). Model claude-haiku-5-5, knowledge read from advisor/knowledge.md on GitHub main (5-min cache), CORS locked to route101motorsports.com, 30 msgs/10 min per IP, logs (q+a) in Workers Logs.
+- Bubble now calls the relay (ADV_URL) for chips and typed questions. Still test mode only. Pinned: 442168f.
+- NEXT: build out advisor/knowledge.md (Glenn + Claude + G), then Service lane, then go live.
