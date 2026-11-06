@@ -4280,6 +4280,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   // ===== AI Advisor (LAB look-and-feel preview, canned answers; no AI connected yet) =====
   // TEST MODE ONLY: ?advisor=test turns it on for this device, ?advisor=off clears. ADV_LIVE = true shows everyone.
   var ADV_LIVE = false;
+  var ADV_NAMES = { '/pages/san-diego-harley-service': 'Harley Service page', '/pages/san-diego-bmw-gs-service': 'BMW GS Service page', '/pages/harley-brake-service': 'Harley Brake page', '/collections': 'Rentals page', '/pages/san-diego-harley-rentals': 'Harley Rentals page', '/pages/san-diego-bmw-adventure-bike-rentals': 'BMW GS Rentals page', '/collections/motorcycle-tours': 'Tours page', '/pages/motorcycle-tires': 'Tires page' };
   var ADV_URL = 'https://route101-advisor.silent-firefly-3c6d.workers.dev/';
   var ADV = {
     tires: {
@@ -4353,7 +4354,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     var msgs = box.querySelector('.msgs'), inp = box.querySelector('input'), started = false;
     var add = function (cls, html) { var d = document.createElement('div'); d.className = 'm ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; };
     var hist = [], busy = false;
-    var fmt = function (x) { return esc(x).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>'); };
+    var fmt = function (x) { return esc(x).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(https?:\/\/(?:www\.)?route101motorsports\.com)?(\/(?:pages|collections|products)\/[a-z0-9\-\/#]+[a-z0-9\/])/gi, function (m0, d, path) { return '<a href="' + path + '" style="color:#c25100;font-weight:600">' + (ADV_NAMES[path.replace(/\/$/, '')] || 'this page') + '</a>'; }).replace(/\(?(\(888\) 509-5032|888-509-5032)\)?/g, function (m) { return '<a href="tel:+18885095032" style="color:#c25100;font-weight:600">' + m + '</a>'; }).replace(/\n/g, '<br>'); };
     var save = function () { try { sessionStorage.setItem('r101adv_hist', JSON.stringify(hist.slice(-20))); } catch (e) {} };
     var sendQuote = function (d) {
       var f = document.querySelector('main section.contact-form form'); if (!f) return false;
