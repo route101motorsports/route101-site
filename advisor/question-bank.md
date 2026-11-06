@@ -43,3 +43,62 @@ Claude review notes in [brackets].
 38|need new shoes for my hog asap|ASK|[Claude: "shoes" = tires; ask which Harley, not what they meant]
 39|tire's bald on the cords can i ride over there?|ANS|No remote safety clearance [Claude: safety rule, advise not to ride on cords, call]
 40|hola necesito llantas para mi moto cuanto cuestan instaladas|FORM|Year/make/model, front/rear/both, riding style [reply in Spanish]
+
+## Round 1b (Claude, 15)
+41|my tire says MU85B16 what is that in normal size|ASK|Bike year/make/model; alpha-size conversion, NEEDS GLENN
+42|tpms light came on after my last tire change|ASK|TPMS/valve stem policy, NEEDS GLENN
+43|how old is too old for a tire? mine look fine but r 8 yrs old|ANS-SAFETY|Age guidance, NEEDS GLENN
+44|can i run a different brand front and rear|ANS|Mixing policy, NEEDS GLENN
+45|tri glide rear tire, you do trikes?|ASK|Trike policy, NEEDS GLENN
+46|sand/dune paddle for my yz?|ASK|Paddle tire availability, NEEDS GLENN
+47|you take my old tires?|ANS|Disposal fee/policy, NEEDS GLENN
+48|how do i get the quote back, text or email?|ANS|Quote reply channel and timing, NEEDS GLENN
+49|are you a real person|ANS|Say it's the Route 101 Tire Advisor, an AI assistant
+50|can i talk to glenn|Call|None
+51|tires|ASK|Everything (one-word message)
+52|(emoji only: motorcycle + question mark)|ASK|Everything
+53|I HAVE BEEN WAITING 3 DAYS FOR A CALL BACK|Call|Calm, apologize, give phone
+54|do u ship tires or just install|ANS|Shipping/drop-ship policy, NEEDS GLENN
+55|got 2 bikes, need both done, road king and a ktm 350|ASK|Both bikes' years; riding style per bike
+
+## Round 2 (G, 40): sizing, wheels/tubes, care/safety, odd vehicles, messy humans, logistics, trust
+56|my front says MT90-16 can u get that?|FORM|Year/make/model; conversion, NEEDS GLENN
+57|130/90B16 and 130/90-16 same thing?|ASK|Construction compatibility, NEEDS GLENN
+58|whats the diff between radial and bias ply|ANS|Technical explanation, NEEDS GLENN [Claude: general tire education?]
+59|73H on my tire whats that mean|ANS|Rating definitions, NEEDS GLENN [general education?]
+60|tire says 180 65 16 81H can i use 180 60 16 instead|ASK|Fitment verification, NEEDS GLENN
+61|120/70zr19 is that front or rear?|ASK|Bike/model and application, NEEDS GLENN
+62|got wire spokes do i need tubes?|ASK|Wheel type and sealing system, NEEDS GLENN
+63|my gs has cast wheels can u do tubeless?|ANS|Specific wheel compatibility, NEEDS GLENN
+64|got some heavy duty tubes already can u use em|ASK|Customer-supplied tube policy, NEEDS GLENN
+65|rear mx wheel has 2 rim locks is that a problem|ASK|Rim-lock capability, NEEDS GLENN
+66|tubliss system on my dirtbike can u install tires with that|ASK|TUbliss policy, NEEDS GLENN
+67|rim has a little dent can u still mount a tire|Call|Inspection/repair policy, NEEDS GLENN
+68|do new tires come with new valve stems?|ASK|Valve stem inclusion/charges, NEEDS GLENN
+69|how much tread is too little on motorcycle tires|ANS|Tread-depth safety guidance, NEEDS GLENN [general education?]
+70|front tire is cupping bad is that normal?|ASK|Condition; no diagnosis, NEEDS GLENN
+71|rear is flat in the middle but sides look new|ANS|Wear explanation/replacement criteria, NEEDS GLENN
+72|got little cracks all around the sidewall still ok?|Call|No remote safety clearance
+73|DOT 3422 on the side what year is that|ANS|DOT decoding, NEEDS GLENN [general education?]
+74|what psi should i run in my road glide with passenger|ASK|OEM spec, NEEDS GLENN
+75|just got new tires can i lean it over hard right away?|ANS|Break-in guidance, NEEDS GLENN
+76|tire is losing air overnight but no nail anywhere|Call|Leak source unknown; no riding clearance
+77|do u change scooter tires like a vespa 300|ASK|Scooter policy, NEEDS GLENN
+78|need fat tires for my sur ron|ASK|Electric moto policy, NEEDS GLENN
+79|got a rzr need 4 tires mounted|ASK|UTV policy, NEEDS GLENN
+80|can u mount tires on golf cart wheels?|ASK|Golf cart policy, NEEDS GLENN
+81|1974 cb750 original spoke rims need new rubber|FORM|Size, tubes, wheel condition
+82|23 inch front wheel on my custom bagger got options?|FORM|Exact size, wheel specs, supply, NEEDS GLENN
+83|got a sidecar on my ural need all three tires|ASK|Sidecar policy, NEEDS GLENN
+84|need new rims on my bike the rubber things not wheels|ASK|Year/make/model ("rims" = tires)
+85|i got the big black harley with the bags and the radio|ASK|Year/model
+86|hey siri tell tire shop i got 2019 road king need 2 tires uh michelin or dunlop and can i get them done friday after work|FORM|Riding style; Friday after-work timing
+87|me need tyre back bmw gs 1200 road mostly sometimes dirt price with job|FORM|Model year
+88|dude i already told u the bike why keep asking me|ASK|Only genuinely missing detail; keep prior info
+89|where exactly are u and is there trailer parking|Call|Address (known), trailer parking, NEEDS GLENN
+90|can i drop my bike off at 8 and pick up after work|Call|Drop-off/pickup policy, NEEDS GLENN
+91|bringing bike on trailer what do i need to bring with it|ASK|Drop-off checklist, NEEDS GLENN
+92|take apple pay or credit card?|ASK|Payment methods, NEEDS GLENN
+93|military discount? also doing both tires|FORM|Discount policy, NEEDS GLENN
+94|cycle gear charges less to mount why should i come to you|ANS|Route 101 differentiators only, no competitor pricing
+95|do your tires have road hazard warranty or just manufacturer warranty?|ASK|Warranty/road hazard, NEEDS GLENN
