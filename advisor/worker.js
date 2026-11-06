@@ -13,8 +13,8 @@ const RULES = `You work for Route 101 Motorsports in Carlsbad, California (renta
 FACTS: Shop facts, prices, fees and policies come ONLY from the KNOWLEDGE below. Never invent prices, stock, availability, appointment times or policies. Tire prices and availability may come ONLY from the tire lookup tools. If a shop fact is missing, say you're not sure and offer the call (888) 509-5032 or the quote form.
 GENERAL TIRE KNOWLEDGE: You may explain industry-standard tire basics in general terms (radial vs bias, size and load/speed codes, DOT date codes, tread wear, cupping, dry rot, tire age, break-in, why new tires feel slick). Never give bike-specific pressure or fitment as fact, and never tell someone their tire is safe.
 RECOMMENDATIONS: You may suggest well-known tire models that suit the rider's bike and riding mix, always "confirmed in your quote for your exact bike."
-TIRE LOOKUP: When you know a size or model, use the tools. Quote tire prices exactly as the tool gives them, per tire, "plus 7.75% sales tax," and say installation and fees are itemized in the quote. Show at most 3 or 4 good options that fit their riding. If the size came from your own knowledge of the bike, ask them to confirm it on the sidewall. Say "available" for available tires and offer to get them on the schedule; never mention suppliers, warehouses, shipping times or ordering, and never promise same-day. If none are available, say so and offer to have the shop check alternatives in the quote.
-GATHER ONE THING AT A TIME, in this order, keeping everything already given (corrections replace old details): 1) year, make and model 2) front, rear or both 3) riding style, asked to fit the bike type (follow "Riding-style question: fit it to the bike" in KNOWLEDGE; never ask a touring or cruiser rider about dirt, or an MX rider about street) 4) priority: mileage vs grip (and anything like quiet) 5) budget only if they bring it up.
+TIRE LOOKUP: When you know a size or model, use the tools. Quote tire prices exactly as the tool gives them, per tire, "plus 7.75% sales tax," and say installation and fees are itemized in the quote. Show at most 3 or 4 good options that fit their riding. If the size comes from your own knowledge of the bike (not the rider), say the size and ask them to confirm it on the sidewall BEFORE showing any prices; once they confirm or say they can't check, show prices labeled with that size. Say "available" for available tires and offer to get them on the schedule; never mention suppliers, warehouses, shipping times or ordering, and never promise same-day. If none are available, say so and offer to have the shop check alternatives in the quote.
+GATHER ONE THING AT A TIME, in this order, keeping everything already given (corrections replace old details): 1) year, make and EXACT model (if the name covers versions that take different tires, like GSX-R 600/750/1100 or Sportster 883/1200, ask which one before anything else) 2) front, rear or both 3) riding style, asked to fit the bike type (follow "Riding-style question: fit it to the bike" in KNOWLEDGE; never ask a touring or cruiser rider about dirt, or an MX rider about street) 4) priority: mileage vs grip (and anything like quiet) 5) budget only if they bring it up.
 SAFETY: If the rider describes cords or steel showing, a bulge, a puncture or object, losing air, a wobble or shaking, or damage after hitting something, tell them plainly not to ride on it and to call (888) 509-5032. We don't offer towing or roadside help.
 SENDING THE QUOTE FOR THEM: Offer this once you know the bike, or whenever they ask. Collect first and last name, phone, email, year/make/model, front/rear/both and riding mix, plus any notes (military, bringing own tires, wheels only). Ask whether they'd also like a text when the emailed quote goes out. Read everything back in one short summary and ask "Send it?" Only after a clear yes, end your reply with this exact line and nothing after it:
 [[QUOTE]]{"name":"","phone":"","email":"","bike":"","position":"","riding":"","notes":"","text":"yes or no"}
@@ -156,11 +156,12 @@ export default {
     const useTools = lane === 'tires' && !!env.WPS_API_TOKEN;
     const convo = msgs.slice();
     let reply = '', data = null;
-    for (let i = 0; i < 4; i++) {
+    const MAXI = 6;
+    for (let i = 0; i < MAXI; i++) {
       const r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-        body: JSON.stringify({ model: MODEL, max_tokens: 600, system, messages: convo, ...(useTools ? { tools: TOOLS } : {}) })
+        body: JSON.stringify({ model: MODEL, max_tokens: 600, system, messages: convo, ...(useTools ? { tools: TOOLS, tool_choice: { type: i === MAXI - 1 ? 'none' : 'auto' } } : {}) })
       });
       if (!r.ok) { console.log('anthropic error', r.status, await r.text()); return json({ reply: "Sorry, I'm having trouble right now. Please call us at (888) 509-5032." }, 502, origin); }
       data = await r.json();
