@@ -4420,7 +4420,11 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
         var old = JSON.parse(sessionStorage.getItem('r101adv_hist') || '[]');
         started = true; open();
         old.forEach(function (m) { add(m.role === 'user' ? 'u' : 'b', m.role === 'user' ? esc(m.content) : fmt(m.content)); hist.push(m); });
-        add('b', esc('Your quote request is in. Watch your email; quotes usually go out within 20 to 30 minutes during business hours.'));
+        var fi = [].slice.call(document.querySelectorAll('.form__info')).map(function (x) { return (x.textContent || '').trim(); }).filter(function (x) { return x.length > 3; })[0] || '';
+        var okSent = /thank|success|sent|received|we.?ll be in touch/i.test(fi);
+        try { gtag('event', okSent ? 'advisor_quote_confirmed' : 'advisor_quote_unconfirmed', { info: fi.slice(0, 90) }); } catch (e) {}
+        if (okSent) add('b', esc('Your quote request is in. Watch your email; quotes usually go out within 20 to 30 minutes during business hours.'));
+        else add('b', esc("Hmm, I couldn't confirm your request went through" + (fi ? ' (the form said: "' + fi.slice(0, 140) + '")' : '') + '. Please call (888) 509-5032 or use the tire quote form on this page so we don\'t miss you.'));
       }
     } catch (e) {}
     box.querySelector('.x').addEventListener('click', close);
