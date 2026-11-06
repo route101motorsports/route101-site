@@ -13,7 +13,7 @@ const RULES = `You work for Route 101 Motorsports in Carlsbad, California (renta
 FACTS: Shop facts, prices, fees and policies come ONLY from the KNOWLEDGE below. Never invent prices, stock, availability, appointment times or policies. Tire prices and availability may come ONLY from the tire lookup tools. If a shop fact is missing, say you're not sure and offer the call (888) 509-5032 or the quote form.
 GENERAL TIRE KNOWLEDGE: You may explain industry-standard tire basics in general terms (radial vs bias, size and load/speed codes, DOT date codes, tread wear, cupping, dry rot, tire age, break-in, why new tires feel slick). Never give bike-specific pressure or fitment as fact, and never tell someone their tire is safe.
 RECOMMENDATIONS: You may suggest well-known tire models that suit the rider's bike and riding mix, always "confirmed in your quote for your exact bike."
-TIRE LOOKUP: When you know a size or model, use the tools. Quote tire prices exactly as the tool gives them, per tire, "plus 7.75% sales tax," and say installation and fees are itemized in the quote. Show at most 3 or 4 good options that fit their riding. If the size comes from your own knowledge of the bike (not the rider), say the size and ask them to confirm it on the sidewall BEFORE showing any prices; once they confirm or say they can't check, show prices labeled with that size. Say "available" for available tires and offer to get them on the schedule; never mention suppliers, warehouses, shipping times or ordering, and never promise same-day. If none are available, say so and offer to have the shop check alternatives in the quote.
+TIRE LOOKUP: When you know a size or model, use the tools. Never say a brand or tire isn't available unless a lookup for it came back empty; when a rider asks about a brand, look it up with the brand filter. Quote tire prices exactly as the tool gives them, per tire, "plus 7.75% sales tax," and say installation and fees are itemized in the quote. Show at most 3 or 4 good options that fit their riding. If the size comes from your own knowledge of the bike (not the rider), say the size and ask them to confirm it on the sidewall BEFORE showing any prices; once they confirm or say they can't check, show prices labeled with that size. Say "available" for available tires and offer to get them on the schedule; never mention suppliers, warehouses, shipping times or ordering, and never promise same-day. If none are available, say so and offer to have the shop check alternatives in the quote.
 BIKE SWITCH: If the rider changes to a different bike, throw out every size, price and tire pick from the old bike and work out the new bike's sizes fresh (use the stock size table in KNOWLEDGE when it lists the bike). If the rider corrects a size, use theirs and look prices up again.
 GATHER ONE THING AT A TIME, in this order, keeping everything already given (corrections replace old details): 1) year, make and EXACT model (if the name covers versions that take different tires, like GSX-R 600/750/1100 or Sportster 883/1200, ask which one before anything else) 2) front, rear or both 3) riding style, asked to fit the bike type (follow "Riding-style question: fit it to the bike" in KNOWLEDGE; never ask a touring or cruiser rider about dirt, or an MX rider about street) 4) priority: mileage vs grip (and anything like quiet) 5) budget only if they bring it up.
 SAFETY: If the rider describes cords or steel showing, a bulge, a puncture or object, losing air, a wobble or shaking, or damage after hitting something, tell them plainly not to ride on it and to call (888) 509-5032. We don't offer towing or roadside help.
@@ -73,25 +73,29 @@ function pos(name) {
   if (/ (FRONT|FT|FR) /.test(n)) return 'front';
   return '';
 }
+let SUBREQ = 0;
 async function wps(env, path) {
+  if (++SUBREQ > 34) throw new Error('lookup budget');
   const r = await fetch('https://api.wps-inc.com/' + path, { headers: { Authorization: 'Bearer ' + env.WPS_API_TOKEN, Accept: 'application/json' } });
   if (!r.ok) throw new Error('wps ' + r.status);
   return r.json();
 }
-function shape(items, want) {
+function shape(items, want, brand) {
   const out = [], seen = new Set();
   for (const it of items) {
     if (it.product_type !== 'Tires' || !OK_STATUS.includes(it.status) || seen.has(it.sku)) continue;
     seen.add(it.sku);
     const ps = pos(it.name);
     if (want && ps && ps !== 'front or rear' && ps !== want) continue;
+    const bn = it.brand && it.brand.data ? it.brand.data.name : '';
+    if (brand && bn.toUpperCase().indexOf(String(brand).toUpperCase().trim()) < 0) continue;
     const price = retail(it); if (!price) continue;
     const inv = it.inventory && it.inventory.data, total = inv ? +inv.total || 0 : 0;
     const brand = it.brand && it.brand.data ? it.brand.data.name : '';
     out.push({ brand, tire: it.name.replace(/^TIRE\s+/i, ''), position: ps, price: '$' + price.toFixed(2), available: total > 0 });
   }
   out.sort((a, b) => (b.available - a.available) || (parseFloat(a.price.slice(1)) - parseFloat(b.price.slice(1))));
-  return out.slice(0, 10);
+  return out.slice(0, 14);
 }
 function sizeVariants(sz) {
   const s = String(sz || '').toUpperCase().replace(/\s+/g, '');
@@ -100,16 +104,19 @@ function sizeVariants(sz) {
   const [_, w, a, d] = m;
   return [...new Set([s, `${w}/${a}B${d}`, `${w}/${a}R${d}`, `${w}/${a}ZR${d}`, `${w}/${a}-${d}`])];
 }
-async function findBySize(env, size, position) {
+async function findBySize(env, size, position, brand) {
+  // search every spelling of the size (R / ZR / B / dash) and merge: bias tires are listed as B, radials as R or ZR
+  let items = [], hit = [];
   for (const v of sizeVariants(size)) {
-    const av = await wps(env, 'attributevalues?filter[name]=' + encodeURIComponent(v) + '&page[size]=5');
-    for (const a of (av.data || [])) {
-      const it = await wps(env, 'attributevalues/' + a.id + '/items?include=inventory,brand&page[size]=50');
-      const res = shape(it.data || [], position);
-      if (res.length) return { size: v, tires: res };
+    const av = await wps(env, 'attributevalues?filter[name]=' + encodeURIComponent(v) + '&page[size]=3');
+    for (const a of (av.data || []).slice(0, 1)) {
+      const it = await wps(env, 'attributevalues/' + a.id + '/items?include=inventory,brand&page[size]=100');
+      if ((it.data || []).length) { items = items.concat(it.data); hit.push(v); }
     }
   }
-  return { size, tires: [], note: 'No tires found for that size. Ask the rider to double-check the size on the sidewall.' };
+  const res = shape(items, position, brand);
+  if (res.length) return { sizes_found: hit, tires: res };
+  return { size, tires: [], note: brand ? 'No ' + brand + ' tires found in that size.' : 'No tires found for that size. Ask the rider to double-check the size on the sidewall.' };
 }
 async function findByModel(env, model, size, position) {
   const q = 'TIRE ' + String(model || '').toUpperCase().trim();
@@ -121,13 +128,13 @@ async function findByModel(env, model, size, position) {
 }
 const TOOLS = [
   { name: 'find_tires_by_size', description: 'Look up tires we can get in a given size, with our retail price and whether it is available. Use when you know the tire size (from the rider\'s sidewall, or the bike\'s stock size, which you should tell the rider to confirm).',
-    input_schema: { type: 'object', properties: { size: { type: 'string', description: 'Tire size like 180/55B18, 130/90-16, 120/70ZR17' }, position: { type: 'string', enum: ['front', 'rear'] } }, required: ['size'] } },
+    input_schema: { type: 'object', properties: { size: { type: 'string', description: 'Tire size like 180/55B18, 130/90-16, 120/70ZR17' }, position: { type: 'string', enum: ['front', 'rear'] }, brand: { type: 'string', description: 'Optional brand filter, e.g. Dunlop, when the rider asks about a specific brand' } }, required: ['size'] } },
   { name: 'find_tires_by_model', description: 'Look up a specific tire model (for example "Commander III", "Anakee Wild", "Road 6", "Scorcher"), optionally narrowed to a size and position.',
     input_schema: { type: 'object', properties: { model: { type: 'string' }, size: { type: 'string' }, position: { type: 'string', enum: ['front', 'rear'] } }, required: ['model'] } }
 ];
 async function runTool(env, name, input) {
   try {
-    if (name === 'find_tires_by_size') return await findBySize(env, input.size, input.position);
+    if (name === 'find_tires_by_size') return await findBySize(env, input.size, input.position, input.brand);
     if (name === 'find_tires_by_model') return await findByModel(env, input.model, input.size, input.position);
     return { error: 'unknown tool' };
   } catch (e) { console.log('tool error', name, String(e)); return { error: 'Tire lookup is unavailable right now. Offer the quote form instead.' }; }
@@ -151,6 +158,7 @@ export default {
     if (msgs.length > 40) msgs = msgs.slice(0, 6).concat(msgs.slice(-34));
     if (!msgs.length || msgs[msgs.length - 1].role !== 'user') return json({ error: 'no question' }, 400, origin);
     while (msgs.length && msgs[0].role !== 'user') msgs.shift();
+    SUBREQ = 0;
     const kb = await knowledge();
     const system = [
       { type: 'text', text: RULES + '\n\nKNOWLEDGE:\n' + kb, cache_control: { type: 'ephemeral' } },
