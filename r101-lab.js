@@ -4355,7 +4355,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     var add = function (cls, html) { var d = document.createElement('div'); d.className = 'm ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; };
     var hist = [], busy = false;
     var fmt = function (x) { return esc(x).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(https?:\/\/(?:www\.)?route101motorsports\.com)?(\/(?:pages|collections|products)\/[a-z0-9\-\/#]+[a-z0-9\/])/gi, function (m0, d, path) { return '<a href="' + path + '" style="color:#c25100;font-weight:600">' + (ADV_NAMES[path.replace(/\/$/, '')] || 'this page') + '</a>'; }).replace(/\(?(\(888\) 509-5032|888-509-5032)\)?/g, function (m) { return '<a href="tel:+18885095032" style="color:#c25100;font-weight:600">' + m + '</a>'; }).replace(/\n/g, '<br>'); };
-    var save = function () { try { sessionStorage.setItem('r101adv_hist', JSON.stringify(hist.slice(-20))); } catch (e) {} };
+    var save = function () { try { sessionStorage.setItem('r101adv_hist', JSON.stringify(hist.slice(-40))); } catch (e) {} };
     var sendQuote = function (d) {
       var f = document.querySelector('main section.contact-form form'); if (!f) return false;
       var A = f.querySelector('[name="form[author]"]'), E = f.querySelector('[name="form[email]"]'), B = f.querySelector('[name="form[body]"]');
@@ -4384,7 +4384,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
         hist.push({ role: 'assistant', content: text }); save(); busy = false;
         if (data && !sendQuote(data)) add('b', esc("I couldn't send the form from here. Please use the quote form on this page or call (888) 509-5032."));
       };
-      fetch(ADV_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lane: lane.lane, messages: hist.slice(-12) }) })
+      fetch(ADV_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lane: lane.lane, messages: hist.length > 40 ? hist.slice(0, 6).concat(hist.slice(-34)) : hist }) })
         .then(function (r) { return r.json(); })
         .then(function (j) { done(j.reply || "Sorry, I'm having trouble right now. Please call us at (888) 509-5032."); })
         .catch(function () { done("Sorry, I'm having trouble right now. Please call us at (888) 509-5032."); });

@@ -143,9 +143,11 @@ export default {
     let body;
     try { body = await req.json(); } catch (e) { return json({ error: 'bad json' }, 400, origin); }
     const lane = LANES[body.lane] ? body.lane : 'tires';
-    const msgs = (Array.isArray(body.messages) ? body.messages : []).slice(-12)
+    let msgs = (Array.isArray(body.messages) ? body.messages : [])
       .filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
-      .map(m => ({ role: m.role, content: m.content.slice(0, 600) }));
+      .map(m => ({ role: m.role, content: m.content.slice(0, 1200) }));
+    // keep the whole chat; if it's very long, keep the opening (bike details) plus the most recent turns
+    if (msgs.length > 40) msgs = msgs.slice(0, 6).concat(msgs.slice(-34));
     if (!msgs.length || msgs[msgs.length - 1].role !== 'user') return json({ error: 'no question' }, 400, origin);
     while (msgs.length && msgs[0].role !== 'user') msgs.shift();
     const kb = await knowledge();
