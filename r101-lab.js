@@ -4368,7 +4368,8 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
       try { sessionStorage.setItem('r101adv_sent', '1'); } catch (e) {}
       save();
       try { gtag('event', 'advisor_quote_sent', { lane: lane.lane }); } catch (e) {}
-      var b = f.querySelector('button[type=submit],input[type=submit]');
+      // the visible button runs Booqable's reCAPTCHA and then submits; the hidden input[type=submit] skips it (form gets dropped)
+      var b = f.querySelector('button.button--primary') || f.querySelector('button:not([hidden])') || f.querySelector('button[type=submit],input[type=submit]');
       if (b) b.click(); else f.requestSubmit ? f.requestSubmit() : f.submit();
       return true;
     };
