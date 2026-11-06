@@ -4299,7 +4299,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
 #r101-adv-btn:hover{padding-right:11px}
 #r101-adv-btn .dot{width:22px;height:22px;border-radius:50%;background:${O};display:flex;align-items:center;justify-content:center;flex:0 0 auto}
 #r101-adv-btn .dot svg{width:12px;height:12px;fill:#111}
-#r101-adv-btn .tx{writing-mode:vertical-rl;transform:rotate(180deg);font:700 11px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+#r101-adv-btn .tx{writing-mode:vertical-rl;font:700 11px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
 #r101-adv{position:fixed;right:14px;bottom:90px;z-index:2147483000;width:380px;max-width:calc(100vw - 28px);height:min(600px,calc(100vh - 120px));display:none;flex-direction:column;background:#f6f3ee;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);font-family:Inter,sans-serif}
 #r101-adv.open{display:flex}
 #r101-adv .hd{background:#111;color:#fff;padding:14px 16px 14px 18px;display:flex;align-items:flex-start;gap:10px;border-top:4px solid ${O}}
