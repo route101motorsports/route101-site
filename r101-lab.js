@@ -4347,7 +4347,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     box.innerHTML = '<div class="hd"><div class="t"><div class="ey">' + esc(lane.eyebrow) + '</div><h3>' + esc(lane.name) + '<span class="lab">Preview</span></h3></div><button class="x" type="button" aria-label="Close">&times;</button></div>' +
       '<div class="msgs" aria-live="polite"></div>' +
       '<form><input type="text" placeholder="Ask about tires..." aria-label="Your question" maxlength="400"><button type="submit">Send</button></form>' +
-      '<div class="ft"><a class="call" href="tel:+18885095032">Call (888) 509-5032</a><a class="q" href="' + lane.quote[1] + '">' + esc(lane.quote[0]) + '</a></div>';
+      '<div class="ft"><a class="call" href="tel:+18885095032" aria-label="Call Us at (888) 509-5032">Call Us</a><a class="q" href="' + lane.quote[1] + '">' + esc(lane.quote[0]) + '</a></div>';
     document.body.appendChild(btn); document.body.appendChild(box);
     var msgs = box.querySelector('.msgs'), inp = box.querySelector('input'), started = false;
     var add = function (cls, html) { var d = document.createElement('div'); d.className = 'm ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; };
