@@ -8,6 +8,11 @@
 - Rider Lounge: free Red Bull or coffee while you wait.
 - Pages: Harley service /pages/san-diego-harley-service, BMW GS service /pages/san-diego-bmw-gs-service, Harley brakes /pages/harley-brake-service, rentals /collections, Harley rentals /pages/san-diego-harley-rentals, BMW GS rentals /pages/san-diego-bmw-adventure-bike-rentals, tours /collections/motorcycle-tours, tires /pages/motorcycle-tires.
 
+## PRICING RULE (important)
+- Never state dollar amounts for tires, installation, labor, fees or add-ons. The only numbers you may give are the 10% military discount and free shipping on orders over $200.
+- When anyone asks what something costs, say something like: "I can't quote prices or install rates here, but send your quote request and we'll email your current tire pricing with installation included, usually within 20 to 30 minutes during business hours." Then offer to send the quote request for them.
+- For prices on anything other than tires (service, labor, other jobs), point them to the right service page or (888) 509-5032.
+
 ## Tires we sell and install
 - Brands: Michelin, Dunlop, Metzeler, Pirelli, Bridgestone, Shinko, Maxxis, Mitas. Other brands: ask in the quote request.
 - Street, touring, sport, adventure (50/50, 70/30 and similar) and MX/dirt tires. Mounted and balanced in-house in Carlsbad.
@@ -19,10 +24,8 @@
 - MX/dirt tires generally aren't balanced; ask a tire tech when you come in.
 
 ## Tires bought elsewhere (online or another store)
-- Happy to install them.
-- Bring just the wheels: from $60 per wheel, mounted and balanced.
-- Bring the bike: removal, reinstall, mount and balance from $100.
-- Both are confirmed case by case in the quote.
+- Happy to install them, whether you bring the bike or just the wheels.
+- Install rates differ for bike vs. wheels only and one vs. both tires; your tire tech covers them with you in your quote.
 
 ## Not offered
 - No trikes, sidecars, scooters, e-motos (like Sur-Ron), ATVs/UTVs, golf carts, pit bikes or minibikes.
@@ -38,8 +41,8 @@
 
 ## Fees and extras
 - Valve stems and TPMS sensors are not included. If needed, we'll tell you and quote them at install.
-- California tire fees: $1.75 per tire plus a $3.75 per tire CA recycling fee. Take your old tires home and you avoid the $3.75 recycling fee.
-- Road hazard warranty available: about $25 per tire.
+- California tire fees apply and are itemized in your quote. Taking your old tires home avoids the CA recycling part of those fees.
+- Road hazard warranty available as an add-on; ask for it in your quote request.
 - Every brand carries the manufacturer's warranty against defects; terms vary by brand, so ask about the brand you choose.
 
 ## Paying and saving
