@@ -4277,6 +4277,113 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     }, true);
   }
 
+  // ===== AI Advisor (LAB look-and-feel preview, canned answers; no AI connected yet) =====
+  // TEST MODE ONLY: ?advisor=test turns it on for this device, ?advisor=off clears. ADV_LIVE = true shows everyone.
+  var ADV_LIVE = false;
+  var ADV = {
+    tires: {
+      re: /^\/pages\/motorcycle-tires\/?$/,
+      name: 'Tire Advisor', eyebrow: 'Route 101 Garage',
+      hello: "Hey, I'm the Route 101 Tire Advisor. Ask me anything about motorcycle tires, mounting, or getting a quote for your bike.",
+      quote: ['Get A Tire Quote', '#contact-form'],
+      chips: [
+        ['Which tires fit my bike?', "Tell me your year, make and model, and how you ride (touring, around town, adventure or dirt). I'll point you to the right type of tire. For exact options and prices, send the tire quote form and we'll reply with a list to choose from."],
+        ['How long does install take?', 'Most installs are done while you wait, by appointment. We mount and balance in-house in Carlsbad. Grab a free Red Bull or coffee in the Rider Lounge, or ask about a loaner bike.'],
+        ['Which brands do you carry?', 'Michelin, Dunlop, Metzeler, Pirelli, Bridgestone, Shinko, Maxxis and Mitas. We confirm your price before anything is ordered.'],
+        ['Do you do dirt bike tires?', "Yes. Street, adventure and MX tires. We don't mount pit bike or minibike tires, and we don't do flat repairs or plugs."]
+      ]
+    }
+  };
+  var ADV_CSS = `
+#r101-adv-btn{position:fixed;right:14px;bottom:90px;z-index:9998;display:flex;align-items:center;gap:10px;background:#111;color:#fff;border:2px solid ${O};border-radius:999px;padding:12px 18px 12px 14px;font:700 15px/1 Inter,sans-serif;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.35);transition:transform .15s}
+#r101-adv-btn:hover{transform:translateY(-2px)}
+#r101-adv-btn .dot{width:26px;height:26px;border-radius:50%;background:${O};display:flex;align-items:center;justify-content:center}
+#r101-adv-btn .dot svg{width:15px;height:15px;fill:#111}
+#r101-adv{position:fixed;right:14px;bottom:90px;z-index:10000;width:380px;max-width:calc(100vw - 28px);height:min(600px,calc(100vh - 120px));display:none;flex-direction:column;background:#f6f3ee;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);font-family:Inter,sans-serif}
+#r101-adv.open{display:flex}
+#r101-adv .hd{background:#111;color:#fff;padding:14px 16px 14px 18px;display:flex;align-items:flex-start;gap:10px;border-top:4px solid ${O}}
+#r101-adv .hd .t{flex:1}
+#r101-adv .hd .ey{color:${O};font:700 11px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;margin:2px 0 6px}
+#r101-adv .hd h3{font-family:Anton,sans-serif!important;text-transform:uppercase;letter-spacing:.03em;font-size:24px!important;line-height:1!important;margin:0!important;color:#fff!important}
+#r101-adv .hd .lab{display:inline-block;margin-left:8px;vertical-align:middle;font:600 10px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#bbb;border:1px solid #555;border-radius:999px;padding:4px 7px}
+#r101-adv .x{background:none;border:0;color:#fff;font-size:26px;line-height:1;cursor:pointer;padding:0 2px}
+#r101-adv .msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+#r101-adv .m{max-width:86%;padding:10px 13px;border-radius:14px;font:400 15px/1.4 Inter,sans-serif}
+#r101-adv .m.b{background:#fff;color:#1a1a1a;border-bottom-left-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+#r101-adv .m.u{background:${O};color:#111;align-self:flex-end;border-bottom-right-radius:4px;font-weight:600}
+#r101-adv .m.typing{color:#888;letter-spacing:.2em}
+#r101-adv .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+#r101-adv .chip{background:#fff;border:1.5px solid #111;color:#111;border-radius:999px;padding:8px 12px;font:600 13px/1.1 Inter,sans-serif;cursor:pointer}
+#r101-adv .chip:hover{background:#111;color:#fff}
+#r101-adv form{display:flex;gap:8px;padding:10px 12px;background:#fff;border-top:1px solid #e6e0d6}
+#r101-adv input{flex:1;min-width:0;border:1.5px solid #ccc;border-radius:999px;padding:11px 14px;font:400 16px/1.2 Inter,sans-serif;outline:none}
+#r101-adv input:focus{border-color:${O}}
+#r101-adv form button{background:#111;color:#fff;border:0;border-radius:999px;padding:0 16px;font:700 14px/1 Inter,sans-serif;cursor:pointer}
+#r101-adv .ft{display:flex;gap:8px;padding:0 12px 12px;background:#fff}
+#r101-adv .ft a{flex:1;text-align:center;text-decoration:none;border-radius:999px;padding:11px 8px;font:700 14px/1 Inter,sans-serif}
+#r101-adv .ft .call{background:${O};color:#111}
+#r101-adv .ft .q{background:#111;color:#fff}
+body.r101-menu-open #r101-adv-btn{display:none!important}
+@media (max-width:760px){
+#r101-adv-btn{bottom:14px;padding:13px 16px 13px 12px}
+#r101-adv{right:0;left:0;bottom:0;width:100%;max-width:100%;height:88svh;border-radius:18px 18px 0 0}
+body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!important}
+}`;
+  function advisor() {
+    var lane = null, k;
+    for (k in ADV) if (ADV[k].re.test(location.pathname)) lane = ADV[k];
+    if (!lane || document.getElementById('r101-adv-btn')) return;
+    var on = ADV_LIVE;
+    try { var q = new URLSearchParams(location.search).get('advisor'); if (q === 'test') localStorage.setItem('r101adv', '1'); if (q === 'off') localStorage.removeItem('r101adv'); on = on || localStorage.getItem('r101adv') === '1'; } catch (e) {}
+    if (!on) return;
+    addStyle('r101-adv-css', ADV_CSS);
+    var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+    var icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>';
+    var btn = document.createElement('button');
+    btn.id = 'r101-adv-btn'; btn.type = 'button'; btn.setAttribute('aria-label', 'Open the ' + lane.name);
+    btn.innerHTML = '<span class="dot">' + icon + '</span>' + esc(lane.name);
+    var box = document.createElement('div');
+    box.id = 'r101-adv'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', lane.name);
+    box.innerHTML = '<div class="hd"><div class="t"><div class="ey">' + esc(lane.eyebrow) + '</div><h3>' + esc(lane.name) + '<span class="lab">Preview</span></h3></div><button class="x" type="button" aria-label="Close">&times;</button></div>' +
+      '<div class="msgs" aria-live="polite"></div>' +
+      '<form><input type="text" placeholder="Ask about tires..." aria-label="Your question" maxlength="400"><button type="submit">Send</button></form>' +
+      '<div class="ft"><a class="call" href="tel:+18885095032">Call (888) 509-5032</a><a class="q" href="' + lane.quote[1] + '">' + esc(lane.quote[0]) + '</a></div>';
+    document.body.appendChild(btn); document.body.appendChild(box);
+    var msgs = box.querySelector('.msgs'), inp = box.querySelector('input'), started = false;
+    var add = function (cls, html) { var d = document.createElement('div'); d.className = 'm ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; };
+    var reply = function (text) {
+      var t = add('b typing', '&bull;&bull;&bull;');
+      setTimeout(function () { t.className = 'm b'; t.innerHTML = esc(text); msgs.scrollTop = msgs.scrollHeight; }, 800);
+    };
+    var chips = function () {
+      var c = document.createElement('div'); c.className = 'chips';
+      lane.chips.forEach(function (ch) {
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = ch[0];
+        b.addEventListener('click', function () { add('u', esc(ch[0])); reply(ch[1]); });
+        c.appendChild(b);
+      });
+      msgs.appendChild(c);
+    };
+    var open = function () {
+      box.classList.add('open'); document.body.classList.add('r101-adv-open'); btn.style.display = 'none';
+      if (!started) { started = true; add('b', esc(lane.hello)); chips(); }
+      if (innerWidth > 760) setTimeout(function () { inp.focus(); }, 50);
+    };
+    var close = function () { box.classList.remove('open'); document.body.classList.remove('r101-adv-open'); btn.style.display = ''; };
+    btn.addEventListener('click', open);
+    box.querySelector('.x').addEventListener('click', close);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && box.classList.contains('open')) close(); });
+    box.querySelector('.q').addEventListener('click', function (e) {
+      var f = document.querySelector('#contact-form, section.contact-form');
+      if (f) { e.preventDefault(); close(); f.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+    box.querySelector('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = inp.value.trim(); if (!v) return;
+      add('u', esc(v)); inp.value = '';
+      reply("Thanks! This is a preview, so I can only answer the quick questions for now. Once I'm connected, I'll answer this from Route 101's tire knowledge. In the meantime, call (888) 509-5032 or send the tire quote form.");
+    });
+  }
   function run() {
     try {
       addFont();
@@ -4289,6 +4396,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       try { bmwRentalsOrder(); } catch (e) {}
       try { twystedPage(); } catch (e) {}
       try { rentalHub(); } catch (e) {}
+      try { advisor(); } catch (e) {}
       if (/^\/pages\/straight-talk-/.test(location.pathname)) deDash();   // Straight Talk articles only (Glenn)
       if (document.querySelector('main section.accordion')) addStyle('r101-acc-css', ACC_CSS);
       if (location.pathname === '/' || location.pathname === '') homePage();
