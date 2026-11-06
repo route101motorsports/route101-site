@@ -91,8 +91,7 @@ function shape(items, want, brand) {
     if (brand && bn.toUpperCase().indexOf(String(brand).toUpperCase().trim()) < 0) continue;
     const price = retail(it); if (!price) continue;
     const inv = it.inventory && it.inventory.data, total = inv ? +inv.total || 0 : 0;
-    const brand = it.brand && it.brand.data ? it.brand.data.name : '';
-    out.push({ brand, tire: it.name.replace(/^TIRE\s+/i, ''), position: ps, price: '$' + price.toFixed(2), available: total > 0 });
+    out.push({ brand: bn, tire: it.name.replace(/^TIRE\s+/i, ''), position: ps, price: '$' + price.toFixed(2), available: total > 0 });
   }
   out.sort((a, b) => (b.available - a.available) || (parseFloat(a.price.slice(1)) - parseFloat(b.price.slice(1))));
   return out.slice(0, 14);
