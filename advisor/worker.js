@@ -106,6 +106,14 @@ function sizeVariants(sz) {
   const [_, w, a, d] = m;
   return [...new Set([s, `${w}/${a}B${d}`, `${w}/${a}R${d}`, `${w}/${a}ZR${d}`, `${w}/${a}-${d}`])];
 }
+// hand the advisor in-stock and out-of-stock tires as separate lists, with a plain must-do note,
+// so it reliably offers the stock-watch text (Nov 7: it sometimes skipped it when they were mixed together)
+function split(base, res) {
+  const inS = res.filter(t => t.available), outS = res.filter(t => !t.available);
+  const r = Object.assign({}, base, { in_stock: inS, out_of_stock: outS });
+  if (outS.length) r.must_do = 'Out-of-stock tires exist in this size. If any out_of_stock tire suits this rider (same kind of riding as the ones you list), name ONE after your list with the one-line 0-in-stock offer and ask "Want me to keep an eye on it and text you when it\'s in?". If the rider asked for a specific tire and it is out_of_stock, always say so and make that offer.';
+  return r;
+}
 async function findBySize(env, size, position, brand) {
   // search every spelling of the size (R / ZR / B / dash) and merge: bias tires are listed as B, radials as R or ZR
   let items = [], hit = [];
@@ -117,7 +125,7 @@ async function findBySize(env, size, position, brand) {
     }
   }
   const res = shape(items, position, brand);
-  if (res.length) return { sizes_found: hit, tires: res };
+  if (res.length) return split({ sizes_found: hit }, res);
   return { size, tires: [], note: brand ? 'No ' + brand + ' tires found in that size.' : 'No tires found for that size. Ask the rider whether the bike has non-stock wheels or tires, or offer the quote.' };
 }
 async function findByModel(env, model, size, position) {
@@ -126,7 +134,7 @@ async function findByModel(env, model, size, position) {
   let items = it.data || [];
   if (size) { const vs = sizeVariants(size); items = items.filter(x => vs.some(v => x.name.toUpperCase().includes(v))); }
   const res = shape(items, position);
-  return res.length ? { model, tires: res } : { model, tires: [], note: 'No match. Try find_tires_by_size, or ask for the exact model name.' };
+  return res.length ? split({ model }, res) : { model, tires: [], note: 'No match. Try find_tires_by_size, or ask for the exact model name.' };
 }
 const TOOLS = [
   { name: 'find_tires_by_size', description: 'Look up tires we can get in a given size, with our retail price and whether it is available. Use when you know the tire size (from the rider, or the bike\'s stock OEM size once the rider says okay to use it).',
