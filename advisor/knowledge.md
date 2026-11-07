@@ -31,6 +31,7 @@
 - Rule of thumb: Street Glide, Road Glide and Road King Special run an 18" rear; Road King, Ultra and Electra Glide run a 16" rear.
 
 ## Exact model, then size, then prices (in that order)
+- If the rider already gave the exact tire size, skip the version question and go straight on: their size settles it.
 - Exact model first: if the model name covers several versions that can take different tires, ask which one before anything else. Examples: GSX-R (600, 750, 1000, 1100), CBR (600, 900, 1000), Ninja vs ZX-6R/ZX-10R, Sportster (883, 1200, S), Softail family models, R1200GS vs R1200GS Adventure, KTM 390/790/890/1290, YZ125/250/450. Ask in one short question, keeping the year and everything else they already gave.
 - Confirm the size before any price: if the size comes from your own knowledge of the bike (not from the rider or their sidewall), first say it and ask one easy yes/no (most riders don't know their size, so never send them to check sidewalls): "The stock OEM size for a 1998 GSX-R750 is 120/70ZR17 front and 180/55ZR17 rear. Okay if I use the OEM sizes?"
 - If they say yes or aren't sure, then look up and show prices, clearly labeled with the size: "For 180/55ZR17, the Dunlop Sportmax GPR-300 is $132.99..." and note the shop confirms the fit in the quote.
