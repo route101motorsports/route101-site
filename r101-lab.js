@@ -4575,7 +4575,17 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
       addStyle('r101-formmsg-css',
         '.form__info:not(:empty){background:#fff!important;color:#111!important;border:0!important;border-left:6px solid #FF6600!important;border-radius:12px!important;padding:16px 18px!important;margin:6px 0 14px!important;font:600 17px/1.45 Inter,system-ui,sans-serif!important;box-shadow:0 6px 22px rgba(0,0,0,.35)!important;opacity:1!important}' +
         '.form__info:not(:empty) *{color:#111!important;opacity:1!important;font:inherit!important;background:none!important}' +
-        '.form__info:not(:empty) svg,.form__info:not(:empty) i,.form__info:not(:empty) [class*=icon]{color:#FF6600!important;fill:#FF6600!important}');
+        '.form__info:not(:empty) svg,.form__info:not(:empty) i,.form__info:not(:empty) [class*=icon]{color:#FF6600!important;fill:#FF6600!important}' +
+        // page rules like "section.contact-form p{color:#cfcfcf}" outrank the ones above: win with a stronger selector (Glenn, Nov 6: message hard to read)
+        'html body main section.contact-form .form__info:not(:empty) *:not(svg):not(path):not(i){color:#111!important;-webkit-text-fill-color:#111!important;opacity:1!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}');
+    } catch (e) {}
+    // after a successful send, Booqable re-fills the form with what was typed, which looks unsent: clear it (keep the text if it failed)
+    try {
+      [].slice.call(document.querySelectorAll('section.contact-form')).forEach(function (sec) {
+        var info = sec.querySelector('.form__info'); var t = info ? (info.textContent || '').trim() : '';
+        if (t.length < 4 || !/thank|success|sent|recei?ved|we.?ll be in touch/i.test(t)) return;
+        [].slice.call(sec.querySelectorAll('input[type=text], input[type=email], input[type=tel], textarea')).forEach(function (f) { if (f.name !== 'form[type]') f.value = f.getAttribute('data-r101pre') || ''; });
+      });
     } catch (e) {}
     if (formMsg() || (location.hash && target(location.hash))) {
       var moved = false, mark = function () { moved = true; };
