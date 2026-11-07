@@ -139,8 +139,8 @@ async function runTool(env, name, input) {
   } catch (e) { console.log('tool error', name, String(e)); return { error: 'Tire lookup is unavailable right now. Offer the quote form instead.' }; }
 }
 
-// ---- Texts via EZ Texting (Glenn, Nov 7): lead alert to Glenn + instant "got it" to riders who said yes to a text ----
-// Secrets (Cloudflare): EZ_USER, EZ_PASS (EZ Texting login, or an API user), ALERT_PHONE (Glenn's cell). Missing = texts skipped.
+// ---- Texts via EZ Texting (Glenn, Nov 7): instant "got it" to riders who said yes to a text ----
+// Secrets (Cloudflare): EZ_USER, EZ_PASS (EZ Texting login). Missing = texts skipped. (ALERT_PHONE is stored but no longer used.)
 const SENT = new Map(); // phone -> time, so a repeated [[QUOTE]] doesn't double-text
 const tel = (p) => { const d = String(p || '').replace(/\D/g, ''); return d.length === 10 ? '1' + d : (d.length === 11 && d[0] === '1' ? d : ''); };
 async function sms(env, to, message) {
@@ -160,11 +160,11 @@ async function notify(env, d) {
   if (SENT.has(key) && now - SENT.get(key) < 15 * 60 * 1000) return;
   SENT.set(key, now);
   const jobs = [];
-  const me = tel(env.ALERT_PHONE);
-  if (me) jobs.push(sms(env, me, 'NEW TIRE LEAD (Tire Advisor)\n' + v(d.name) + ' ' + v(d.phone) + '\n' + v(d.email) + '\n' + v(d.bike) + ' | ' + v(d.position) + ' | ' + v(d.riding) + '\nNotes: ' + v(d.notes) + '\nText OK: ' + v(d.text)));
+  // no alert text to Glenn (Nov 7): he already gets a ping when the quote email lands
   if (cust && /^\s*y/i.test(String(d.text || ''))) {
     const first = v(d.name).split(/\s+/)[0];
-    jobs.push(sms(env, cust, 'Hi ' + (first === 'n/a' ? 'there' : first) + ", it's Glenn at Route 101 Motorsports. Got your tire request! Your quote is coming by email, usually within 30 min during business hours (8am-6pm). Questions? Just reply here. Reply STOP to opt out."));
+    // Glenn's wording (Nov 7); EZ Texting adds the opt-out line itself
+    jobs.push(sms(env, cust, 'Hi ' + (first === 'n/a' ? 'there' : first) + ', This is the text you requested from Route 101 Motorsports. Your quote should arrive within 30 mins. Questions? Just reply here!'));
   }
   await Promise.all(jobs.map(j => j.catch(e => console.log('sms fail', String(e)))));
 }
