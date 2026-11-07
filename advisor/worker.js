@@ -94,7 +94,10 @@ function shape(items, want, brand) {
     out.push({ brand: bn, tire: it.name.replace(/^TIRE\s+/i, ''), position: ps, price: '$' + price.toFixed(2), available: total > 0 });
   }
   out.sort((a, b) => (b.available - a.available) || (parseFloat(a.price.slice(1)) - parseFloat(b.price.slice(1))));
-  return out.slice(0, 14);
+  // keep some out-of-stock tires in view too (Nov 7): in busy sizes 14 in-stock tires used to crowd them all out,
+  // so the advisor could never say "one more good fit shows 0 in stock"
+  const yes = out.filter(t => t.available), no = out.filter(t => !t.available);
+  return yes.slice(0, 14).concat(no.slice(0, 6));
 }
 function sizeVariants(sz) {
   const s = String(sz || '').toUpperCase().replace(/\s+/g, '');
