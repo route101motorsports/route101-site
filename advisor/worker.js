@@ -139,8 +139,38 @@ async function runTool(env, name, input) {
   } catch (e) { console.log('tool error', name, String(e)); return { error: 'Tire lookup is unavailable right now. Offer the quote form instead.' }; }
 }
 
+// ---- Texts via EZ Texting (Glenn, Nov 7): lead alert to Glenn + instant "got it" to riders who said yes to a text ----
+// Secrets (Cloudflare): EZ_USER, EZ_PASS (EZ Texting login, or an API user), ALERT_PHONE (Glenn's cell). Missing = texts skipped.
+const SENT = new Map(); // phone -> time, so a repeated [[QUOTE]] doesn't double-text
+const tel = (p) => { const d = String(p || '').replace(/\D/g, ''); return d.length === 10 ? '1' + d : (d.length === 11 && d[0] === '1' ? d : ''); };
+async function sms(env, to, message) {
+  const r = await fetch('https://a.eztexting.com/v1/messages', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', accept: '*/*', Authorization: 'Basic ' + btoa(env.EZ_USER + ':' + env.EZ_PASS) },
+    body: JSON.stringify({ toNumbers: [to], message })
+  });
+  console.log(JSON.stringify({ sms: to.slice(-4), status: r.status }));
+  if (!r.ok) console.log('sms error', await r.text());
+}
+async function notify(env, d) {
+  if (!env.EZ_USER || !env.EZ_PASS) return;
+  const v = (x) => String(x || '').trim() || 'n/a';
+  const cust = tel(d.phone), now = Date.now();
+  const key = cust || v(d.email);
+  if (SENT.has(key) && now - SENT.get(key) < 15 * 60 * 1000) return;
+  SENT.set(key, now);
+  const jobs = [];
+  const me = tel(env.ALERT_PHONE);
+  if (me) jobs.push(sms(env, me, 'NEW TIRE LEAD (Tire Advisor)\n' + v(d.name) + ' ' + v(d.phone) + '\n' + v(d.email) + '\n' + v(d.bike) + ' | ' + v(d.position) + ' | ' + v(d.riding) + '\nNotes: ' + v(d.notes) + '\nText OK: ' + v(d.text)));
+  if (cust && /^\s*y/i.test(String(d.text || ''))) {
+    const first = v(d.name).split(/\s+/)[0];
+    jobs.push(sms(env, cust, 'Hi ' + (first === 'n/a' ? 'there' : first) + ", it's Glenn at Route 101 Motorsports. Got your tire request! Your quote is coming by email, usually within 30 min during business hours (8am-6pm). Questions? Just reply here. Reply STOP to opt out."));
+  }
+  await Promise.all(jobs.map(j => j.catch(e => console.log('sms fail', String(e)))));
+}
+
 export default {
-  async fetch(req, env) {
+  async fetch(req, env, ctx) {
     const origin = req.headers.get('Origin') || '';
     if (req.method === 'OPTIONS') return new Response(null, { headers: cors(origin) });
     if (req.method !== 'POST') return json({ error: 'POST only' }, 405, origin);
@@ -205,6 +235,8 @@ export default {
     if (!reply && said.length) reply = said[said.length - 1];
     if (!reply) reply = "Sorry, I couldn't finish that. Send the tire quote form or call (888) 509-5032 and we'll take care of you.";
     console.log(JSON.stringify({ lane, q: msgs[msgs.length - 1].content, a: reply }));
+    const qm = reply.match(/\[\[QUOTE\]\]\s*(\{[^\n]*\})/);
+    if (qm) { try { const d = JSON.parse(qm[1]); if (ctx && ctx.waitUntil) ctx.waitUntil(notify(env, d)); else await notify(env, d); } catch (e) { console.log('quote parse', String(e)); } }
     return json({ reply }, 200, origin);
   }
 };
