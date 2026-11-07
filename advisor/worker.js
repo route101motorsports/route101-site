@@ -13,7 +13,7 @@ const RULES = `You work for Route 101 Motorsports in Carlsbad, California (renta
 FACTS: Shop facts, prices, fees and policies come ONLY from the KNOWLEDGE below. Never invent prices, stock, availability, appointment times or policies. Tire prices and availability may come ONLY from the tire lookup tools. If a shop fact is missing, say you're not sure and offer the call (888) 509-5032 or the quote form.
 GENERAL TIRE KNOWLEDGE: You may explain industry-standard tire basics in general terms (radial vs bias, size and load/speed codes, DOT date codes, tread wear, cupping, dry rot, tire age, break-in, why new tires feel slick). Never give bike-specific pressure or fitment as fact, and never tell someone their tire is safe.
 RECOMMENDATIONS: You may suggest well-known tire models that suit the rider's bike and riding mix, always "confirmed in your quote for your exact bike."
-TIRE LOOKUP: When you know a size or model, use the tools. Never say a brand or tire isn't available unless a lookup for it came back empty; when a rider asks about a brand, look it up with the brand filter. Quote tire prices exactly as the tool gives them, per tire, "plus 7.75% sales tax," and say installation and fees are itemized in the quote. Show at most 3 or 4 good options that fit their riding. If the size comes from your own knowledge of the bike (not the rider), never ask them to check their sidewalls; most riders don't know their size. Instead ask one easy yes/no BEFORE showing prices, like: "The stock OEM size for a 2019 Street Glide Special is 130/60B19 front and 180/55B18 rear. Okay if I use the OEM sizes?" On yes (or "not sure"), show prices labeled with that size; the shop confirms the fit in the quote. If they say their bike has different wheels or tires, ask for the size or offer the quote. Say "available" for available tires and offer to get them on the schedule. OUT OF STOCK (single tire OR a set, every time you show prices): if a tire that would have made your list shows available:false (for a set: in either size), mention it in ONE short line after your list, exactly like: "One more good fit, the [tire] ($[price] [front/rear]), shows 0 in stock in the [size] right now, so I left it off. Want to pick from the options above, or check back in a couple days?" Keep it that short; mention at most one such tire. Never mention WPS, suppliers, shipping times or ordering, and never promise same-day. If none are available, say so and offer to have the shop check alternatives in the quote.
+TIRE LOOKUP: When you know a size or model, use the tools. Never say a brand or tire isn't available unless a lookup for it came back empty; when a rider asks about a brand, look it up with the brand filter. Quote tire prices exactly as the tool gives them, per tire, "plus 7.75% sales tax," and say installation and fees are itemized in the quote. Show at most 3 or 4 good options that fit their riding. If the size comes from your own knowledge of the bike (not the rider), never ask them to check their sidewalls; most riders don't know their size. Instead ask one easy yes/no BEFORE showing prices, like: "The stock OEM size for a 2019 Street Glide Special is 130/60B19 front and 180/55B18 rear. Okay if I use the OEM sizes?" On yes (or "not sure"), show prices labeled with that size; the shop confirms the fit in the quote. If they say their bike has different wheels or tires, ask for the size or offer the quote. Say "available" for available tires and offer to get them on the schedule. OUT OF STOCK (single tire OR a set, every time you show prices): if a tire that would have made your list shows available:false (for a set: in either size), mention it in ONE short line after your list, exactly like: "One more good fit, the [tire] ($[price] [front/rear]), shows 0 in stock in the [size] right now. Want me to keep an eye on it and text you when it's in? Or pick from the options above." Keep it that short; mention at most one such tire. If the rider asks for a specific tire that shows available:false, say the same: it shows 0 in stock in that size right now, and offer to text them when it's in, or show in-stock options. STOCK WATCH: if they want the text, ask for their first name and cell number in ONE message (skip what they already gave). Then reply with one short confirmation ("You're on the list, [Name]. I'll text you as soon as the [tire] shows in stock.") and end with this exact line and nothing after it, using the tire's id from the lookup result: [[WATCH]]{"id":0,"tire":"","size":"","name":"","phone":""} One line per tire if they want several (each on its own line). Never promise a date. Never mention WPS, suppliers, shipping times or ordering, and never promise same-day. If none are available, say so and offer to have the shop check alternatives in the quote.
 BIKE SWITCH: If the rider changes to a different bike, throw out every size, price and tire pick from the old bike and work out the new bike's sizes fresh (use the stock size table in KNOWLEDGE when it lists the bike). If the rider corrects a size, use theirs and look prices up again.
 GATHER ONE THING AT A TIME, in this order, keeping everything already given (corrections replace old details): 1) year, make and EXACT model (if the name covers versions that take different tires, like GSX-R 600/750/1100 or Sportster 883/1200, ask which one before anything else) 2) front, rear or both 3) riding style, asked to fit the bike type (follow "Riding-style question: fit it to the bike" in KNOWLEDGE; never ask a touring or cruiser rider about dirt, or an MX rider about street) 4) priority: mileage vs grip (and anything like quiet) 5) budget only if they bring it up.
 SAFETY: If the rider describes cords or steel showing, a bulge, a puncture or object, losing air, a wobble or shaking, or damage after hitting something, tell them plainly not to ride on it and to call (888) 509-5032. We don't offer towing or roadside help.
@@ -91,7 +91,7 @@ function shape(items, want, brand) {
     if (brand && bn.toUpperCase().indexOf(String(brand).toUpperCase().trim()) < 0) continue;
     const price = retail(it); if (!price) continue;
     const inv = it.inventory && it.inventory.data, total = inv ? +inv.total || 0 : 0;
-    out.push({ brand: bn, tire: it.name.replace(/^TIRE\s+/i, ''), position: ps, price: '$' + price.toFixed(2), available: total > 0 });
+    out.push({ id: it.id, brand: bn, tire: it.name.replace(/^TIRE\s+/i, ''), position: ps, price: '$' + price.toFixed(2), available: total > 0 });
   }
   out.sort((a, b) => (b.available - a.available) || (parseFloat(a.price.slice(1)) - parseFloat(b.price.slice(1))));
   // keep some out-of-stock tires in view too (Nov 7): in busy sizes 14 in-stock tires used to crowd them all out,
@@ -172,7 +172,56 @@ async function notify(env, d) {
   await Promise.all(jobs.map(j => j.catch(e => console.log('sms fail', String(e)))));
 }
 
+// ---- Stock watch (Glenn, Nov 7): text a rider when an out-of-stock tire comes back ----
+// Needs a KV binding named WATCH. Checks run at 6am, 12pm, 6pm and 8pm Pacific (cron wakes hourly; other hours do nothing).
+const WATCH_HOURS = [6, 12, 18, 20];
+async function saveWatches(env, text) {
+  const out = [];
+  const re = /\[\[WATCH\]\]\s*(\{[^\n]*\})/g; let m;
+  while ((m = re.exec(text))) {
+    try {
+      const w = JSON.parse(m[1]); const phone = tel(w.phone); const id = parseInt(w.id, 10);
+      if (!env.WATCH || !phone || !id) { console.log('watch skipped', JSON.stringify({ id: w.id, ok: !!env.WATCH, p: !!phone })); continue; }
+      const rec = { id, tire: String(w.tire || '').slice(0, 120), size: String(w.size || '').slice(0, 30), name: String(w.name || '').trim().split(/\s+/)[0].slice(0, 40), phone, at: Date.now() };
+      await env.WATCH.put('w:' + id + ':' + phone, JSON.stringify(rec), { expirationTtl: 30 * 24 * 3600 });
+      out.push(rec); console.log(JSON.stringify({ watch_saved: id, tire: rec.tire, p: phone.slice(-4) }));
+    } catch (e) { console.log('watch parse', String(e)); }
+  }
+  return out;
+}
+async function checkWatches(env, force) {
+  if (!env.WATCH) return { skipped: 'no WATCH binding' };
+  const hr = +new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', hourCycle: 'h23' }).format(new Date());
+  if (!force && !WATCH_HOURS.includes(hr)) return { skipped: 'hour ' + hr };
+  const list = await env.WATCH.list({ prefix: 'w:' });
+  const keys = list.keys.slice(0, 20); // stay well under the free plan's 50 subrequests
+  const ids = [...new Set(keys.map(k => k.name.split(':')[1]))];
+  const stock = {};
+  for (const id of ids) {
+    try {
+      const r = await fetch('https://api.wps-inc.com/items/' + id + '?include=inventory', { headers: { Authorization: 'Bearer ' + env.WPS_API_TOKEN, Accept: 'application/json' } });
+      if (!r.ok) { console.log('watch wps', id, r.status); continue; }
+      const it = (await r.json()).data || {};
+      const inv = it.inventory && it.inventory.data, total = inv ? +inv.total || 0 : 0;
+      stock[id] = { total, price: retail(it) };
+    } catch (e) { console.log('watch wps err', id, String(e)); }
+  }
+  let sent = 0;
+  for (const k of keys) {
+    const id = k.name.split(':')[1]; const st = stock[id];
+    if (!st || st.total <= 0) continue;
+    const w = JSON.parse((await env.WATCH.get(k.name)) || 'null'); if (!w) continue;
+    const price = st.price ? ', the price is $' + st.price.toFixed(2) + ' plus tax' : '';
+    // Glenn's wording, Nov 7
+    const msg = 'Hi ' + (w.name || 'there') + ", it's Route 101 Motorsports. Good news, the " + (w.tire + (w.size && w.tire.indexOf(w.size) < 0 ? ' ' + w.size : '')).trim() + ' is back in stock' + price + '. We can have it here in 2 days. Let us know if you still need the tire, and we will call you to get on the schedule. Reply STOP to end';
+    if (env.EZ_USER && env.EZ_PASS) { await sms(env, w.phone, msg); sent++; await env.WATCH.delete(k.name); }
+  }
+  console.log(JSON.stringify({ watch_check: keys.length, in_stock: Object.values(stock).filter(x => x.total > 0).length, sent }));
+  return { watches: keys.length, sent };
+}
+
 export default {
+  async scheduled(event, env, ctx) { ctx.waitUntil(checkWatches(env, false)); },
   async fetch(req, env, ctx) {
     const origin = req.headers.get('Origin') || '';
     if (req.method === 'OPTIONS') return new Response(null, { headers: cors(origin) });
@@ -182,6 +231,8 @@ export default {
     if (limited(ip)) return json({ reply: "You've sent a lot of messages. Please call us at (888) 509-5032 and we'll help you directly." }, 429, origin);
     let body;
     try { body = await req.json(); } catch (e) { return json({ error: 'bad json' }, 400, origin); }
+    // manual stock-watch check, for testing (same origin + rate limits as the chat; returns counts only)
+    if (body && body.action === 'watchcheck') return json(await checkWatches(env, true), 200, origin);
     const lane = LANES[body.lane] ? body.lane : 'tires';
     let msgs = (Array.isArray(body.messages) ? body.messages : [])
       .filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
@@ -238,6 +289,10 @@ export default {
     if (!reply && said.length) reply = said[said.length - 1];
     if (!reply) reply = "Sorry, I couldn't finish that. Send the tire quote form or call (888) 509-5032 and we'll take care of you.";
     console.log(JSON.stringify({ lane, q: msgs[msgs.length - 1].content, a: reply }));
+    if (reply.indexOf('[[WATCH]]') > -1) {
+      await saveWatches(env, reply);
+      reply = reply.replace(/\n?\s*\[\[WATCH\]\]\s*\{[^\n]*\}/g, '').trim();
+    }
     const qm = reply.match(/\[\[QUOTE\]\]\s*(\{[^\n]*\})/);
     if (qm) { try { const d = JSON.parse(qm[1]); if (ctx && ctx.waitUntil) ctx.waitUntil(notify(env, d)); else await notify(env, d); } catch (e) { console.log('quote parse', String(e)); } }
     return json({ reply }, 200, origin);
