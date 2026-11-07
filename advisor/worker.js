@@ -164,7 +164,7 @@ async function notify(env, d) {
   if (cust && /^\s*y/i.test(String(d.text || ''))) {
     const first = v(d.name).split(/\s+/)[0];
     // Glenn's wording (Nov 7); EZ Texting adds the opt-out line itself
-    jobs.push(sms(env, cust, 'Hi ' + (first === 'n/a' ? 'there' : first) + ', This is the text you requested from Route 101 Motorsports. Your quote should arrive within 30 mins. Questions? Just reply here!'));
+    jobs.push(sms(env, cust, 'Hi ' + (first === 'n/a' ? 'there' : first) + ", This is Route 101 Motorsports. Expect our email quote within 30 mins during business hours. We'll text you to let you know it was sent."));
   }
   await Promise.all(jobs.map(j => j.catch(e => console.log('sms fail', String(e)))));
 }
