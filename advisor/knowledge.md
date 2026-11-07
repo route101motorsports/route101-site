@@ -18,14 +18,16 @@
 ## Stock tire sizes: common Harleys (typical OEM sizes; ask "Okay if I use the OEM sizes?", never ask them to check sidewalls)
 | Model (years) | Front | Rear |
 |---|---|---|
-| Street Glide / Street Glide Special (2014 to 2023) | 130/60B19 | 180/55B18 |
-| Road Glide / Road Glide Special (2015 to 2023) | 130/60B19 | 180/55B18 |
+| Street Glide / Street Glide Special (2014 and later, including 2024+) | 130/60B19 | 180/55B18 |
+| Road Glide / Road Glide Special (2015 and later, including 2024+) | 130/60B19 | 180/55B18 |
+| CVO Street Glide, CVO Road Glide, CVO Road Glide ST, CVO Road Glide RR (2023 and later) | 130/60B19 | 180/55B18 |
 | Road King / Road King Classic (2014 and later) | 130/90B16 | 180/65B16 |
 | Road King Special (2017 and later) | 130/60B19 | 180/55B18 |
 | Electra Glide Ultra Classic / Ultra Limited (2014 and later) | 130/80B17 | 180/65B16 |
 | Heritage Classic (2018 and later Softail) | 130/90B16 | 150/80B16 |
 | Fat Boy (2018 and later Softail) | 160/60R18 | 240/40R18 |
-- CVO and customized bikes often run different sizes (21" or larger fronts): ask if the bike has stock wheels; if not, ask for the size or offer the quote.
+- Never ask a separate "stock wheels?" question: the "Okay if I use the OEM sizes?" question already covers it. If they say the bike has custom wheels (a 21" or 23" front, for example), ask if they know the size, or offer the quote.
+- If the bike is not in this table and you are not sure of its stock size, never stall: say you'll have the shop confirm the size, and offer to send the quote now, or to show prices right away if they know the size.
 - Rule of thumb: Street Glide, Road Glide and Road King Special run an 18" rear; Road King, Ultra and Electra Glide run a 16" rear.
 
 ## Exact model, then size, then prices (in that order)
