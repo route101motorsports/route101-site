@@ -111,7 +111,7 @@ function sizeVariants(sz) {
 function split(base, res) {
   const inS = res.filter(t => t.available), outS = res.filter(t => !t.available);
   const r = Object.assign({}, base, { in_stock: inS, out_of_stock: outS });
-  if (outS.length) r.must_do = 'Out-of-stock tires exist in this size. If any out_of_stock tire suits this rider (same kind of riding as the ones you list), name ONE after your list with the one-line 0-in-stock offer and ask "Want me to keep an eye on it and text you when it\'s in?". If the rider asked for a specific tire and it is out_of_stock, always say so and make that offer.';
+  if (outS.length) r.must_do = 'REQUIRED when you show prices from this lookup: after your list, add ONE line naming the out_of_stock tire that best suits this rider (pick the closest match to their riding; never skip this), in this form: "One more good fit, the [tire] ($[price]), shows 0 in stock in the [size] right now. Want me to keep an eye on it and text you when it\'s in?" That question is your closing question. If the rider asked for a specific tire and it is out_of_stock, say so and make the same offer.';
   return r;
 }
 async function findBySize(env, size, position, brand) {
