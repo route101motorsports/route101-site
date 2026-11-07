@@ -275,7 +275,7 @@ export default {
       const results = [];
       for (const u of uses) {
         const out = await runTool(env, u.name, u.input || {});
-        console.log(JSON.stringify({ tool: u.name, input: u.input, found: out.tires ? out.tires.length : 0 }));
+        console.log(JSON.stringify({ tool: u.name, input: u.input, found: out.in_stock ? out.in_stock.length + "+" + out.out_of_stock.length + " oos" : (out.tires ? out.tires.length : 0) }));
         results.push({ type: 'tool_result', tool_use_id: u.id, content: JSON.stringify(out) });
       }
       convo.push({ role: 'user', content: results });
