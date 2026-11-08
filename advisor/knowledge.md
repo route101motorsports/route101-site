@@ -88,7 +88,7 @@
 ## Paying and saving
 - Nothing is due until the work is done.
 - We accept all major credit cards, Venmo, Zelle and Cash App.
-- Price match: we'll try to match a verified price from a local tire dealer or dealership. We don't price match online retailers.
+- Price match: only when we supply AND install the tire, against a verifiable tire-and-install price from a local shop or dealership. Not online retailers, not tire-only prices. The team verifies every request; the advisor never approves a match. Collect the details and send them for review (see HANDOFF).
 - No cash discount.
 - 10% military discount with valid military ID; mention it in the quote request.
 
