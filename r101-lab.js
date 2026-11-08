@@ -768,7 +768,7 @@ body.r101-ftr footer .r101-pop{font:600 11px/1 Inter,system-ui,sans-serif;letter
       var mail = /^\/pages\/(san-diego-harley-service|san-diego-bmw-gs-service|harley-brake-service|motorcycle-tires|straight-talk-route-101-motorsports-offers-)/.test(location.pathname) ? 'garage@route101motorsports.com' : 'info@route101motorsports.com';
       var info = document.createElement('div');
       info.innerHTML = '<ul>' +
-        '<li><b>Call</b><a class="tel" href="tel:+18885095032">(888) 509-5032</a></li>' +
+        '<li><b>Call</b><a class="tel" href="tel:+18583190550">(858) 319-0550</a><br><a class="tel" href="tel:+18885095032">(888) 509-5032</a></li>' +
         '<li><b>Hours</b>Open 7 days, 8am&ndash;6pm (by appointment)</li>' +
         '<li><b>Visit</b>6351 Corte Del Abeto #107<br>Carlsbad, CA 92011<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Route+101+Motorsports+6351+Corte+Del+Abeto+107+Carlsbad+CA+92011" target="_blank" rel="noopener">Get Directions &rarr;</a></li>' +
         '<li><b>Email</b><a href="mailto:' + mail + '">' + mail + '</a></li></ul>';
@@ -2088,6 +2088,7 @@ body.r101-ct main section.cta.r101-map{display:none!important}
       m.id = 'r101-map';
       m.innerHTML = '<div class="container"><div class="g"><div class="info"><p class="eb">Find us</p><h2>Carlsbad, North County San Diego</h2>' +
         '<p><b>Route 101 Motorsports &amp; Garage</b><br>6351 Corte Del Abeto #107<br>Carlsbad, CA 92011</p>' +
+        '<p><b>Call</b> <a href="tel:+18583190550">(858) 319-0550</a> or <a href="tel:+18885095032">(888) 509-5032</a></p>' +
         '<p><b>Open 7 days</b>, 8am&ndash;6pm, by appointment</p>' +
         '<a class="go" href="' + dir + '" target="_blank" rel="noopener">Get Directions</a></div>' +
         '<iframe title="Map to Route 101 Motorsports" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=' + q + '&z=15&output=embed"></iframe></div></div>';
