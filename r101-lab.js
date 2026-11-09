@@ -207,7 +207,7 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
     var steps = document.createElement('section');
     steps.id = 'r101-steps';
     steps.innerHTML = '<div class="w container"><p class="eb">How it works</p><h2>New Tires in 3 Steps</h2><div class="g">' +
-      '<div class="s"><div class="n">1</div><h3>Tell us your bike</h3><p>Click the <a href="#" onclick="var b=document.getElementById(\'r101-adv-btn\');if(b){b.click();}return false;" style="color:#c25100;font-weight:700">Tire Advisor</a> tab to the right and answer a few questions, and we\'ll find you the right tire options for your bike with pricing!</p></div>' +
+      '<div class="s"><div class="n">1</div><h3>Tell us your bike</h3><p>Click the <a href="#" onclick="var b=document.getElementById(\'r101-adv-btn\');if(b){b.click();}return false;" style="color:#c25100;font-weight:700">Tire Advisor</a> tab to the right, answer a few questions, and we\'ll find the right tire options for your bike with pricing!</p></div>' +
       '<div class="s"><div class="n">2</div><h3>We get your tires</h3><p>We source from top brands and confirm your price before anything is ordered.</p></div>' +
       '<div class="s"><div class="n">3</div><h3>Ride On New Rubber</h3><p>Mounted and balanced in-house in Carlsbad. Grab a free Red Bull or coffee and relax in our Rider Lounge, or ask about a loaner bike.</p></div>' +
       '</div></div>';
