@@ -207,7 +207,7 @@ body.r101-tires section.contact-form .form__submit .button{width:100%;background
     var steps = document.createElement('section');
     steps.id = 'r101-steps';
     steps.innerHTML = '<div class="w container"><p class="eb">How it works</p><h2>New Tires in 3 Steps</h2><div class="g">' +
-      '<div class="s"><div class="n">1</div><h3>Tell us your bike</h3><p>Send your year, make and model, or call. We\'ll match the right tire for how you ride.</p></div>' +
+      '<div class="s"><div class="n">1</div><h3>Tell us your bike</h3><p>Click the <a href="#" onclick="var b=document.getElementById(\'r101-adv-btn\');if(b){b.click();}return false;" style="color:#c25100;font-weight:700">Tire Advisor</a> tab to the right and answer a few questions, and we\'ll find you the right tire options for your bike with pricing!</p></div>' +
       '<div class="s"><div class="n">2</div><h3>We get your tires</h3><p>We source from top brands and confirm your price before anything is ordered.</p></div>' +
       '<div class="s"><div class="n">3</div><h3>Ride On New Rubber</h3><p>Mounted and balanced in-house in Carlsbad. Grab a free Red Bull or coffee and relax in our Rider Lounge, or ask about a loaner bike.</p></div>' +
       '</div></div>';
@@ -4287,9 +4287,10 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     tires: {
       re: /^\/pages\/motorcycle-tires\/?$/,
       lane: 'tires', name: 'Tire Advisor', eyebrow: 'Route 101 Garage',
-      hello: "Hey, I'm the Route 101 Tire Advisor. Ask me anything about motorcycle tires, mounting, or getting a quote for your bike.",
+      hello: "Hey, I'm the Route 101 Tire Advisor. I can help you select tire options for your bike and get you current stock and pricing for any tire we offer!",
       quote: ['Get A Tire Quote', '#contact-form'],
       chips: [
+        ['Can I get tire pricing?', ''],
         ['Which tires fit my bike?', "Tell me your year, make and model, and how you ride (touring, around town, adventure or dirt). I'll point you to the right type of tire. For exact options and prices, send the tire quote form and we'll reply with a list to choose from."],
         ['How long does install take?', 'Most installs are done while you wait, by appointment. We mount and balance in-house in Carlsbad. Grab a free Red Bull or coffee in the Rider Lounge, or ask about a loaner bike.'],
         ['Which brands do you carry?', 'Michelin, Dunlop, Metzeler, Pirelli, Bridgestone, Shinko, Maxxis and Mitas. We confirm your price before anything is ordered.'],
