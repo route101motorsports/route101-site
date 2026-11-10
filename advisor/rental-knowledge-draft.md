@@ -13,11 +13,13 @@ Source: route101motorsports.com product pages + Booqable API test, Nov 10, 2026.
 | BMW R 1200GS | Boxer, ESA suspension | |
 | BMW R 1200 GSA | Boxer, ESA suspension | Adventure (GSA) |
 | BMW R1200 GSA | Boxer, ESA suspension | Second GSA |
-[GLENN/KNOWLEDGE] Per bike: model year, color, seat height (any lowered GS seat?), cruise control, heated grips, ABS, audio/Bluetooth, phone mount + USB, passenger backrest, windscreen.
+NEVER state a model year (Glenn's rule: years are deliberately unpublished). If asked: every bike is kept in showroom condition. Color/look: the photos on each bike's page are the actual bikes; point the rider there.
+[GLENN supplying] Per bike: seat height (any lowered GS seat?), cruise control, heated grips, ABS, audio/Bluetooth, phone mount + USB, passenger backrest, windscreen.
 
 Never offered (hidden in Booqable): Rent A Harley FLHXS Street Glide, FXST Softail Standard, Sportster Iron 1250, Indian Challenger Dark Horse. No Road Glide. No delivery.
 
 ## Pricing (from Booqable item_prices, never hand-calculated)
+- Quotes are shown per item "plus tax" (Glenn). Holidays and holiday weekends carry a percentage uplift set in Booqable price rules; item_prices includes it automatically.
 - Tiers: Same Day (pickup and return the same calendar day within hours), then 24-hour periods from pickup (1-Day, 2-Day, 3-Day ... 1 Week ...). Returning past a 24h boundary moves to the next tier.
 - Dec test: Harleys $205 Same Day / $240 1-Day / $456 2-Day / $674 3-Day / $1,450 week. SG S, R 1200GS, both GSAs ~2.4% higher; R 1250GS ~4.9% higher.
 - Site: "Adjust times for best price!"; advertised discount codes do not apply to Same Day rentals.
@@ -28,8 +30,9 @@ Never offered (hidden in Booqable): Rent A Harley FLHXS Street Glide, FXST Softa
 - RiderSHIELD $19/day: REQUIRED for every rental (Agreement §15: renter must purchase before taking possession). Maximums: $1,000,000 combined liability; $30k/$60k bodily injury; $15k property damage; $30k/$60k uninsured motorist; $2,000 medical. Own insurance does not replace it.
 - ProtectionONE $29/day (base plan): flat-tire repair and labor with no deductible; towing up to $50 per occurrence; verified mechanical failures covered incl. towing/repair (renter fronts towing, reimbursed if confirmed); replacement motorcycle when possible; roadside help for minor repairs/battery/minor tire; if a verified mechanical issue delays the ride >12 hours, refunds the daily rate for affected days (no alternate transport).
 - ProtectionPLUS $39/day: flat-tire repair and labor with no deductible; towing up to $100 per occurrence; verified mechanical failures covered incl. towing/repair (renter fronts towing, reimbursed if a mechanical issue is confirmed); replacement Harley where possible; roadside help for minor repairs/battery/minor tire; if a verified mechanical issue delays the ride >12 hours, may provide up to $100/day alternate transport and refund affected rental days.
+- ProtectionONE and ProtectionPLUS: one or the other, never both.
 - REISËN side cases & top box $25/day.
-- Riding gear: site says "Add Riding Gear FREE!" and the Venom helmet is "free with your rental", but Booqable prices gear at $50/day (Dual Sport gloves $10/day). [GLENN: how free gear appears at checkout]
+- Riding gear is FREE (Glenn). The advisor never quotes a gear price and never runs a price lookup for gear; gear lines are always $0.
   - Harley gear: GDM Venom full-face helmet (clear, smoke, iridium lenses), Harley black leather jacket, Harley retro black leather jacket, Milwaukee black leather gloves.
   - Adventure gear: GDM Raptor modular helmet, Dual Sport jacket, pants, gloves.
 
@@ -44,11 +47,11 @@ All: guided day tour from north county San Diego; price includes a 1-day motorcy
 Signed electronically on the website during booking. Advisor explains in plain words; never gives legal interpretations; quotes the rule, not the clause number unless asked.
 - Cancellation (in writing, effective when Route 101 acknowledges): more than 7 days ahead = 80% refund less $25 per bike; less than 7 days = 70% refund less $50 per bike; less than 72 hours = non-refundable.
 - Weather: no refunds for bad weather; rental credit may be offered case by case (shop decides).
-- Deposit: refundable, cash or credit card, taken at pickup. Agreement range $500–$2,500 [GLENN: when above $500?]. Can cover fines/tickets/tolls, late and refuel fees, up to $750 lost/damaged keys, damage, lost rental revenue (up to $100/day, max 30 days/$3,000) if a bike is out of service >3 days, collection costs.
+- Deposit: $500 refundable, cash or credit card, taken at pickup. NEVER mention any other amount or range (Glenn's discretion, not discussed). Can cover fines/tickets/tolls, late and refuel fees, up to $750 lost/damaged keys, damage, lost rental revenue (up to $100/day, max 30 days/$3,000) if a bike is out of service >3 days, collection costs.
 - Fuel: return full; $15/gallon if not; premium 91 octane or higher required.
 - Gear supplied: helmet, jacket, gloves. DOT helmet required while riding. Orientation recommends jacket, gloves, pants and over-the-ankle footwear for maximum protection.
-- Riders: at least 21, medically sound, valid motorcycle-class license for their state/country of residence. Renter is the SOLE operator (no second rider operating the bike). Passengers allowed; passenger also signs the waiver.
-- Where: no operating or transporting the bike outside California [GLENN: agreement wording "outside CA, or the Continental US/Canada" is ambiguous; is Nevada/Arizona OK?]. Mexico: no.
+- Riders: at least 21, medically sound, valid motorcycle-class license for their state/country of residence. Renter is the SOLE operator (no second rider operating the bike). Passengers allowed, minimum age 16 [GLENN: OK for the advisor to say 16?]; the passenger signs the waiver too (passenger signature line on the agreement).
+- Where: anywhere in the USA, any state (Glenn). Crossing a border (Mexico, Canada) only with arrangements made with the shop BEFORE the ride plus proof of all required insurance → HANDOFF; never approved in chat.
 - 12AM–4AM RULE: no riding between midnight and 4 AM except a verified emergency; breaking it can forfeit insurance coverage.
 - No alcohol or impairing substances. No carrying passengers or property for hire. No towing anything or being towed (except authorized motorcycle towing). Lock the bike when unattended. Check oil daily or at each fill-up. No repairs or parts swaps without Route 101's OK.
 - Return: on the agreed date/time, same condition less normal wear. More than 4 hours late without notice may be reported stolen. Late fees come from the deposit [GLENN: amount / grace period].
@@ -59,6 +62,14 @@ Signed electronically on the website during booking. Advisor explains in plain w
 - Cleaning: do NOT wash, wipe, rinse, pressure-wash or polish the bike. Cleaning fee up to $75 if extra cleaning is needed (long rentals, weather, off-road).
 - Before each ride: quick T-CLOCS check (tires/wheels, controls, lights, oil/fluids, chassis, stands). Orientation covers controls at pickup.
 - Marketing photo consent is in the agreement (renter can ask to opt out of marketing).
+
+## Booking & shop logistics (Glenn, Nov 10)
+- Online booking needs about 2 hours' lead time; start times in 30-minute steps (e.g. browsing at 9 AM Saturday, earliest start ~11 AM). Advance booking is required; for anything sooner, call the shop: Glenn tries to accommodate.
+- No limit on rental length.
+- Pets welcome at the office, never on the bikes, and the shop can't watch pets.
+- Free parking for the customer's car/rental car during the rental: large lot, lit, video security.
+- Luggage storage: yes. Common pattern: fly in, Uber straight to the shop, pack what you need on the bike, shop stores the rest.
+- No delivery, no airport pickup.
 
 ## Hours, location
 Open 7 days, 8am–6pm, by appointment only, no walk-ins. 6351 Corte Del Abeto #107, Carlsbad, CA 92011. (888) 509-5032 / (858) 319-0550.
