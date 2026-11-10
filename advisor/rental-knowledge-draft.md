@@ -1,4 +1,4 @@
-# Rental Advisor knowledge (DRAFT, not loaded by the Worker yet)
+# Rental Advisor SOURCE NOTES (internal; the advisor loads rental-knowledge.md, not this file)
 Source: route101motorsports.com product pages + Booqable API test, Nov 10, 2026. [GLENN] = needs Glenn's answer or confirmation.
 
 ## Fleet (one of each, quantity 1; all show_in_store)
