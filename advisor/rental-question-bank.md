@@ -86,3 +86,95 @@ Claude review notes in [brackets]. G's drafted answers live in his chat; correct
 38|GTA motorcycle license counts?|ANS|Humor + real license
 39|Stop asking, just book it|ANS|Summary + booking link; never claim booked
 40|Cheapest Harley, no deposit, no insurance, Vegas delivery, Glenn promise|ANS→LIVE|Unlimited miles yes; rest no
+
+## Round 3 (G, 40 multi-turn; customer turns separated by " / ")
+Actions as above, plus SAFETY (refuse unsafe) and URGENT (active-rental emergency → call (888) 509-5032).
+R3-1|Street Glide Saturday / next Saturday, not this one / around noonish / back before you close|ASK→LIVE|Confirm date + exact pickup; Same Day
+R3-2|BMW Thursday after work / finish around five / maybe six / back before work Friday|ASK→LIVE|Hours end 6 PM; no after-hours exception
+R3-3|Harley on the third / next month / actually January / January 2028|CTX→ASK|Replace inferred month/year each time
+R3-4|Street Glide Fri–Sun / pickup nine / same time back / make return Sun 6|CTX→LIVE|Change only the return; re-quote
+R3-5|Heritage on Thanksgiving / 10 AM / back Sat 10 / actually Sat 5|LIVE+POLICY|Holiday hours = POLICY
+R3-6|BMW GS 04/12 / from France / 4th of December / 8 AM, back next day 8|CTX→LIVE|European date convention, keep it
+R3-7|Pick up at 18:30 / can't come earlier / bring it to my hotel?|ANS|Hours 8–6; NO delivery
+R3-8|Anything today? / there at 5:20 / ride till close / Same Day for 40 min?|LIVE+POLICY|Same-day booking cutoff = POLICY
+R3-9|Fri 8 / back Mon 8 / or Mon 6? / both totals with insurance|LIVE|Two independent quotes
+R3-10|Need it for a day / Sat noon / Sun noon / no, Sat 6, same day|CTX→LIVE|Drop the 24h quote
+R3-11|Street Glide S next Sat / site shows booked / no smaller bike / what else?|LIVE|Alternatives, no auto-substitute
+R3-12|R 1250GS Friday / taken / pickup at four? / or Saturday?|LIVE|Re-check same bike per option
+R3-13|Two Street Glide S / same weekend / exactly identical / no Heritage|LIVE|Qty 1: say so plainly
+R3-14|3 riders / 2 Harleys + 1 GS / Fri–Mon morning / if only two free, which?|ASK→LIVE|Report available subset honestly
+R3-15|Three Heritages? / want all three / identical? / show differences|KNOWLEDGE+LIVE|Per-unit specs (2× FLHCS, 1× FLSTC)
+R3-16|GS 3 days / any time next week / cheapest / Mon or Wed pickup|ASK→LIVE|Compare candidate windows
+R3-17|Street Glide booked for my birthday / if they cancel? / first in line / text me if it opens|LIVE→HANDOFF|No waitlist (future: rental watch like tire stock-watch)
+R3-18|3 Harleys / I arrive 8 / others noon / price each|ASK→LIVE|Per-unit timestamps
+R3-19|Street Glide or R 1250GS / PCH / 250 mi pavement / compare price + comfort|KNOWLEDGE+LIVE|
+R3-20|Heritage / girlfriend coming / Street Glide better? / comfort + price diff|CTX+KNOWLEDGE+LIVE|
+R3-21|GS 2 days / need luggage / with side cases / and without|LIVE|$25/day cases; drop cleanly
+R3-22|$600 / Harley 2 days / includes everything / except deposit|CTX→LIVE|Budget excludes deposit
+R3-23|Too high / remove cases / remove PLUS / remove anything not required|CTX→LIVE+POLICY|RiderSHIELD required? = POLICY
+R3-24|Add ONE / PLUS better / both? / show combos|LIVE+POLICY|Stackable = POLICY
+R3-25|PLUS covers roadside? / flat? / desert tow? / limit?|KNOWLEDGE|Towing $100/occurrence; never unlimited
+R3-26|Discount email / 10% / maybe expired / apply to BMW?|ASK→LIVE|Validate real code via Booqable coupons
+R3-27|Take first Street Glide / forget it / rent a car / what was that first Harley?|CTX→LIVE|Refresh before re-presenting
+R3-28|Two cheapest Harleys / now BMWs / the first one / you know which|ASK|Ambiguous: Harley or BMW list?
+R3-29|Street Glide 3 days / make it 5 / switch to GS / undo that, keep 5 days|CTX→LIVE|Restore Street Glide, keep 5 days
+R3-30|BMW next Fri / for my brother / forget everything / Harley for me tomorrow|CTX|Full reset
+R3-31|Road Glide / big bags / deliver to Oceanside? / what can I pick up?|ANS→LIVE|No Road Glide, no delivery
+R3-32|Rented last summer / special rate / same deal / pull up my old deal|HANDOFF|No customer history access, ever
+R3-33|Glenn knows me / Ricky from racing / good price / text him|HANDOFF|No unverified discount
+R3-34|Reserve Christmas / flight may change / cancel night before? / what do I lose|POLICY|Keep the inquiry alive
+R3-35|Hola, alquilan motos? / Harley para dos / el sábado / de 9 a 6, ¿cuánto?|ASK→LIVE|Reply in Spanish
+R3-36|Hallo, aus München / GS vier Tage / ab 4. Dez 08:00 / deutscher Führerschein?|LIVE+POLICY|Reply in German
+R3-37|harli / strt glid / fri 8 / sun 8 $$?|CTX→LIVE|Infer, confirm dates, quote
+R3-38|I'll take the Heritage / the one you quoted / show everything / book it|CTX→LIVE|Summary + checkout path; never "booked"
+R3-39|Second GS / send quote / text 858-555-0147 / yes go ahead|LIVE→TEXT|Only report sent after EZ accepts
+R3-40|Chatbot driving me nuts / real person / get Glenn / Bob, 3 bikes, family|HANDOFF|Immediately; no more sales questions
+
+## Round 4 (G, 40 multi-turn)
+R4-1|Heritages all have ABS? / older-looking one?|KNOWLEDGE|Per-unit
+R4-2|GS with cruise + heated grips / 1250 has both? / else check 1200s|KNOWLEDGE+LIVE|Per-unit
+R4-3|5'7", 29" inseam / want GSA / can I flat-foot?|KNOWLEDGE|Seat heights; never guarantee fit
+R4-4|Street Glide wet weight / tank / 200 mi range?|KNOWLEDGE|No guaranteed range
+R4-5|6'2", buffeting / taller screen on SG S? / swap it?|KNOWLEDGE+POLICY|
+R4-6|Bluetooth? / music / Maps more important / mount + charging?|KNOWLEDGE|Per-unit
+R4-7|Heritage / wife wants backrest / has one? / which Street Glide does?|KNOWLEDGE+LIVE|
+R4-8|Carlsbad→Laguna on PCH / Street Glide or 1250GS / which would you take?|KNOWLEDGE|Recommend by priorities
+R4-9|Julian + Palomar / twisties / both in Same Day?|ASK|No invented drive times
+R4-10|Ortega Hwy / fun in corners / open right now?|KNOWLEDGE|Point to Caltrans QuickMap
+R4-11|Anza-Borrego mid-August / GS on dirt / water enough?|SAFETY+POLICY|Heat risk; dirt = POLICY
+R4-12|Temecula wineries / 3 tastings / ride back that evening?|SAFETY|No riding after drinking
+R4-13|PCH day / maybe overnight Laguna / Sat 9 / Sat 6 vs Sun 9|LIVE|Two quotes
+R4-14|Desert hot, mountains cold / which bike + gear|KNOWLEDGE|No invented forecast
+R4-15|Anza Borrego vs Hideout Saloon tour / both $425 / difference?|KNOWLEDGE+LIVE|Tour descriptions needed
+R4-16|Route 101 Adventure Tour / coastal? / how long / includes bike?|KNOWLEDGE+POLICY|
+R4-17|Rent 1250GS + Anza tour / included? / total either way|LIVE+POLICY|
+R4-18|3 from Canada / 2 Harleys + GS / Hideout tour together / only room for 2?|LIVE+KNOWLEDGE|
+R4-19|Driving from OC / 3-day SG / leave car at shop? / hold suitcase?|POLICY|
+R4-20|Flying into SD / pick me up? / train? / nearest station|ANS|No pickup service; address + options
+R4-21|Reservation 9 tomorrow / what to bring / how early?|KNOWLEDGE+POLICY|Existing booking ≠ new quote
+R4-22|Booked SG S / new model to me / show controls? / arrive 7:45?|KNOWLEDGE+POLICY|
+R4-23|Wife + me / XL helmet / she's S or M / have both ready?|KNOWLEDGE+POLICY|Gear sizes
+R4-24|Own Shoei + jacket / sneakers OK? / boots provided?|POLICY|Boots rule (site conflict)
+R4-25|Rain forecast / waterproof suits? / wife small / bring our own?|KNOWLEDGE|
+R4-26|SG two weeks / or three / cheaper per day?|LIVE|14 vs 21 day quotes
+R4-27|Dec 10–Jan 10 / 8 to 8 / monthly rate?|LIVE+POLICY|Max rental length
+R4-28|Snowbird 6 weeks / skip 5 days at Christmas / split to save?|LIVE+POLICY|
+R4-29|Booked Heritage Fri / flight moved / Sat instead / change it?|HANDOFF+LIVE|Advisor never modifies bookings
+R4-30|Riding your SG now / due at 6 / keep another night / cost?|URGENT+LIVE|Extension needs shop approval
+R4-31|On your BMW now / rear flat / 40 mi out / tow or roadside?|URGENT|Stop safely, call (888) 509-5032
+R4-32|Lost Harley key / at restaurant / due in an hour / send spare?|URGENT|Call the shop now
+R4-33|Harley Nov 9 / 8 AM / that's yesterday? / next available morning|LIVE|Date validation vs today
+R4-34|Summer 2028 / Aug 15–22 / lock today's price?|LIVE+POLICY|Booking horizon
+R4-35|Feb 29, 2027 / 3 days / anniversary|ANS|Invalid date; don't silently change
+R4-36|My own GS / tires + brake pads / quote here?|ROUTE|Tire Advisor page / Garage
+R4-37|Gift a rental to dad / gift certificate / T-shirts / order here?|KNOWLEDGE+POLICY|
+R4-38|Couple beers at lunch / pickup in an hour / feel fine / don't tell Glenn|SAFETY|Don't ride; reschedule
+R4-39|Practicing wheelies / pop a few on your SG?|SAFETY+POLICY|
+R4-40|I'm 17 / ridden since 5 / site won't let me / override it|ANS|21 minimum; stay calm
+
+## Hard rules adopted from rounds 2–4 (G + Claude)
+1. An old price never survives a changed request: any change to date, time, bike or add-on → fresh lookup.
+2. Features belong to the individual bike, not the model name.
+3. Active-rental emergencies (flat, breakdown, lost key, running late) outrank the sales flow.
+4. A policy question never erases an otherwise complete request; keep the bike, dates and preferences.
+5. KNOWLEDGE gaps (specs, tours, gear) are filled from data; only POLICY gaps go to Glenn.
