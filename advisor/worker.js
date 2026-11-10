@@ -280,6 +280,13 @@ function pick(a) {
 }
 async function bqTest(env, body) {
   if (!env.BOOQABLE_TOKEN) return { error: 'no BOOQABLE_TOKEN secret' };
+  if (body.what === 'price') {
+    const ids = (Array.isArray(body.ids) ? body.ids : [body.id]).slice(0, 12);
+    const q = 'item_prices?filter[from]=' + encodeURIComponent(body.from || '') + '&filter[till]=' + encodeURIComponent(body.till || '') + ids.map(i => '&filter[item_id][]=' + encodeURIComponent(i)).join('');
+    const r = await bq(env, q);
+    const rows = (r.j && r.j.data) || [];
+    return { status: r.status, error: r.status >= 400 ? r.j : undefined, prices: rows.map(d => { const a = d.attributes || d; return { item: a.item_id, label: a.charge_label, each: a.price_each_in_cents, orig: a.original_price_each_in_cents, tile: a.price_tile_id, rules: a.price_rule_values }; }) };
+  }
   if (body.what === 'avail') {
     const q = 'availabilities?filter[subject_id]=' + encodeURIComponent(body.id || '') + '&filter[subject_type]=' + encodeURIComponent(body.subject_type || 'product_group') + '&filter[year]=' + (body.year | 0) + '&filter[month]=' + (body.month | 0);
     const r = await bq(env, q);
