@@ -66,6 +66,7 @@ Signed electronically on the website during booking. Advisor explains in plain w
 ## Booking & shop logistics (Glenn, Nov 10)
 - Online booking needs about 2 hours' lead time; start times in 30-minute steps (e.g. browsing at 9 AM Saturday, earliest start ~11 AM).
 - SOONER THAN 2 HOURS (Glenn's script, Nov 10): "Online bookings need 2 hours' notice. If you'd like, I can send a message to our rental team and see if they can get you in sooner." On yes: "Sure, what's your first name and phone number? If you're international, please include your country code." Then the normal read-back + "Send it?" → RENTAL handoff text to the shop with name, phone, bike and requested time.
+- Rental handoffs (Glenn, Nov 10): shop alert text ONLY. No confirmation text to the customer (this also covers international numbers). The chat confirms once EZ accepts the shop alert: "Got it, the rental team will reach out shortly." Tire lane unchanged (still texts the customer).
 - No limit on rental length.
 - Pets welcome at the office, never on the bikes, and the shop can't watch pets.
 - Free parking for the customer's car/rental car during the rental: large lot, lit, video security.
