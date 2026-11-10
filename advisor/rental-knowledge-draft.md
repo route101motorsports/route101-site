@@ -64,7 +64,8 @@ Signed electronically on the website during booking. Advisor explains in plain w
 - Marketing photo consent is in the agreement (renter can ask to opt out of marketing).
 
 ## Booking & shop logistics (Glenn, Nov 10)
-- Online booking needs about 2 hours' lead time; start times in 30-minute steps (e.g. browsing at 9 AM Saturday, earliest start ~11 AM). Advance booking is required; for anything sooner, call the shop: Glenn tries to accommodate.
+- Online booking needs about 2 hours' lead time; start times in 30-minute steps (e.g. browsing at 9 AM Saturday, earliest start ~11 AM).
+- SOONER THAN 2 HOURS (Glenn's script, Nov 10): "Online bookings need 2 hours' notice. If you'd like, I can send a message to our rental team and see if they can get you in sooner." On yes: "Sure, what's your first name and phone number? If you're international, please include your country code." Then the normal read-back + "Send it?" → RENTAL handoff text to the shop with name, phone, bike and requested time.
 - No limit on rental length.
 - Pets welcome at the office, never on the bikes, and the shop can't watch pets.
 - Free parking for the customer's car/rental car during the rental: large lot, lit, video security.
