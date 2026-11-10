@@ -266,6 +266,31 @@ async function checkWatches(env, force) {
   return { watches: keys.length, sent };
 }
 
+// TEMP: Booqable API v4 read-only probe for the Rental Advisor. Product groups + availability only.
+const BQ = 'https://route-101-motorsports-llc.booqable.com/api/4/';
+async function bq(env, path) {
+  const r = await fetch(BQ + path, { headers: { Authorization: 'Bearer ' + env.BOOQABLE_TOKEN, Accept: 'application/json' } });
+  let j = null; try { j = await r.json(); } catch (e) {}
+  return { status: r.status, j };
+}
+function pick(a) {
+  const o = {};
+  for (const k of Object.keys(a || {})) if (/name|price|deposit|period|type|archived|show_in_store|tracking|slug|trackable|has_variations|stock_count/i.test(k)) o[k] = a[k];
+  return o;
+}
+async function bqTest(env, body) {
+  if (!env.BOOQABLE_TOKEN) return { error: 'no BOOQABLE_TOKEN secret' };
+  if (body.what === 'avail') {
+    const q = 'availabilities?filter[subject_id]=' + encodeURIComponent(body.id || '') + '&filter[subject_type]=' + encodeURIComponent(body.subject_type || 'product_group') + '&filter[year]=' + (body.year | 0) + '&filter[month]=' + (body.month | 0);
+    const r = await bq(env, q);
+    const rows = (r.j && r.j.data) || [];
+    return { status: r.status, error: r.status >= 400 ? r.j : undefined, days: rows.map(d => { const a = d.attributes || d; return [a.date, a.status, a.quantity]; }) };
+  }
+  const r = await bq(env, 'product_groups?page[size]=50');
+  const rows = (r.j && r.j.data) || [];
+  return { status: r.status, error: r.status >= 400 ? r.j : undefined, count: rows.length, keys: rows[0] ? Object.keys(rows[0].attributes || rows[0]) : [], groups: rows.map(g => ({ id: g.id, ...pick(g.attributes || g) })) };
+}
+
 export default {
   async scheduled(event, env, ctx) { ctx.waitUntil(checkWatches(env, false)); },
   async fetch(req, env, ctx) {
@@ -279,6 +304,8 @@ export default {
     try { body = await req.json(); } catch (e) { return json({ error: 'bad json' }, 400, origin); }
     // manual stock-watch check, for testing (same origin + rate limits as the chat; returns counts only)
     if (body && body.action === 'watchcheck') return json(await checkWatches(env, true), 200, origin);
+    // TEMP Booqable read-only test (product data only; never customers/orders). Remove after the Rental Advisor test.
+    if (body && body.action === 'bqtest') return json(await bqTest(env, body), 200, origin);
     const lane = LANES[body.lane] ? body.lane : 'tires';
     let msgs = (Array.isArray(body.messages) ? body.messages : [])
       .filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
