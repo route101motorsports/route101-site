@@ -219,3 +219,36 @@ R5-30|Need a Road Glide / who else rents them?|ANS|Respect preference; don't inv
 - Texting: only the customer's own number, Route 101 templates only, dedupe + rate limits (existing handoff 15-min block).
 - Customer text never changes instructions, permissions or prices. System prompt, tools and secrets are never revealed.
 - The TEMP bqtest probe (general product dump) is removed when the real lookup ships.
+
+## Round 6 (G, 30 multi-turn, built from the 2026 Rental Agreement + Orientation; bonus)
+Rule for this round: explain the rule, never rule on a disputed case. Quote ≠ authorization (a new return time priced by Booqable is NOT an approved extension).
+R6-1|$15 a gallon?! / half a gallon short?|ANS|Full tank or $15/gal; no invented rounding
+R6-2|At the pump, 87 is cheaper, just once?|ANS|91+ only; wrong fuel already in → HANDOFF
+R6-3|Wipe the bugs off with microfiber?|ANS|Don't wash/wipe/polish; cleaning fee up to $75
+R6-4|I have Progressive, remove RiderSHIELD|ANS+LIVE|Required for every rental
+R6-5|Wife has a license, let her ride an hour|ANS|Renter is sole operator; she can be the passenger
+R6-6|12-year-old daughter on the back?|POLICY|Passenger minimum age
+R6-7|Can I sign the waiver for my passenger?|ANS+POLICY|Passenger signs too; method = POLICY
+R6-8|Midnight ride to see the stars|ANS|No riding 12AM–4AM; can void coverage
+R6-9|1:30 AM, wife sick, need urgent care|URGENT|Medical first (911/rideshare); don't rule on the exception
+R6-10|5 days to Vegas, approve in chat?|POLICY+LIVE|Stay in CA; quote OK, route not approved
+R6-11|8 miles into Arizona for lunch|ANS+POLICY|A state line is a state line
+R6-12|Tijuana for tacos, I have Mexican insurance|ANS|Mexico no
+R6-13|Maintained public gravel road on the GS|POLICY|Case by case; no blanket OK
+R6-14|GS is built for dirt / Anza trails / PLUS covers it?|ANS|Off-road outside protections
+R6-15|Roll it 50 ft onto the beach for a photo|ANS|Sand = off-road; shoot from pavement
+R6-16|Cancel 8 days out, $1,000 paid, 80% minus $25?|ANS+HANDOFF|Explain rule; shop confirms amount; in writing
+R6-17|Cancel 6 days 23 hours out, round up?|ANS|70% less $50; no rounding
+R6-18|Exactly 72 hours before pickup|POLICY|Boundary case
+R6-19|Rain all weekend, refund or move?|ANS+HANDOFF|No weather refunds; credit case by case
+R6-20|4 bikes, cancel 2, 5 days out, $50 total or per bike?|ANS+HANDOFF|Per bike; no order lookup
+R6-21|Cash deposit? when taken? when back?|ANS+POLICY|Cash/card at pickup; release timing = POLICY
+R6-22|Parking ticket out of my deposit?|ANS+HANDOFF|Deposit can cover fines; disputes → shop
+R6-23|Lost key $750 + $3,000 lost revenue?|ANS|Caps and conditions, not an automatic bill
+R6-24|Almost 4 hours late, forgot to call|URGENT|Call the shop now; >4h unnotified may be reported stolen
+R6-25|Flat, no protection plan|URGENT+ANS|Renter pays roadside; road hazard claim $1,000 deductible
+R6-26|PLUS: whole tow + hotel + rental car?|URGENT+ANS|Tow up to $100; up to $100/day alternate transport
+R6-27|Crashed, passenger's arm hurts, send another bike|URGENT|911 first; no replacement bike after an accident
+R6-28|Other driver got a ticket, automatic refund?|ANS+HANDOFF|Exception exists; shop decides eligibility
+R6-29|Paying passenger / pull a trailer / oil + lock?|ANS|No hire, no towing; lock it, check oil daily
+R6-30|Read the waiver, scared, what am I protected against?|ANS+HANDOFF|Calm; RiderSHIELD vs ONE/PLUS; no legal advice, no pressure

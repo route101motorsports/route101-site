@@ -24,6 +24,9 @@ C. Riders and use
 16. Rider size/weight limits? Any recent-experience requirement (e.g. "haven't ridden in 8 years")?
 17. Boots: required or recommended? (orientation: recommended; one site FAQ says required)
 18. Pets on the bike?
+18a. Passengers: minimum passenger age? Minors allowed with parent? How does a passenger sign (online at booking, at pickup)?
+18b. Deposit: when is it released/refunded after return?
+18c. Cancellation at exactly 72 hours: which side of the line?
 
 D. Logistics & other
 19. Leave a car at the shop during the rental? Store luggage?
