@@ -4298,10 +4298,10 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
         ['Do you do dirt bike tires?', "Yes. Street, adventure and MX tires. We don't mount pit bike or minibike tires, and we don't do flat repairs or plugs."]
       ]
     },
-    // Rental Advisor (Nov 10, 2026). live:false = only with ?advisor=test until Glenn says GO.
+    // Rental Advisor. Glenn: GO LIVE (Nov 10, 2026).
     rentals: {
       re: /^\/(|collections|collections\/(motorcycle-rentals|explore-our-bmw-gs-rental-fleet|motorcycle-tours)|pages\/(san-diego-harley-rentals|san-diego-bmw-adventure-bike-rentals|motorcycle-rentals-san-diego)|products\/(rent-a-[a-z0-9\-]+|route-101-adventure-tour|hideout-saloon-adventure-tour|anza-borrego-adventure-tour))\/?$/,
-      live: false,
+      live: true,
       lane: 'rentals', name: 'Rental Advisor', eyebrow: 'Route 101 Motorsports', ph: 'Ask about rentals...',
       hello: "Hey, I'm the Route 101 Rental Advisor. I can check live availability, give you exact pricing for your dates, and help you pick the right bike!",
       quote: ['Browse Bikes', '/collections/motorcycle-rentals'],
