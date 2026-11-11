@@ -252,3 +252,12 @@ R6-27|Crashed, passenger's arm hurts, send another bike|URGENT|911 first; no rep
 R6-28|Other driver got a ticket, automatic refund?|ANS+HANDOFF|Exception exists; shop decides eligibility
 R6-29|Paying passenger / pull a trailer / oil + lock?|ANS|No hire, no towing; lock it, check oil daily
 R6-30|Read the waiver, scared, what am I protected against?|ANS+HANDOFF|Calm; RiderSHIELD vs ONE/PLUS; no legal advice, no pressure
+
+## Added by Glenn (Nov 10): license and training
+T-1|I don't have a motorcycle license yet, can I still rent?|ANS|No; Twysted Throttle course → M1; grad discount code
+T-2|Only have my car license, can I take a quick lesson there?|ANS|We don't train; Twysted Throttle
+T-3|Haven't ridden in 10 years, kinda nervous / should I take a refresher?|ANS|No judgment; brush-up course; orientation at pickup
+T-4|I have a learner's permit|ANS|Need a full motorcycle license; Twysted Throttle
+T-5|Just took the Twysted Throttle class, any deal?|ANS|Email for Harley discount code (name, email, class date, cert #)
+T-6|Can you teach my girlfriend so she can ride her own bike next to me?|ANS|Twysted Throttle; until licensed she rides as passenger
+
