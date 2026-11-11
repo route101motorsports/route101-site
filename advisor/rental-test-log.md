@@ -16,3 +16,11 @@ Worker version f6a2c61a (commit c2f8d0d), panel pin a6cf2b8. Tests run through t
 - SPANISH (R3-35): full Same Day quote in Spanish. PASS
 
 Fix queued: prices over $1,000 need a thousands comma ("$1106.34").
+
+## Nov 10, 2026, evening: Glenn's tests, fixes, GO LIVE
+- Glenn test 19:04-19:08: dead-end after picking the 1250; falsely said earlier prices weren't live; Harley-only list; Street Glide suggested for coast. Fixed (bfa1676): close the loop + Book button as soon as one bike is quoted, honesty rule, Harley+GS mix, Glenn's Softail/freeway qualifier (asked once).
+- Glenn phone test 20:02-20:07: leaked an instruction label ("... script:"), repeated the same question, caved on "I didn't give an exact day", volunteered no-refund-for-weather. Fixed (ae26e78).
+- Exact replay found a made-up price list with no lookup. Fixed (c701007): availability/prices only from a rental_quote result; re-check instead of re-listing.
+- Dates (Glenn's rule): never assume a date; vague requests (this/next weekend, next week, soon, next Saturday) get "which exact dates?" with options, a weekend can start Friday (e71e47b). Verified 6/6.
+- Checkout waiver address corrected in Booqable (2705 Corte Del Nogal Ste. X -> 6351 Corte Del Abeto #107).
+- GO LIVE: rentals live:true (66368dd), Booqable pin 66368dd, Worker 3509f2b3. Verified the Rental Advisor tab shows on the home page with test mode off.
