@@ -4281,7 +4281,8 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
   // ===== AI Advisor (LAB look-and-feel preview, canned answers; no AI connected yet) =====
   // TEST MODE ONLY: ?advisor=test turns it on for this device, ?advisor=off clears. ADV_LIVE = true shows everyone.
   var ADV_LIVE = true;   // Glenn: GO LIVE (Nov 6, 2026)
-  var ADV_NAMES = { '/pages/san-diego-harley-service': 'Harley Service page', '/pages/san-diego-bmw-gs-service': 'BMW GS Service page', '/pages/harley-brake-service': 'Harley Brake page', '/collections': 'Rentals page', '/pages/san-diego-harley-rentals': 'Harley Rentals page', '/pages/san-diego-bmw-adventure-bike-rentals': 'BMW GS Rentals page', '/collections/motorcycle-tours': 'Tours page', '/pages/motorcycle-tires': 'Tires page' };
+  var ADV_NAMES = { '/pages/san-diego-harley-service': 'Harley Service page', '/pages/san-diego-bmw-gs-service': 'BMW GS Service page', '/pages/harley-brake-service': 'Harley Brake page', '/collections': 'Rentals page', '/pages/san-diego-harley-rentals': 'Harley Rentals page', '/pages/san-diego-bmw-adventure-bike-rentals': 'BMW GS Rentals page', '/collections/motorcycle-tours': 'Tours page', '/pages/motorcycle-tires': 'Tires page', '/pages/twysted-throttle': 'Twysted Throttle page', '/collections/motorcycle-rentals': 'Rentals page', '/collections/explore-our-bmw-gs-rental-fleet': 'BMW GS fleet page', '/pages/motorcycle-rentals-san-diego': 'Rentals page' };
+  var ADV_MAP = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Route 101 Motorsports, 6351 Corte Del Abeto #107, Carlsbad, CA 92011');
   var ADV_URL = 'https://route101-advisor.silent-firefly-3c6d.workers.dev/';
   var ADV = {
     tires: {
@@ -4296,6 +4297,15 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
         ['Which brands do you carry?', 'Michelin, Dunlop, Metzeler, Pirelli, Bridgestone, Shinko, Maxxis and Mitas. We confirm your price before anything is ordered.'],
         ['Do you do dirt bike tires?', "Yes. Street, adventure and MX tires. We don't mount pit bike or minibike tires, and we don't do flat repairs or plugs."]
       ]
+    },
+    // Rental Advisor (Nov 10, 2026). live:false = only with ?advisor=test until Glenn says GO.
+    rentals: {
+      re: /^\/(|collections|collections\/(motorcycle-rentals|explore-our-bmw-gs-rental-fleet|motorcycle-tours)|pages\/(san-diego-harley-rentals|san-diego-bmw-adventure-bike-rentals|motorcycle-rentals-san-diego)|products\/(rent-a-[a-z0-9\-]+|route-101-adventure-tour|hideout-saloon-adventure-tour|anza-borrego-adventure-tour))\/?$/,
+      live: false,
+      lane: 'rentals', name: 'Rental Advisor', eyebrow: 'Route 101 Motorsports', ph: 'Ask about rentals...',
+      hello: "Hey, I'm the Route 101 Rental Advisor. I can check live availability, give you exact pricing for your dates, and help you pick the right bike!",
+      quote: ['Browse Bikes', '/collections/motorcycle-rentals'],
+      chips: [["What's available this weekend?", ''], ['How much is a Harley for a day?', ''], ['Harley or BMW GS?', ''], ["What's included?", ''], ['Where are you located?', '']]
     }
   };
   var ADV_CSS = `
@@ -4320,6 +4330,8 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
 #r101-adv .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
 #r101-adv .chip{background:#fff;border:1.5px solid #111;color:#111;border-radius:999px;padding:8px 12px;font:600 13px/1.1 Inter,sans-serif;cursor:pointer}
 #r101-adv .chip:hover{background:#111;color:#fff}
+#r101-adv .bookbtn{align-self:flex-start;background:#111;color:#fff;text-decoration:none;border-radius:999px;padding:11px 18px;font:700 14px/1 Inter,sans-serif;border:2px solid ${O}}
+#r101-adv .bookbtn:hover{background:${O};color:#111}
 #r101-adv form{display:flex;gap:8px;padding:10px 12px;background:#fff;border-top:1px solid #e6e0d6}
 #r101-adv input{flex:1;min-width:0;border:1.5px solid #ccc;border-radius:999px;padding:11px 14px;font:400 16px/1.2 Inter,sans-serif;outline:none}
 #r101-adv input:focus{border-color:${O}}
@@ -4337,7 +4349,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     var lane = null, k;
     for (k in ADV) if (ADV[k].re.test(location.pathname)) lane = ADV[k];
     if (!lane || document.getElementById('r101-adv-btn')) return;
-    var on = ADV_LIVE;
+    var on = lane.live === false ? false : ADV_LIVE;
     try { var q = new URLSearchParams(location.search).get('advisor'); if (q === 'test') localStorage.setItem('r101adv', '1'); if (q === 'off') localStorage.removeItem('r101adv'); on = on || localStorage.getItem('r101adv') === '1'; } catch (e) {}
     if (!on) return;
     addStyle('r101-adv-css', ADV_CSS);
@@ -4350,13 +4362,13 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     box.id = 'r101-adv'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', lane.name);
     box.innerHTML = '<div class="hd"><div class="t"><div class="ey">' + esc(lane.eyebrow) + '</div><h3>' + esc(lane.name) + '</h3></div><button class="x" type="button" aria-label="Close">&times;</button></div>' +
       '<div class="msgs" aria-live="polite"></div>' +
-      '<form><input type="text" placeholder="Ask about tires..." aria-label="Your question" maxlength="400"><button type="submit">Send</button></form>' +
+      '<form><input type="text" placeholder="' + esc(lane.ph || 'Ask about tires...') + '" aria-label="Your question" maxlength="400"><button type="submit">Send</button></form>' +
       '<div class="ft"><a class="call" href="tel:+18885095032" aria-label="Call Us at (888) 509-5032">Call Us</a><a class="q" href="' + lane.quote[1] + '">' + esc(lane.quote[0]) + '</a></div>';
     document.body.appendChild(btn); document.body.appendChild(box);
     var msgs = box.querySelector('.msgs'), inp = box.querySelector('input'), started = false;
     var add = function (cls, html) { var d = document.createElement('div'); d.className = 'm ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; };
     var hist = [], busy = false;
-    var fmt = function (x) { return esc(x).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(https?:\/\/(?:www\.)?route101motorsports\.com)?(\/(?:pages|collections|products)\/[a-z0-9\-\/#]+[a-z0-9\/])/gi, function (m0, d, path) { return '<a href="' + path + '" style="color:#c25100;font-weight:600">' + (ADV_NAMES[path.replace(/\/$/, '')] || 'this page') + '</a>'; }).replace(/\(?(\(888\) 509-5032|888-509-5032)\)?/g, function (m) { return '<a href="tel:+18885095032" style="color:#c25100;font-weight:600">' + m + '</a>'; }).replace(/\n/g, '<br>'); };
+    var fmt = function (x) { return esc(x).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(https?:\/\/(?:www\.)?route101motorsports\.com)?(\/(?:pages|collections|products)\/[a-z0-9\-\/#]+[a-z0-9\/])/gi, function (m0, d, path) { return '<a href="' + path + '" style="color:#c25100;font-weight:600">' + (ADV_NAMES[path.replace(/\/$/, '')] || 'this page') + '</a>'; }).replace(/\(?(\(888\) 509-5032|888-509-5032)\)?/g, function (m) { return '<a href="tel:+18885095032" style="color:#c25100;font-weight:600">' + m + '</a>'; }).replace(/6351 Corte Del Abeto(,? #107)?(,? Carlsbad,? CA,?( 92011)?)?/g, function (m) { return '<a href="' + ADV_MAP + '" target="_blank" rel="noopener" style="color:#c25100;font-weight:600">' + m + '</a>'; }).replace(/\n/g, '<br>'); };
     var save = function () { try { sessionStorage.setItem('r101adv_hist', JSON.stringify(hist.slice(-40))); } catch (e) {} };
     var sendQuote = function (d) {
       var f = document.querySelector('main section.contact-form form'); if (!f) return false;
@@ -4379,13 +4391,18 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
       if (busy) return; busy = true;
       add('u', esc(q)); hist.push({ role: 'user', content: q }); save();
       var t = add('b typing', '&bull;&bull;&bull;');
-      var done = function (text) {
+      var done = function (text, book) {
         var m = text.match(/\[\[QUOTE\]\]\s*(\{[^\n]*\})/), data = null;
         if (m) { try { data = JSON.parse(m[1]); } catch (e) {} text = (text.slice(0, m.index) + text.slice(m.index + m[0].length)).trim(); }
         if (data && !text) text = 'Got it, sending your quote request now. Expect an emailed quote, usually within 20 to 30 minutes during business hours.';
         t.className = 'm b'; t.innerHTML = fmt(text); msgs.scrollTop = msgs.scrollHeight;
         hist.push({ role: 'assistant', content: text }); save(); busy = false;
         if (data && !sendQuote(data)) add('b', esc("I couldn't send the form from here. Please use the quote form on this page or call (888) 509-5032."));
+        if (book && book.url && /^\/products\/[a-z0-9\-]+$/.test(book.url)) {
+          var bk = document.createElement('a'); bk.className = 'bookbtn'; bk.href = book.url; bk.textContent = book.label || 'Book this bike';
+          bk.addEventListener('click', function () { try { gtag('event', 'advisor_book_click', { lane: lane.lane, url: book.url }); } catch (e) {} });
+          msgs.appendChild(bk); msgs.scrollTop = msgs.scrollHeight;
+        }
         if (!data && /send it\?/i.test(text.slice(-120))) {
           var qc = document.createElement('div'); qc.className = 'chips';
           [['Yes, Send It', 'Yes, send it'], ['Change Something', 'I need to change something']].forEach(function (o) {
@@ -4398,7 +4415,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
       };
       fetch(ADV_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lane: lane.lane, messages: hist.length > 40 ? hist.slice(0, 6).concat(hist.slice(-34)) : hist }) })
         .then(function (r) { return r.json(); })
-        .then(function (j) { done(j.reply || "Sorry, I'm having trouble right now. Please call us at (888) 509-5032."); })
+        .then(function (j) { done(j.reply || "Sorry, I'm having trouble right now. Please call us at (888) 509-5032.", j.book); })
         .catch(function () { done("Sorry, I'm having trouble right now. Please call us at (888) 509-5032."); });
     };
     var chips = function () {
@@ -4433,6 +4450,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     box.querySelector('.x').addEventListener('click', close);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && box.classList.contains('open')) close(); });
     box.querySelector('.q').addEventListener('click', function (e) {
+      if (String(lane.quote[1]).charAt(0) !== '#') return;
       var f = document.querySelector('#contact-form, section.contact-form');
       if (f) { e.preventDefault(); close(); f.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
