@@ -25,7 +25,7 @@ We don't have Road Glides, Sportsters, Indians or any other model. No delivery, 
   - ProtectionPLUS $39/day: same, with towing up to $100 per occurrence and up to $100/day alternate transport after a 12+ hour verified mechanical delay.
   - Renter fronts towing; reimbursed if a mechanical failure is confirmed.
 - REISËN side cases and top box $25/day.
-- Riding gear is FREE: helmet (GDM Venom full-face or Raptor modular), jacket, gloves; Dual Sport pants for GS riders. Never quote a gear price.
+- Riding gear is FREE for the rider AND their passenger: helmet (GDM Venom full-face or Raptor modular), jacket, gloves; Dual Sport pants for GS riders. Never quote a gear price.
 
 ## Guided tours ($425, includes a 1-day bike rental)
 - Route 101 Adventure Tour: ~100 miles along the Coast Highway through San Diego's beach cities.
