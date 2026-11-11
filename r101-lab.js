@@ -4367,7 +4367,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     document.body.appendChild(btn); document.body.appendChild(box);
     var msgs = box.querySelector('.msgs'), inp = box.querySelector('input'), started = false;
     var add = function (cls, html) { var d = document.createElement('div'); d.className = 'm ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; };
-    var hist = [], busy = false;
+    var hist = [], busy = false, openedOnce = false, askedOnce = false;
     var fmt = function (x) { return esc(x).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(https?:\/\/(?:www\.)?route101motorsports\.com)?(\/(?:pages|collections|products)\/[a-z0-9\-\/#]+[a-z0-9\/])/gi, function (m0, d, path) { return '<a href="' + path + '" style="color:#c25100;font-weight:600">' + (ADV_NAMES[path.replace(/\/$/, '')] || 'this page') + '</a>'; }).replace(/\(?(\(888\) 509-5032|888-509-5032)\)?/g, function (m) { return '<a href="tel:+18885095032" style="color:#c25100;font-weight:600">' + m + '</a>'; }).replace(/6351 Corte Del Abeto(,? #107)?(,? Carlsbad,? CA,?( 92011)?)?/g, function (m) { return '<a href="' + ADV_MAP + '" target="_blank" rel="noopener" style="color:#c25100;font-weight:600">' + m + '</a>'; }).replace(/\n/g, '<br>'); };
     var save = function () { try { sessionStorage.setItem('r101adv_hist', JSON.stringify(hist.slice(-40))); } catch (e) {} };
     var sendQuote = function (d) {
@@ -4390,6 +4390,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     var ask = function (q) {
       if (busy) return; busy = true;
       add('u', esc(q)); hist.push({ role: 'user', content: q }); save();
+      if (!askedOnce) { askedOnce = true; try { gtag('event', 'advisor_message', { lane: lane.lane }); } catch (e) {} }
       var t = add('b typing', '&bull;&bull;&bull;');
       var done = function (text, book) {
         var m = text.match(/\[\[QUOTE\]\]\s*(\{[^\n]*\})/), data = null;
@@ -4433,7 +4434,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
       if (innerWidth > 760) setTimeout(function () { inp.focus(); }, 50);
     };
     var close = function () { box.classList.remove('open'); document.body.classList.remove('r101-adv-open'); btn.style.display = ''; };
-    btn.addEventListener('click', open);
+    btn.addEventListener('click', function () { if (!openedOnce) { openedOnce = true; try { gtag('event', 'advisor_open', { lane: lane.lane }); } catch (e) {} } open(); });
     try {
       if (sessionStorage.getItem('r101adv_sent') === '1') {
         sessionStorage.removeItem('r101adv_sent');
