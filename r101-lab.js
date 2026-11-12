@@ -4288,6 +4288,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     tires: {
       re: /^\/pages\/motorcycle-tires\/?$/,
       lane: 'tires', name: 'Tire Advisor', eyebrow: 'Route 101 Garage',
+      peek: "Welcome! Want help finding the right tire and our pricing? Just ask.",
       hello: "Hey, I'm the Route 101 Tire Advisor. I can help you select tire options for your bike, check current stock and get you tire pricing!",
       quote: ['Get A Tire Quote', '#contact-form'],
       chips: [
@@ -4340,7 +4341,13 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
 #r101-adv .ft a{flex:1;text-align:center;text-decoration:none;border-radius:999px;padding:11px 8px;font:700 14px/1 Inter,sans-serif}
 #r101-adv .ft .call{background:${O};color:#111}
 #r101-adv .ft .q{background:#111;color:#fff}
-body.r101-menu-open #r101-adv-btn{display:none!important}
+body.r101-menu-open #r101-adv-btn,body.r101-menu-open #r101-peek,body.r101-adv-open #r101-peek{display:none!important}
+#r101-peek{position:fixed;top:50%;z-index:9998;display:flex;align-items:center;gap:10px;max-width:330px;background:#111;color:#fff;border:2px solid ${O};border-radius:14px;padding:11px 10px 11px 14px;box-shadow:0 10px 26px rgba(0,0,0,.35);font:500 14px/1.35 Inter,sans-serif;cursor:pointer;opacity:0;transform:translate(12px,-50%);transition:opacity .3s,transform .3s}
+#r101-peek.show{opacity:1;transform:translate(0,-50%)}
+#r101-peek:after{content:'';position:absolute;right:-9px;top:50%;margin-top:-8px;border:8px solid transparent;border-right:0;border-left:9px solid ${O}}
+#r101-peek .pt{flex:1}
+#r101-peek .px{flex:none;background:none;border:0;color:#bbb;font:400 22px/1 Inter,sans-serif;cursor:pointer;padding:2px 4px}
+@media (max-width:760px){#r101-peek{left:10px;max-width:none}}
 @media (max-width:760px){
 #r101-adv{right:0;left:0;bottom:0;width:100%;max-width:100%;height:88svh;border-radius:18px 18px 0 0}
 body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!important}
@@ -4428,13 +4435,29 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
       });
       msgs.appendChild(c);
     };
-    var open = function () {
+    var peekEl = null;
+    var unpeek = function () { if (peekEl) { peekEl.remove(); peekEl = null; } };
+    var open = function (first) {
+      unpeek();
       box.classList.add('open'); document.body.classList.add('r101-adv-open'); btn.style.display = 'none';
-      if (!started) { started = true; add('b', esc(lane.hello)); chips(); }
+      if (!started) { started = true; add('b', esc(typeof first === 'string' ? first : lane.hello)); chips(); }
       if (innerWidth > 760) setTimeout(function () { inp.focus(); }, 50);
     };
     var close = function () { box.classList.remove('open'); document.body.classList.remove('r101-adv-open'); btn.style.display = ''; };
-    btn.addEventListener('click', function () { if (!openedOnce) { openedOnce = true; try { gtag('event', 'advisor_open', { lane: lane.lane }); } catch (e) {} } open(); });
+    var countOpen = function () { if (!openedOnce) { openedOnce = true; try { gtag('event', 'advisor_open', { lane: lane.lane }); } catch (e) {} } };
+    btn.addEventListener('click', function () { countOpen(); open(); });
+    // small welcome bubble beside the advisor tab, once per visit
+    if (lane.peek) setTimeout(function () {
+      try { if (started || sessionStorage.getItem('r101adv_peek_' + lane.lane)) return; sessionStorage.setItem('r101adv_peek_' + lane.lane, '1'); } catch (e) { if (started) return; }
+      if (btn.style.display === 'none' || document.body.classList.contains('r101-menu-open')) return;
+      peekEl = document.createElement('div'); peekEl.id = 'r101-peek'; peekEl.setAttribute('role', 'button'); peekEl.setAttribute('aria-label', 'Open the ' + lane.name);
+      peekEl.innerHTML = '<span class="pt">' + esc(lane.peek) + '</span><button class="px" type="button" aria-label="Close">&times;</button>';
+      peekEl.style.right = (btn.offsetWidth + 12) + 'px';
+      document.body.appendChild(peekEl);
+      requestAnimationFrame(function () { if (peekEl) peekEl.classList.add('show'); });
+      peekEl.querySelector('.px').addEventListener('click', function (e) { e.stopPropagation(); unpeek(); });
+      peekEl.addEventListener('click', function () { countOpen(); open(lane.peek); });
+    }, 2000);
     try {
       if (sessionStorage.getItem('r101adv_sent') === '1') {
         sessionStorage.removeItem('r101adv_sent');
