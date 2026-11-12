@@ -24,3 +24,8 @@ Fix queued: prices over $1,000 need a thousands comma ("$1106.34").
 - Dates (Glenn's rule): never assume a date; vague requests (this/next weekend, next week, soon, next Saturday) get "which exact dates?" with options, a weekend can start Friday (e71e47b). Verified 6/6.
 - Checkout waiver address corrected in Booqable (2705 Corte Del Nogal Ste. X -> 6351 Corte Del Abeto #107).
 - GO LIVE: rentals live:true (66368dd), Booqable pin 66368dd, Worker 3509f2b3. Verified the Rental Advisor tab shows on the home page with test mode off.
+
+## Nov 12, 2026: weather tool (Worker 4cd277b)
+- Live NWS forecast for Carlsbad (SGX/56,33) within ~7 days; NOAA 1991-2020 McClellan-Palomar monthly averages beyond. Glenn's rule: never forecast past 7 days.
+- Passed live: mid-booking weather question for Dec 10-11 (averages, Glenn's exact wording, back to booking); Nov 15 within 7 days (real forecast, "forecasts can change"); "next weekend" (asks exact dates); Nov 17-22 (forecast + November averages); January and July 4 2027 (averages; July "almost never rains"); Sat Nov 14 (rain likely, waterproof gear free).
+- Also removed the inert ADV_TEST_KEY bypass.
