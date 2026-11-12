@@ -579,6 +579,7 @@ body.r101-car .r101-arrow[disabled]{opacity:0;pointer-events:none}
       var name = el('h3').textContent;
       track('tire_quote_click', { tire_name: name, brand: cur.brand });
       close();
+      if (window.R101ADV) { window.R101ADV.ask("I'd like a quote on the " + name); return; }   // Tire Advisor takes it from here (tire page only)
       if (!form) return;
       var ta = form.querySelector('textarea');
       var pre = ta && ta.getAttribute('data-r101pre');
@@ -4290,7 +4291,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       lane: 'tires', name: 'Tire Advisor', eyebrow: 'Route 101 Garage',
       peek: "Welcome! Want help finding the right tire and our pricing? Just ask.",
       hello: "Hey, I'm the Route 101 Tire Advisor. I can help you select tire options for your bike, check current stock and get you tire pricing!",
-      quote: ['Get A Tire Quote', '#contact-form'],
+      quote: ['Use The Quote Form', '#contact-form'],
       chips: [
         ['Can I get tire pricing?', ''],
         ['Which tires fit my bike?', "Tell me your year, make and model, and how you ride (touring, around town, adventure or dirt). I'll point you to the right type of tire. For exact options and prices, send the tire quote form and we'll reply with a list to choose from."],
@@ -4446,6 +4447,23 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     var close = function () { box.classList.remove('open'); document.body.classList.remove('r101-adv-open'); btn.style.display = ''; };
     var countOpen = function () { if (!openedOnce) { openedOnce = true; try { gtag('event', 'advisor_open', { lane: lane.lane }); } catch (e) {} } };
     btn.addEventListener('click', function () { countOpen(); open(); });
+    // Tire page only: every "Get A Quote" opens the Tire Advisor; a tire's own quote button starts it with that tire
+    if (lane.lane === 'tires') {
+      var startWith = function (q) {
+        countOpen(); open();
+        if (!q) return;
+        if (busy) { inp.value = q; return; }
+        var c0 = msgs.querySelector('.chips'); if (c0 && msgs.querySelectorAll('.m.u').length === 0) c0.remove();
+        ask(q);
+      };
+      window.R101ADV = { open: function () { startWith(); }, ask: startWith };
+      document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest ? e.target.closest('a,button') : null; if (!a) return;
+        if (a.closest('#r101-adv') || a.closest('#r101-lb')) return;
+        if (!/^\s*get\s+(a\s+|my\s+)?(tire\s+)?quote\s*$/i.test(a.textContent || '')) return;
+        e.preventDefault(); e.stopPropagation(); startWith();
+      }, true);
+    }
     // small welcome bubble beside the advisor tab, once per visit
     if (lane.peek) setTimeout(function () {
       try { if (started || sessionStorage.getItem('r101adv_peek_' + lane.lane)) return; sessionStorage.setItem('r101adv_peek_' + lane.lane, '1'); } catch (e) { if (started) return; }
