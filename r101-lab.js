@@ -4345,7 +4345,7 @@ body.r101-menu-open #r101-adv-btn,body.r101-menu-open #r101-peek,body.r101-adv-o
 #r101-peek{position:fixed;top:50%;z-index:9998;display:flex;align-items:center;gap:10px;max-width:330px;background:#111;color:#fff;border:2px solid ${O};border-radius:14px;padding:11px 10px 11px 14px;box-shadow:0 10px 26px rgba(0,0,0,.35);font:500 14px/1.35 Inter,sans-serif;cursor:pointer;opacity:0;transform:translate(12px,-50%);transition:opacity .3s,transform .3s}
 #r101-peek.show{opacity:1;transform:translate(0,-50%)}
 #r101-peek:after{content:'';position:absolute;right:-9px;top:50%;margin-top:-8px;border:8px solid transparent;border-right:0;border-left:9px solid ${O}}
-#r101-peek .pt{flex:1}
+#r101-peek .pt{flex:1;font:500 14px/1.35 Inter,sans-serif;color:#fff;letter-spacing:0;text-transform:none}
 #r101-peek .px{flex:none;background:none;border:0;color:#bbb;font:400 22px/1 Inter,sans-serif;cursor:pointer;padding:2px 4px}
 @media (max-width:760px){#r101-peek{left:10px;max-width:none}}
 @media (max-width:760px){
