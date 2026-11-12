@@ -4305,7 +4305,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       lane: 'rentals', name: 'Rental Advisor', eyebrow: 'Route 101 Motorsports', ph: 'Ask about rentals...',
       hello: "Hey, I'm the Route 101 Rental Advisor. I can check live availability, give you exact pricing for your dates, and help you pick the right bike!",
       quote: ['Browse Bikes', '/collections/motorcycle-rentals'],
-      chips: [["What's available this weekend?", ''], ['How much is a Harley for a day?', ''], ['Harley or BMW GS?', ''], ["What's included?", ''], ['Where are you located?', '']]
+      chips: [["What's available this weekend?", ''], ['How much is a Harley for a day?', ''], ['Harley or BMW GS?', ''], ["What's included?", ''], ['Where are you located?', ''], ['7-Day Riding Forecast', '']]
     }
   };
   var ADV_CSS = `
