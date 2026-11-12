@@ -36,7 +36,7 @@ function cors(origin) {
   return {
     'Access-Control-Allow-Origin': ALLOWED.includes(origin) ? origin : ALLOWED[0],
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, X-Adv-Test',
+    'Access-Control-Allow-Headers': 'Content-Type',
     'Vary': 'Origin'
   };
 }
@@ -373,6 +373,42 @@ async function rentalQuote(env, inp) {
   const bikes = names.filter(n => c.ids[n]).map(n => { const id = c.ids[n], p = price[id]; return { bike: n, available: (avail[id] || 0) > 0, rental: p ? money(p.c) : 'n/a', tier: p ? p.label : '', total_before_tax: p ? money(p.c + addC) : 'n/a' }; });
   return { pickup: ptLabel(from), return: ptLabel(till), bikes_available: bikes.filter(b => b.available), bikes_booked: bikes.filter(b => !b.available).map(b => b.bike), addons_included_in_total: addons, gear: 'Free', deposit: '$500 refundable, separate, at pickup', tax: 'plus tax', notes };
 }
+// Weather: live NWS forecast for the shop (~7 days) + NOAA 1991-2020 normals at McClellan-Palomar (Carlsbad) for anything further out
+const WX_URL = 'https://api.weather.gov/gridpoints/SGX/56,33/forecast';
+const WX_NORMALS = { 1: [65, 48, 6.8], 2: [64, 49, 8.2], 3: [65, 51, 7.2], 4: [66, 53, 5.0], 5: [68, 57, 3.4], 6: [70, 60, 1.2], 7: [74, 64, 0.8], 8: [76, 65, 0.6], 9: [76, 64, 2.2], 10: [73, 59, 4.3], 11: [70, 52, 5.9], 12: [65, 47, 7.6] };
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+let wxCache = { t: 0, periods: null };
+function ptToday() { return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles' }).format(new Date()); }
+async function weather(env, inp) {
+  const re = /^\d{4}-\d{2}-\d{2}$/;
+  const a = String(inp.start_date || '').trim(), b = String(inp.end_date || a).trim();
+  if (!re.test(a) || !re.test(b)) return { error: 'need exact dates YYYY-MM-DD' };
+  const today = ptToday();
+  let s0 = a < today ? today : a, e0 = b < s0 ? s0 : b;
+  if (b < today) return { error: 'those dates are in the past' };
+  if (!wxCache.periods || Date.now() - wxCache.t > 30 * 60 * 1000) {
+    try {
+      const r = await fetch(WX_URL, { headers: { 'User-Agent': 'route101-advisor (glenn@route101motorsports.com)', 'Accept': 'application/geo+json' } });
+      if (r.ok) { const j = await r.json(); wxCache = { t: Date.now(), periods: (j.properties && j.properties.periods) || [] }; }
+    } catch (e) { console.log('wx error', String(e)); }
+  }
+  const per = wxCache.periods || [];
+  const fcDates = new Set(per.map(p => String(p.startTime).slice(0, 10)));
+  const forecast = [], later = {};
+  const d = new Date(s0 + 'T12:00:00Z'), end = new Date(e0 + 'T12:00:00Z');
+  for (let i = 0; d <= end && i < 60; i++, d.setUTCDate(d.getUTCDate() + 1)) {
+    const ds = d.toISOString().slice(0, 10);
+    if (fcDates.has(ds)) {
+      forecast.push({ date: new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric' }).format(d),
+        periods: per.filter(p => String(p.startTime).slice(0, 10) === ds).map(p => ({ name: p.name, temp_f: p.temperature, sky: p.shortForecast, wind: p.windSpeed, rain_chance_pct: (p.probabilityOfPrecipitation || {}).value || 0 })) });
+    } else {
+      const m = d.getUTCMonth() + 1, n = WX_NORMALS[m];
+      later[MONTHS[m - 1]] = { avg_high_f: n[0], avg_low_f: n[1], avg_rainy_days_in_month: n[2] };
+    }
+  }
+  return { location: 'Carlsbad (the shop)', forecast_days: forecast, beyond_forecast_monthly_averages: later,
+    note: !per.length ? 'Live forecast unavailable right now; give monthly averages only.' : forecast.length ? 'Live National Weather Service forecast; it can change.' : 'All dates are beyond the ~7-day forecast; give monthly averages only.' };
+}
 const RENT_TOOLS = [
   { name: 'rental_quote', description: 'Live availability and exact Booqable pricing for rental bikes for a pickup and return in Pacific time. Leave bikes empty to check every bike. RiderSHIELD is always included in the totals; add the protection plan or side cases only if the rider chose them.',
     input_schema: { type: 'object', properties: {
@@ -380,10 +416,14 @@ const RENT_TOOLS = [
       return: { type: 'string', description: 'Return, Pacific time, format YYYY-MM-DD HH:MM (24h)' },
       bikes: { type: 'array', items: { type: 'string', enum: Object.keys(RENT_BIKES) } },
       protection: { type: 'string', enum: ['none', 'ONE', 'PLUS'] },
-      side_cases: { type: 'boolean' } }, required: ['pickup', 'return'] } }
+      side_cases: { type: 'boolean' } }, required: ['pickup', 'return'] } },
+  { name: 'weather', description: 'Weather for exact dates at the shop in Carlsbad: the live National Weather Service forecast for dates within about 7 days, and NOAA monthly averages for anything further out.',
+    input_schema: { type: 'object', properties: {
+      start_date: { type: 'string', description: 'YYYY-MM-DD' },
+      end_date: { type: 'string', description: 'YYYY-MM-DD (same as start for one day)' } }, required: ['start_date'] } }
 ];
 async function runRentTool(env, name, input) {
-  try { if (name === 'rental_quote') return await rentalQuote(env, input); return { error: 'unknown tool' }; }
+  try { if (name === 'rental_quote') return await rentalQuote(env, input); if (name === 'weather') return await weather(env, input); return { error: 'unknown tool' }; }
   catch (e) { console.log('rental tool error', String(e)); return { error: 'lookup_unavailable', note: 'Rental lookup is unavailable right now. Offer to send their details to the rental team, or the shop number.' }; }
 }
 function todayLine() {
@@ -415,6 +455,7 @@ NO MADE-UP LISTS: a bike is "available" or "taken", and has a price, ONLY if it 
 HONESTY: every price you showed came from the live lookup. Never say or imply an earlier price wasn't live or was a mistake unless the tool actually changed it; if they add a bike or change something, just look up the new one.
 URGENT: a rider on one of our bikes with a problem (accident, injury, breakdown, flat, lost key, running late) gets no sales talk. Injury or danger: call 911 first. Otherwise: get somewhere safe and call the shop at (888) 509-5032 right away.
 SAFETY: never encourage riding after drinking, stunts, or riding between midnight and 4 AM; say so plainly and kindly.
+WEATHER: when they ask about weather for their dates, use the weather tool (exact dates only; if they have no exact dates yet, ask which dates, never assume). Days in forecast_days: give a short, friendly summary of that forecast and add "forecasts can change." Days only in the monthly averages: say "I can't give you a reliable forecast beyond 7 days, but [Month] in Carlsbad is generally nice, with average highs around X and lows around Y" and mention rainy days only as "usually just a handful of rainy days" (or "almost never rains" when under 2). Never predict specific weather beyond the forecast_days. If rain is forecast or possible, mention our waterproof gear is included free. Inland and mountains run hotter in summer and colder at night. Keep it to 2 or 3 sentences, then pick up right where the booking conversation was.
 HANDOFF (rental team, sooner than 2 hours, border crossing, Glenn, a person, anything you can't decide): answer their actual question first, then offer: "I can send a message to our rental team so they can reach out." If they asked to be contacted, that is permission. Collect first name and phone (international: include country code) plus a short note (bike, dates, what they need); ask only for what's missing; read it back in one line ending "Send it?" On a clear yes, output only this line: [[HANDOFF]]{"reason":"RENTAL|SOONER|BORDER|GLENN|CALLBACK","name":"","phone":"","note":""} Never say it was sent yourself; the system confirms. Once sent it's done; never send again unless they start a new request.
 If they ask whether you're a person or a bot, say you're Route 101 Motorsports' AI Rental Advisor and offer the rental team. If they ask whether you're Glenn, or who Glenn is, say you're Route 101's AI Rental Advisor, not Glenn, and that Glenn Cogan is the owner and founder of Route 101 Motorsports. Never give Glenn's or staff's personal contact, schedule or whereabouts; never promise Glenn himself will call. "I know Glenn" gets warmth, not special prices.
 STYLE: Friendly, experienced rider. Reply in the customer's language. 1 to 3 short sentences in plain words; short lines only when listing bikes or prices. No emojis, no em dashes. Stay calm if they're upset. Rental agreement questions: answer the obvious in a sentence and point to the Rental Agreement & Liability Waiver they accept when booking.
@@ -429,8 +470,7 @@ export default {
     if (req.method !== 'POST') return json({ error: 'POST only' }, 405, origin);
     if (!ALLOWED.includes(origin)) return json({ error: 'forbidden' }, 403, origin);
     const ip = req.headers.get('CF-Connecting-IP') || 'x';
-    const tester = !!(env.ADV_TEST_KEY && req.headers.get('X-Adv-Test') === env.ADV_TEST_KEY);
-    if (!tester && limited(ip)) return json({ reply: "You've sent a lot of messages. Please call us at (888) 509-5032 and we'll help you directly." }, 429, origin);
+    if (limited(ip)) return json({ reply: "You've sent a lot of messages. Please call us at (888) 509-5032 and we'll help you directly." }, 429, origin);
     let body;
     try { body = await req.json(); } catch (e) { return json({ error: 'bad json' }, 400, origin); }
     // manual stock-watch check, for testing (same origin + rate limits as the chat; returns counts only)

@@ -53,7 +53,7 @@ Answer the obvious question in a sentence or two, plainly. Never recite the agre
 - Licensed but rusty, nervous or haven't ridden in years: no judgment. Suggest a brush-up course with Twysted Throttle, and mention the walkthrough and safety orientation every rider gets at pickup. Never refuse or approve a rider's ability; the shop decides at pickup.
 
 ## Weather
-We can't check forecasts. San Diego is good riding nearly year-round; suggest a weather app for their dates. Inland and mountains run hotter in summer and colder at night than the coast.
+Use the weather tool for their exact dates: a live forecast within about 7 days, monthly averages beyond that (never a forecast past 7 days). San Diego is good riding nearly year-round. Inland and mountains run hotter in summer and colder at night than the coast. Waterproof gear is included free.
 
 ## Pickup and comparisons
 - Before every ride: we walk them through the bike, note any existing damage together, and give a quick safety orientation.
