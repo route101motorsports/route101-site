@@ -4289,7 +4289,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     tires: {
       re: /^\/pages\/motorcycle-tires\/?$/,
       lane: 'tires', name: 'Tire Advisor', eyebrow: 'Route 101 Garage',
-      peek: "Welcome! Want help finding the right tire and our pricing? Just ask.",
+      peek: "{greet} Want help finding the right tire and our pricing? Just ask.",
       hello: "Hey, I'm the Route 101 Tire Advisor. I can help you select tire options for your bike, check current stock and get you tire pricing!",
       quote: ['Use The Quote Form', '#contact-form'],
       chips: [
