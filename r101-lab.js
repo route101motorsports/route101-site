@@ -4305,7 +4305,7 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
       re: /^\/(|collections|collections\/(motorcycle-rentals|route-rental-fleet|gear-and-rental-add-ons|explore-our-bmw-gs-rental-fleet|motorcycle-tours)|pages\/(san-diego-harley-rentals|san-diego-bmw-adventure-bike-rentals|motorcycle-rentals-san-diego)|products\/(rent-a-[a-z0-9\-]+|gdm-venom-fullface-helmet|gdm-raptor-modular-helmet|harley-davidson-vintage-black-distressed-leather-jacket|harley-davidson-black-leather-jacket|dual-sport-riding-jacket|dual-sport-riding-pants|milwaukee-leather-black-leather-reflective-skull-gloves|dual-sport-riding-gloves|rent-reisen-side-cases-top-box|protectionone-assurance|protectionplus-assurance|ridershield-renter-insurance|route-101-adventure-tour|hideout-saloon-adventure-tour|anza-borrego-adventure-tour))\/?$/,
       live: true,
       lane: 'rentals', name: 'Rental Advisor',
-      peek: "Welcome! Want me to check availability, pricing and the weather for your dates? Just ask!", eyebrow: 'Route 101 Motorsports', ph: 'Ask about rentals...',
+      peek: "{greet} I can check availability, price and weather for your dates. Just ask!", eyebrow: 'Route 101 Motorsports', ph: 'Ask about rentals...',
       hello: "Hey, I'm the Route 101 Rental Advisor. I can check live availability, give you exact pricing for your dates, and help you pick the right bike!",
       quote: ['Browse Bikes', '/collections/motorcycle-rentals'],
       chips: [["What's available this weekend?", ''], ['How much is a Harley for a day?', ''], ['Harley or BMW GS?', ''], ["What's included?", ''], ['Where are you located?', ''], ['7-Day Riding Forecast', '']]
@@ -4466,16 +4466,18 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
       }, true);
     }
     // small welcome bubble beside the advisor tab, once per visit
+    // {greet} = Good Morning / Afternoon / Evening by the visitor's own clock
+    var peekText = function () { var h = new Date().getHours(); var g = h >= 4 && h < 12 ? 'Good Morning!' : h >= 12 && h < 17 ? 'Good Afternoon!' : 'Good Evening!'; return String(lane.peek || '').replace('{greet}', g); };
     if (lane.peek) setTimeout(function () {
       try { if (started || sessionStorage.getItem('r101adv_peek_' + lane.lane)) return; sessionStorage.setItem('r101adv_peek_' + lane.lane, '1'); } catch (e) { if (started) return; }
       if (btn.style.display === 'none' || document.body.classList.contains('r101-menu-open')) return;
       peekEl = document.createElement('div'); peekEl.id = 'r101-peek'; peekEl.setAttribute('role', 'button'); peekEl.setAttribute('aria-label', 'Open the ' + lane.name);
-      peekEl.innerHTML = '<span class="pt">' + esc(lane.peek) + '</span><button class="px" type="button" aria-label="Close">&times;</button>';
+      var pt = peekText(); peekEl.innerHTML = '<span class="pt">' + esc(pt) + '</span><button class="px" type="button" aria-label="Close">&times;</button>';
       peekEl.style.right = (btn.offsetWidth + 12) + 'px';
       document.body.appendChild(peekEl);
       requestAnimationFrame(function () { if (peekEl) peekEl.classList.add('show'); });
       peekEl.querySelector('.px').addEventListener('click', function (e) { e.stopPropagation(); unpeek(); });
-      peekEl.addEventListener('click', function () { countOpen(); open(lane.peek); });
+      peekEl.addEventListener('click', function () { countOpen(); open(pt); });
     }, 2000);
     try {
       if (sessionStorage.getItem('r101adv_sent') === '1') {
