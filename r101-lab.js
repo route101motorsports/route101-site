@@ -4304,7 +4304,8 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
     rentals: {
       re: /^\/(|collections|collections\/(motorcycle-rentals|route-rental-fleet|gear-and-rental-add-ons|explore-our-bmw-gs-rental-fleet|motorcycle-tours)|pages\/(san-diego-harley-rentals|san-diego-bmw-adventure-bike-rentals|motorcycle-rentals-san-diego)|products\/(rent-a-[a-z0-9\-]+|gdm-venom-fullface-helmet|gdm-raptor-modular-helmet|harley-davidson-vintage-black-distressed-leather-jacket|harley-davidson-black-leather-jacket|dual-sport-riding-jacket|dual-sport-riding-pants|milwaukee-leather-black-leather-reflective-skull-gloves|dual-sport-riding-gloves|rent-reisen-side-cases-top-box|protectionone-assurance|protectionplus-assurance|ridershield-renter-insurance|route-101-adventure-tour|hideout-saloon-adventure-tour|anza-borrego-adventure-tour))\/?$/,
       live: true,
-      lane: 'rentals', name: 'Rental Advisor', eyebrow: 'Route 101 Motorsports', ph: 'Ask about rentals...',
+      lane: 'rentals', name: 'Rental Advisor',
+      peek: "Welcome! Want me to check availability, pricing and the weather for your dates? Just ask!", eyebrow: 'Route 101 Motorsports', ph: 'Ask about rentals...',
       hello: "Hey, I'm the Route 101 Rental Advisor. I can check live availability, give you exact pricing for your dates, and help you pick the right bike!",
       quote: ['Browse Bikes', '/collections/motorcycle-rentals'],
       chips: [["What's available this weekend?", ''], ['How much is a Harley for a day?', ''], ['Harley or BMW GS?', ''], ["What's included?", ''], ['Where are you located?', ''], ['7-Day Riding Forecast', '']]
