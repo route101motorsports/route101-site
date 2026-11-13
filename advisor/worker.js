@@ -213,7 +213,6 @@ function staffMessage(rec, template, vars) {
   if (missing.length) return { error: 'missing: ' + missing.join(', ') };
   let msg = t.text.replace(/\{(\w+)\}/g, (_, n) => String(v[n] || '').trim()).replace(/\{review\}|\[review link\]/gi, REVIEW_LINK).replace(/\s+/g, ' ').trim();
   msg = msg.replace(/[\s.]*$/, ''); if (!/[!?]$/.test(msg) && !/https?:\/\/\S+$/.test(msg)) msg += '.';
-  if (/https?:\/\/\S+$/.test(msg)) msg += ' ';
   msg = msg + STAFF_SIGN;
   return { message: msg, chars: msg.length, credits: msg.length <= 160 ? 1 : Math.ceil(msg.length / 153) };
 }
