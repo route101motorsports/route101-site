@@ -4467,7 +4467,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     }
     // small welcome bubble beside the advisor tab, once per visit
     // {greet} = Good Morning / Afternoon / Evening by the visitor's own clock
-    var peekText = function () { var h = new Date().getHours(); var g = h >= 4 && h < 12 ? 'Good Morning!' : h >= 12 && h < 17 ? 'Good Afternoon!' : 'Good Evening!'; return String(lane.peek || '').replace('{greet}', g); };
+    var peekText = function () { var h = new Date().getHours(); var g = h < 3 ? 'Hey there, Night Owl!' : h < 12 ? 'Good Morning!' : h < 17 ? 'Good Afternoon!' : 'Good Evening!'; return String(lane.peek || '').replace('{greet}', g); };
     if (lane.peek) setTimeout(function () {
       try { if (started || sessionStorage.getItem('r101adv_peek_' + lane.lane)) return; sessionStorage.setItem('r101adv_peek_' + lane.lane, '1'); } catch (e) { if (started) return; }
       if (btn.style.display === 'none' || document.body.classList.contains('r101-menu-open')) return;
