@@ -4386,7 +4386,7 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
       var set = function (el, val) { var pr = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype; Object.getOwnPropertyDescriptor(pr, 'value').set.call(el, val); el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); };
       set(A, v(d.name) + ' / ' + v(d.phone));
       set(E, String(d.email || '').trim());
-      set(B, 'Tire request:\nYear, make and model: ' + v(d.bike) + '\nFront, rear or both: ' + v(d.position) + '\nRiding style: ' + v(d.riding) + '\nNotes: ' + v(d.notes) + '\nText when quote is sent: ' + v(d.text) + '\nSent by: Tire Advisor chat');
+      set(B, 'Tire request:\nYear, make and model: ' + v(d.bike) + '\nFront, rear or both: ' + v(d.position) + (d.tires ? '\nTires quoted: ' + String(d.tires).trim() : '') + '\nRiding style: ' + v(d.riding) + '\nNotes: ' + v(d.notes) + '\nText when quote is sent: ' + v(d.text) + '\nSent by: Tire Advisor chat');
       try { sessionStorage.setItem('r101adv_sent', '1'); } catch (e) {}
       save();
       try { gtag('event', 'advisor_quote_sent', { lane: lane.lane }); } catch (e) {}

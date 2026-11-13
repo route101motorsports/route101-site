@@ -19,7 +19,8 @@ GATHER ONE THING AT A TIME, in this order, keeping everything already given (cor
 PICKED A TIRE: when the rider says they'd like a quote on a specific tire they picked on our page (for example "I'd like a quote on the Dunlop American Elite"), this order replaces GATHER: 1) "The [tire] is a great choice! Do you need just a front, just a rear, or front and rear?" 2) "Got it. What year, make and model are we putting it on?" (exact model rule still applies) 3) never ask riding style, they chose their tire. Then look up that exact tire with find_tires_by_model for their size(s). If it isn't made in their bike's size, or it's the wrong type for the bike (dirt or MX tire on a street bike, street tire on a dirt bike), say so in one short line and offer the closest match from the same brand. Then carry on as usual (prices, stock, quote, text option). If they pick a second tire mid-chat, add it to the same conversation; keep what they already told you.
 SAFETY: If the rider describes cords or steel showing, a bulge, a puncture or object, losing air, a wobble or shaking, or damage after hitting something, tell them plainly not to ride on it and to call (888) 509-5032. We don't offer towing or roadside help.
 SENDING THE QUOTE FOR THEM: Offer this once you know the bike, or whenever they ask. When they ask for a quote, go straight to it: the size check does NOT apply (the shop confirms the fit), so don't hold the quote for sizes or prices; just note "OEM size assumed" or "size not confirmed" as fits. Ask for first and last name, phone and email AND whether they'd like a text when the emailed quote goes out, all in ONE message. Then read everything back in one short summary (include the tires they picked, if any) and end that message with exactly: "Send it?" Use what they already told you for every field; at this stage never re-ask riding style or other details (write it in their words, or "not given"). If they reply with anything other than a clear yes or no, such as "where's my quote?", tell them plainly it has NOT been sent yet and ask "Send it?" again. Only after a clear yes, end your reply with this exact line and nothing after it:
-[[QUOTE]]{"name":"","phone":"","email":"","bike":"","position":"","riding":"","notes":"","text":"yes or no"}
+[[QUOTE]]{"name":"","phone":"","email":"","bike":"","position":"","tires":"","riding":"","notes":"","text":"yes or no"}
+("tires" = each tire they picked as brand, model, size, front/rear and the per-tire price you quoted, e.g. "Michelin Starcross 6 MS 90/100-21 front $128.99; Michelin Starcross 6 MS 120/90-18 rear $142.99"; empty if none picked. Never put tire ids anywhere.)
 Then tell them to expect an emailed quote, usually within 20 to 30 minutes during business hours. Never send without a clear yes. Never say an appointment is booked; we confirm times by phone or email.
 STYLE: Friendly, experienced rider. Reply in the customer's language. 1 to 3 short sentences, plain words, no lists unless asked, no emojis, no em dashes. If they're angry, stay calm and helpful.
 HANDOFF (people, Glenn, price match): these come before tire questions; answer the actual question first and never steer back to year/make/model.
@@ -178,7 +179,17 @@ async function notify(env, d) {
   if (SENT.has(key) && now - SENT.get(key) < 15 * 60 * 1000) return;
   SENT.set(key, now);
   const jobs = [];
-  // no alert text to Glenn (Nov 7): he already gets a ping when the quote email lands
+  // Shop alert on every tire quote (Glenn, Nov 12), in his format
+  const shop = tel(env.ALERT_PHONE);
+  if (shop) {
+    const fmtTel = (t) => t.replace(/^1(\d{3})(\d{3})(\d{4})$/, '($1) $2-$3');
+    const lines = ['TIRE QUOTE REQUEST', v(d.name), v(d.bike), v(d.email), cust ? fmtTel(cust) : v(d.phone),
+      'Tires: ' + (String(d.tires || '').trim() || v(d.position) + ', not picked yet'),
+      d.riding && v(d.riding) !== 'n/a' ? 'Riding: ' + v(d.riding) : '',
+      d.notes && v(d.notes) !== 'n/a' ? 'Notes: ' + v(d.notes) : '',
+      'Wants a text when quote is sent: ' + (/^\s*y/i.test(String(d.text || '')) ? 'yes' : 'no')];
+    jobs.push(sms(env, shop, lines.filter(Boolean).join('\n').slice(0, 900)));
+  }
   if (cust && /^\s*y/i.test(String(d.text || ''))) {
     const first = v(d.name).split(/\s+/)[0];
     // Glenn's wording (Nov 7); API texts must carry the opt-out line ourselves
