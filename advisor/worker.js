@@ -38,7 +38,7 @@ function cors(origin) {
   return {
     'Access-Control-Allow-Origin': ALLOWED.includes(origin) ? origin : ALLOWED[0],
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, X-R101-Key',
     'Vary': 'Origin'
   };
 }
@@ -170,6 +170,91 @@ async function sms(env, to, message) {
   });
   console.log(JSON.stringify({ sms: to.slice(-4), status: r.status }));
   if (!r.ok) console.log('sms error', await r.text());
+  return r.status;
+}
+// ---- Staff tools (Glenn, Nov 13): customer list + approved texts, for Glenn and his agents ----
+// Needs the Cloudflare secret STAFF_KEY; callers send it as header X-R101-Key. Data lives in the WATCH KV:
+//   c:<10 digits>  customer record (metadata n = name, for search)    tl:<time>  text log (90 days)    cap:<date>  daily count
+const REVIEW_LINK = 'https://g.page/r/CeZgy_aKo2ZJEAE/review';
+const STAFF_TEMPLATES = {
+  quote_sent: { needs: [], text: 'Hi {first}, this is Route 101 Motorsports letting you know we just sent our quote to the email you provided. Have a look and email or text us back if you want to get on the schedule.' },
+  quote_followup: { needs: ['date'], text: 'Hi {first}, just circling back. We emailed your quote on {date}. Did you receive it? Any questions? Let us know.' },
+  parts_in: { needs: ['parts'], text: "Hi {first}, your {parts} are in! Reply with a day and time between 8am-6pm that works to bring your bike in, we'll text your appt date/time." },
+  appt_reminder: { needs: ['when'], text: 'Hi {first}, Your Route 101 Garage appointment is {when}. 6351 Corte Del Abeto #107, Carlsbad. Reply to confirm or reschedule.' },
+  bike_ready: { needs: ['bike'], text: 'Hi {first}, your {bike} is ready for pickup! Let us know a day and time between 8am-6pm that works best for your pick-up.' },
+  custom: { needs: ['message'], text: '{message}' }
+};
+const STAFF_SIGN = ' - Route 101 Motorsports. Reply STOP to end';
+const STAFF_DAILY_CAP = 40;
+const ten = (p) => { const t = tel(p); return t ? t.slice(1) : ''; };
+const ptDay = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles' }).format(new Date());
+async function custGet(env, phone) { const k = ten(phone); return k ? JSON.parse((await env.WATCH.get('c:' + k)) || 'null') : null; }
+async function custPut(env, rec) {
+  rec.updated = new Date().toISOString();
+  await env.WATCH.put('c:' + rec.phone, JSON.stringify(rec), { metadata: { n: [rec.first, rec.last].filter(Boolean).join(' ') } });
+  return rec;
+}
+async function custUpsert(env, d) {
+  const k = ten(d.phone); if (!k) return { error: 'need a valid 10-digit US phone number' };
+  const rec = (await custGet(env, k)) || { phone: k, created: new Date().toISOString(), history: [] };
+  if (d.name && !d.first) { const parts = String(d.name).trim().split(/\s+/); d.first = parts.shift(); d.last = parts.join(' '); }
+  for (const f of ['first', 'last', 'email', 'bike', 'job', 'parts', 'source']) if (d[f] != null && String(d[f]).trim()) rec[f] = String(d[f]).trim().slice(0, 300);
+  if (d.notes != null && String(d.notes).trim()) rec.notes = [rec.notes, String(d.notes).trim()].filter(Boolean).join(' | ').slice(-1000);
+  if (typeof d.text_ok === 'boolean') rec.text_ok = d.text_ok;
+  else if (typeof d.text_ok === 'string' && d.text_ok.trim()) rec.text_ok = /^\s*(y|true)/i.test(d.text_ok);
+  return custPut(env, rec);
+}
+function staffMessage(rec, template, vars) {
+  const t = STAFF_TEMPLATES[template]; if (!t) return { error: 'unknown template. Use one of: ' + Object.keys(STAFF_TEMPLATES).join(', ') };
+  const v = Object.assign({}, vars || {}); v.first = v.first || rec.first || 'there';
+  if (!v.bike && rec.bike) v.bike = rec.bike;
+  if (!v.parts && rec.parts && template === 'parts_in') v.parts = 'tires';
+  const missing = t.needs.filter(n => !String(v[n] || '').trim());
+  if (missing.length) return { error: 'missing: ' + missing.join(', ') };
+  let msg = t.text.replace(/\{(\w+)\}/g, (_, n) => String(v[n] || '').trim()).replace(/\{review\}|\[review link\]/gi, REVIEW_LINK).replace(/\s+/g, ' ').trim();
+  msg = msg.replace(/[\s.]*$/, ''); if (!/[!?]$/.test(msg) && !/https?:\/\/\S+$/.test(msg)) msg += '.';
+  if (/https?:\/\/\S+$/.test(msg)) msg += ' ';
+  msg = msg + STAFF_SIGN;
+  return { message: msg, chars: msg.length, credits: msg.length <= 160 ? 1 : Math.ceil(msg.length / 153) };
+}
+async function staff(env, body) {
+  const a = body.do;
+  if (a === 'templates') return { templates: Object.fromEntries(Object.entries(STAFF_TEMPLATES).map(([k, t]) => [k, { needs: t.needs, text: t.text }])), sign_off: STAFF_SIGN, review_link: REVIEW_LINK };
+  if (a === 'add') { const r = await custUpsert(env, body.customer || {}); return r.error ? r : { saved: r }; }
+  if (a === 'get') { const r = await custGet(env, body.phone); return r ? { customer: r } : { error: 'no customer with that phone' }; }
+  if (a === 'find') {
+    const q = String(body.q || '').toLowerCase().trim(), qd = q.replace(/\D/g, '');
+    const out = []; let cursor;
+    do { const l = await env.WATCH.list({ prefix: 'c:', cursor }); cursor = l.list_complete ? null : l.cursor;
+      for (const k of l.keys) { const n = ((k.metadata && k.metadata.n) || '').toLowerCase(); const ph = k.name.slice(2);
+        if (!q || (qd.length >= 4 && ph.includes(qd)) || (q && n.includes(q))) out.push({ phone: ph, name: (k.metadata && k.metadata.n) || '' }); }
+    } while (cursor && out.length < 50);
+    return { matches: out.slice(0, 50) };
+  }
+  if (a === 'log') {
+    const l = await env.WATCH.list({ prefix: 'tl:' }); const keys = l.keys.slice(-(Math.min(+body.limit || 20, 50)));
+    const rows = []; for (const k of keys.reverse()) { const v = await env.WATCH.get(k.name); if (v) rows.push(JSON.parse(v)); }
+    return { sent: rows };
+  }
+  if (a === 'preview' || a === 'send') {
+    const rec = await custGet(env, body.phone); if (!rec) return { error: 'no customer with that phone; add them first' };
+    if (rec.text_ok !== true) return { error: 'this customer has not agreed to texts (text_ok is not true). Only Glenn can say they agreed.' };
+    const m = staffMessage(rec, body.template, body.vars); if (m.error) return m;
+    if (a === 'preview') return Object.assign({ to: rec.first + ' ' + (rec.last || '') + ' (' + rec.phone + ')' }, m);
+    if (body.confirm !== true) return { error: 'send needs confirm: true (only after Glenn approves this exact message)' };
+    if (!env.EZ_USER || !env.EZ_PASS) return { error: 'texting is not configured' };
+    const capKey = 'cap:' + ptDay(); const used = +((await env.WATCH.get(capKey)) || 0);
+    if (used >= STAFF_DAILY_CAP) return { error: 'daily text limit reached (' + STAFF_DAILY_CAP + ')' };
+    const status = await sms(env, '1' + rec.phone, m.message);
+    const ok = status >= 200 && status < 300;
+    await env.WATCH.put(capKey, String(used + 1), { expirationTtl: 2 * 24 * 3600 });
+    const entry = { t: new Date().toISOString(), phone: rec.phone, name: [rec.first, rec.last].filter(Boolean).join(' '), template: body.template, message: m.message, status, by: String(body.by || 'agent').slice(0, 40) };
+    await env.WATCH.put('tl:' + Date.now(), JSON.stringify(entry), { expirationTtl: 90 * 24 * 3600 });
+    rec.history = (rec.history || []).concat([{ t: entry.t, template: body.template, ok }]).slice(-30);
+    await custPut(env, rec);
+    return { sent: ok, status, message: m.message, texts_today: used + 1, cap: STAFF_DAILY_CAP };
+  }
+  return { error: 'unknown action. Use: templates, add, get, find, preview, send, log' };
 }
 async function notify(env, d) {
   if (!env.EZ_USER || !env.EZ_PASS) return;
@@ -179,6 +264,8 @@ async function notify(env, d) {
   if (SENT.has(key) && now - SENT.get(key) < 15 * 60 * 1000) return;
   SENT.set(key, now);
   const jobs = [];
+  // add/refresh the rider on the customer list
+  if (cust && env.WATCH) jobs.push(custUpsert(env, { phone: cust, name: d.name, email: d.email, bike: d.bike, job: 'Tire quote (' + v(d.position) + ')', parts: d.tires, source: 'Tire Advisor', notes: [d.riding && 'Riding: ' + d.riding, d.notes].filter(Boolean).join('; '), text_ok: /^\s*y/i.test(String(d.text || '')) }));
   // Shop alert on every tire quote (Glenn, Nov 12), in his format
   const shop = tel(env.ALERT_PHONE);
   if (shop) {
@@ -488,6 +575,11 @@ export default {
     if (limited(ip)) return json({ reply: "You've sent a lot of messages. Please call us at (888) 509-5032 and we'll help you directly." }, 429, origin);
     let body;
     try { body = await req.json(); } catch (e) { return json({ error: 'bad json' }, 400, origin); }
+    // staff tools: customer list + approved texts (needs STAFF_KEY)
+    if (body && body.action === 'staff') {
+      if (!env.STAFF_KEY || req.headers.get('X-R101-Key') !== env.STAFF_KEY) return json({ error: 'not authorized' }, 401, origin);
+      try { return json(await staff(env, body), 200, origin); } catch (e) { console.log('staff error', String(e)); return json({ error: 'staff error' }, 500, origin); }
+    }
     // manual stock-watch check, for testing (same origin + rate limits as the chat; returns counts only)
     if (body && body.action === 'watchcheck') return json(await checkWatches(env, true), 200, origin);
     const lane = LANES[body.lane] ? body.lane : 'tires';
