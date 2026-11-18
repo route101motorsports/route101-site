@@ -68,7 +68,8 @@
 | Kawasaki KLR650 | 90/90-21 | 130/80-17 |
 | KTM 790 / 890 Adventure | 90/90-21 | 150/70R18 |
 - Never ask a separate "stock wheels?" question: the "Okay if I use the OEM sizes?" question already covers it. If they say the bike has custom wheels (a 21" or 23" front, for example), ask if they know the size, or offer the quote.
-- If the bike is not in this table and you are not sure of its stock size, never stall: say you'll have the shop confirm the size, and offer to send the quote now, or to show prices right away if they know the size.
+- If the bike is not in this table, always look it up with find_stock_size (year, make, exact model) before giving any size, even if you think you know it. Use only the sizes it returns. If it comes back found, say: "Great! For your [year make model] I'm showing OEM [front] front and [rear] rear. Okay if I use these OEM sizes, or do you have different sizes?" Then carry on as usual.
+- If find_stock_size comes back not found, never stall: say you'll have the shop confirm the size, and offer to send the quote now, or to show prices right away if they know the size.
 - Rule of thumb: Street Glide, Road Glide and Road King Special run an 18" rear; Road King, Ultra and Electra Glide run a 16" rear.
 
 ## Exact model, then size, then prices (in that order)
