@@ -147,13 +147,61 @@ async function findByModel(env, model, size, position) {
 const TOOLS = [
   { name: 'find_tires_by_size', description: 'Look up tires we can get in a given size, with our retail price and whether it is available. Use when you know the tire size (from the rider, or the bike\'s stock OEM size once the rider says okay to use it).',
     input_schema: { type: 'object', properties: { size: { type: 'string', description: 'Tire size like 180/55B18, 130/90-16, 120/70ZR17' }, position: { type: 'string', enum: ['front', 'rear'] }, brand: { type: 'string', description: 'Optional brand filter, e.g. Dunlop, when the rider asks about a specific brand' } }, required: ['size'] } },
+  { name: 'find_stock_size', description: 'Find the stock OEM front and rear tire sizes for a bike that is NOT in the stock size table in KNOWLEDGE. Searches trusted tire-catalog and manufacturer sites and only returns sizes when two sources agree. Use it before ever telling the rider the shop will confirm the size. Needs year, make and exact model.',
+    input_schema: { type: 'object', properties: { year: { type: 'string' }, make: { type: 'string' }, model: { type: 'string', description: 'Exact model, e.g. "Thruxton 900", "Road King Classic FLHRC"' } }, required: ['year', 'make', 'model'] } },
   { name: 'find_tires_by_model', description: 'Look up a specific tire model (for example "Commander III", "Anakee Wild", "Road 6", "Scorcher"), optionally narrowed to a size and position.',
     input_schema: { type: 'object', properties: { model: { type: 'string' }, size: { type: 'string' }, position: { type: 'string', enum: ['front', 'rear'] } }, required: ['model'] } }
 ];
+// ---- Stock size lookup for bikes not in the table (Glenn, Nov 18 2026) ----
+// One small Claude call with web search, limited to trusted fitment sites. Sizes are used only when 2+ sources agree.
+// Every find is saved in KV (WATCH, key fit:...) so the next rider with that bike gets it instantly, and it lands on the
+// "learned sizes" list for Glenn to review (staff action 'learned'); approved ones get folded into knowledge.md.
+const FIT_DOMAINS = ['denniskirk.com', 'michelinman.com', 'revzilla.com', 'cyclegear.com', '1000ps.com', 'harley-davidson.com', 'triumphmotorcycles.com',
+  'bmwmotorcycles.com', 'bmw-motorrad.com', 'powersports.honda.com', 'yamahamotorsports.com', 'kawasaki.com', 'suzukicycles.com', 'ktm.com', 'ducati.com',
+  'dunlopmotorcycletires.com', 'pirelli.com', 'metzeler.com', 'bridgestonemotorcycletires.com'];
+const FIT_DAILY_CAP = 60;
+const fitKey = i => 'fit:' + [i.year, i.make, i.model].map(x => String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()).join('|');
+// Compare sizes by width/aspect/rim only (sites write 130/70B18, 130/70HB-18 or 130/70 B 18 M/C for the same tire size).
+const normSize = z => { const m = String(z || '').toUpperCase().replace(/M\/C.*$/, '').replace(/\s+/g, '').match(/^(\d{2,3}\/\d{2,3})[A-Z]*-?(\d{2})/); return m ? m[1] + '-' + m[2] : ''; };
+async function findStockSize(env, input) {
+  if (!input.year || !input.make || !input.model) return { found: false, note: 'Ask for the year, make and exact model first.' };
+  const key = fitKey(input);
+  if (env.WATCH) { const hit = await env.WATCH.get(key, 'json'); if (hit) return hit.found ? { found: true, front: hit.front, rear: hit.rear, sources: hit.sources, learned: true } : { found: false, note: 'No reliable stock size found for this bike. Say the shop will confirm the size and offer the quote.' }; }
+  const day = 'fitcap:' + new Date().toISOString().slice(0, 10);
+  if (env.WATCH) { const n = parseInt((await env.WATCH.get(day)) || '0', 10); if (n >= FIT_DAILY_CAP) return { found: false, note: 'Size lookup is resting for today. Say the shop will confirm the size and offer the quote.' }; await env.WATCH.put(day, String(n + 1), { expirationTtl: 172800 }); }
+  const bike = `${input.year} ${input.make} ${input.model}`;
+  const body = { model: MODEL, max_tokens: 1200,
+    system: 'You find stock (OEM, factory-fitted) motorcycle tire sizes. Search, then answer with ONLY one line of JSON, no other text: {"front":"100/90-18","rear":"130/80-17","sources":[{"url":"https://...","front":"...","rear":"..."}]}. List every source you actually read that states the sizes for this exact year and model, each with the sizes it states. If the year or exact model is not clearly covered, or you are not sure, return {"front":null,"rear":null,"sources":[]}. Never guess.',
+    messages: [{ role: 'user', content: `Stock front and rear tire sizes for a ${bike}.` }],
+    tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3, allowed_domains: FIT_DOMAINS }] };
+  let msgs = body.messages, d = null;
+  for (let i = 0; i < 3; i++) {
+    const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' }, body: JSON.stringify({ ...body, messages: msgs }) });
+    if (!r.ok) { console.log('fit search error', r.status, (await r.text()).slice(0, 300)); return { found: false, note: 'Size lookup unavailable. Say the shop will confirm the size and offer the quote.' }; }
+    d = await r.json();
+    if (d.stop_reason !== 'pause_turn') break;
+    msgs = msgs.concat([{ role: 'assistant', content: d.content }]);
+  }
+  const text = (d.content || []).filter(c => c.type === 'text').map(c => c.text).join('');
+  const read = new Set(); (d.content || []).filter(c => c.type === 'web_search_tool_result' && Array.isArray(c.content)).forEach(c => c.content.forEach(x => x.url && read.add(x.url)));
+  let out = null; try { out = JSON.parse((text.match(/\{[\s\S]*\}/) || [''])[0]); } catch (e) {}
+  const F = out && normSize(out.front), R = out && normSize(out.rear);
+  const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return ''; } };
+  // Agreement check: count distinct sites whose stated sizes match, and that actually came back from the search.
+  const agree = new Set();
+  ((out && out.sources) || []).forEach(src => { const h = host(src.url); if (h && FIT_DOMAINS.some(dm => h.endsWith(dm)) && read.has(src.url) && normSize(src.front) === F && normSize(src.rear) === R) agree.add(h); });
+  const ok = !!(F && R && agree.size >= 2);
+  const rec = ok ? { found: true, front: out.front, rear: out.rear, sources: [...agree], bike, at: new Date().toISOString(), status: 'pending' } : { found: false, bike, at: new Date().toISOString(), status: 'miss', partial: out && out.front ? { front: out.front, rear: out.rear, sites: [...agree] } : null };
+  console.log(JSON.stringify({ fit: bike, ok, agree: [...agree], front: out && out.front, rear: out && out.rear }));
+  if (env.WATCH) await env.WATCH.put(key, JSON.stringify(rec), ok ? {} : { expirationTtl: 7 * 86400 });
+  return ok ? { found: true, front: rec.front, rear: rec.rear, sources: rec.sources } : { found: false, note: 'No two trusted sources agreed on this bike\'s stock size. Say the shop will confirm the size and offer the quote (or use the rider\'s size if they know it).' };
+}
+
 async function runTool(env, name, input) {
   try {
     if (name === 'find_tires_by_size') return await findBySize(env, input.size, input.position, input.brand);
     if (name === 'find_tires_by_model') return await findByModel(env, input.model, input.size, input.position);
+    if (name === 'find_stock_size') return await findStockSize(env, input);
     return { error: 'unknown tool' };
   } catch (e) { console.log('tool error', name, String(e)); return { error: 'Tire lookup is unavailable right now. Offer the quote form instead.' }; }
 }
@@ -578,6 +626,15 @@ export default {
     if (body && body.action === 'staff') {
       if (!env.STAFF_KEY || req.headers.get('X-R101-Key') !== env.STAFF_KEY) return json({ error: 'not authorized' }, 401, origin);
       try { return json(await staff(env, body), 200, origin); } catch (e) { console.log('staff error', String(e)); return json({ error: 'staff error' }, 500, origin); }
+    }
+    // learned stock sizes (from find_stock_size) for Glenn's review: list, approve or delete (needs STAFF_KEY)
+    if (body && body.action === 'learned') {
+      if (!env.STAFF_KEY || req.headers.get('X-R101-Key') !== env.STAFF_KEY) return json({ error: 'not authorized' }, 401, origin);
+      if (body.del) { await env.WATCH.delete(String(body.del)); return json({ ok: true }, 200, origin); }
+      if (body.approve) { const v = await env.WATCH.get(String(body.approve), 'json'); if (v) { v.status = 'approved'; await env.WATCH.put(String(body.approve), JSON.stringify(v)); } return json({ ok: true }, 200, origin); }
+      const l = await env.WATCH.list({ prefix: 'fit:' }); const items = [];
+      for (const k of l.keys) { const v = await env.WATCH.get(k.name, 'json'); if (v) items.push({ key: k.name, ...v }); }
+      return json({ ok: true, items }, 200, origin);
     }
     // manual stock-watch check, for testing (same origin + rate limits as the chat; returns counts only)
     if (body && body.action === 'watchcheck') return json(await checkWatches(env, true), 200, origin);
