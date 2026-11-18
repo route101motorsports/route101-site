@@ -15,7 +15,7 @@
 - For prices on anything other than tires (service, labor, other jobs), point them to the right service page or (888) 509-5032.
 - Availability: say a tire is "available" and offer to get them on the schedule. If a good fit is out of stock, mention it in one short line: "One more good fit, the [tire] ($[price]), shows 0 in stock in the [size] right now, so I left it off. Want to pick from the options above, or check back in a couple days?" Never mention WPS, suppliers, shipping times or ordering, and never promise same-day.
 
-## Stock tire sizes: common Harleys and BMW GS (typical OEM sizes; ask "Okay if I use the OEM sizes?", never ask them to check sidewalls)
+## Stock tire sizes: common bikes we see (typical OEM sizes, checked against manufacturer and major tire-catalog listings Nov 2026; ask "Okay if I use the OEM sizes?", never ask them to check sidewalls)
 | Model (years) | Front | Rear |
 |---|---|---|
 | Street Glide / Street Glide Special (2014 and later, including 2024+) | 130/60B19 | 180/55B18 |
@@ -29,6 +29,44 @@
 | BMW R1200GS / R1200GS Adventure (water-cooled, 2013 to 2018) | 120/70R19 | 170/60R17 |
 | BMW R1250GS / R1250GS Adventure (2019 to 2023) | 120/70R19 | 170/60R17 |
 | BMW R1300GS (2024 and later) | 120/70R19 | 170/60R17 |
+| Street Glide / Road Glide / Road Glide Custom (2009 to 2013) | 130/70B18 | 180/65B16 |
+| Pan America 1250 / 1250 Special (2021 and later) | 120/70R19 | 170/60R17 |
+| Fat Boy (2007 to 2017 Softail) | 140/75R17 | 200/55R17 |
+| Heritage Softail Classic (2007 to 2017) | 130/90B16 | 150/80B16 |
+| Street Bob (2018 and later Softail) | 100/90B19 | 150/80B16 |
+| Low Rider S / Low Rider ST (2020 and later Softail) | 110/90B19 | 180/70B16 |
+| Breakout (2018 and later Softail) | 130/60B21 | 240/40R18 |
+| Fat Bob (2018 and later Softail) | 150/80R16 | 180/70R16 |
+| Softail Slim (2018 and later) | 130/90B16 | 150/80B16 |
+| Dyna Street Bob (2006 to 2017) / Dyna Low Rider S (2016 to 2017) | 100/90B19 | 160/70B17 |
+| Sportster Iron 883 (2009 to 2022) | 100/90B19 | 150/80B16 |
+| Sportster Forty-Eight (2010 to 2022) | 130/90B16 | 150/80B16 |
+| Sportster S (2021 and later) | 160/70R17 | 180/70R16 |
+| BMW R1200GS / R1200GS Adventure (air/oil-cooled, 2004 to 2012) | 110/80R19 | 150/70R17 |
+| BMW F800GS / F800GS Adventure (2008 to 2018) | 90/90-21 | 150/70-17 |
+| BMW F850GS / F850GS Adventure (2019 and later) | 90/90-21 | 150/70R17 |
+| BMW F750GS (2019 and later) | 110/80R19 | 150/70R17 |
+| BMW R nineT (2014 and later) | 120/70ZR17 | 180/55ZR17 |
+| Triumph Thruxton 900 (2004 to 2015) | 100/90-18 | 130/80-17 |
+| Triumph Bonneville T100 (2002 to 2015) and Bonneville (2001 to 2008) | 100/90-19 | 130/80-17 |
+| Triumph Bonneville (2009 to 2015, 17" cast wheels) | 110/70-17 | 130/80-17 |
+| Triumph Bonneville T120, T100 (2016 and later water-cooled), Street Twin / Speed Twin 900 | 100/90-18 | 150/70R17 |
+| Triumph Thruxton 1200 / Thruxton R (2016 and later) | 120/70ZR17 | 160/60ZR17 |
+| Honda Gold Wing GL1800 (2001 to 2017) | 130/70R18 | 180/60R16 |
+| Honda Gold Wing (2018 and later) | 130/70R18 | 200/55R16 |
+| Honda Africa Twin CRF1000L / CRF1100L (2016 and later, standard 21" front) | 90/90-21 | 150/70R18 |
+| Honda Rebel 300 / 500 (2017 and later) | 130/90-16 | 150/80-16 |
+| Honda CBR600RR (2007 and later) | 120/70ZR17 | 180/55ZR17 |
+| Yamaha R6 (2006 to 2020) | 120/70ZR17 | 180/55ZR17 |
+| Yamaha MT-07 / MT-09 (2014 and later) | 120/70ZR17 | 180/55ZR17 |
+| Yamaha Tenere 700 (2021 and later) | 90/90-21 | 150/70R18 |
+| Suzuki GSX-R600 / GSX-R750 (2006 and later) | 120/70ZR17 | 180/55ZR17 |
+| Suzuki V-Strom 650 (2004 and later) | 110/80R19 | 150/70R17 |
+| Suzuki DR650 | 90/90-21 | 120/90-17 |
+| Kawasaki ZX-6R (2009 and later) | 120/70ZR17 | 180/55ZR17 |
+| Kawasaki Ninja 400 (2018 and later) | 110/70-17 | 150/60-17 |
+| Kawasaki KLR650 | 90/90-21 | 130/80-17 |
+| KTM 790 / 890 Adventure | 90/90-21 | 150/70R18 |
 - Never ask a separate "stock wheels?" question: the "Okay if I use the OEM sizes?" question already covers it. If they say the bike has custom wheels (a 21" or 23" front, for example), ask if they know the size, or offer the quote.
 - If the bike is not in this table and you are not sure of its stock size, never stall: say you'll have the shop confirm the size, and offer to send the quote now, or to show prices right away if they know the size.
 - Rule of thumb: Street Glide, Road Glide and Road King Special run an 18" rear; Road King, Ultra and Electra Glide run a 16" rear.
