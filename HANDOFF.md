@@ -349,3 +349,7 @@ Builder tip: JS .click() on the builder sidebar and "Delete section" does NOT wo
 - Pinned site bcfb324; relay = 2d0b76f.
 - Nov 6 ~14:15: Glenn's test quote showed Booqable "received" but no email arrived (both his and Claude's tests used @route101motorsports.com as the customer email; suspect M365 same-domain spoof filter -> Junk/Quarantine). Glenn to check quarantine + test with a Gmail. If still nothing: switch final step to "advisor fills the form, customer taps Send Me A Tire Quote!".
 - Relay 988c323: size search merges R/ZR/B/dash spellings (bias tires like Dunlop Trailmax were missed), optional brand filter, lookup budget (34 WPS calls/request; free plan cap is 50 subrequests), never say "not available" without a lookup.
+
+## Nov 18 ~4:40pm: Live AI Advisor badge (doc 20, Glenn approved)
+- Last line of the advisor panel: gray LA mark + "Live AI Advisor", lime on hover, link https://liveaiadvisor.com/?ref=route101-<lane> (new tab).
+- Pinned site 4b75e0e (from 77ea09a; only the badge differs). Verified live on /pages/motorcycle-tires.
