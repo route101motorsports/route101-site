@@ -4339,7 +4339,12 @@ html body.r101-pad main > section.accordion > div{padding-top:40px!important;pad
 #r101-adv input{flex:1;min-width:0;border:1.5px solid #ccc;border-radius:999px;padding:11px 14px;font:400 16px/1.2 Inter,sans-serif;outline:none}
 #r101-adv input:focus{border-color:${O}}
 #r101-adv form button{background:#111;color:#fff;border:0;border-radius:999px;padding:0 16px;font:700 14px/1 Inter,sans-serif;cursor:pointer}
-#r101-adv .ft{display:flex;gap:8px;padding:0 12px 12px;background:#fff}
+#r101-adv .ft{display:flex;gap:8px;padding:0 12px 8px;background:#fff}
+#r101-adv .laa-badge{display:flex;align-items:center;gap:5px;padding:0 12px 9px 16px;background:#fff;font:500 11px/1.4 Inter,sans-serif;letter-spacing:.2px;color:#9a9a9a!important;text-decoration:none!important;text-transform:none}
+#r101-adv .laa-badge svg{width:13px;height:13px;flex:none;display:block}
+#r101-adv .laa-badge .laa-b{fill:#9a9a9a;transition:fill .15s}#r101-adv .laa-badge .laa-l{stroke:#fff;transition:stroke .15s}
+#r101-adv .laa-badge:hover .laa-b,#r101-adv .laa-badge:focus-visible .laa-b{fill:#b8ff2c}#r101-adv .laa-badge:hover .laa-l,#r101-adv .laa-badge:focus-visible .laa-l{stroke:#0b0d06}
+#r101-adv .laa-badge:focus-visible{outline:2px solid #b8ff2c;outline-offset:-2px;border-radius:6px}
 #r101-adv .ft a{flex:1;text-align:center;text-decoration:none;border-radius:999px;padding:11px 8px;font:700 14px/1 Inter,sans-serif}
 #r101-adv .ft .call{background:${O};color:#111}
 #r101-adv .ft .q{background:#111;color:#fff}
@@ -4372,7 +4377,9 @@ body.r101-adv-open #r101-call,body.r101-adv-open #r101-adv-btn{display:none!impo
     box.innerHTML = '<div class="hd"><div class="t"><div class="ey">' + esc(lane.eyebrow) + '</div><h3>' + esc(lane.name) + '</h3></div><button class="x" type="button" aria-label="Close">&times;</button></div>' +
       '<div class="msgs" aria-live="polite"></div>' +
       '<form><input type="text" placeholder="' + esc(lane.ph || 'Ask about tires...') + '" aria-label="Your question" maxlength="400"><button type="submit">Send</button></form>' +
-      '<div class="ft"><a class="call" href="tel:+18885095032" aria-label="Call Us at (888) 509-5032">Call Us</a><a class="q" href="' + lane.quote[1] + '">' + esc(lane.quote[0]) + '</a></div>';
+      '<div class="ft"><a class="call" href="tel:+18885095032" aria-label="Call Us at (888) 509-5032">Call Us</a><a class="q" href="' + lane.quote[1] + '">' + esc(lane.quote[0]) + '</a></div>' +
+      // Live AI Advisor badge (doc 20, Glenn approved Nov 18): small mark + name, links to liveaiadvisor.com with ?ref
+      '<a class="laa-badge" href="https://liveaiadvisor.com/?ref=route101-' + lane.lane + '" target="_blank" rel="noopener" aria-label="Live AI Advisor (opens in a new tab)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="laa-b" d="M7 1h10a6 6 0 0 1 6 6v7a6 6 0 0 1-6 6H9.2l-5.6 3.4 1-4.3A6 6 0 0 1 1 14V7a6 6 0 0 1 6-6z"/><path class="laa-l" fill="none" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" d="M6.6 6.2v8.6h3.1M11.9 14.8l3.2-8.6 3.2 8.6M13.3 11.7h3.6"/></svg><span>Live AI Advisor</span></a>';
     document.body.appendChild(btn); document.body.appendChild(box);
     var msgs = box.querySelector('.msgs'), inp = box.querySelector('input'), started = false;
     var add = function (cls, html) { var d = document.createElement('div'); d.className = 'm ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; };
